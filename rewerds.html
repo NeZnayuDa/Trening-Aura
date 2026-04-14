@@ -1,0 +1,478 @@
+<!DOCTYPE html>
+
+<html class="dark" lang="en">
+
+<head>
+    <meta charset="utf-8" />
+    <meta content="width=device-width, initial-scale=1.0" name="viewport" />
+    <title>REWARDS | TRENING AURA</title>
+    <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700;900&amp;family=Manrope:wght@200;300;400;500;600;700;800&amp;display=swap"
+        rel="stylesheet" />
+    <link
+        href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap"
+        rel="stylesheet" />
+    <link
+        href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap"
+        rel="stylesheet" />
+    <script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    "colors": {
+                        "outline": "#767575",
+                        "on-primary-fixed": "#3a4a00",
+                        "surface-container-high": "#20201f",
+                        "tertiary-container": "#ebebeb",
+                        "error-dim": "#d53d18",
+                        "inverse-primary": "#516700",
+                        "error": "#ff7351",
+                        "background": "#0e0e0e",
+                        "on-surface": "#ffffff",
+                        "on-secondary": "#004d57",
+                        "on-primary-fixed-variant": "#526900",
+                        "outline-variant": "#484847",
+                        "surface": "#0e0e0e",
+                        "primary": "#f3ffca",
+                        "secondary": "#00e3fd",
+                        "on-background": "#ffffff",
+                        "on-surface-variant": "#adaaaa",
+                        "surface-container-low": "#131313",
+                        "on-error": "#450900",
+                        "tertiary-dim": "#ebebeb",
+                        "on-tertiary-fixed-variant": "#6c6d6e",
+                        "on-error-container": "#ffd2c8",
+                        "on-tertiary-container": "#555757",
+                        "on-tertiary": "#5e5f60",
+                        "on-tertiary-fixed": "#4f5051",
+                        "surface-dim": "#0e0e0e",
+                        "primary-dim": "#beee00",
+                        "surface-container-lowest": "#000000",
+                        "inverse-surface": "#fcf9f8",
+                        "tertiary-fixed": "#ffffff",
+                        "secondary-fixed-dim": "#00d7f0",
+                        "inverse-on-surface": "#565555",
+                        "surface-container": "#1a1a1a",
+                        "primary-container": "#cafd00",
+                        "surface-container-highest": "#262626",
+                        "on-secondary-fixed-variant": "#005964",
+                        "on-secondary-container": "#e8fbff",
+                        "primary-fixed": "#cafd00",
+                        "on-primary": "#516700",
+                        "surface-bright": "#2c2c2c",
+                        "error-container": "#b92902",
+                        "tertiary-fixed-dim": "#f0f1f1",
+                        "secondary-dim": "#00d4ec",
+                        "surface-variant": "#262626",
+                        "on-primary-container": "#4a5e00",
+                        "on-secondary-fixed": "#003a42",
+                        "primary-fixed-dim": "#beee00",
+                        "secondary-container": "#006875",
+                        "surface-tint": "#f3ffca",
+                        "secondary-fixed": "#26e6ff",
+                        "tertiary": "#f9f9f9"
+                    },
+                    "borderRadius": {
+                        "DEFAULT": "0.25rem",
+                        "lg": "0.5rem",
+                        "xl": "0.75rem",
+                        "full": "9999px"
+                    },
+                    "fontFamily": {
+                        "headline": ["Space Grotesk"],
+                        "body": ["Manrope"],
+                        "label": ["Manrope"]
+                    }
+                },
+            },
+        }
+    </script>
+    <style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+
+        .tonal-transition {
+            background: linear-gradient(to bottom, rgba(0, 0, 0, 0.9) 0%, rgba(0, 0, 0, 0) 100%);
+        }
+
+        .aura-glow {
+            text-shadow: 0 0 20px rgba(202, 253, 0, 0.4);
+        }
+
+        .editorial-grid {
+            grid-template-columns: 1fr 1.5fr;
+        }
+
+        @media (max-width: 1024px) {
+            .editorial-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+
+<body class="bg-background text-on-background font-body selection:bg-primary-container selection:text-on-primary-fixed">
+    <!-- TopNavBar -->
+    <nav class="fixed top-0 w-full z-50 bg-surface-container-lowest/60 backdrop-blur-xl dark:bg-black/60">
+        <div class="flex justify-between items-center px-8 py-4 max-w-[1920px] mx-auto">
+            <div class="text-2xl font-black italic text-[#cafd00] tracking-tighter">TRENING AURA</div>
+            <div class="hidden md:flex items-center gap-8">
+                <a class="font-['Space_Grotesk'] tracking-tight font-bold uppercase text-[#adaaaa] hover:text-white transition-colors"
+                    href="./index.html">Home</a>
+                <a class="font-['Space_Grotesk'] tracking-tight font-bold uppercase text-[#adaaaa] hover:text-white transition-colors"
+                    href="#">Gyms</a>
+                <a class="font-['Space_Grotesk'] tracking-tight font-bold uppercase text-[#adaaaa] hover:text-white transition-colors"
+                    href="./shop.html">Protein Shop</a>
+                <a class="font-['Space_Grotesk'] tracking-tight font-bold uppercase text-[#adaaaa] hover:text-white transition-colors"
+                    href="./treker.html">Tracker</a>
+                <a class="font-['Space_Grotesk'] tracking-tight font-bold uppercase text-[#cafd00] border-b-2 border-[#cafd00] pb-1"
+                    href="./rewerds.html">Rewards</a>
+            </div>
+            <div class="flex items-center gap-4">
+                <div
+                    class="flex items-center gap-2 bg-surface-bright/40 backdrop-blur-md px-4 py-2 rounded-full border border-white/5">
+                    <span class="material-symbols-outlined text-secondary text-sm">language</span>
+                    <span class="text-xs font-bold text-white">EN</span>
+                </div>
+                <button
+                    class="bg-primary-container text-on-primary-fixed font-headline font-bold uppercase px-6 py-2 rounded-xl scale-95 duration-200 transition-transform hover:scale-100">Log
+                    In</button>
+            </div>
+        </div>
+    </nav>
+    <main class="pt-24 pb-20 px-6 md:px-12 max-w-[1920px] mx-auto">
+        <!-- Hero: Kinetic Pulse Progress -->
+        <section class="mt-12 mb-20 editorial-grid grid gap-12 items-end">
+            <div class="space-y-6">
+                <h1
+                    class="font-headline text-6xl md:text-8xl font-black uppercase tracking-tighter leading-none aura-glow">
+                    YOUR <span class="text-primary-container">KINETIC</span><br />STATUS
+                </h1>
+                <p class="text-on-surface-variant max-w-md text-lg leading-relaxed">
+                    Every drop of sweat is currency. Level up your performance and unlock exclusive tactical gear and
+                    elite recovery sessions.
+                </p>
+            </div>
+            <div class="relative group p-8 rounded-3xl bg-surface-container-low border-none overflow-hidden">
+                <div class="relative z-10 flex flex-col md:flex-row items-center gap-10">
+                    <!-- Progress Ring -->
+                    <div class="relative w-48 h-48 flex items-center justify-center">
+                        <svg class="w-full h-full -rotate-90">
+                            <circle class="text-surface-container-highest" cx="96" cy="96" fill="transparent" r="88"
+                                stroke="currentColor" stroke-width="12"></circle>
+                            <circle class="text-primary-container" cx="96" cy="96" fill="transparent" r="88"
+                                stroke="currentColor" stroke-dasharray="552.92" stroke-dashoffset="138"
+                                stroke-width="12"></circle>
+                        </svg>
+                        <div class="absolute inset-0 flex flex-col items-center justify-center text-center">
+                            <span class="text-4xl font-black font-headline">75%</span>
+                            <span class="text-[10px] uppercase tracking-widest text-on-surface-variant font-bold">To
+                                Next Tier</span>
+                        </div>
+                    </div>
+                    <div class="flex-1 space-y-4 text-center md:text-left">
+                        <div
+                            class="inline-flex items-center gap-2 bg-secondary-container/30 text-secondary px-3 py-1 rounded-full text-xs font-bold uppercase tracking-widest">
+                            <span class="material-symbols-outlined text-sm" data-weight="fill">bolt</span> Active:
+                            Kinetic Pro
+                        </div>
+                        <h2 class="text-3xl font-bold font-headline">850 / 1200 AURA</h2>
+                        <div class="flex gap-4 justify-center md:justify-start">
+                            <div class="p-4 bg-surface-container-highest rounded-xl min-w-[100px]">
+                                <p class="text-[10px] uppercase text-on-surface-variant font-bold mb-1">Streak</p>
+                                <p class="text-2xl font-black font-headline">12 DAYS</p>
+                            </div>
+                            <div class="p-4 bg-surface-container-highest rounded-xl min-w-[100px]">
+                                <p class="text-[10px] uppercase text-on-surface-variant font-bold mb-1">Rank</p>
+                                <p class="text-2xl font-black font-headline text-secondary">#24</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!-- Abstract Glow -->
+                <div class="absolute -right-20 -bottom-20 w-64 h-64 bg-primary-container/10 blur-[100px] rounded-full">
+                </div>
+            </div>
+        </section>
+        <!-- Bento Grid: Available Rewards -->
+        <section class="grid grid-cols-1 md:grid-cols-4 gap-6 mb-20">
+            <!-- Large Feature Reward -->
+            <div
+                class="md:col-span-2 md:row-span-2 relative group overflow-hidden rounded-3xl bg-surface-container-low aspect-square md:aspect-auto">
+                <img class="absolute inset-0 w-full h-full object-cover mix-blend-overlay opacity-40 group-hover:scale-105 transition-transform duration-700"
+                    data-alt="dynamic shot of a minimalist high-end gym interior with neon green lighting accents and premium equipment"
+                    src="https://lh3.googleusercontent.com/aida-public/AB6AXuAhJQ0HeIR6GBks3B7JQnentIXAhZj6BB-ToyV7-RT3BTnTYUB3Gki8hE2wkmsd1THhsmmC8hzDzIc8DQm2JonGwwTb54zimd_D024ry3ouqI7-ZCQNWCO9n80YF9THL0ZIPU7SBZMe-NoxufS7OWkUnIQ2JmPhG_uiOVZ6QF7J8TNcLMBLlxdxLKoiwO2pD_tvNj6n56eqhSZMT8kKXRWg6D2rTnH60EsL2DSaOOMcDbDL9JJ3MAbJLpBSD49ttVFnQR5XtownSSyd" />
+                <div
+                    class="absolute inset-0 bg-gradient-to-t from-black via-black/40 to-transparent p-10 flex flex-col justify-end">
+                    <span class="text-primary-container font-black text-xs uppercase tracking-[0.3em] mb-4">Elite Tier
+                        Reward</span>
+                    <h3 class="text-5xl font-black font-headline uppercase leading-none mb-6">FREE PRIVATE<br />TRAINING
+                        SESSION</h3>
+                    <div class="flex items-center justify-between">
+                        <span class="text-on-surface-variant font-bold uppercase text-sm tracking-widest">3500 AURA
+                            POINTS</span>
+                        <button
+                            class="bg-white text-black font-black uppercase text-xs px-8 py-4 rounded-full hover:bg-primary-container transition-colors">Details</button>
+                    </div>
+                </div>
+            </div>
+            <!-- Shaker Bottle Card -->
+            <div
+                class="bg-surface-container-low rounded-3xl p-8 flex flex-col justify-between group hover:bg-surface-container-highest transition-all duration-300">
+                <div class="flex justify-between items-start">
+                    <span class="material-symbols-outlined text-4xl text-primary-container"
+                        data-weight="fill">water_drop</span>
+                    <span
+                        class="bg-surface-container-highest px-3 py-1 rounded-full text-[10px] font-bold text-on-surface-variant uppercase tracking-widest">Merchandise</span>
+                </div>
+                <div>
+                    <h4 class="text-2xl font-black font-headline uppercase mb-2">AURA SHAKER</h4>
+                    <p class="text-on-surface-variant text-sm mb-6">Matte black tactical design with kinetic leak-proof
+                        tech.</p>
+                    <div class="flex items-center justify-between">
+                        <span class="text-secondary font-bold font-headline">500 AURA</span>
+                        <div
+                            class="w-8 h-8 rounded-full bg-primary-container text-on-primary-fixed flex items-center justify-center cursor-pointer">
+                            <span class="material-symbols-outlined text-sm">shopping_cart</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- Protein Card -->
+            <div
+                class="bg-surface-container-low rounded-3xl p-8 flex flex-col justify-between group hover:bg-surface-container-highest transition-all duration-300">
+                <div class="flex justify-between items-start">
+                    <span class="material-symbols-outlined text-4xl text-secondary" data-weight="fill">nutrition</span>
+                    <span
+                        class="bg-surface-container-highest px-3 py-1 rounded-full text-[10px] font-bold text-on-surface-variant uppercase tracking-widest">Supplements</span>
+                </div>
+                <div>
+                    <h4 class="text-2xl font-black font-headline uppercase mb-2">PROTEIN STACK</h4>
+                    <p class="text-on-surface-variant text-sm mb-6">Signature isolated whey formula. 30 servings.</p>
+                    <div class="flex items-center justify-between">
+                        <span class="text-secondary font-bold font-headline">1200 AURA</span>
+                        <div
+                            class="w-8 h-8 rounded-full bg-primary-container text-on-primary-fixed flex items-center justify-center cursor-pointer">
+                            <span class="material-symbols-outlined text-sm">shopping_cart</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- Discount Voucher -->
+            <div
+                class="bg-surface-container-low rounded-3xl p-8 flex flex-col justify-between group border-2 border-dashed border-white/5 hover:border-primary-container/30 transition-all duration-300">
+                <div class="flex justify-between items-start">
+                    <span class="material-symbols-outlined text-4xl text-white"
+                        data-weight="fill">confirmation_number</span>
+                    <span
+                        class="bg-surface-container-highest px-3 py-1 rounded-full text-[10px] font-bold text-on-surface-variant uppercase tracking-widest">Voucher</span>
+                </div>
+                <div>
+                    <h4 class="text-2xl font-black font-headline uppercase mb-2">25% DISCOUNT</h4>
+                    <p class="text-on-surface-variant text-sm mb-6">Valid on all items in the Protein Shop &amp; Gear.
+                    </p>
+                    <div class="flex items-center justify-between">
+                        <span class="text-secondary font-bold font-headline">250 AURA</span>
+                        <div
+                            class="w-8 h-8 rounded-full bg-primary-container text-on-primary-fixed flex items-center justify-center cursor-pointer">
+                            <span class="material-symbols-outlined text-sm">redeem</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- Recovery Pass -->
+            <div
+                class="bg-surface-container-low rounded-3xl p-8 flex flex-col justify-between group hover:bg-surface-container-highest transition-all duration-300">
+                <div class="flex justify-between items-start">
+                    <span class="material-symbols-outlined text-4xl text-primary-container">spa</span>
+                    <span
+                        class="bg-surface-container-highest px-3 py-1 rounded-full text-[10px] font-bold text-on-surface-variant uppercase tracking-widest">Wellness</span>
+                </div>
+                <div>
+                    <h4 class="text-2xl font-black font-headline uppercase mb-2">RECOVERY DAY</h4>
+                    <p class="text-on-surface-variant text-sm mb-6">Full access to cryo and infrared sauna facilities.
+                    </p>
+                    <div class="flex items-center justify-between">
+                        <span class="text-secondary font-bold font-headline">800 AURA</span>
+                        <div
+                            class="w-8 h-8 rounded-full bg-primary-container text-on-primary-fixed flex items-center justify-center cursor-pointer">
+                            <span class="material-symbols-outlined text-sm">verified_user</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+        <!-- Gamified Badges -->
+        <section class="mb-20">
+            <div class="flex flex-col md:flex-row md:items-end justify-between mb-12 gap-6">
+                <div>
+                    <h2 class="font-headline text-4xl font-black uppercase tracking-tighter mb-2">ACHIEVEMENT VAULT</h2>
+                    <p class="text-on-surface-variant">Your physical milestones, immortalized in digital kinetic steel.
+                    </p>
+                </div>
+                <div class="h-[1px] flex-1 bg-white/5 mx-12 hidden md:block"></div>
+                <button
+                    class="text-primary-container font-black uppercase text-sm tracking-widest flex items-center gap-2 group">
+                    VIEW ALL BADGES <span
+                        class="material-symbols-outlined transition-transform group-hover:translate-x-1">arrow_right_alt</span>
+                </button>
+            </div>
+            <div class="grid grid-cols-2 md:grid-cols-6 gap-6">
+                <!-- Badge 1 -->
+                <div class="bg-surface-container-low p-6 rounded-3xl flex flex-col items-center text-center group">
+                    <div
+                        class="w-16 h-16 rounded-full bg-surface-container-highest flex items-center justify-center mb-4 ring-2 ring-primary-container ring-offset-4 ring-offset-background group-hover:scale-110 transition-transform">
+                        <span class="material-symbols-outlined text-primary-container text-3xl"
+                            data-weight="fill">fitness_center</span>
+                    </div>
+                    <p class="text-xs font-black uppercase font-headline">Iron Titan</p>
+                    <p class="text-[10px] text-on-surface-variant mt-1">Lifted 5000kg total</p>
+                </div>
+                <!-- Badge 2 -->
+                <div class="bg-surface-container-low p-6 rounded-3xl flex flex-col items-center text-center group">
+                    <div
+                        class="w-16 h-16 rounded-full bg-surface-container-highest flex items-center justify-center mb-4 opacity-40">
+                        <span class="material-symbols-outlined text-on-surface-variant text-3xl">timer</span>
+                    </div>
+                    <p class="text-xs font-black uppercase font-headline">Tempo Master</p>
+                    <p class="text-[10px] text-on-surface-variant mt-1">Locked at 25 hrs</p>
+                </div>
+                <!-- Badge 3 -->
+                <div class="bg-surface-container-low p-6 rounded-3xl flex flex-col items-center text-center group">
+                    <div
+                        class="w-16 h-16 rounded-full bg-surface-container-highest flex items-center justify-center mb-4 ring-2 ring-secondary ring-offset-4 ring-offset-background group-hover:scale-110 transition-transform">
+                        <span class="material-symbols-outlined text-secondary text-3xl"
+                            data-weight="fill">local_fire_department</span>
+                    </div>
+                    <p class="text-xs font-black uppercase font-headline">Calorie Burner</p>
+                    <p class="text-[10px] text-on-surface-variant mt-1">50k kCal scorched</p>
+                </div>
+                <!-- Badge 4 -->
+                <div class="bg-surface-container-low p-6 rounded-3xl flex flex-col items-center text-center group">
+                    <div
+                        class="w-16 h-16 rounded-full bg-surface-container-highest flex items-center justify-center mb-4 opacity-40">
+                        <span class="material-symbols-outlined text-on-surface-variant text-3xl">nightlight</span>
+                    </div>
+                    <p class="text-xs font-black uppercase font-headline">Night Owl</p>
+                    <p class="text-[10px] text-on-surface-variant mt-1">10 Sessions after 10PM</p>
+                </div>
+                <!-- Badge 5 -->
+                <div class="bg-surface-container-low p-6 rounded-3xl flex flex-col items-center text-center group">
+                    <div
+                        class="w-16 h-16 rounded-full bg-surface-container-highest flex items-center justify-center mb-4 ring-2 ring-primary-container ring-offset-4 ring-offset-background group-hover:scale-110 transition-transform">
+                        <span class="material-symbols-outlined text-primary-container text-3xl"
+                            data-weight="fill">directions_run</span>
+                    </div>
+                    <p class="text-xs font-black uppercase font-headline">Velocity King</p>
+                    <p class="text-[10px] text-on-surface-variant mt-1">10km in one run</p>
+                </div>
+                <!-- Badge 6 -->
+                <div class="bg-surface-container-low p-6 rounded-3xl flex flex-col items-center text-center group">
+                    <div
+                        class="w-16 h-16 rounded-full bg-surface-container-highest flex items-center justify-center mb-4 opacity-40">
+                        <span class="material-symbols-outlined text-on-surface-variant text-3xl">groups</span>
+                    </div>
+                    <p class="text-xs font-black uppercase font-headline">Social Catalyst</p>
+                    <p class="text-[10px] text-on-surface-variant mt-1">Referred 3 members</p>
+                </div>
+            </div>
+        </section>
+        <!-- Gift Card Section -->
+        <section
+            class="bg-[#1a1a1a] rounded-[3rem] p-12 relative overflow-hidden flex flex-col md:flex-row items-center gap-12">
+            <div class="relative z-10 md:w-1/2">
+                <h2 class="font-headline text-5xl font-black uppercase tracking-tighter mb-4 leading-none">FUEL
+                    THE<br />AMBITION</h2>
+                <p class="text-on-surface-variant text-lg mb-8 max-w-sm">Share the aura. Send a digital gift card to
+                    your squad and earn 500 bonus Aura points instantly.</p>
+                <div class="flex flex-wrap gap-4">
+                    <button
+                        class="bg-primary-container text-on-primary-fixed font-headline font-black uppercase px-8 py-4 rounded-xl hover:scale-105 transition-transform">Buy
+                        Gift Card</button>
+                    <button
+                        class="border border-white/20 text-white font-headline font-black uppercase px-8 py-4 rounded-xl hover:bg-white hover:text-black transition-all">Redeem
+                        Code</button>
+                </div>
+            </div>
+            <div class="md:w-1/2 relative">
+                <div
+                    class="relative w-full aspect-[16/10] bg-gradient-to-br from-primary-container to-[#beee00] rounded-3xl p-8 flex flex-col justify-between shadow-[0_30px_60px_-15px_rgba(202,253,0,0.3)] rotate-3 hover:rotate-0 transition-transform duration-500 cursor-pointer overflow-hidden">
+                    <div class="absolute top-0 right-0 p-12 opacity-10">
+                        <span class="material-symbols-outlined text-[10rem]">bolt</span>
+                    </div>
+                    <div class="flex justify-between items-start">
+                        <div class="text-on-primary-fixed font-black italic text-2xl tracking-tighter">TRENING AURA
+                        </div>
+                        <span class="material-symbols-outlined text-on-primary-fixed text-4xl">contactless</span>
+                    </div>
+                    <div>
+                        <div class="text-on-primary-fixed font-black text-4xl font-headline tracking-tighter mb-2">ELITE
+                            ACCESS</div>
+                        <div class="flex justify-between items-end">
+                            <span class="text-on-primary-fixed/60 font-mono text-sm uppercase tracking-widest">KINETIC
+                                MEMBER CARD</span>
+                            <span class="text-on-primary-fixed font-bold">VALUED AT $100</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+    <!-- Footer -->
+    <footer class="bg-surface-container-lowest dark:bg-black border-t border-white/5">
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-12 px-12 py-16 w-full max-w-[1920px] mx-auto">
+            <div class="space-y-6">
+                <div class="text-lg font-bold text-white uppercase tracking-tighter">TRENING AURA</div>
+                <p class="font-['Manrope'] text-sm tracking-wide text-[#adaaaa] max-w-xs">
+                    The ultimate destination for those who seek to redefine their physical limits.
+                </p>
+                <div class="flex gap-4">
+                    <a class="w-10 h-10 rounded-full bg-surface-container flex items-center justify-center hover:text-[#00e3fd] transition-colors"
+                        href="#"><span class="material-symbols-outlined text-xl">share</span></a>
+                    <a class="w-10 h-10 rounded-full bg-surface-container flex items-center justify-center hover:text-[#00e3fd] transition-colors"
+                        href="#"><span class="material-symbols-outlined text-xl">camera</span></a>
+                </div>
+            </div>
+            <div class="grid grid-cols-2 gap-8">
+                <div class="space-y-4">
+                    <h5 class="text-[#cafd00] font-headline text-xs font-bold uppercase tracking-widest">Platform</h5>
+                    <ul class="space-y-2 font-['Manrope'] text-sm">
+                        <li><a class="text-[#adaaaa] hover:text-[#00e3fd] transition-colors" href="#">App Store</a></li>
+                        <li><a class="text-[#adaaaa] hover:text-[#00e3fd] transition-colors" href="#">Google Play</a>
+                        </li>
+                        <li><a class="text-[#adaaaa] hover:text-[#00e3fd] transition-colors" href="#">Telegram</a></li>
+                    </ul>
+                </div>
+                <div class="space-y-4">
+                    <h5 class="text-[#cafd00] font-headline text-xs font-bold uppercase tracking-widest">Company</h5>
+                    <ul class="space-y-2 font-['Manrope'] text-sm">
+                        <li><a class="text-[#adaaaa] hover:text-[#00e3fd] transition-colors" href="#">Contact</a></li>
+                        <li><a class="text-[#adaaaa] hover:text-[#00e3fd] transition-colors" href="#">Instagram</a></li>
+                        <li><a class="text-[#adaaaa] hover:text-[#00e3fd] transition-colors" href="#">Rewards
+                                Program</a></li>
+                    </ul>
+                </div>
+            </div>
+            <div class="flex flex-col justify-between">
+                <div class="bg-surface-container-low p-6 rounded-2xl">
+                    <p class="text-white text-xs font-bold uppercase mb-2">Subscribe to the Pulse</p>
+                    <div class="flex gap-2">
+                        <input
+                            class="bg-surface-container-highest border-none rounded-lg text-sm flex-1 focus:ring-1 focus:ring-[#cafd00]"
+                            placeholder="Email" type="email" />
+                        <button
+                            class="bg-[#cafd00] text-black px-4 rounded-lg font-bold text-xs uppercase tracking-tighter">Join</button>
+                    </div>
+                </div>
+                <p class="font-['Manrope'] text-[10px] tracking-widest text-[#adaaaa] mt-8">
+                    © 2024 TRENING AURA. KINETIC ENERGY RESERVED.
+                </p>
+            </div>
+        </div>
+    </footer>
+</body>
+
+</html>
