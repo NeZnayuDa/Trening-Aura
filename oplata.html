@@ -1,0 +1,375 @@
+<!DOCTYPE html>
+
+<html class="dark" lang="en">
+
+<head>
+    <meta charset="utf-8" />
+    <meta content="width=device-width, initial-scale=1.0" name="viewport" />
+    <title>Trening Aura | Checkout</title>
+    <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&amp;family=Manrope:wght@300;400;500;600;700&amp;display=swap"
+        rel="stylesheet" />
+    <link
+        href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap"
+        rel="stylesheet" />
+    <link
+        href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap"
+        rel="stylesheet" />
+    <script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    "colors": {
+                        "background": "#0e0e0e",
+                        "surface-container-high": "#20201f",
+                        "on-error": "#450900",
+                        "surface-dim": "#0e0e0e",
+                        "on-tertiary": "#5e5f60",
+                        "primary-fixed": "#cafd00",
+                        "on-surface-variant": "#adaaaa",
+                        "surface-container-highest": "#262626",
+                        "on-primary-fixed-variant": "#526900",
+                        "on-error-container": "#ffd2c8",
+                        "secondary-dim": "#00d4ec",
+                        "on-primary-container": "#4a5e00",
+                        "primary": "#f3ffca",
+                        "on-secondary-fixed": "#003a42",
+                        "primary-container": "#cafd00",
+                        "on-primary-fixed": "#3a4a00",
+                        "secondary": "#00e3fd",
+                        "on-tertiary-fixed-variant": "#6c6d6e",
+                        "error-container": "#b92902",
+                        "surface-tint": "#f3ffca",
+                        "surface-container": "#1a1a1a",
+                        "outline-variant": "#484847",
+                        "inverse-on-surface": "#565555",
+                        "on-tertiary-container": "#555757",
+                        "surface": "#0e0e0e",
+                        "on-surface": "#ffffff",
+                        "on-secondary": "#004d57",
+                        "tertiary-fixed-dim": "#f0f1f1",
+                        "on-secondary-fixed-variant": "#005964",
+                        "surface-container-low": "#131313",
+                        "on-tertiary-fixed": "#4f5051",
+                        "error-dim": "#d53d18",
+                        "surface-container-lowest": "#000000",
+                        "error": "#ff7351",
+                        "tertiary-dim": "#ebebeb",
+                        "inverse-surface": "#fcf9f8",
+                        "on-secondary-container": "#e8fbff",
+                        "outline": "#767575",
+                        "surface-bright": "#2c2c2c",
+                        "surface-variant": "#262626",
+                        "primary-dim": "#beee00",
+                        "tertiary-container": "#ebebeb",
+                        "primary-fixed-dim": "#beee00",
+                        "on-primary": "#516700",
+                        "tertiary": "#f9f9f9",
+                        "inverse-primary": "#516700",
+                        "tertiary-fixed": "#ffffff",
+                        "secondary-container": "#006875",
+                        "on-background": "#ffffff",
+                        "secondary-fixed": "#26e6ff",
+                        "secondary-fixed-dim": "#00d7f0"
+                    },
+                    "borderRadius": {
+                        "DEFAULT": "0.25rem",
+                        "lg": "0.5rem",
+                        "xl": "0.75rem",
+                        "full": "9999px"
+                    },
+                    "fontFamily": {
+                        "headline": ["Space Grotesk"],
+                        "body": ["Manrope"],
+                        "label": ["Manrope"]
+                    }
+                },
+            },
+        }
+    </script>
+    <style>
+        body {
+            font-family: 'Manrope', sans-serif;
+        }
+
+        .font-headline {
+            font-family: 'Space Grotesk', sans-serif;
+        }
+
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+
+        .glass-panel {
+            background: rgba(26, 26, 26, 0.6);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+        }
+
+        .kinetic-bg {
+            background: radial-gradient(circle at 10% 20%, rgba(202, 253, 0, 0.05) 0%, transparent 40%),
+                radial-gradient(circle at 90% 80%, rgba(0, 227, 253, 0.05) 0%, transparent 40%);
+        }
+    </style>
+</head>
+
+<body
+    class="bg-background text-on-surface min-h-screen selection:bg-primary-container selection:text-on-primary-container kinetic-bg">
+    <!-- TopNavBar: Fixed Large -->
+    <nav
+        class="fixed top-0 w-full z-50 bg-surface-container-lowest/60 backdrop-blur-xl dark:bg-black/60 tonal-transition bg-gradient-to-b from-black to-transparent">
+        <div class="flex justify-between items-center px-8 py-4 max-w-[1920px] mx-auto">
+            <div class="flex items-center gap-8">
+                <span class="text-2xl font-black italic text-[#cafd00] tracking-tighter font-headline uppercase">TRENING
+                    AURA</span>
+                <div class="hidden md:flex gap-6 items-center">
+                    <a class="text-[#adaaaa] hover:text-white transition-colors font-headline uppercase tracking-tight font-bold"
+                        href="./index.html">Home</a>
+                    <a class="text-[#adaaaa] hover:text-white transition-colors font-headline uppercase tracking-tight font-bold"
+                        href="./gym.html">Gyms</a>
+                    <a class="text-[#adaaaa] hover:text-white transition-colors font-headline uppercase tracking-tight font-bold"
+                        href="./shop.html">Protein Shop</a>
+                    <a class="text-[#adaaaa] hover:text-white transition-colors font-headline uppercase tracking-tight font-bold"
+                        href="./treker.html">Tracker</a>
+                    <a class="text-[#adaaaa] hover:text-white transition-colors font-headline uppercase tracking-tight font-bold"
+                        href="./rewerds.html">Rewards</a>
+                </div>
+            </div>
+            <div class="flex items-center gap-4">
+                <div
+                    class="flex items-center gap-2 px-3 py-1 bg-surface-bright/40 backdrop-blur-md rounded-full text-sm font-bold border border-white/5">
+                    <span class="text-[#cafd00]">EN</span>
+                    <span class="material-symbols-outlined text-[18px]">language</span>
+                </div>
+                <button
+                    class="bg-[#cafd00] text-[#3a4a00] px-6 py-2 rounded-full font-bold uppercase tracking-tighter hover:scale-95 transition-transform">Log
+                    In</button>
+            </div>
+        </div>
+    </nav>
+    <main class="pt-32 pb-24 px-6 md:px-12 max-w-[1400px] mx-auto">
+        <!-- Header -->
+        <div class="mb-12">
+            <h1 class="text-5xl md:text-7xl font-headline font-extrabold uppercase tracking-tighter mb-4">Complete your
+                <span class="text-primary-container">Evolution</span></h1>
+            <p class="text-on-surface-variant max-w-xl text-lg font-light">Secure your access to the world's most
+                advanced kinetic training ecosystem. Data-driven results start here.</p>
+        </div>
+        <div class="grid grid-cols-1 lg:grid-cols-12 gap-12">
+            <!-- Left Column: Payment Details -->
+            <div class="lg:col-span-7">
+                <div class="glass-panel p-8 md:p-10 rounded-xl border-none ring-1 ring-white/5">
+                    <h2 class="text-2xl font-headline font-bold uppercase mb-8 flex items-center gap-3">
+                        <span class="material-symbols-outlined text-primary-container">lock</span>
+                        Secure Payment Details
+                    </h2>
+                    <!-- Payment Method Selector -->
+                    <div class="mb-10">
+                        <p class="text-sm font-label text-on-surface-variant uppercase tracking-widest mb-4">Choose
+                            Payment Method</p>
+                        <div class="grid grid-cols-2 sm:grid-cols-4 gap-4">
+                            <div
+                                class="bg-surface-container-highest border-2 border-primary-container p-4 rounded-xl flex items-center justify-center cursor-pointer transition-all">
+                                <img alt="Visa" class="h-6 filter brightness-0 invert opacity-100"
+                                    data-alt="visa credit card logo white silhouette"
+                                    src="https://lh3.googleusercontent.com/aida-public/AB6AXuAlmbgXgWZ4PQ6eB-o8s2XS8nRFoAmj_8ZqGS_CxeAYtn4P-9rkBRcFcM2SYVwPEVl48P6mgxujg1x_CA0Hg8Z6VOF_-T_CYMY2qAo_2T7OTuD9UaxaSSe440ShHVq9UuPcP1PCM0oN8AiRpj2It2jg_cuUlePI3btcSkHBjHqMqZClAus-DauOe_T2FzXsI4QR5AcAm4A7hvS9eIKXOR6kF1arx_qdTkttjSSwcwAFbiYoQ_FIvQ9J5tJYEpxi4c89ri49aqD5PCEa" />
+                            </div>
+                            <div
+                                class="bg-surface-container hover:bg-surface-container-highest border-2 border-transparent p-4 rounded-xl flex items-center justify-center cursor-pointer transition-all opacity-50 hover:opacity-100">
+                                <img alt="Mastercard" class="h-8 filter brightness-0 invert"
+                                    data-alt="mastercard credit card logo white silhouette"
+                                    src="https://lh3.googleusercontent.com/aida-public/AB6AXuDQob5jg0jJmi5aGd9CGoHkKxdOntyGna4mZtqGyp8oIJE1juIL3OeQzFqlDr5zzx0OyoP7KqNaFznYYGWJF2VdPpK_xy0TOgAijhLeKg-phZYDLCeXIj6LuQJIZI82Jfjhx6saMZVBBK07knvxge-HvJnmT0vn4oOw8RCB2twYRGGV6W_hQS-58T3b_exuHLpaGyY0b3yn_s2oAAOxTxzekArdGxmR4EH4-W6_RKHQymWiBOiuQofuKaZJ4y0KaizmXFWNfKa1u6SQ" />
+                            </div>
+                            <div
+                                class="bg-surface-container hover:bg-surface-container-highest border-2 border-transparent p-4 rounded-xl flex items-center justify-center cursor-pointer transition-all opacity-50 hover:opacity-100">
+                                <div class="text-white font-black italic tracking-tighter">UZCARD</div>
+                            </div>
+                            <div
+                                class="bg-surface-container hover:bg-surface-container-highest border-2 border-transparent p-4 rounded-xl flex items-center justify-center cursor-pointer transition-all opacity-50 hover:opacity-100">
+                                <div class="text-white font-black italic tracking-tighter">HUMO</div>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- Form Fields -->
+                    <form class="space-y-6">
+                        <div class="space-y-2">
+                            <label
+                                class="text-xs font-label uppercase tracking-widest text-on-surface-variant px-1">Cardholder
+                                Name</label>
+                            <input
+                                class="w-full bg-surface-container-lowest border-none ring-1 ring-white/10 rounded-lg py-4 px-5 focus:ring-2 focus:ring-primary-container text-on-surface font-headline placeholder:text-surface-variant transition-all outline-none"
+                                placeholder="ALEXANDER KINETIC" type="text" />
+                        </div>
+                        <div class="space-y-2">
+                            <label
+                                class="text-xs font-label uppercase tracking-widest text-on-surface-variant px-1">Card
+                                Number</label>
+                            <div class="relative">
+                                <input
+                                    class="w-full bg-surface-container-lowest border-none ring-1 ring-white/10 rounded-lg py-4 px-5 focus:ring-2 focus:ring-primary-container text-on-surface font-headline placeholder:text-surface-variant transition-all outline-none"
+                                    placeholder="0000 0000 0000 0000" type="text" />
+                                <span
+                                    class="material-symbols-outlined absolute right-4 top-4 text-on-surface-variant">credit_card</span>
+                            </div>
+                        </div>
+                        <div class="grid grid-cols-2 gap-6">
+                            <div class="space-y-2">
+                                <label
+                                    class="text-xs font-label uppercase tracking-widest text-on-surface-variant px-1">Expiry
+                                    Date</label>
+                                <input
+                                    class="w-full bg-surface-container-lowest border-none ring-1 ring-white/10 rounded-lg py-4 px-5 focus:ring-2 focus:ring-primary-container text-on-surface font-headline placeholder:text-surface-variant transition-all outline-none text-center"
+                                    placeholder="MM / YY" type="text" />
+                            </div>
+                            <div class="space-y-2">
+                                <label
+                                    class="text-xs font-label uppercase tracking-widest text-on-surface-variant px-1">CVV</label>
+                                <div class="relative">
+                                    <input
+                                        class="w-full bg-surface-container-lowest border-none ring-1 ring-white/10 rounded-lg py-4 px-5 focus:ring-2 focus:ring-primary-container text-on-surface font-headline placeholder:text-surface-variant transition-all outline-none text-center"
+                                        placeholder="***" type="password" />
+                                    <span
+                                        class="material-symbols-outlined absolute right-4 top-4 text-on-surface-variant text-sm"
+                                        style="font-size: 18px;">help</span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="flex items-start gap-3 pt-4">
+                            <div
+                                class="w-5 h-5 rounded border border-primary-container flex items-center justify-center mt-0.5 cursor-pointer">
+                                <div class="w-2.5 h-2.5 bg-primary-container rounded-sm"></div>
+                            </div>
+                            <p class="text-xs text-on-surface-variant leading-relaxed">Save payment information for
+                                future renewals. Your data is encrypted and handled via PCI-DSS compliant protocols.</p>
+                        </div>
+                    </form>
+                </div>
+            </div>
+            <!-- Right Column: Order Summary -->
+            <div class="lg:col-span-5">
+                <div class="bg-surface-container-low p-8 rounded-xl ring-1 ring-white/5 relative overflow-hidden group">
+                    <!-- Subtle background decoration -->
+                    <div class="absolute -right-12 -top-12 w-48 h-48 bg-primary-container/10 rounded-full blur-3xl">
+                    </div>
+                    <h2 class="text-2xl font-headline font-bold uppercase mb-8">Summary</h2>
+                    <div class="space-y-6 relative z-10">
+                        <!-- Product Item -->
+                        <div class="flex items-center gap-6 pb-6 border-b border-white/5">
+                            <div
+                                class="w-24 h-24 bg-surface-container-highest rounded-xl overflow-hidden flex-shrink-0">
+                                <img alt="Premium Plan" class="w-full h-full object-cover grayscale contrast-125"
+                                    data-alt="Close-up of high-tech fitness watch and gym equipment in dramatic dark lighting with neon accents"
+                                    src="https://lh3.googleusercontent.com/aida-public/AB6AXuDVCVKP0jkrtqqtSQWeMHBmxC4YsBU8b7tNd20P_S4BR0ui_hY2oHP7hi8f94MQ13AzJ5VXrgrIOTs1JLsdBab3I8jItSrAvG391aMcEhNQ23FGAlrfFMcfhU25RS-g_VNxyXqMtJTkXNkJTBc7EZ2lKwUYUCU6_LxJA5RIw4NVqHB5iAN6vog2CASjOrOa5_5aCluooWQCFDnL7p9MObEthzd0fL4c66SySG1X0Dak1M4ru1aQXP8dQwgUl81vpaxd8gxIwMtzXLTY" />
+                            </div>
+                            <div class="flex-grow">
+                                <h3 class="font-headline font-bold text-xl uppercase tracking-tight">KINETIC ELITE</h3>
+                                <p class="text-on-surface-variant text-sm mb-2">Annual Membership</p>
+                                <span
+                                    class="bg-secondary-container text-on-secondary-container px-2 py-0.5 rounded text-[10px] font-bold uppercase tracking-widest tracking-tighter">Bestseller</span>
+                            </div>
+                            <div class="text-right">
+                                <span class="text-primary-container font-headline font-bold">$499.00</span>
+                            </div>
+                        </div>
+                        <!-- Calculations -->
+                        <div class="space-y-4 py-2">
+                            <div class="flex justify-between items-center text-sm">
+                                <span class="text-on-surface-variant">Base Rate</span>
+                                <span class="text-on-surface">$499.00</span>
+                            </div>
+                            <div class="flex justify-between items-center text-sm">
+                                <span class="text-on-surface-variant">Taxes &amp; Service Fees</span>
+                                <span class="text-on-surface">$24.95</span>
+                            </div>
+                            <div class="flex justify-between items-center text-sm">
+                                <span class="text-on-surface-variant">Kinetic Discount</span>
+                                <span class="text-secondary">-$50.00</span>
+                            </div>
+                        </div>
+                        <!-- Total -->
+                        <div class="pt-6 border-t border-white/10 flex justify-between items-end">
+                            <div>
+                                <p class="text-xs font-label uppercase tracking-widest text-on-surface-variant mb-1">
+                                    Final Amount</p>
+                                <h4
+                                    class="text-4xl font-headline font-black tracking-tighter text-white uppercase italic">
+                                    Total Due</h4>
+                            </div>
+                            <div class="text-right">
+                                <div class="text-4xl font-headline font-black text-primary-container">$473.95</div>
+                                <p class="text-[10px] text-on-surface-variant uppercase mt-1">Billed annually</p>
+                            </div>
+                        </div>
+                        <!-- CTA -->
+                        <button
+                            class="w-full bg-[#cafd00] text-[#3a4a00] py-6 rounded-xl font-headline font-black text-xl uppercase tracking-widest mt-8 hover:scale-[0.98] transition-transform flex items-center justify-center gap-3 shadow-[0_0_40px_rgba(202,253,0,0.15)]">
+                            ACTIVATE AURA
+                            <span class="material-symbols-outlined" data-weight="fill">bolt</span>
+                        </button>
+                        <div class="flex items-center justify-center gap-6 mt-8 opacity-40 grayscale">
+                            <span class="material-symbols-outlined">security</span>
+                            <span class="material-symbols-outlined">verified_user</span>
+                            <span class="material-symbols-outlined">shield_with_heart</span>
+                        </div>
+                    </div>
+                </div>
+                <!-- Guarantee Card -->
+                <div
+                    class="mt-6 p-6 rounded-xl bg-surface-container-highest/30 border border-white/5 flex items-start gap-4">
+                    <span class="material-symbols-outlined text-secondary text-3xl">verified</span>
+                    <div>
+                        <h4 class="font-headline font-bold text-sm uppercase">14-Day Power Guarantee</h4>
+                        <p class="text-xs text-on-surface-variant leading-relaxed mt-1">Not feeling the energy? Cancel
+                            within your first 14 days for a full refund. No questions, just kinetic honesty.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+    <!-- Footer -->
+    <footer class="bg-surface-container-lowest dark:bg-black border-t border-white/5">
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-12 px-12 py-16 w-full max-w-[1920px] mx-auto">
+            <div class="space-y-4">
+                <span class="text-lg font-bold text-white font-headline uppercase italic">TRENING AURA</span>
+                <p class="text-[#adaaaa] text-sm font-label max-w-xs leading-relaxed">
+                    Revolutionizing human potential through kinetic data and urban atmosphere. Elevate your baseline.
+                </p>
+            </div>
+            <div class="flex flex-col gap-3">
+                <h5 class="text-[#cafd00] font-headline text-xs uppercase tracking-[0.2em] mb-2 font-bold">Navigation
+                </h5>
+                <div class="grid grid-cols-2 gap-2">
+                    <a class="text-[#adaaaa] hover:text-[#00e3fd] transition-colors font-label text-sm"
+                        href="#">Contact</a>
+                    <a class="text-[#adaaaa] hover:text-[#00e3fd] transition-colors font-label text-sm"
+                        href="#">Instagram</a>
+                    <a class="text-[#adaaaa] hover:text-[#00e3fd] transition-colors font-label text-sm"
+                        href="#">Telegram</a>
+                    <a class="text-[#adaaaa] hover:text-[#00e3fd] transition-colors font-label text-sm" href="#">App
+                        Store</a>
+                    <a class="text-[#adaaaa] hover:text-[#00e3fd] transition-colors font-label text-sm" href="#">Google
+                        Play</a>
+                </div>
+            </div>
+            <div class="flex flex-col justify-between">
+                <div class="space-y-4">
+                    <h5 class="text-[#cafd00] font-headline text-xs uppercase tracking-[0.2em] font-bold">Secure Zone
+                    </h5>
+                    <div class="flex gap-4 opacity-50">
+                        <span class="material-symbols-outlined">payments</span>
+                        <span class="material-symbols-outlined">encrypted</span>
+                        <span class="material-symbols-outlined">verified</span>
+                    </div>
+                </div>
+                <div class="mt-8 md:mt-0">
+                    <p class="text-[#adaaaa] font-['Manrope'] text-sm tracking-wide">© 2024 TRENING AURA. KINETIC ENERGY
+                        RESERVED.</p>
+                </div>
+            </div>
+        </div>
+    </footer>
+</body>
+
+</html>
