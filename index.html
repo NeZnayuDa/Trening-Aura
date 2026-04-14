@@ -1,0 +1,445 @@
+<!DOCTYPE html>
+
+<html class="dark" lang="en">
+
+<head>
+    <meta charset="utf-8" />
+    <meta content="width=device-width, initial-scale=1.0" name="viewport" />
+    <title>TRENING AURA - High Octane Fitness</title>
+    <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&amp;family=Manrope:wght@300;400;500;600;700;800&amp;display=swap"
+        rel="stylesheet" />
+    <link
+        href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap"
+        rel="stylesheet" />
+    <link
+        href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap"
+        rel="stylesheet" />
+    <script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    "colors": {
+                        "outline": "#767575",
+                        "on-primary-fixed": "#3a4a00",
+                        "surface-container-high": "#20201f",
+                        "tertiary-container": "#ebebeb",
+                        "error-dim": "#d53d18",
+                        "inverse-primary": "#516700",
+                        "error": "#ff7351",
+                        "background": "#0e0e0e",
+                        "on-surface": "#ffffff",
+                        "on-secondary": "#004d57",
+                        "on-primary-fixed-variant": "#526900",
+                        "outline-variant": "#484847",
+                        "surface": "#0e0e0e",
+                        "primary": "#f3ffca",
+                        "secondary": "#00e3fd",
+                        "on-background": "#ffffff",
+                        "on-surface-variant": "#adaaaa",
+                        "surface-container-low": "#131313",
+                        "on-error": "#450900",
+                        "tertiary-dim": "#ebebeb",
+                        "on-tertiary-fixed-variant": "#6c6d6e",
+                        "on-error-container": "#ffd2c8",
+                        "on-tertiary-container": "#555757",
+                        "on-tertiary": "#5e5f60",
+                        "on-tertiary-fixed": "#4f5051",
+                        "surface-dim": "#0e0e0e",
+                        "primary-dim": "#beee00",
+                        "surface-container-lowest": "#000000",
+                        "inverse-surface": "#fcf9f8",
+                        "tertiary-fixed": "#ffffff",
+                        "secondary-fixed-dim": "#00d7f0",
+                        "inverse-on-surface": "#565555",
+                        "surface-container": "#1a1a1a",
+                        "primary-container": "#cafd00",
+                        "surface-container-highest": "#262626",
+                        "on-secondary-fixed-variant": "#005964",
+                        "on-secondary-container": "#e8fbff",
+                        "primary-fixed": "#cafd00",
+                        "on-primary": "#516700",
+                        "surface-bright": "#2c2c2c",
+                        "error-container": "#b92902",
+                        "tertiary-fixed-dim": "#f0f1f1",
+                        "secondary-dim": "#00d4ec",
+                        "surface-variant": "#262626",
+                        "on-primary-container": "#4a5e00",
+                        "on-secondary-fixed": "#003a42",
+                        "primary-fixed-dim": "#beee00",
+                        "secondary-container": "#006875",
+                        "surface-tint": "#f3ffca",
+                        "secondary-fixed": "#26e6ff",
+                        "tertiary": "#f9f9f9"
+                    },
+                    "borderRadius": {
+                        "DEFAULT": "0.25rem",
+                        "lg": "0.5rem",
+                        "xl": "0.75rem",
+                        "full": "9999px"
+                    },
+                    "fontFamily": {
+                        "headline": ["Space Grotesk"],
+                        "body": ["Manrope"],
+                        "label": ["Manrope"]
+                    }
+                },
+            },
+        }
+    </script>
+    <style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+
+        .kinetic-gradient {
+            background: linear-gradient(180deg, rgba(0, 0, 0, 0.8) 0%, rgba(0, 0, 0, 0) 50%, rgba(0, 0, 0, 0.9) 100%);
+        }
+
+        .aura-glow {
+            text-shadow: 0 0 20px rgba(202, 253, 0, 0.4);
+        }
+
+        ::-webkit-scrollbar {
+            width: 8px;
+        }
+
+        ::-webkit-scrollbar-track {
+            background: #000;
+        }
+
+        ::-webkit-scrollbar-thumb {
+            background: #262626;
+            border-radius: 10px;
+        }
+    </style>
+</head>
+
+<body class="bg-background text-on-surface font-body selection:bg-primary-container selection:text-on-primary-fixed">
+    <!-- TopNavBar -->
+    <nav class="fixed top-0 w-full z-50 bg-surface-container-lowest/60 backdrop-blur-xl dark:bg-black/60">
+        <div class="flex justify-between items-center px-8 py-4 max-w-[1920px] mx-auto">
+            <div class="text-2xl font-black italic text-[#cafd00] tracking-tighter font-headline">TRENING AURA</div>
+            <div class="hidden md:flex gap-8 items-center">
+                <a class="font-headline tracking-tight font-bold uppercase text-[#cafd00] border-b-2 border-[#cafd00] pb-1"
+                    href="#">Home</a>
+                <a class="font-headline tracking-tight font-bold uppercase text-[#adaaaa] hover:text-white transition-colors"
+                    href="#">Gyms</a>
+                <a class="font-headline tracking-tight font-bold uppercase text-[#adaaaa] hover:text-white transition-colors"
+                    href="./shop.html">Protein Shop</a>
+                <a class="font-headline tracking-tight font-bold uppercase text-[#adaaaa] hover:text-white transition-colors"
+                    href="#">Tracker</a>
+                <a class="font-headline tracking-tight font-bold uppercase text-[#adaaaa] hover:text-white transition-colors"
+                    href="#">Rewards</a>
+            </div>
+            <div class="flex items-center gap-6">
+                <!-- Language Switcher -->
+                <div
+                    class="bg-surface-bright/40 backdrop-blur-md px-4 py-2 rounded-full flex gap-4 text-sm font-bold items-center border border-white/5">
+                    <span class="text-[#adaaaa] hover:text-white cursor-pointer transition-colors">RU</span>
+                    <span class="text-[#adaaaa] hover:text-white cursor-pointer transition-colors">UZ</span>
+                    <div class="relative text-[#cafd00]">
+                        <span>EN</span>
+                        <div class="absolute -bottom-1 left-1/2 -translate-x-1/2 w-1 h-1 bg-[#cafd00] rounded-full">
+                        </div>
+                    </div>
+                </div>
+                <button
+                    class="bg-[#cafd00] text-[#3a4a00] px-6 py-2 rounded-xl font-bold uppercase tracking-wider scale-95 hover:scale-100 transition-transform duration-200">
+                    Log In
+                </button>
+                <span class="material-symbols-outlined text-[#adaaaa] cursor-pointer"
+                    data-icon="language">language</span>
+            </div>
+        </div>
+    </nav>
+    <!-- Hero Section -->
+    <header class="relative h-screen flex items-center justify-start overflow-hidden pt-20">
+        <div class="absolute inset-0 z-0">
+            <img alt="Elite athlete training" class="w-full h-full object-cover grayscale opacity-60"
+                data-alt="dramatic wide shot of a powerful athlete lifting heavy weights in a dark urban industrial gym with intense chiaroscuro lighting"
+                src="https://lh3.googleusercontent.com/aida-public/AB6AXuAnHFHwSBVKNrrTdyPcgog9lVT-HYCBLptUL9LOBqhKK7r3zL-ruA9JmQtn4TVCtreY1Pb__BNOaz8QZr4ORp6WNxFUdThu95NCCYmRFz_0KcN0o5CidHaWjOkHCPjx3PTYWA9sRW_mAkjht4WFgcrw0bCGUTAI6guOVF15dIQZJqObRhbYPjzer8V_0prJw3n_C9xEigbrIt1sicBhaOyismie3DZiAfVsEbOC9pl-7t1AIgnVOIrNZuR_4FErqgloAo89PP7-Jp3H" />
+            <div class="absolute inset-0 kinetic-gradient"></div>
+        </div>
+        <div class="relative z-10 px-12 max-w-5xl">
+            <h1
+                class="font-headline text-7xl md:text-9xl font-bold leading-[0.9] tracking-tighter uppercase mb-8 aura-glow">
+                Transform Your <span class="text-primary-fixed">Body</span> <br />With Trening Aura
+            </h1>
+            <!-- Search Bar Component -->
+            <div
+                class="mt-12 max-w-2xl bg-surface-container-highest/80 backdrop-blur-xl p-2 rounded-2xl flex items-center shadow-2xl border border-white/5">
+                <span class="material-symbols-outlined ml-4 text-on-surface-variant" data-icon="explore">explore</span>
+                <input
+                    class="bg-transparent border-none focus:ring-0 w-full px-4 text-lg text-white placeholder:text-on-surface-variant/50"
+                    placeholder="Find gyms near you" type="text" />
+                <button
+                    class="bg-primary-fixed text-on-primary-fixed px-8 py-3 rounded-xl font-black uppercase tracking-widest flex items-center gap-2">
+                    Search <span class="material-symbols-outlined text-sm"
+                        data-icon="arrow_forward">arrow_forward</span>
+                </button>
+            </div>
+            <!-- Quick Action Chips -->
+            <div class="flex flex-wrap gap-4 mt-8">
+                <button
+                    class="bg-surface-container-high hover:bg-surface-container-highest border border-white/5 text-white px-6 py-3 rounded-full flex items-center gap-3 transition-all">
+                    <span class="material-symbols-outlined text-primary"
+                        data-icon="fitness_center">fitness_center</span>
+                    <span class="font-bold text-sm">Gyms</span>
+                </button>
+                <button
+                    class="bg-surface-container-high hover:bg-surface-container-highest border border-white/5 text-white px-6 py-3 rounded-full flex items-center gap-3 transition-all">
+                    <span class="material-symbols-outlined text-secondary"
+                        data-icon="shopping_basket">shopping_basket</span>
+                    <span class="font-bold text-sm">Protein Stores</span>
+                </button>
+                <button
+                    class="bg-surface-container-high hover:bg-surface-container-highest border border-white/5 text-white px-6 py-3 rounded-full flex items-center gap-3 transition-all">
+                    <span class="material-symbols-outlined text-error" data-icon="monitoring">monitoring</span>
+                    <span class="font-bold text-sm">Calories Tracker</span>
+                </button>
+            </div>
+        </div>
+    </header>
+    <!-- Content Sections (Bento Grid) -->
+    <main class="relative z-10 px-12 py-24 bg-background">
+        <!-- Section Header -->
+        <div class="flex justify-between items-end mb-16">
+            <div>
+                <h2 class="font-headline text-5xl font-bold uppercase tracking-tight">Nearby <span
+                        class="text-secondary">Gyms</span></h2>
+                <p class="text-on-surface-variant mt-2 max-w-md">The most advanced athletic facilities in your immediate
+                    area, rated by our community.</p>
+            </div>
+            <a class="text-primary uppercase font-bold tracking-widest flex items-center gap-2 hover:gap-4 transition-all"
+                href="#">
+                View All <span class="material-symbols-outlined">chevron_right</span>
+            </a>
+        </div>
+        <!-- Gym Cards Grid -->
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-8 mb-32">
+            <!-- Card 1 -->
+            <div
+                class="group bg-surface-container-low rounded-2xl overflow-hidden hover:bg-surface-container-high transition-all duration-500">
+                <div class="relative h-64 overflow-hidden">
+                    <img alt="Power Lift Gym"
+                        class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110"
+                        data-alt="modern brutalist architecture gym interior with neon blue lighting accents and rows of professional cardio equipment"
+                        src="https://lh3.googleusercontent.com/aida-public/AB6AXuAI2Uc5XJt7k9GkeqkmDUNEIMznAsTokIS5_1HhC9zBxrjNpLVuc1Uy_QXFSyWsU6rJ_KhQZqHHlk1nFuCcn4C85Oa4P1qRnwOJtyI3Vbjq85XttoHDn45BOfrsIHPRZKRbp8-BCRoRCrSqt0t1iwSUSXPKkLZCnFJBOiB4JZE8kYctqeFGj4IUpBaVQzmUmcc1ZGLcNZ0NW_gvcF5K2iC8VaXdsx95Q2AnL7OQFSRH94cFdy-SS5r9n0sRKIAFW1WFTJLv-2JdGFUw" />
+                    <div
+                        class="absolute top-4 right-4 bg-black/60 backdrop-blur-md px-3 py-1 rounded-lg flex items-center gap-1 text-sm font-bold text-primary">
+                        <span class="material-symbols-outlined text-sm" data-icon="star" data-weight="fill">star</span>
+                        4.9
+                    </div>
+                </div>
+                <div class="p-8">
+                    <div class="flex justify-between items-start mb-4">
+                        <h3 class="font-headline text-2xl font-bold">Titanium Forge</h3>
+                        <span
+                            class="text-xs uppercase tracking-tighter bg-secondary/10 text-secondary px-2 py-1 rounded">0.8
+                            km away</span>
+                    </div>
+                    <p class="text-on-surface-variant text-sm mb-6 leading-relaxed">Specialized in powerlifting and
+                        olympic weightlifting with professional coaching staff.</p>
+                    <button
+                        class="w-full py-3 border border-outline-variant rounded-xl text-white font-bold hover:bg-white hover:text-black transition-all">Book
+                        Session</button>
+                </div>
+            </div>
+            <!-- Card 2 -->
+            <div
+                class="group bg-surface-container-low rounded-2xl overflow-hidden hover:bg-surface-container-high transition-all duration-500">
+                <div class="relative h-64 overflow-hidden">
+                    <img alt="Aura Wellness"
+                        class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110"
+                        data-alt="luxury rooftop yoga studio at sunset with panoramic city views and soft orange ambient lighting"
+                        src="https://lh3.googleusercontent.com/aida-public/AB6AXuB5GRRhvcIBM51ZAD8qOT9gAxQB125GZnw1jzRFJ_-2majLTl9oNu1TNf4hCRfmuDZRsIECTdunnh2NrBKSEWYp8_jyl-KaGQOjoZSMtJmOxbQvG2HVERqrz79mcv4piPm9T7HgeQutIMKhiHA9lOJGx03xelBQt4zn_xuKmp71spTxzSEbtZRFO-uh7ChjdgM9uuJcjEsQPY3WzhlvTLxA_cjbbWaI-OAZfTMRPvQmrMLKvEUXNINJVuDHY662fu-qlqj9dqDD-T_H" />
+                    <div
+                        class="absolute top-4 right-4 bg-black/60 backdrop-blur-md px-3 py-1 rounded-lg flex items-center gap-1 text-sm font-bold text-primary">
+                        <span class="material-symbols-outlined text-sm" data-icon="star" data-weight="fill">star</span>
+                        4.7
+                    </div>
+                </div>
+                <div class="p-8">
+                    <div class="flex justify-between items-start mb-4">
+                        <h3 class="font-headline text-2xl font-bold">Aura Zenith</h3>
+                        <span
+                            class="text-xs uppercase tracking-tighter bg-secondary/10 text-secondary px-2 py-1 rounded">1.2
+                            km away</span>
+                    </div>
+                    <p class="text-on-surface-variant text-sm mb-6 leading-relaxed">Holistic wellness center featuring
+                        cryotherapy, yoga, and high-intensity interval training.</p>
+                    <button
+                        class="w-full py-3 border border-outline-variant rounded-xl text-white font-bold hover:bg-white hover:text-black transition-all">Book
+                        Session</button>
+                </div>
+            </div>
+            <!-- Card 3 -->
+            <div
+                class="group bg-surface-container-low rounded-2xl overflow-hidden hover:bg-surface-container-high transition-all duration-500">
+                <div class="relative h-64 overflow-hidden">
+                    <img alt="Kinetic Gym"
+                        class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110"
+                        data-alt="high-tech dark gym interior with glowing neon green LED strips along the floor and mirrors"
+                        src="https://lh3.googleusercontent.com/aida-public/AB6AXuCwHnNopweg4Tiy4GQ2xgzqYl3FN-8m2jZeOp7Wt2UBcVmM6TZrMtkfhVNiVCcrUeiT-T5oNV1ej2R34ha5XulxilXlMrFl-CH9ma2AeKQiwhmhm2md8AXISU19dcOJVlrUEWcN7xWT8Z3ZiGk5a0e-HI9--r0RGnnzipMEqCeR7r0qIxxZ6lRRuYxqnEju_LFtib4wUEUeIpiaFIxK40upspSgo6vqwvnO_biUkYZcTXfanwsxuGIzRpsNCoqV2oQLHGNe7UGH2Hxv" />
+                    <div
+                        class="absolute top-4 right-4 bg-black/60 backdrop-blur-md px-3 py-1 rounded-lg flex items-center gap-1 text-sm font-bold text-primary">
+                        <span class="material-symbols-outlined text-sm" data-icon="star" data-weight="fill">star</span>
+                        5.0
+                    </div>
+                </div>
+                <div class="p-8">
+                    <div class="flex justify-between items-start mb-4">
+                        <h3 class="font-headline text-2xl font-bold">Pulse Matrix</h3>
+                        <span
+                            class="text-xs uppercase tracking-tighter bg-secondary/10 text-secondary px-2 py-1 rounded">2.5
+                            km away</span>
+                    </div>
+                    <p class="text-on-surface-variant text-sm mb-6 leading-relaxed">24/7 access with biometric tracking
+                        and state-of-the-art AI-driven equipment.</p>
+                    <button
+                        class="w-full py-3 border border-outline-variant rounded-xl text-white font-bold hover:bg-white hover:text-black transition-all">Book
+                        Session</button>
+                </div>
+            </div>
+        </div>
+        <!-- Protein Shop - Asymmetric Layout -->
+        <div class="grid grid-cols-1 lg:grid-cols-12 gap-12 items-center mb-32">
+            <div class="lg:col-span-5 order-2 lg:order-1">
+                <h2 class="font-headline text-5xl font-bold uppercase tracking-tight mb-6">Top <span
+                        class="text-primary">Protein</span> Stores</h2>
+                <p class="text-on-surface-variant text-lg mb-10">Fuel your recovery with verified supplements. Curated
+                    stores offering the purest whey, plant proteins, and performance stacks.</p>
+                <div class="space-y-4">
+                    <div
+                        class="bg-surface-container-highest p-6 rounded-2xl flex items-center justify-between border-l-4 border-primary">
+                        <div class="flex items-center gap-4">
+                            <div class="w-12 h-12 bg-black rounded-lg flex items-center justify-center">
+                                <span class="material-symbols-outlined text-primary" data-icon="liquor">liquor</span>
+                            </div>
+                            <div>
+                                <h4 class="font-bold">Aura Nutrition Hub</h4>
+                                <p class="text-xs text-on-surface-variant">Central Plaza • Open Now</p>
+                            </div>
+                        </div>
+                        <span class="material-symbols-outlined text-primary"
+                            data-icon="arrow_outward">arrow_outward</span>
+                    </div>
+                    <div
+                        class="bg-surface-container-low p-6 rounded-2xl flex items-center justify-between opacity-80 hover:opacity-100 transition-opacity">
+                        <div class="flex items-center gap-4">
+                            <div class="w-12 h-12 bg-black rounded-lg flex items-center justify-center">
+                                <span class="material-symbols-outlined text-secondary" data-icon="bolt">bolt</span>
+                            </div>
+                            <div>
+                                <h4 class="font-bold">Kinetic Fuel Lab</h4>
+                                <p class="text-xs text-on-surface-variant">Westside Annex • 1.4 km</p>
+                            </div>
+                        </div>
+                        <span class="material-symbols-outlined" data-icon="arrow_outward">arrow_outward</span>
+                    </div>
+                </div>
+                <div class="mt-12 flex gap-4">
+                    <button
+                        class="bg-primary text-on-primary-fixed px-8 py-4 rounded-xl font-bold uppercase tracking-widest">Shop
+                        Online</button>
+                    <button
+                        class="text-white px-8 py-4 rounded-xl font-bold uppercase tracking-widest border border-outline-variant">Find
+                        Nearest</button>
+                </div>
+            </div>
+            <div class="lg:col-span-7 order-1 lg:order-2">
+                <div class="relative h-[500px] rounded-3xl overflow-hidden group">
+                    <img alt="Protein Supps" class="w-full h-full object-cover"
+                        data-alt="close-up shot of high-end minimalist supplement jars on a textured black concrete surface with a pop of neon green light from the side"
+                        src="https://lh3.googleusercontent.com/aida-public/AB6AXuC3eh0yiYtMhTCWISUqGzDI0Wt0VNhYvihr5rdmT_VwTpFHiPu4BIvrpB_khgz5icCxPUZr_txpBalMRzPJdigqQpy0-f016lU7a1XbWJQ1IP4_GT3ckIGjmGu8zVYb2f2ilyDJY0G697pcXUyq3fbxQumE35Ts1_6Oz8QQ1qzir4hZ94CJZi1iPb2IOBd9Y1l9F2w9D0P_CFybqx9L7bWd_5Df_xitjsHWPC6w923fj5WeXXFd-2OloeYXgwLByffGG_uGWxV5QLmB" />
+                    <div class="absolute inset-0 bg-gradient-to-t from-black/80 to-transparent"></div>
+                    <div
+                        class="absolute bottom-8 left-8 p-6 bg-surface-container-highest/60 backdrop-blur-xl rounded-2xl border border-white/5 max-w-sm">
+                        <span class="text-primary text-xs font-bold uppercase tracking-[0.2em] mb-2 block">Weekly
+                            Deal</span>
+                        <h5 class="text-2xl font-headline font-bold mb-2">Aura Pure Whey Isolate</h5>
+                        <p class="text-on-surface-variant text-sm">30% off for Pro members this week only. Elevate your
+                            gains.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- Call to Action Banner -->
+        <section
+            class="bg-primary-fixed rounded-[2rem] p-12 md:p-24 flex flex-col items-center text-center relative overflow-hidden">
+            <div class="absolute top-0 right-0 w-64 h-64 bg-white/20 blur-[100px] rounded-full -mr-32 -mt-32"></div>
+            <div class="absolute bottom-0 left-0 w-64 h-64 bg-black/20 blur-[100px] rounded-full -ml-32 -mb-32"></div>
+            <h2
+                class="font-headline text-5xl md:text-7xl font-black text-on-primary-fixed leading-tight uppercase mb-8 max-w-4xl">
+                Ready to unleash your ultimate potential?
+            </h2>
+            <div class="flex flex-col md:flex-row gap-6 w-full max-w-md">
+                <button
+                    class="flex-1 bg-on-primary-fixed text-primary px-10 py-5 rounded-2xl font-black uppercase tracking-widest text-lg hover:scale-105 transition-transform">Get
+                    Started</button>
+                <button
+                    class="flex-1 border-2 border-on-primary-fixed text-on-primary-fixed px-10 py-5 rounded-2xl font-black uppercase tracking-widest text-lg hover:bg-on-primary-fixed hover:text-primary transition-all">Choose
+                    Plan</button>
+            </div>
+        </section>
+    </main>
+    <!-- Footer -->
+    <footer class="bg-surface-container-lowest dark:bg-black border-t border-white/5">
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-12 px-12 py-16 w-full max-w-[1920px] mx-auto">
+            <div>
+                <div class="text-lg font-bold text-white mb-6 font-headline tracking-tighter uppercase">TRENING AURA
+                </div>
+                <p class="text-[#adaaaa] text-sm font-['Manrope'] leading-relaxed max-w-xs">
+                    The next generation of athletic excellence. We combine high-tech tracking with high-performance
+                    spaces to forge the athletes of tomorrow.
+                </p>
+            </div>
+            <div class="grid grid-cols-2 gap-8">
+                <div>
+                    <h5 class="text-white font-bold mb-4 uppercase text-xs tracking-widest">Connect</h5>
+                    <ul class="space-y-3 font-['Manrope'] text-sm">
+                        <li><a class="text-[#adaaaa] hover:text-[#00e3fd] transition-colors" href="#">Instagram</a></li>
+                        <li><a class="text-[#adaaaa] hover:text-[#00e3fd] transition-colors" href="#">Telegram</a></li>
+                        <li><a class="text-[#adaaaa] hover:text-[#00e3fd] transition-colors" href="#">Contact</a></li>
+                    </ul>
+                </div>
+                <div>
+                    <h5 class="text-white font-bold mb-4 uppercase text-xs tracking-widest">Platform</h5>
+                    <ul class="space-y-3 font-['Manrope'] text-sm">
+                        <li><a class="text-[#adaaaa] hover:text-[#00e3fd] transition-colors" href="#">App Store</a></li>
+                        <li><a class="text-[#adaaaa] hover:text-[#00e3fd] transition-colors" href="#">Google Play</a>
+                        </li>
+                        <li><a class="text-[#adaaaa] hover:text-[#00e3fd] transition-colors" href="#">Web Dashboard</a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+            <div class="flex flex-col items-end justify-between">
+                <div class="flex gap-4">
+                    <div
+                        class="w-10 h-10 rounded-full bg-surface-container flex items-center justify-center border border-white/5 hover:border-primary transition-colors cursor-pointer group">
+                        <span class="material-symbols-outlined text-sm group-hover:text-primary"
+                            data-icon="share">share</span>
+                    </div>
+                </div>
+                <div
+                    class="text-[#adaaaa] text-[10px] font-['Manrope'] tracking-[0.2em] uppercase mt-8 md:mt-0 text-right">
+                    © 2024 TRENING AURA. <br />KINETIC ENERGY RESERVED.
+                </div>
+            </div>
+        </div>
+    </footer>
+    <!-- FAB (Suppressed on Home according to shell visibility check, but user might expect one in a fitness app, keeping as a discrete tracker toggle) -->
+    <button
+        class="fixed bottom-8 right-8 w-16 h-16 bg-primary text-on-primary-fixed rounded-full shadow-[0_0_50px_rgba(202,253,0,0.3)] flex items-center justify-center group z-40">
+        <span class="material-symbols-outlined text-3xl font-bold" data-icon="add">add</span>
+        <span
+            class="absolute right-20 bg-surface-container-highest px-4 py-2 rounded-xl text-white text-xs font-bold opacity-0 group-hover:opacity-100 transition-opacity pointer-events-none whitespace-nowrap uppercase tracking-widest">Quick
+            Log</span>
+    </button>
+</body>
+
+</html>

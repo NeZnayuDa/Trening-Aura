@@ -1,0 +1,537 @@
+<!DOCTYPE html>
+
+<html class="dark" lang="en">
+
+<head>
+    <meta charset="utf-8" />
+    <meta content="width=device-width, initial-scale=1.0" name="viewport" />
+    <title>Protein Shop | TRENING AURA</title>
+    <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700;900&amp;family=Manrope:wght@200;300;400;500;600;700;800&amp;display=swap"
+        rel="stylesheet" />
+    <link
+        href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap"
+        rel="stylesheet" />
+    <link
+        href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap"
+        rel="stylesheet" />
+    <script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    "colors": {
+                        "outline": "#767575",
+                        "on-primary-fixed": "#3a4a00",
+                        "surface-container-high": "#20201f",
+                        "tertiary-container": "#ebebeb",
+                        "error-dim": "#d53d18",
+                        "inverse-primary": "#516700",
+                        "error": "#ff7351",
+                        "background": "#0e0e0e",
+                        "on-surface": "#ffffff",
+                        "on-secondary": "#004d57",
+                        "on-primary-fixed-variant": "#526900",
+                        "outline-variant": "#484847",
+                        "surface": "#0e0e0e",
+                        "primary": "#f3ffca",
+                        "secondary": "#00e3fd",
+                        "on-background": "#ffffff",
+                        "on-surface-variant": "#adaaaa",
+                        "surface-container-low": "#131313",
+                        "on-error": "#450900",
+                        "tertiary-dim": "#ebebeb",
+                        "on-tertiary-fixed-variant": "#6c6d6e",
+                        "on-error-container": "#ffd2c8",
+                        "on-tertiary-container": "#555757",
+                        "on-tertiary": "#5e5f60",
+                        "on-tertiary-fixed": "#4f5051",
+                        "surface-dim": "#0e0e0e",
+                        "primary-dim": "#beee00",
+                        "surface-container-lowest": "#000000",
+                        "inverse-surface": "#fcf9f8",
+                        "tertiary-fixed": "#ffffff",
+                        "secondary-fixed-dim": "#00d7f0",
+                        "inverse-on-surface": "#565555",
+                        "surface-container": "#1a1a1a",
+                        "primary-container": "#cafd00",
+                        "surface-container-highest": "#262626",
+                        "on-secondary-fixed-variant": "#005964",
+                        "on-secondary-container": "#e8fbff",
+                        "primary-fixed": "#cafd00",
+                        "on-primary": "#516700",
+                        "surface-bright": "#2c2c2c",
+                        "error-container": "#b92902",
+                        "tertiary-fixed-dim": "#f0f1f1",
+                        "secondary-dim": "#00d4ec",
+                        "surface-variant": "#262626",
+                        "on-primary-container": "#4a5e00",
+                        "on-secondary-fixed": "#003a42",
+                        "primary-fixed-dim": "#beee00",
+                        "secondary-container": "#006875",
+                        "surface-tint": "#f3ffca",
+                        "secondary-fixed": "#26e6ff",
+                        "tertiary": "#f9f9f9"
+                    },
+                    "borderRadius": {
+                        "DEFAULT": "0.25rem",
+                        "lg": "0.5rem",
+                        "xl": "0.75rem",
+                        "full": "9999px"
+                    },
+                    "fontFamily": {
+                        "headline": ["Space Grotesk"],
+                        "body": ["Manrope"],
+                        "label": ["Manrope"]
+                    }
+                },
+            },
+        }
+    </script>
+    <style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+
+        .no-line {
+            border: none !important;
+        }
+
+        .tonal-transition {
+            transition: background-color 0.3s ease;
+        }
+
+        .glass-pill {
+            background: rgba(44, 44, 44, 0.4);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+        }
+    </style>
+</head>
+
+<body class="bg-background text-on-background font-body selection:bg-primary selection:text-on-primary-fixed">
+    <!-- TopNavBar -->
+    <header class="fixed top-0 w-full z-50 bg-surface-container-lowest/60 backdrop-blur-xl dark:bg-black/60">
+        <div class="flex justify-between items-center px-8 py-4 max-w-[1920px] mx-auto">
+            <div class="text-2xl font-black italic text-[#cafd00] tracking-tighter font-headline uppercase">
+                TRENING AURA
+            </div>
+            <nav class="hidden md:flex items-center gap-8">
+                <a class="font-['Space_Grotesk'] tracking-tight font-bold uppercase text-[#adaaaa] hover:text-white transition-colors"
+                    href="./index.html">Home</a>
+                <a class="font-['Space_Grotesk'] tracking-tight font-bold uppercase text-[#adaaaa] hover:text-white transition-colors"
+                    href="#">Gyms</a>
+                <a class="font-['Space_Grotesk'] tracking-tight font-bold uppercase text-[#cafd00] border-b-2 border-[#cafd00] pb-1"
+                    href="#">Protein Shop</a>
+                <a class="font-['Space_Grotesk'] tracking-tight font-bold uppercase text-[#adaaaa] hover:text-white transition-colors"
+                    href="#">Tracker</a>
+                <a class="font-['Space_Grotesk'] tracking-tight font-bold uppercase text-[#adaaaa] hover:text-white transition-colors"
+                    href="#">Rewards</a>
+            </nav>
+            <div class="flex items-center gap-6">
+                <div class="hidden lg:flex items-center glass-pill px-4 py-1.5 rounded-full">
+                    <span class="material-symbols-outlined text-on-surface-variant text-sm mr-2">search</span>
+                    <input
+                        class="bg-transparent border-none focus:ring-0 text-sm text-white w-40 placeholder:text-on-surface-variant"
+                        placeholder="Search supplements..." type="text" />
+                </div>
+                <div class="flex items-center gap-4">
+                    <button class="text-[#adaaaa] hover:text-[#cafd00] transition-all">
+                        <span class="material-symbols-outlined">language</span>
+                    </button>
+                    <button
+                        class="bg-primary-container text-on-primary-fixed px-6 py-2 rounded-xl font-headline font-bold uppercase tracking-tight scale-95 hover:scale-100 transition-transform duration-200">
+                        Log In
+                    </button>
+                </div>
+            </div>
+        </div>
+    </header>
+    <main class="pt-32 pb-20 px-8 max-w-[1920px] mx-auto min-h-screen">
+        <div class="flex flex-col lg:flex-row gap-12">
+            <!-- Sidebar Filters -->
+            <aside class="w-full lg:w-72 flex-shrink-0">
+                <div class="sticky top-32 space-y-10">
+                    <div>
+                        <h3 class="font-headline text-2xl font-bold uppercase tracking-tighter text-white mb-6">Goal
+                        </h3>
+                        <div class="space-y-3">
+                            <label class="flex items-center group cursor-pointer">
+                                <input class="hidden peer" type="checkbox" />
+                                <div
+                                    class="w-5 h-5 border-2 border-outline-variant rounded peer-checked:bg-primary peer-checked:border-primary transition-all mr-3">
+                                </div>
+                                <span class="text-on-surface-variant group-hover:text-white transition-colors">Muscle
+                                    Gain</span>
+                            </label>
+                            <label class="flex items-center group cursor-pointer">
+                                <input class="hidden peer" type="checkbox" />
+                                <div
+                                    class="w-5 h-5 border-2 border-outline-variant rounded peer-checked:bg-primary peer-checked:border-primary transition-all mr-3">
+                                </div>
+                                <span class="text-on-surface-variant group-hover:text-white transition-colors">Weight
+                                    Loss</span>
+                            </label>
+                            <label class="flex items-center group cursor-pointer">
+                                <input class="hidden peer" type="checkbox" />
+                                <div
+                                    class="w-5 h-5 border-2 border-outline-variant rounded peer-checked:bg-primary peer-checked:border-primary transition-all mr-3">
+                                </div>
+                                <span class="text-on-surface-variant group-hover:text-white transition-colors">Energy
+                                    &amp; Focus</span>
+                            </label>
+                        </div>
+                    </div>
+                    <div>
+                        <h3 class="font-headline text-2xl font-bold uppercase tracking-tighter text-white mb-6">Category
+                        </h3>
+                        <div class="flex flex-wrap gap-2">
+                            <button
+                                class="px-4 py-2 rounded-full glass-pill border border-white/5 text-sm text-primary font-bold">All
+                                Products</button>
+                            <button
+                                class="px-4 py-2 rounded-full border border-white/5 text-sm text-on-surface-variant hover:text-white transition-colors">Whey
+                                Protein</button>
+                            <button
+                                class="px-4 py-2 rounded-full border border-white/5 text-sm text-on-surface-variant hover:text-white transition-colors">Vitamins</button>
+                            <button
+                                class="px-4 py-2 rounded-full border border-white/5 text-sm text-on-surface-variant hover:text-white transition-colors">Amino
+                                Acids</button>
+                            <button
+                                class="px-4 py-2 rounded-full border border-white/5 text-sm text-on-surface-variant hover:text-white transition-colors">Pre-Workout</button>
+                        </div>
+                    </div>
+                    <div
+                        class="p-6 rounded-xl bg-gradient-to-br from-primary/10 to-transparent border border-primary/5">
+                        <span class="material-symbols-outlined text-primary mb-4" data-weight="fill">verified</span>
+                        <h4 class="text-white font-bold mb-2">Aura Certified</h4>
+                        <p class="text-xs text-on-surface-variant leading-relaxed">All supplements are lab-tested and
+                            certified for purity and potency. Fuel your body with the best.</p>
+                    </div>
+                </div>
+            </aside>
+            <!-- Product Grid Section -->
+            <section class="flex-grow">
+                <div class="flex justify-between items-end mb-12">
+                    <div>
+                        <p class="text-secondary font-headline font-bold uppercase tracking-widest text-xs mb-2">Premium
+                            Supplements</p>
+                        <h1 class="text-5xl md:text-7xl font-headline font-black uppercase tracking-tighter text-white">
+                            The Fuel <span class="text-primary italic">Station</span></h1>
+                    </div>
+                    <div class="hidden md:block text-right">
+                        <p class="text-on-surface-variant text-sm font-medium">Showing 24 Results</p>
+                    </div>
+                </div>
+                <!-- Grid -->
+                <div class="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-3 gap-8">
+                    <!-- Product Card 1 -->
+                    <div
+                        class="group relative bg-surface-container-low rounded-xl overflow-hidden hover:bg-surface-container transition-all duration-300">
+                        <div class="aspect-[4/5] relative overflow-hidden bg-surface-container-high">
+                            <img class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700 opacity-90 group-hover:opacity-100"
+                                data-alt="black aesthetic supplement container of whey protein isolated on dark textured background with dramatic spotlight"
+                                src="https://lh3.googleusercontent.com/aida-public/AB6AXuBitwiDAh6DNLymrovNbg8LHQXHUxA7-UPc1gsOw5fcNSu2vl5tYokzjLX9SWsZD6ZPURP32FGdRX1InWKS-RMZMVFNzm83uZWKYRsqkd1nZcbJfw-VgCRyPgypgR9dn5B_w3Coo0EFdal8E5Flai4Uc9jcgu5lMz7eJjFDwz7F0HnN37sVF4hbS87zsxIvOeODPXPw_Lis7TO8ymzadpEqiiHKmmXP9n12i9cF_sD2vjFUiXRZUr70qsuCjuRL9HpLHN1Y-GyEycS0" />
+                            <div
+                                class="absolute top-4 left-4 bg-primary text-on-primary-fixed px-3 py-1 rounded-full text-[10px] font-black uppercase tracking-tighter">
+                                Bestseller</div>
+                        </div>
+                        <div class="p-8">
+                            <div class="flex justify-between items-start mb-4">
+                                <h3 class="text-xl font-headline font-bold text-white uppercase tracking-tight">AURA
+                                    WHEY ISOLATE</h3>
+                                <span class="text-secondary font-bold text-lg">$64.00</span>
+                            </div>
+                            <p class="text-on-surface-variant text-sm mb-8 leading-relaxed">Ultra-pure protein for lean
+                                muscle recovery. 25g protein per serving.</p>
+                            <button
+                                class="w-full bg-surface-container-highest group-hover:bg-primary text-white group-hover:text-on-primary-fixed py-4 rounded-xl font-headline font-bold uppercase tracking-tight transition-all duration-300 flex items-center justify-center gap-2">
+                                <span class="material-symbols-outlined text-lg">shopping_bag</span>
+                                Add to cart
+                            </button>
+                        </div>
+                    </div>
+                    <!-- Product Card 2 -->
+                    <div
+                        class="group relative bg-surface-container-low rounded-xl overflow-hidden hover:bg-surface-container transition-all duration-300">
+                        <div class="aspect-[4/5] relative overflow-hidden bg-surface-container-high">
+                            <img class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700 opacity-90 group-hover:opacity-100"
+                                data-alt="minimalist white supplement jar with neon blue accents for pre-workout powder on dark reflective surface"
+                                src="https://lh3.googleusercontent.com/aida-public/AB6AXuAyCkBnApaeEof7mJd9ESscUW_GNi7SiVaunmCFOxAAYoL6385hjZWnPARtjiYiPBAYcMXgInueahMDJfbH8G4Ia-CKYrqkInAwzHl1pYep1-5CzVRS2vcn25QDku0bqXLhh7fgCA5LXfCrc4iLMDKCuHXDYhOxPsJx2ZkYc8qPSle_hD2tYYM_i5bpX6Z5RoL9i7sUF8XvI92hyLjYwmzsJyXZNuxoo6UDudZwo1HC8wCvCZgG4UfbdSJLvDPodGfF0yY-Hk_g08Xc" />
+                        </div>
+                        <div class="p-8">
+                            <div class="flex justify-between items-start mb-4">
+                                <h3 class="text-xl font-headline font-bold text-white uppercase tracking-tight">KINETIC
+                                    PRE-V2</h3>
+                                <span class="text-secondary font-bold text-lg">$49.00</span>
+                            </div>
+                            <p class="text-on-surface-variant text-sm mb-8 leading-relaxed">High-stimulant energy and
+                                focus complex for peak performance.</p>
+                            <button
+                                class="w-full bg-surface-container-highest group-hover:bg-primary text-white group-hover:text-on-primary-fixed py-4 rounded-xl font-headline font-bold uppercase tracking-tight transition-all duration-300 flex items-center justify-center gap-2">
+                                <span class="material-symbols-outlined text-lg">shopping_bag</span>
+                                Add to cart
+                            </button>
+                        </div>
+                    </div>
+                    <!-- Product Card 3 -->
+                    <div
+                        class="group relative bg-surface-container-low rounded-xl overflow-hidden hover:bg-surface-container transition-all duration-300">
+                        <div class="aspect-[4/5] relative overflow-hidden bg-surface-container-high">
+                            <img class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700 opacity-90 group-hover:opacity-100"
+                                data-alt="close-up of glass vitamins bottle with amber tint and high-end minimalist label in dark studio lighting"
+                                src="https://lh3.googleusercontent.com/aida-public/AB6AXuB2-ik5S1q4Lb_x1d15OyXI0HZYP_vxaaDJsKNlPf90iJB9T4yCPA4O3VW3XHhnhr1VlDdkj2GrdAMCEEV8DOQF__ndViq8tvNNzmScbS_VxzYvpQU5oTq3QGhQr3rN4mVH656sVMIzqzle-BmoF4FUjO_vqsKJdcg7bHzNLRsH8CypBVtX9UwCGth1Lh6heBqRazoSkbNkH8qWi8Dvd_8OnqqfadGSaCm7E4kYz0feJuJMmRWLm1SenvwhI2efzelMmKNpTr22TkOG" />
+                            <div
+                                class="absolute top-4 left-4 bg-secondary text-on-secondary px-3 py-1 rounded-full text-[10px] font-black uppercase tracking-tighter">
+                                New Arrival</div>
+                        </div>
+                        <div class="p-8">
+                            <div class="flex justify-between items-start mb-4">
+                                <h3 class="text-xl font-headline font-bold text-white uppercase tracking-tight">VITA-MAX
+                                    365</h3>
+                                <span class="text-secondary font-bold text-lg">$32.00</span>
+                            </div>
+                            <p class="text-on-surface-variant text-sm mb-8 leading-relaxed">Complete multivitamin
+                                spectrum optimized for active lifestyles.</p>
+                            <button
+                                class="w-full bg-surface-container-highest group-hover:bg-primary text-white group-hover:text-on-primary-fixed py-4 rounded-xl font-headline font-bold uppercase tracking-tight transition-all duration-300 flex items-center justify-center gap-2">
+                                <span class="material-symbols-outlined text-lg">shopping_bag</span>
+                                Add to cart
+                            </button>
+                        </div>
+                    </div>
+                    <!-- Product Card 4 -->
+                    <div
+                        class="group relative bg-surface-container-low rounded-xl overflow-hidden hover:bg-surface-container transition-all duration-300">
+                        <div class="aspect-[4/5] relative overflow-hidden bg-surface-container-high">
+                            <img class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700 opacity-90 group-hover:opacity-100"
+                                data-alt="athletic supplements containers in a row on dark concrete background with teal and lime green ambient glow"
+                                src="https://lh3.googleusercontent.com/aida-public/AB6AXuBOxNqCW6mSGn52Osd8lsudFWmPaTGKVFo__6Aa0jzUNm759S1JjBa5JOL5Hn9M2oGifZEiZio1cE_w8NNCJGnlFHWHEETD3A95XW6GW_efTURZZMQPRWXMUsNc_6xiheQdJvUAOEweMCNxN7yGbtZxXot-AfpwE3dAGiSNRpBkdkvgcb__IgqfoF8JFPtwKPlsC-UeQbSMxPuiCyxt3TDVnbetjI87ONemDb3aB4ICAG92w3LTExlyS-wSAwaSFSXczwkvm1l4_uax" />
+                        </div>
+                        <div class="p-8">
+                            <div class="flex justify-between items-start mb-4">
+                                <h3 class="text-xl font-headline font-bold text-white uppercase tracking-tight">AMINO
+                                    RECOVER</h3>
+                                <span class="text-secondary font-bold text-lg">$38.00</span>
+                            </div>
+                            <p class="text-on-surface-variant text-sm mb-8 leading-relaxed">BCAA 2:1:1 ratio for
+                                endurance and intra-workout hydration.</p>
+                            <button
+                                class="w-full bg-surface-container-highest group-hover:bg-primary text-white group-hover:text-on-primary-fixed py-4 rounded-xl font-headline font-bold uppercase tracking-tight transition-all duration-300 flex items-center justify-center gap-2">
+                                <span class="material-symbols-outlined text-lg">shopping_bag</span>
+                                Add to cart
+                            </button>
+                        </div>
+                    </div>
+                    <!-- Product Card 5 -->
+                    <div
+                        class="group relative bg-surface-container-low rounded-xl overflow-hidden hover:bg-surface-container transition-all duration-300">
+                        <div class="aspect-[4/5] relative overflow-hidden bg-surface-container-high">
+                            <img class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700 opacity-90 group-hover:opacity-100"
+                                data-alt="luxury sports supplement tub with matte black finish and neon yellow branding text in dark moody environment"
+                                src="https://lh3.googleusercontent.com/aida-public/AB6AXuC539yy_euPkRKmrZH275knVzkgKsC0MpBT8JgpTHw-ayPudzSvyQFZV-USl8au7OthOWaYzFhTceu41LWxyZqRJPmnNHlEiKHVzFMQQtekxa0xtKOyikUjEHQn7-QJY6ZN217dJvYXipQ-wDZsvBznJQUZ7IlhO38Fobu0aekirzLlmDgNaEgH-OXzDRULhSdTpv_SVHQrM4VvjNm9qf_ETs5OOygf5b0MfxLON9M58U2DNvc0Yt-gllxnUbacPCGnsUdvtUBzlwW3" />
+                        </div>
+                        <div class="p-8">
+                            <div class="flex justify-between items-start mb-4">
+                                <h3 class="text-xl font-headline font-bold text-white uppercase tracking-tight">CASEIN
+                                    SLEEP</h3>
+                                <span class="text-secondary font-bold text-lg">$58.00</span>
+                            </div>
+                            <p class="text-on-surface-variant text-sm mb-8 leading-relaxed">Slow-release protein for
+                                overnight muscle repair and deep recovery.</p>
+                            <button
+                                class="w-full bg-surface-container-highest group-hover:bg-primary text-white group-hover:text-on-primary-fixed py-4 rounded-xl font-headline font-bold uppercase tracking-tight transition-all duration-300 flex items-center justify-center gap-2">
+                                <span class="material-symbols-outlined text-lg">shopping_bag</span>
+                                Add to cart
+                            </button>
+                        </div>
+                    </div>
+                    <!-- Product Card 6 -->
+                    <div
+                        class="group relative bg-surface-container-low rounded-xl overflow-hidden hover:bg-surface-container transition-all duration-300">
+                        <div class="aspect-[4/5] relative overflow-hidden bg-surface-container-high">
+                            <img class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700 opacity-90 group-hover:opacity-100"
+                                data-alt="clean top view of athletic health supplements capsules and powder in organized aesthetic layout on dark surface"
+                                src="https://lh3.googleusercontent.com/aida-public/AB6AXuBZrrIT-_F2zmFEMlfJTb5r5YPIX0hq9kqB_HOGGZ-4ZH9_y0Gf7xj515CoDnQIST_W21nzc_Ab5tpzo_t6vMakPKxOejynt-yE7FHhExdDc1yZHEsZcvfFSeECinNsQ6zfclKp8gzG73wk15DGKuxRVu_gJLPy2xoGiZCdQDT4o6Xtvpgis46SwivTxr5x4GrKiGhGGwq4u9m1W38N3tm7i-KoOgoXjDiTP05lsUGfP9tcZ9cRQAF5M_fV5tggoV4GsTXsINy96OB3" />
+                        </div>
+                        <div class="p-8">
+                            <div class="flex justify-between items-start mb-4">
+                                <h3 class="text-xl font-headline font-bold text-white uppercase tracking-tight">PURE
+                                    CREATINE</h3>
+                                <span class="text-secondary font-bold text-lg">$28.00</span>
+                            </div>
+                            <p class="text-on-surface-variant text-sm mb-8 leading-relaxed">Micro-filtered creatine
+                                monohydrate for strength and explosive power.</p>
+                            <button
+                                class="w-full bg-surface-container-highest group-hover:bg-primary text-white group-hover:text-on-primary-fixed py-4 rounded-xl font-headline font-bold uppercase tracking-tight transition-all duration-300 flex items-center justify-center gap-2">
+                                <span class="material-symbols-outlined text-lg">shopping_bag</span>
+                                Add to cart
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </section>
+        </div>
+    </main>
+    <!-- Footer -->
+    <footer class="w-full border-t border-white/5 bg-surface-container-lowest dark:bg-black">
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-12 px-12 py-16 w-full max-w-[1920px] mx-auto">
+            <div class="space-y-6">
+                <div class="text-lg font-bold text-white uppercase tracking-tighter font-headline">TRENING AURA</div>
+                <p class="text-[#adaaaa] font-['Manrope'] text-sm tracking-wide max-w-xs leading-relaxed">
+                    Engineering human potential through science-backed nutrition and relentless kinetic energy. Join the
+                    pulse.
+                </p>
+                <div class="flex gap-4">
+                    <a class="text-[#adaaaa] hover:text-[#00e3fd] transition-colors" href="#"><span
+                            class="material-symbols-outlined">public</span></a>
+                    <a class="text-[#adaaaa] hover:text-[#00e3fd] transition-colors" href="#"><span
+                            class="material-symbols-outlined">smart_display</span></a>
+                    <a class="text-[#adaaaa] hover:text-[#00e3fd] transition-colors" href="#"><span
+                            class="material-symbols-outlined">rss_feed</span></a>
+                </div>
+            </div>
+            <div class="grid grid-cols-2 gap-8">
+                <div class="space-y-4">
+                    <h5 class="text-white font-bold text-sm uppercase">Shop</h5>
+                    <ul class="space-y-2">
+                        <li><a class="text-[#adaaaa] font-['Manrope'] text-sm hover:text-[#00e3fd] transition-colors"
+                                href="#">Protein</a></li>
+                        <li><a class="text-[#adaaaa] font-['Manrope'] text-sm hover:text-[#00e3fd] transition-colors"
+                                href="#">Pre-Workout</a></li>
+                        <li><a class="text-[#adaaaa] font-['Manrope'] text-sm hover:text-[#00e3fd] transition-colors"
+                                href="#">Merch</a></li>
+                    </ul>
+                </div>
+                <div class="space-y-4">
+                    <h5 class="text-white font-bold text-sm uppercase">Support</h5>
+                    <ul class="space-y-2">
+                        <li><a class="text-[#adaaaa] font-['Manrope'] text-sm hover:text-[#00e3fd] transition-colors"
+                                href="#">Contact</a></li>
+                        <li><a class="text-[#adaaaa] font-['Manrope'] text-sm hover:text-[#00e3fd] transition-colors"
+                                href="#">Shipping</a></li>
+                        <li><a class="text-[#adaaaa] font-['Manrope'] text-sm hover:text-[#00e3fd] transition-colors"
+                                href="#">Returns</a></li>
+                    </ul>
+                </div>
+            </div>
+            <div class="space-y-6">
+                <h5 class="text-white font-bold text-sm uppercase">Newsletter</h5>
+                <p class="text-[#adaaaa] text-xs font-['Manrope']">Get exclusive early access to drops and training
+                    guides.</p>
+                <div class="flex border-b border-white/10 pb-2">
+                    <input
+                        class="bg-transparent border-none focus:ring-0 text-sm text-white w-full placeholder:text-outline"
+                        placeholder="Your email" type="email" />
+                    <button class="text-[#cafd00] hover:translate-x-1 transition-transform">
+                        <span class="material-symbols-outlined">arrow_forward</span>
+                    </button>
+                </div>
+                <div class="text-[#adaaaa] font-['Manrope'] text-xs tracking-wide mt-auto">
+                    © 2024 TRENING AURA. KINETIC ENERGY RESERVED.
+                </div>
+            </div>
+        </div>
+    </footer>
+    <!-- FAB for Cart -->
+    <div class="fixed bottom-8 right-8 z-40 group">
+        <button
+            class="w-16 h-16 bg-primary text-on-primary-fixed rounded-full flex items-center justify-center shadow-[0_0_40px_rgba(202,253,0,0.15)] hover:scale-110 transition-all duration-300">
+            <span class="material-symbols-outlined text-2xl" data-weight="fill">shopping_cart</span>
+            <div
+                class="absolute -top-1 -right-1 w-6 h-6 bg-secondary text-on-secondary rounded-full flex items-center justify-center text-[10px] font-black border-2 border-background">
+                3</div>
+        </button>
+    </div>
+    <script>
+// =======================
+// 🌍 LANGUAGE SYSTEM
+// =======================
+const translations = {
+    en: {
+        title: "Transform Your Body With Trening Aura",
+        search: "Find gyms near you",
+    },
+    ru: {
+        title: "Трансформируй своё тело с Trening Aura",
+        search: "Найди спортзал рядом",
+    },
+    uz: {
+        title: "Trening Aura bilan tanangizni o'zgartiring",
+        search: "Yaqin sport zalni toping",
+    }
+};
+
+const langButtons = document.querySelectorAll("[class*='cursor-pointer']");
+const title = document.querySelector("h1");
+const searchInput = document.querySelector("input");
+
+langButtons.forEach(btn => {
+    btn.addEventListener("click", () => {
+        const lang = btn.innerText.toLowerCase();
+        if (translations[lang]) {
+            title.innerHTML = translations[lang].title;
+            searchInput.placeholder = translations[lang].search;
+        }
+    });
+});
+
+// =======================
+// 🔍 SEARCH FUNCTION
+// =======================
+const searchBtn = document.querySelector("button");
+searchBtn.addEventListener("click", () => {
+    const value = searchInput.value;
+    if (!value) {
+        alert("Введите что искать!");
+        return;
+    }
+    alert("Поиск: " + value);
+});
+
+// =======================
+// 🏋️ QUICK BUTTONS
+// =======================
+document.querySelectorAll("button").forEach(btn => {
+    if (btn.innerText.includes("Gyms")) {
+        btn.onclick = () => alert("Переход к залам 💪");
+    }
+    if (btn.innerText.includes("Protein")) {
+        btn.onclick = () => alert("Магазин протеина 🥤");
+    }
+    if (btn.innerText.includes("Calories")) {
+        btn.onclick = () => alert("Трекер калорий 📊");
+    }
+});
+
+// =======================
+// 🌙 DARK / LIGHT MODE
+// =======================
+const toggleBtn = document.querySelector("[data-icon='language']");
+toggleBtn.addEventListener("click", () => {
+    document.documentElement.classList.toggle("dark");
+});
+
+// =======================
+// 📅 BOOK SESSION
+// =======================
+document.querySelectorAll("button").forEach(btn => {
+    if (btn.innerText.includes("Book")) {
+        btn.addEventListener("click", () => {
+            alert("Сессия забронирована ✅");
+        });
+    }
+});
+
+// =======================
+// 🚀 FAB BUTTON (Quick Log)
+// =======================
+const fab = document.querySelector(".fixed.bottom-8.right-8");
+fab.addEventListener("click", () => {
+    alert("Быстрое добавление тренировки 🔥");
+});
+</script>
+</body>
+
+</html>
