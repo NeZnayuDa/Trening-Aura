@@ -1,0 +1,9 @@
+<script>
+    document.querySelectorAll('.language-switcher span').forEach(span => {
+        span.addEventListener('click', () => {
+            const selectedLanguage = span.textContent.trim();
+            alert(`Language switched to: ${selectedLanguage}`);
+            // Здесь можно добавить логику для изменения языка на сайте
+        });
+    });
+</script>

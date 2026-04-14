@@ -81,6 +81,7 @@
                         "full": "9999px"
                     },
                     "fontFamily": {
+
                         "headline": ["Space Grotesk"],
                         "body": ["Manrope"],
                         "label": ["Manrope"]
@@ -123,30 +124,30 @@
         <div class="flex justify-between items-center px-8 py-4 max-w-[1920px] mx-auto">
             <div class="text-2xl font-black italic text-[#cafd00] tracking-tighter font-headline">TRENING AURA</div>
             <div class="hidden md:flex gap-8 items-center">
-                <a class="font-headline tracking-tight font-bold uppercase text-[#cafd00] border-b-2 border-[#cafd00] pb-1"
+                <a data-lang="home" class="font-headline tracking-tight font-bold uppercase text-[#cafd00] border-b-2 border-[#cafd00] pb-1"
                     href="#">Home</a>
-                <a class="font-headline tracking-tight font-bold uppercase text-[#adaaaa] hover:text-white transition-colors"
+                <a data-lang="gyms" class="font-headline tracking-tight font-bold uppercase text-[#adaaaa] hover:text-white transition-colors"
                     href="./gym.html">Gyms</a>
-                <a class="font-headline tracking-tight font-bold uppercase text-[#adaaaa] hover:text-white transition-colors"
+                <a data-lang="protein_shop" class="font-headline tracking-tight font-bold uppercase text-[#adaaaa] hover:text-white transition-colors"
                     href="./shop.html">Protein Shop</a>
-                <a class="font-headline tracking-tight font-bold uppercase text-[#adaaaa] hover:text-white transition-colors"
+                <a data-lang="tracker" class="font-headline tracking-tight font-bold uppercase text-[#adaaaa] hover:text-white transition-colors"
                     href="./treker.html">Tracker</a>
-                <a class="font-headline tracking-tight font-bold uppercase text-[#adaaaa] hover:text-white transition-colors"
+                <a data-lang="rewards" class="font-headline tracking-tight font-bold uppercase text-[#adaaaa] hover:text-white transition-colors"
                     href="./rewerds.html">Rewards</a>
             </div>
             <div class="flex items-center gap-6">
                 <!-- Language Switcher -->
                 <div
                     class="bg-surface-bright/40 backdrop-blur-md px-4 py-2 rounded-full flex gap-4 text-sm font-bold items-center border border-white/5">
-                    <span class="text-[#adaaaa] hover:text-white cursor-pointer transition-colors">RU</span>
-                    <span class="text-[#adaaaa] hover:text-white cursor-pointer transition-colors">UZ</span>
-                    <div class="relative text-[#cafd00]">
+                    <span class="lang-btn text-[#adaaaa] hover:text-white cursor-pointer transition-colors" data-lang-code="ru">RU</span>
+                    <span class="lang-btn text-[#adaaaa] hover:text-white cursor-pointer transition-colors" data-lang-code="uz">UZ</span>
+                    <div class="lang-btn relative text-[#cafd00]" data-lang-code="en">
                         <span>EN</span>
-                        <div class="absolute -bottom-1 left-1/2 -translate-x-1/2 w-1 h-1 bg-[#cafd00] rounded-full">
+                        <div class="lang-indicator absolute -bottom-1 left-1/2 -translate-x-1/2 w-1 h-1 bg-[#cafd00] rounded-full">
                         </div>
                     </div>
                 </div>
-                <button
+                <button data-lang="login"
                     class="bg-[#cafd00] text-[#3a4a00] px-6 py-2 rounded-xl font-bold uppercase tracking-wider scale-95 hover:scale-100 transition-transform duration-200">
                     Log In
                 </button>
@@ -159,6 +160,7 @@
     <header class="relative h-screen flex items-center justify-start overflow-hidden pt-20">
         <div class="absolute inset-0 z-0">
             <img alt="Elite athlete training" class="w-full h-full object-cover grayscale opacity-60"
+
                 data-alt="dramatic wide shot of a powerful athlete lifting heavy weights in a dark urban industrial gym with intense chiaroscuro lighting"
                 src="https://lh3.googleusercontent.com/aida-public/AB6AXuAnHFHwSBVKNrrTdyPcgog9lVT-HYCBLptUL9LOBqhKK7r3zL-ruA9JmQtn4TVCtreY1Pb__BNOaz8QZr4ORp6WNxFUdThu95NCCYmRFz_0KcN0o5CidHaWjOkHCPjx3PTYWA9sRW_mAkjht4WFgcrw0bCGUTAI6guOVF15dIQZJqObRhbYPjzer8V_0prJw3n_C9xEigbrIt1sicBhaOyismie3DZiAfVsEbOC9pl-7t1AIgnVOIrNZuR_4FErqgloAo89PP7-Jp3H" />
             <div class="absolute inset-0 kinetic-gradient"></div>
@@ -172,10 +174,10 @@
             <div
                 class="mt-12 max-w-2xl bg-surface-container-highest/80 backdrop-blur-xl p-2 rounded-2xl flex items-center shadow-2xl border border-white/5">
                 <span class="material-symbols-outlined ml-4 text-on-surface-variant" data-icon="explore">explore</span>
-                <input
+                <input data-lang-placeholder="find_gyms"
                     class="bg-transparent border-none focus:ring-0 w-full px-4 text-lg text-white placeholder:text-on-surface-variant/50"
                     placeholder="Find gyms near you" type="text" />
-                <button
+                <button data-lang="search"
                     class="bg-primary-fixed text-on-primary-fixed px-8 py-3 rounded-xl font-black uppercase tracking-widest flex items-center gap-2">
                     Search <span class="material-symbols-outlined text-sm"
                         data-icon="arrow_forward">arrow_forward</span>
@@ -187,18 +189,18 @@
                     class="bg-surface-container-high hover:bg-surface-container-highest border border-white/5 text-white px-6 py-3 rounded-full flex items-center gap-3 transition-all">
                     <span class="material-symbols-outlined text-primary"
                         data-icon="fitness_center">fitness_center</span>
-                    <span class="font-bold text-sm">Gyms</span>
+                    <span data-lang="gyms_btn" class="font-bold text-sm">Gyms</span>
                 </button>
                 <button
                     class="bg-surface-container-high hover:bg-surface-container-highest border border-white/5 text-white px-6 py-3 rounded-full flex items-center gap-3 transition-all">
                     <span class="material-symbols-outlined text-secondary"
                         data-icon="shopping_basket">shopping_basket</span>
-                    <span class="font-bold text-sm">Protein Stores</span>
+                    <span data-lang="protein_stores" class="font-bold text-sm">Protein Stores</span>
                 </button>
                 <button
                     class="bg-surface-container-high hover:bg-surface-container-highest border border-white/5 text-white px-6 py-3 rounded-full flex items-center gap-3 transition-all">
                     <span class="material-symbols-outlined text-error" data-icon="monitoring">monitoring</span>
-                    <span class="font-bold text-sm">Calories Tracker</span>
+                    <span data-lang="calories_tracker" class="font-bold text-sm">Calories Tracker</span>
                 </button>
             </div>
         </div>
@@ -208,12 +210,13 @@
         <!-- Section Header -->
         <div class="flex justify-between items-end mb-16">
             <div>
-                <h2 class="font-headline text-5xl font-bold uppercase tracking-tight">Nearby <span
+                <h2 class="font-headline text-5xl font-bold uppercase tracking-tight">Nearby <span data-lang="gyms"
                         class="text-secondary">Gyms</span></h2>
-                <p class="text-on-surface-variant mt-2 max-w-md">The most advanced athletic facilities in your immediate
+                <p data-lang="nearby_gyms_desc" class="text-on-surface-variant mt-2 max-w-md">The most advanced athletic facilities in your immediate
                     area, rated by our community.</p>
             </div>
-            <a class="text-primary uppercase font-bold tracking-widest flex items-center gap-2 hover:gap-4 transition-all"
+
+            <a data-lang="view_all" class="text-primary uppercase font-bold tracking-widest flex items-center gap-2 hover:gap-4 transition-all"
                 href="#">
                 View All <span class="material-symbols-outlined">chevron_right</span>
             </a>
@@ -236,14 +239,14 @@
                 </div>
                 <div class="p-8">
                     <div class="flex justify-between items-start mb-4">
-                        <h3 class="font-headline text-2xl font-bold">Titanium Forge</h3>
+                        <h3 data-lang="titanium_forge" class="font-headline text-2xl font-bold">Titanium Forge</h3>
                         <span
                             class="text-xs uppercase tracking-tighter bg-secondary/10 text-secondary px-2 py-1 rounded">0.8
                             km away</span>
                     </div>
-                    <p class="text-on-surface-variant text-sm mb-6 leading-relaxed">Specialized in powerlifting and
+                    <p data-lang="titanium_desc" class="text-on-surface-variant text-sm mb-6 leading-relaxed">Specialized in powerlifting and
                         olympic weightlifting with professional coaching staff.</p>
-                    <button
+                    <button data-lang="book_session"
                         class="w-full py-3 border border-outline-variant rounded-xl text-white font-bold hover:bg-white hover:text-black transition-all">Book
                         Session</button>
                 </div>
@@ -264,14 +267,15 @@
                 </div>
                 <div class="p-8">
                     <div class="flex justify-between items-start mb-4">
-                        <h3 class="font-headline text-2xl font-bold">Aura Zenith</h3>
+
+                        <h3 data-lang="aura_zenith" class="font-headline text-2xl font-bold">Aura Zenith</h3>
                         <span
                             class="text-xs uppercase tracking-tighter bg-secondary/10 text-secondary px-2 py-1 rounded">1.2
                             km away</span>
                     </div>
-                    <p class="text-on-surface-variant text-sm mb-6 leading-relaxed">Holistic wellness center featuring
+                    <p data-lang="aura_desc" class="text-on-surface-variant text-sm mb-6 leading-relaxed">Holistic wellness center featuring
                         cryotherapy, yoga, and high-intensity interval training.</p>
-                    <button
+                    <button data-lang="book_session"
                         class="w-full py-3 border border-outline-variant rounded-xl text-white font-bold hover:bg-white hover:text-black transition-all">Book
                         Session</button>
                 </div>
@@ -292,14 +296,14 @@
                 </div>
                 <div class="p-8">
                     <div class="flex justify-between items-start mb-4">
-                        <h3 class="font-headline text-2xl font-bold">Pulse Matrix</h3>
+                        <h3 data-lang="pulse_matrix" class="font-headline text-2xl font-bold">Pulse Matrix</h3>
                         <span
                             class="text-xs uppercase tracking-tighter bg-secondary/10 text-secondary px-2 py-1 rounded">2.5
                             km away</span>
                     </div>
-                    <p class="text-on-surface-variant text-sm mb-6 leading-relaxed">24/7 access with biometric tracking
+                    <p data-lang="pulse_desc" class="text-on-surface-variant text-sm mb-6 leading-relaxed">24/7 access with biometric tracking
                         and state-of-the-art AI-driven equipment.</p>
-                    <button
+                    <button data-lang="book_session"
                         class="w-full py-3 border border-outline-variant rounded-xl text-white font-bold hover:bg-white hover:text-black transition-all">Book
                         Session</button>
                 </div>
@@ -308,20 +312,21 @@
         <!-- Protein Shop - Asymmetric Layout -->
         <div class="grid grid-cols-1 lg:grid-cols-12 gap-12 items-center mb-32">
             <div class="lg:col-span-5 order-2 lg:order-1">
-                <h2 class="font-headline text-5xl font-bold uppercase tracking-tight mb-6">Top <span
+                <h2 class="font-headline text-5xl font-bold uppercase tracking-tight mb-6">Top <span data-lang="protein"
                         class="text-primary">Protein</span> Stores</h2>
-                <p class="text-on-surface-variant text-lg mb-10">Fuel your recovery with verified supplements. Curated
+                <p data-lang="protein_stores_desc" class="text-on-surface-variant text-lg mb-10">Fuel your recovery with verified supplements. Curated
                     stores offering the purest whey, plant proteins, and performance stacks.</p>
                 <div class="space-y-4">
                     <div
                         class="bg-surface-container-highest p-6 rounded-2xl flex items-center justify-between border-l-4 border-primary">
                         <div class="flex items-center gap-4">
                             <div class="w-12 h-12 bg-black rounded-lg flex items-center justify-center">
+
                                 <span class="material-symbols-outlined text-primary" data-icon="liquor">liquor</span>
                             </div>
                             <div>
-                                <h4 class="font-bold">Aura Nutrition Hub</h4>
-                                <p class="text-xs text-on-surface-variant">Central Plaza • Open Now</p>
+                                <h4 data-lang="aura_nutrition" class="font-bold">Aura Nutrition Hub</h4>
+                                <p data-lang="aura_nutrition_desc" class="text-xs text-on-surface-variant">Central Plaza • Open Now</p>
                             </div>
                         </div>
                         <span class="material-symbols-outlined text-primary"
@@ -334,18 +339,18 @@
                                 <span class="material-symbols-outlined text-secondary" data-icon="bolt">bolt</span>
                             </div>
                             <div>
-                                <h4 class="font-bold">Kinetic Fuel Lab</h4>
-                                <p class="text-xs text-on-surface-variant">Westside Annex • 1.4 km</p>
+                                <h4 data-lang="kinetic_fuel" class="font-bold">Kinetic Fuel Lab</h4>
+                                <p data-lang="kinetic_fuel_desc" class="text-xs text-on-surface-variant">Westside Annex • 1.4 km</p>
                             </div>
                         </div>
                         <span class="material-symbols-outlined" data-icon="arrow_outward">arrow_outward</span>
                     </div>
                 </div>
                 <div class="mt-12 flex gap-4">
-                    <button
+                    <button data-lang="shop_online"
                         class="bg-primary text-on-primary-fixed px-8 py-4 rounded-xl font-bold uppercase tracking-widest">Shop
                         Online</button>
-                    <button
+                    <button data-lang="find_nearest"
                         class="text-white px-8 py-4 rounded-xl font-bold uppercase tracking-widest border border-outline-variant">Find
                         Nearest</button>
                 </div>
@@ -371,16 +376,17 @@
         <section
             class="bg-primary-fixed rounded-[2rem] p-12 md:p-24 flex flex-col items-center text-center relative overflow-hidden">
             <div class="absolute top-0 right-0 w-64 h-64 bg-white/20 blur-[100px] rounded-full -mr-32 -mt-32"></div>
+
             <div class="absolute bottom-0 left-0 w-64 h-64 bg-black/20 blur-[100px] rounded-full -ml-32 -mb-32"></div>
-            <h2
+            <h2 data-lang="cta_title"
                 class="font-headline text-5xl md:text-7xl font-black text-on-primary-fixed leading-tight uppercase mb-8 max-w-4xl">
                 Ready to unleash your ultimate potential?
             </h2>
             <div class="flex flex-col md:flex-row gap-6 w-full max-w-md">
-                <button
+                <button data-lang="get_started"
                     class="flex-1 bg-on-primary-fixed text-primary px-10 py-5 rounded-2xl font-black uppercase tracking-widest text-lg hover:scale-105 transition-transform">Get
                     Started</button>
-                <button
+                <button data-lang="choose_plan"
                     class="flex-1 border-2 border-on-primary-fixed text-on-primary-fixed px-10 py-5 rounded-2xl font-black uppercase tracking-widest text-lg hover:bg-on-primary-fixed hover:text-primary transition-all">Choose
                     Plan</button>
             </div>
@@ -390,29 +396,29 @@
     <footer class="bg-surface-container-lowest dark:bg-black border-t border-white/5">
         <div class="grid grid-cols-1 md:grid-cols-3 gap-12 px-12 py-16 w-full max-w-[1920px] mx-auto">
             <div>
-                <div class="text-lg font-bold text-white mb-6 font-headline tracking-tighter uppercase">TRENING AURA
+                <div data-lang="trening_aura" class="text-lg font-bold text-white mb-6 font-headline tracking-tighter uppercase">TRENING AURA
                 </div>
-                <p class="text-[#adaaaa] text-sm font-['Manrope'] leading-relaxed max-w-xs">
+                <p data-lang="footer_desc" class="text-[#adaaaa] text-sm font-['Manrope'] leading-relaxed max-w-xs">
                     The next generation of athletic excellence. We combine high-tech tracking with high-performance
                     spaces to forge the athletes of tomorrow.
                 </p>
             </div>
             <div class="grid grid-cols-2 gap-8">
                 <div>
-                    <h5 class="text-white font-bold mb-4 uppercase text-xs tracking-widest">Connect</h5>
+                    <h5 data-lang="connect" class="text-white font-bold mb-4 uppercase text-xs tracking-widest">Connect</h5>
                     <ul class="space-y-3 font-['Manrope'] text-sm">
-                        <li><a class="text-[#adaaaa] hover:text-[#00e3fd] transition-colors" href="#">Instagram</a></li>
-                        <li><a class="text-[#adaaaa] hover:text-[#00e3fd] transition-colors" href="#">Telegram</a></li>
-                        <li><a class="text-[#adaaaa] hover:text-[#00e3fd] transition-colors" href="#">Contact</a></li>
+                        <li><a data-lang="instagram" class="text-[#adaaaa] hover:text-[#00e3fd] transition-colors" href="#">Instagram</a></li>
+                        <li><a data-lang="telegram" class="text-[#adaaaa] hover:text-[#00e3fd] transition-colors" href="#">Telegram</a></li>
+                        <li><a data-lang="contact" class="text-[#adaaaa] hover:text-[#00e3fd] transition-colors" href="#">Contact</a></li>
                     </ul>
                 </div>
                 <div>
-                    <h5 class="text-white font-bold mb-4 uppercase text-xs tracking-widest">Platform</h5>
+                    <h5 data-lang="platform" class="text-white font-bold mb-4 uppercase text-xs tracking-widest">Platform</h5>
                     <ul class="space-y-3 font-['Manrope'] text-sm">
-                        <li><a class="text-[#adaaaa] hover:text-[#00e3fd] transition-colors" href="#">App Store</a></li>
-                        <li><a class="text-[#adaaaa] hover:text-[#00e3fd] transition-colors" href="#">Google Play</a>
+                        <li><a data-lang="app_store" class="text-[#adaaaa] hover:text-[#00e3fd] transition-colors" href="#">App Store</a></li>
+                        <li><a data-lang="google_play" class="text-[#adaaaa] hover:text-[#00e3fd] transition-colors" href="#">Google Play</a>
                         </li>
-                        <li><a class="text-[#adaaaa] hover:text-[#00e3fd] transition-colors" href="#">Web Dashboard</a>
+                        <li><a data-lang="web_dashboard" class="text-[#adaaaa] hover:text-[#00e3fd] transition-colors" href="#">Web Dashboard</a>
                         </li>
                     </ul>
                 </div>
@@ -427,7 +433,8 @@
                 </div>
                 <div
                     class="text-[#adaaaa] text-[10px] font-['Manrope'] tracking-[0.2em] uppercase mt-8 md:mt-0 text-right">
-                    © 2024 TRENING AURA. <br />KINETIC ENERGY RESERVED.
+                    <div data-lang="copyright">© 2024 TRENING AURA. <br />KINETIC ENERGY RESERVED.</div>
+
                 </div>
             </div>
         </div>
@@ -436,10 +443,195 @@
     <button
         class="fixed bottom-8 right-8 w-16 h-16 bg-primary text-on-primary-fixed rounded-full shadow-[0_0_50px_rgba(202,253,0,0.3)] flex items-center justify-center group z-40">
         <span class="material-symbols-outlined text-3xl font-bold" data-icon="add">add</span>
-        <span
+        <span data-lang="quick_log"
             class="absolute right-20 bg-surface-container-highest px-4 py-2 rounded-xl text-white text-xs font-bold opacity-0 group-hover:opacity-100 transition-opacity pointer-events-none whitespace-nowrap uppercase tracking-widest">Quick
             Log</span>
     </button>
+<script>
+const translations = {
+    en: {
+        home: "Home",
+        gyms: "Gyms",
+        protein_shop: "Protein Shop",
+        tracker: "Tracker",
+        rewards: "Rewards",
+        login: "Log In",
+        find_gyms: "Find gyms near you",
+        search: "Search",
+        gyms_btn: "Gyms",
+        protein_stores: "Protein Stores",
+        calories_tracker: "Calories Tracker",
+        nearby_gyms: "Nearby Gyms",
+        nearby_gyms_desc: "The most advanced athletic facilities in your immediate area, rated by our community.",
+        view_all: "View All",
+        titanium_forge: "Titanium Forge",
+        titanium_desc: "Specialized in powerlifting and olympic weightlifting with professional coaching staff.",
+        aura_zenith: "Aura Zenith",
+        aura_desc: "Holistic wellness center featuring cryotherapy, yoga, and high-intensity interval training.",
+        pulse_matrix: "Pulse Matrix",
+        pulse_desc: "24/7 access with biometric tracking and state-of-the-art AI-driven equipment.",
+        book_session: "Book Session",
+        protein: "Protein",
+        protein_stores_title: "Top Protein Stores",
+        protein_stores_desc: "Fuel your recovery with verified supplements. Curated stores offering the purest whey, plant proteins, and performance stacks.",
+        aura_nutrition: "Aura Nutrition Hub",
+        aura_nutrition_desc: "Central Plaza • Open Now",
+        kinetic_fuel: "Kinetic Fuel Lab",
+        kinetic_fuel_desc: "Westside Annex • 1.4 km",
+        shop_online: "Shop Online",
+        find_nearest: "Find Nearest",
+        cta_title: "Ready to unleash your ultimate potential?",
+        get_started: "Get Started",
+        choose_plan: "Choose Plan",
+        trening_aura: "TRENING AURA",
+        footer_desc: "The next generation of athletic excellence. We combine high-tech tracking with high-performance spaces to forge the athletes of tomorrow.",
+        connect: "Connect",
+        instagram: "Instagram",
+        telegram: "Telegram",
+        contact: "Contact",
+        platform: "Platform",
+        app_store: "App Store",
+        google_play: "Google Play",
+        web_dashboard: "Web Dashboard",
+        copyright: "© 2024 TRENING AURA. KINETIC ENERGY RESERVED.",
+        quick_log: "Quick Log"
+    },
+    ru: {
+        home: "Главная",
+        gyms: "Залы",
+        protein_shop: "Магазин протеина",
+        tracker: "Трекер",
+        rewards: "Награды",
+        login: "Войти",
+        find_gyms: "Найти залы рядом",
+        search: "Поиск",
+        gyms_btn: "Залы",
+        protein_stores: "Магазины протеина",
+        calories_tracker: "Трекер калорий",
+        nearby_gyms: "Ближайшие залы",
+        nearby_gyms_desc: "Самые продвинутые спортивные сооружения в вашем непосредственном районе, оцененные нашим сообществом.",
+        view_all: "Посмотреть все",
+        titanium_forge: "Титановый кузнец",
+        titanium_desc: "Специализируется на пауэрлифтинге и олимпийском тяжелой атлетике с профессиональным тренерским составом.",
+        aura_zenith: "Аура Зенит",
+        aura_desc: "Холистический центр благополучия с криотерапией, йогой и высокоинтенсивным интервальным тренингом.",
+        pulse_matrix: "Пульс Матрикс",
+
+        pulse_desc: "Круглосуточный доступ с биометрическим отслеживанием и передовым оборудованием на базе ИИ.",
+        book_session: "Забронировать сессию",
+        protein: "Протеин",
+        protein_stores_title: "Лучшие магазины протеина",
+        protein_stores_desc: "Заправьте свое восстановление проверенными добавками. Кураторские магазины, предлагающие чистейший сывороточный протеин, растительные протеины и стеки производительности.",
+        aura_nutrition: "Хаб питания Аура",
+        aura_nutrition_desc: "Центральная площадь • Открыто сейчас",
+        kinetic_fuel: "Лаборатория кинетического топлива",
+        kinetic_fuel_desc: "Пристройка Вестсайд • 1.4 км",
+        shop_online: "Купить онлайн",
+        find_nearest: "Найти ближайший",
+        cta_title: "Готовы раскрыть свой ultimate потенциал?",
+        get_started: "Начать",
+        choose_plan: "Выбрать план",
+        trening_aura: "TRENING AURA",
+        footer_desc: "Следующее поколение спортивного совершенства. Мы сочетаем высокотехнологическое отслеживание с высокопроизводительными пространствами, чтобы создать спортсменов завтрашнего дня.",
+        connect: "Связаться",
+        instagram: "Instagram",
+        telegram: "Telegram",
+        contact: "Контакт",
+        platform: "Платформа",
+        app_store: "App Store",
+        google_play: "Google Play",
+        web_dashboard: "Веб дашборд",
+        copyright: "© 2024 TRENING AURA. КИНЕТИЧЕСКАЯ ЭНЕРГИЯ ЗАРЕЗЕРВИРОВАНА.",
+        quick_log: "Быстрый лог"
+    },
+    uz: {
+        home: "Bosh sahifa",
+        gyms: "Zallar",
+        protein_shop: "Protein do'koni",
+        tracker: "Trekker",
+        rewards: "Mukofotlar",
+        login: "Kirish",
+        find_gyms: "Yaqin zallarni toping",
+        search: "Qidirish",
+        gyms_btn: "Zallar",
+        protein_stores: "Protein do'konlari",
+        calories_tracker: "Kaloriya trekkeri",
+        nearby_gyms: "Yaqin zallar",
+        nearby_gyms_desc: "Sizning yaqin hududingizdagi eng ilg'or sport inshootlari, bizning hamjamiyatimiz tomonidan baholangan.",
+        view_all: "Hammasini ko'rish",
+        titanium_forge: "Titan Forge",
+        titanium_desc: "Powerlifting va olimpiya og'ir atletika bo'yicha ixtisoslashgan, professional murabbiylar shtabi bilan.",
+        aura_zenith: "Aura Zenith",
+        aura_desc: "Krioterapiya, yoga va yuqori intensivlikdagi interval treninglarini o'z ichiga olgan holistik farovonlik markazi.",
+        pulse_matrix: "Pulse Matrix",
+        pulse_desc: "Biometrik kuzatuv va zamonaviy AI boshqaruvidagi uskunalar bilan 24/7 kirish.",
+        book_session: "Sessiyani bron qilish",
+        protein: "Protein",
+        protein_stores_title: "Eng yaxshi protein do'konlari",
+        protein_stores_desc: "Tasdiqlangan qo'shimchalar bilan tiklanishingizni quvvatlang. Eng sof whey, o'simlik proteinlari va ishlash steklarini taklif qiluvchi kurator do'konlar.",
+        aura_nutrition: "Aura Nutrition Hub",
+        aura_nutrition_desc: "Markaziy maydon • Hozir ochiq",
+        kinetic_fuel: "Kinetic Fuel Lab",
+        kinetic_fuel_desc: "Westside Annex • 1.4 km",
+        shop_online: "Onlayn xarid",
+        find_nearest: "Eng yaqinini toping",
+        cta_title: "O'z ultimate potentsialingizni ochishga tayyormisiz?",
+        get_started: "Boshlash",
+        choose_plan: "Rejani tanlang",
+        trening_aura: "TRENING AURA",
+        footer_desc: "Sport mukammalligining keyingi avlod. Biz ertangi kun sportchilarini yaratish uchun yuqori texnologik kuzatuvni yuqori ishlash joylari bilan birlashtiramiz.",
+        connect: "Aloqa",
+        instagram: "Instagram",
+        telegram: "Telegram",
+        contact: "Aloqa",
+        platform: "Platforma",
+        app_store: "App Store",
+        google_play: "Google Play",
+        web_dashboard: "Veb boshqaruv paneli",
+        copyright: "© 2024 TRENING AURA. KINETIK ENERGIYA ZAXIRLANGAN.",
+        quick_log: "Tez log"
+    }
+};
+let currentLang = 'en';
+function setLanguage(lang) {
+    currentLang = lang;
+    document.querySelectorAll('[data-lang]').forEach(el => {
+
+        if (translations[lang][el.dataset.lang]) {
+            el.innerText = translations[lang][el.dataset.lang];
+        }
+    });
+    document.querySelectorAll('[data-lang-placeholder]').forEach(el => {
+        if (translations[lang][el.dataset.langPlaceholder]) {
+            el.placeholder = translations[lang][el.dataset.langPlaceholder];
+        }
+    });
+    // Update indicator
+    document.querySelectorAll('.lang-btn').forEach(btn => {
+        btn.classList.remove('text-[#cafd00]');
+        btn.classList.add('text-[#adaaaa]');
+        const indicator = btn.querySelector('.lang-indicator');
+        if (indicator) indicator.remove();
+    });
+    const activeBtn = document.querySelector(`[data-lang-code="${lang}"]`);
+    if (activeBtn) {
+        activeBtn.classList.remove('text-[#adaaaa]');
+        activeBtn.classList.add('text-[#cafd00]');
+        const indicator = document.createElement('div');
+        indicator.className = 'lang-indicator absolute -bottom-1 left-1/2 -translate-x-1/2 w-1 h-1 bg-[#cafd00] rounded-full';
+        activeBtn.appendChild(indicator);
+    }
+}
+// Add event listeners
+document.addEventListener('DOMContentLoaded', () => {
+    document.querySelectorAll('.lang-btn').forEach(btn => {
+        btn.addEventListener('click', () => {
+            const lang = btn.dataset.langCode;
+            setLanguage(lang);
+        });
+    });
+});
+</script>
 </body>
 
 </html>

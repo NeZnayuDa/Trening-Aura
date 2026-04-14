@@ -1,0 +1,321 @@
+<!DOCTYPE html>
+
+<html class="dark" lang="en">
+
+<head>
+    <meta charset="utf-8" />
+    <meta content="width=device-width, initial-scale=1.0" name="viewport" />
+    <title>Sign Up | TRENING AURA</title>
+    <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700;800;900&amp;family=Manrope:wght@200;300;400;500;600;700;800&amp;display=swap"
+        rel="stylesheet" />
+    <link
+        href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap"
+        rel="stylesheet" />
+    <link
+        href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap"
+        rel="stylesheet" />
+    <script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    "colors": {
+                        "on-tertiary": "#5e5f60",
+                        "background": "#0e0e0e",
+                        "surface-container-high": "#20201f",
+                        "on-error": "#450900",
+                        "surface-dim": "#0e0e0e",
+                        "surface-container-highest": "#262626",
+                        "primary-fixed": "#cafd00",
+                        "on-surface-variant": "#adaaaa",
+                        "on-primary-container": "#4a5e00",
+                        "on-primary-fixed-variant": "#526900",
+                        "on-error-container": "#ffd2c8",
+                        "secondary-dim": "#00d4ec",
+                        "primary-container": "#cafd00",
+                        "on-primary-fixed": "#3a4a00",
+                        "secondary": "#00e3fd",
+                        "primary": "#f3ffca",
+                        "on-secondary-fixed": "#003a42",
+                        "on-tertiary-fixed-variant": "#6c6d6e",
+                        "error-container": "#b92902",
+                        "surface-tint": "#f3ffca",
+                        "on-tertiary-container": "#555757",
+                        "surface": "#0e0e0e",
+                        "surface-container": "#1a1a1a",
+                        "outline-variant": "#484847",
+                        "inverse-on-surface": "#565555",
+                        "on-secondary": "#004d57",
+                        "tertiary-fixed-dim": "#f0f1f1",
+                        "on-surface": "#ffffff",
+                        "error-dim": "#d53d18",
+                        "on-secondary-fixed-variant": "#005964",
+                        "surface-container-low": "#131313",
+                        "on-tertiary-fixed": "#4f5051",
+                        "surface-container-lowest": "#000000",
+                        "error": "#ff7351",
+                        "tertiary-dim": "#ebebeb",
+                        "inverse-surface": "#fcf9f8",
+                        "on-secondary-container": "#e8fbff",
+                        "outline": "#767575",
+                        "surface-variant": "#262626",
+                        "surface-bright": "#2c2c2c",
+                        "primary-dim": "#beee00",
+                        "tertiary-container": "#ebebeb",
+                        "primary-fixed-dim": "#beee00",
+                        "tertiary-fixed": "#ffffff",
+                        "secondary-container": "#006875",
+                        "on-background": "#ffffff",
+                        "on-primary": "#516700",
+                        "tertiary": "#f9f9f9",
+                        "inverse-primary": "#516700",
+                        "secondary-fixed-dim": "#00d7f0",
+                        "secondary-fixed": "#26e6ff"
+                    },
+                    "borderRadius": {
+                        "DEFAULT": "0.25rem",
+                        "lg": "0.5rem",
+                        "xl": "0.75rem",
+                        "full": "9999px"
+                    },
+                    "fontFamily": {
+                        "headline": ["Space Grotesk"],
+                        "body": ["Manrope"],
+                        "label": ["Manrope"]
+                    }
+                },
+            },
+        }
+    </script>
+    <style>
+        body {
+            font-family: 'Manrope', sans-serif;
+            background-color: #0e0e0e;
+            color: #ffffff;
+            margin: 0;
+            overflow-x: hidden;
+        }
+
+        .font-headline {
+            font-family: 'Space Grotesk', sans-serif;
+        }
+
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+
+        .neon-glow {
+            box-shadow: 0 0 40px 0 rgba(202, 253, 0, 0.08);
+        }
+
+        .tonal-transition {
+            background: linear-gradient(180deg, rgba(0, 0, 0, 0.8) 0%, rgba(0, 0, 0, 0) 100%);
+        }
+    </style>
+</head>
+
+<body class="bg-background selection:bg-primary-container selection:text-on-primary-container">
+    <div class="flex min-h-screen">
+        <!-- Hero Image Section (Left) -->
+        <div class="hidden lg:flex lg:w-1/2 relative overflow-hidden bg-surface-container-lowest">
+            <div class="absolute inset-0 z-10 bg-gradient-to-r from-black/60 via-transparent to-transparent"></div>
+            <div class="absolute inset-0 z-10 bg-gradient-to-t from-black via-black/20 to-transparent"></div>
+            <img alt="Athlete tracking progress" class="absolute inset-0 w-full h-full object-cover"
+                data-alt="Close up of a muscular athlete checking fitness stats on a smartphone in a dark high-tech gym with neon green lighting accents and dramatic shadows"
+                src="https://lh3.googleusercontent.com/aida-public/AB6AXuCECr1D-3gjgAU-wMwqNjZ5ndfT9e6jmb-zgzUCCzQqzy6lAskwGbrGcVcJOMhS6X24S-lBvVyuG0sgwZhfK1BerlzMBKv4EQ0pGa4zkbJNL5DhV8NRaM49TPjZ8wmg9lUsgxnIosTD5qm3tDcLGULOTs6OKQ9apuwNC3geotubopqdU_DyJJYXNPj1ge_v5ekIbkAImDMMmH-52mvk0lbteAx4qo04Ce7PgF2CI7bj3cclwSDbluHpi4KfTzNwQUTwXc9HkIBi2XLA" />
+            <!-- Floating Content -->
+            <div class="relative z-20 flex flex-col justify-between p-16 w-full h-full">
+                <div>
+                    <h1 class="text-2xl font-black italic text-primary-fixed tracking-tighter uppercase font-headline">
+                        TRENING AURA
+                    </h1>
+                </div>
+                <div class="max-w-md">
+                    <div
+                        class="inline-flex items-center gap-2 px-3 py-1 bg-primary-container/20 border border-primary-container/30 rounded-full mb-6">
+                        <span class="material-symbols-outlined text-primary-fixed text-sm"
+                            style="font-variation-settings: 'FILL' 1;">bolt</span>
+                        <span class="text-primary-fixed text-[10px] font-bold tracking-widest uppercase">High
+                            Performance Only</span>
+                    </div>
+                    <h2 class="text-6xl font-black tracking-tighter leading-[0.9] font-headline mb-6">
+                        LEVEL UP <br /> YOUR <span class="text-primary-fixed">KINETIC</span> ENERGY
+                    </h2>
+                    <p class="text-on-surface-variant text-lg font-medium leading-relaxed">
+                        Join the elite circle of high-performance athletes tracking their peak potential in real-time.
+                    </p>
+                </div>
+                <div class="flex items-center gap-8">
+                    <div class="flex -space-x-3">
+                        <img alt="User 1" class="w-10 h-10 rounded-full border-2 border-black"
+                            data-alt="Portrait of a young woman with athletic attire, soft gym lighting"
+                            src="https://lh3.googleusercontent.com/aida-public/AB6AXuCnQOWkG1jJjcsrnB6GGJxuNq5_mEO9Xhbyq8fsqvsgJSDDrQINyC3X7BFIV_WXUOzoyAiBXj_u0MduZj5zKL8E2chVxmS7jwvN6r1E7pbUXawmoOZwGfsWKOwzlmPT1jfRUFvAeZd9L4S6LOfLwFQfTKTBmmfOjr7PT6GdAKfZKBHfFUVE32w3omfz2Svs1uvMDz6QUFPHf8LGDWF9JX0dEYtVEmSBic6B1y_URJIWvrxBUTgmxHPITje1znYste4Y7FMDNM9Rlon1" />
+                        <img alt="User 2" class="w-10 h-10 rounded-full border-2 border-black"
+                            data-alt="Portrait of a fit man in sports wear, dramatic lighting"
+                            src="https://lh3.googleusercontent.com/aida-public/AB6AXuBHBYC5d2ZQClj9AK6PTRVHRJkEnOt2vRgQ8jMIVUxNO7hqkEJqUsTYvlQ-AVASTFKI4byMnKDQf_0V6MUCRmX_2E2qf5kWdpRhaXeVSgunwKOARq-VClRv920ErOy2zkXVdxpEaaWRAQEWuQ3iCRjeBT5ARm340Cd-0JHDC0D4WwX3R44KIvncLhMDFuHTN8ylbQqlI1pMXmbryzWMekrWrVF-M-HM50nPmughMCITGum7y50uHvCifCuE7hBRRKe0hX34KXdjLy6p" />
+                        <img alt="User 3" class="w-10 h-10 rounded-full border-2 border-black"
+                            data-alt="Portrait of an active lifestyle enthusiast, natural shadows"
+                            src="https://lh3.googleusercontent.com/aida-public/AB6AXuBViKVXSzN_uewyyjEkHF4qC7H_irIndFqp_PAOhiqYtpacKE9uuu2aYM0HSF7Ryy69JIB1WUSnx3MHbS8o1A-J6REW7PjpD56i-naLtSu2uQSt6q3z4kpvtIDegWpsMDtJQSBpWyMEkvVzpjKp39-iRPM0RHZTG42phL6Ypm5G1D81EUcaMaluChzYLHAKYbYCI4DIu5HT7JiVSUtuqfKXKoOW880NhsLU-39gUnuLDO3aM-yHMh0jUmMi96H8aFNUYsU3bbyRfNCo" />
+                    </div>
+                    <div class="text-sm font-bold tracking-tight">
+                        <span class="text-primary-fixed">12k+</span> Athletes joined this week
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- Form Section (Right) -->
+        <div
+            class="w-full lg:w-1/2 flex flex-col justify-center px-6 py-12 md:px-16 lg:px-24 bg-surface-container-lowest">
+            <div class="max-w-md mx-auto w-full">
+                <!-- Mobile Branding -->
+                <div class="lg:hidden mb-12">
+                    <h1 class="text-xl font-black italic text-primary-fixed tracking-tighter uppercase font-headline">
+                        TRENING AURA
+                    </h1>
+                </div>
+                <div class="mb-10">
+                    <h3 class="text-4xl font-extrabold tracking-tighter font-headline text-white mb-2 uppercase">Create
+                        Account</h3>
+                    <p class="text-on-surface-variant font-medium">Start your journey to absolute performance.</p>
+                </div>
+                <form action="#" class="space-y-6" method="POST">
+                    <!-- Full Name -->
+                    <div class="space-y-2">
+                        <label
+                            class="block text-[10px] font-bold uppercase tracking-widest text-on-surface-variant px-1"
+                            for="name">Full Name</label>
+                        <div class="relative group">
+                            <span
+                                class="material-symbols-outlined absolute left-4 top-1/2 -translate-y-1/2 text-on-surface-variant group-focus-within:text-primary-fixed transition-colors">person</span>
+                            <input
+                                class="w-full bg-surface-container-high border-none rounded-xl py-4 pl-12 pr-4 text-white placeholder:text-on-surface-variant/40 focus:ring-1 focus:ring-primary-container transition-all outline-none"
+                                id="name" name="name" placeholder="John Doe" type="text" />
+                        </div>
+                    </div>
+                    <!-- Email Address -->
+                    <div class="space-y-2">
+                        <label
+                            class="block text-[10px] font-bold uppercase tracking-widest text-on-surface-variant px-1"
+                            for="email">Email Address</label>
+                        <div class="relative group">
+                            <span
+                                class="material-symbols-outlined absolute left-4 top-1/2 -translate-y-1/2 text-on-surface-variant group-focus-within:text-primary-fixed transition-colors">alternate_email</span>
+                            <input
+                                class="w-full bg-surface-container-high border-none rounded-xl py-4 pl-12 pr-4 text-white placeholder:text-on-surface-variant/40 focus:ring-1 focus:ring-primary-container transition-all outline-none"
+                                id="email" name="email" placeholder="aura@performance.com" type="email" />
+                        </div>
+                    </div>
+                    <!-- Password Grid -->
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                        <div class="space-y-2">
+                            <label
+                                class="block text-[10px] font-bold uppercase tracking-widest text-on-surface-variant px-1"
+                                for="password">Password</label>
+                            <div class="relative group">
+                                <span
+                                    class="material-symbols-outlined absolute left-4 top-1/2 -translate-y-1/2 text-on-surface-variant group-focus-within:text-primary-fixed transition-colors">lock</span>
+                                <input
+                                    class="w-full bg-surface-container-high border-none rounded-xl py-4 pl-12 pr-4 text-white placeholder:text-on-surface-variant/40 focus:ring-1 focus:ring-primary-container transition-all outline-none"
+                                    id="password" name="password" placeholder="••••••••" type="password" />
+                            </div>
+                        </div>
+                        <div class="space-y-2">
+                            <label
+                                class="block text-[10px] font-bold uppercase tracking-widest text-on-surface-variant px-1"
+                                for="confirm_password">Confirm Password</label>
+                            <div class="relative group">
+                                <span
+                                    class="material-symbols-outlined absolute left-4 top-1/2 -translate-y-1/2 text-on-surface-variant group-focus-within:text-primary-fixed transition-colors">verified_user</span>
+                                <input
+                                    class="w-full bg-surface-container-high border-none rounded-xl py-4 pl-12 pr-4 text-white placeholder:text-on-surface-variant/40 focus:ring-1 focus:ring-primary-container transition-all outline-none"
+                                    id="confirm_password" name="confirm_password" placeholder="••••••••"
+                                    type="password" />
+                            </div>
+                        </div>
+                    </div>
+                    <!-- Terms -->
+                    <div class="flex items-start gap-3 px-1 pt-2">
+                        <div class="relative flex items-center">
+                            <input
+                                class="peer h-5 w-5 appearance-none rounded bg-surface-container-highest border-none checked:bg-primary-container focus:ring-0 transition-all cursor-pointer"
+                                id="terms" type="checkbox" />
+                            <span
+                                class="material-symbols-outlined absolute left-0 top-0 text-on-primary-fixed text-[20px] opacity-0 peer-checked:opacity-100 pointer-events-none transition-opacity">check</span>
+                        </div>
+                        <label class="text-sm font-medium text-on-surface-variant leading-tight select-none"
+                            for="terms">
+                            I agree to the <a
+                                class="text-white hover:text-primary-fixed transition-colors underline decoration-primary-container/40 underline-offset-4"
+                                href="#">Terms &amp; Conditions</a> and <a
+                                class="text-white hover:text-primary-fixed transition-colors underline decoration-primary-container/40 underline-offset-4"
+                                href="#">Privacy Policy</a>.
+                        </label>
+                    </div>
+                    <!-- Submit Button -->
+                    <button
+                        class="w-full bg-primary-container text-on-primary-fixed font-black uppercase tracking-widest py-4 rounded-xl hover:scale-[1.02] active:scale-95 transition-all neon-glow flex items-center justify-center gap-2 group"
+                        type="submit">
+                        Create Account
+                        <span
+                            class="material-symbols-outlined font-bold group-hover:translate-x-1 transition-transform">arrow_forward</span>
+                    </button>
+                </form>
+                <!-- Divider -->
+                <div class="relative flex items-center py-8">
+                    <div class="flex-grow border-t border-white/5"></div>
+                    <span
+                        class="flex-shrink mx-4 text-[10px] font-bold text-on-surface-variant uppercase tracking-widest">Or
+                        sign up with</span>
+                    <div class="flex-grow border-t border-white/5"></div>
+                </div>
+                <!-- Social Options -->
+                <div class="grid grid-cols-2 gap-4">
+                    <button
+                        class="flex items-center justify-center gap-3 bg-surface-container-low py-3 rounded-xl border border-white/5 hover:bg-surface-container-high transition-colors">
+                        <svg class="w-5 h-5" viewbox="0 0 24 24">
+                            <path
+                                d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z"
+                                fill="#ffffff"></path>
+                            <path
+                                d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z"
+                                fill="#ffffff"></path>
+                            <path
+                                d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.07H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.93l2.85-2.26.81-.58z"
+                                fill="#ffffff"></path>
+                            <path
+                                d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z"
+                                fill="#ffffff"></path>
+                        </svg>
+                        <span class="text-sm font-bold uppercase tracking-tight">Google</span>
+                    </button>
+                    <button
+                        class="flex items-center justify-center gap-3 bg-surface-container-low py-3 rounded-xl border border-white/5 hover:bg-surface-container-high transition-colors">
+                        <svg class="w-5 h-5" fill="currentColor" viewbox="0 0 24 24">
+                            <path
+                                d="M13.397 20.997v-8.196h2.765l.411-3.209h-3.176V7.548c0-.926.258-1.56 1.587-1.56h1.684V3.127A22.336 22.336 0 0 0 14.201 3c-2.444 0-4.122 1.492-4.122 4.231v2.355H7.332v3.209h2.753v8.202h3.312z">
+                            </path>
+                        </svg>
+                        <span class="text-sm font-bold uppercase tracking-tight">Facebook</span>
+                    </button>
+                </div>
+                <div class="mt-10 text-center">
+                    <p class="text-on-surface-variant font-medium">
+                        Already have an account?
+                        <a class="text-primary-fixed hover:text-white transition-colors font-bold ml-1" href="#">Log
+                            In</a>
+                    </p>
+                </div>
+            </div>
+            <!-- Footer Simple -->
+            <div class="mt-auto pt-12">
+                <p class="text-[10px] font-bold text-on-surface-variant/30 uppercase tracking-[0.2em] text-center">
+                    © 2024 TRENING AURA. KINETIC ENERGY RESERVED.
+                </p>
+            </div>
+        </div>
+    </div>
+</body>
+
+</html>
