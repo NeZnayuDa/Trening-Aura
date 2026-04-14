@@ -1,0 +1,412 @@
+<!DOCTYPE html>
+
+<html class="dark" lang="en">
+
+<head>
+    <meta charset="utf-8" />
+    <meta content="width=device-width, initial-scale=1.0" name="viewport" />
+    <link
+        href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&amp;family=Manrope:wght@300;400;500;600;700&amp;display=swap"
+        rel="stylesheet" />
+    <link
+        href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap"
+        rel="stylesheet" />
+    <link
+        href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap"
+        rel="stylesheet" />
+    <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+    <script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    "colors": {
+                        "outline": "#767575",
+                        "on-primary-fixed": "#3a4a00",
+                        "surface-container-high": "#20201f",
+                        "tertiary-container": "#ebebeb",
+                        "error-dim": "#d53d18",
+                        "inverse-primary": "#516700",
+                        "error": "#ff7351",
+                        "background": "#0e0e0e",
+                        "on-surface": "#ffffff",
+                        "on-secondary": "#004d57",
+                        "on-primary-fixed-variant": "#526900",
+                        "outline-variant": "#484847",
+                        "surface": "#0e0e0e",
+                        "primary": "#f3ffca",
+                        "secondary": "#00e3fd",
+                        "on-background": "#ffffff",
+                        "on-surface-variant": "#adaaaa",
+                        "surface-container-low": "#131313",
+                        "on-error": "#450900",
+                        "tertiary-dim": "#ebebeb",
+                        "on-tertiary-fixed-variant": "#6c6d6e",
+                        "on-error-container": "#ffd2c8",
+                        "on-tertiary-container": "#555757",
+                        "on-tertiary": "#5e5f60",
+                        "on-tertiary-fixed": "#4f5051",
+                        "surface-dim": "#0e0e0e",
+                        "primary-dim": "#beee00",
+                        "surface-container-lowest": "#000000",
+                        "inverse-surface": "#fcf9f8",
+                        "tertiary-fixed": "#ffffff",
+                        "secondary-fixed-dim": "#00d7f0",
+                        "inverse-on-surface": "#565555",
+                        "surface-container": "#1a1a1a",
+                        "primary-container": "#cafd00",
+                        "surface-container-highest": "#262626",
+                        "on-secondary-fixed-variant": "#005964",
+                        "on-secondary-container": "#e8fbff",
+                        "primary-fixed": "#cafd00",
+                        "on-primary": "#516700",
+                        "surface-bright": "#2c2c2c",
+                        "error-container": "#b92902",
+                        "tertiary-fixed-dim": "#f0f1f1",
+                        "secondary-dim": "#00d4ec",
+                        "surface-variant": "#262626",
+                        "on-primary-container": "#4a5e00",
+                        "on-secondary-fixed": "#003a42",
+                        "primary-fixed-dim": "#beee00",
+                        "secondary-container": "#006875",
+                        "surface-tint": "#f3ffca",
+                        "secondary-fixed": "#26e6ff",
+                        "tertiary": "#f9f9f9"
+                    },
+                    "borderRadius": {
+                        "DEFAULT": "0.25rem",
+                        "lg": "0.5rem",
+                        "xl": "0.75rem",
+                        "full": "9999px"
+                    },
+                    "fontFamily": {
+                        "headline": ["Space Grotesk"],
+                        "body": ["Manrope"],
+                        "label": ["Manrope"]
+                    }
+                },
+            },
+        }
+    </script>
+    <style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+
+        .tonal-transition {
+            background: linear-gradient(to bottom, rgba(0, 0, 0, 0.9) 0%, rgba(0, 0, 0, 0) 100%);
+        }
+
+        .map-gradient-overlay {
+            background: radial-gradient(circle at center, transparent 0%, rgba(14, 14, 14, 0.4) 100%);
+        }
+
+        ::-webkit-scrollbar {
+            width: 6px;
+        }
+
+        ::-webkit-scrollbar-track {
+            background: #0e0e0e;
+        }
+
+        ::-webkit-scrollbar-thumb {
+            background: #262626;
+            border-radius: 10px;
+        }
+
+        ::-webkit-scrollbar-thumb:hover {
+            background: #484847;
+        }
+    </style>
+</head>
+
+<body
+    class="bg-background text-on-surface font-body selection:bg-primary selection:text-on-primary-fixed overflow-hidden">
+    <!-- TopNavBar -->
+    <nav
+        class="fixed top-0 w-full z-50 bg-surface-container-lowest/60 backdrop-blur-xl dark:bg-black/60 flex justify-between items-center px-8 py-4 max-w-[1920px] mx-auto">
+        <div class="flex items-center gap-12">
+            <span class="text-2xl font-black italic text-[#cafd00] tracking-tighter font-headline uppercase">TRENING
+                AURA</span>
+            <div class="hidden md:flex items-center gap-8 font-headline tracking-tight font-bold uppercase text-sm">
+                <a class="text-[#adaaaa] hover:text-white transition-colors" href="./index.html">Home</a>
+                <a class="text-[#cafd00] border-b-2 border-[#cafd00] pb-1" href="./gym.html">Gyms</a>
+                <a class="text-[#adaaaa] hover:text-white transition-colors" href="./shop.html">Protein Shop</a>
+                <a class="text-[#adaaaa] hover:text-white transition-colors" href="./treker.html">Tracker</a>
+                <a class="text-[#adaaaa] hover:text-white transition-colors" href="./rewerds.html">Rewards</a>
+            </div>
+        </div>
+        <div class="flex items-center gap-6">
+            <!-- Language Switcher Pill -->
+            <div
+                class="flex bg-surface-bright/40 backdrop-blur-md px-4 py-2 rounded-full items-center gap-4 text-xs font-bold border border-white/5">
+                <span class="text-[#cafd00] relative">EN<span
+                        class="absolute -bottom-1 left-1/2 -translate-x-1/2 w-1 h-1 bg-[#cafd00] rounded-full"></span></span>
+                <span class="text-on-surface-variant cursor-pointer hover:text-white transition-colors">RU</span>
+                <span class="text-on-surface-variant cursor-pointer hover:text-white transition-colors">UZ</span>
+            </div>
+            <div
+                class="flex items-center gap-2 text-on-surface-variant hover:text-primary transition-colors cursor-pointer">
+                <span class="material-symbols-outlined">language</span>
+            </div>
+            <button
+                class="bg-primary-container text-on-primary-fixed px-6 py-2 rounded-full font-headline font-bold uppercase text-sm hover:scale-95 duration-200 transition-transform">
+                Log In
+            </button>
+        </div>
+    </nav>
+    <!-- Main Content Shell -->
+    <main class="flex h-screen pt-[72px]">
+        <!-- Left Sidebar: Search & Discovery -->
+        <aside class="w-full md:w-[420px] lg:w-[480px] bg-surface flex flex-col z-40 relative">
+            <!-- Filters Header -->
+            <div class="p-6 space-y-6">
+                <div class="space-y-1">
+                    <h1 class="text-4xl font-headline font-black tracking-tighter uppercase leading-none">Find Your
+                        <span class="text-primary">Zone</span></h1>
+                    <p class="text-on-surface-variant text-sm font-medium">Explore premium hubs near you</p>
+                </div>
+                <div class="relative group">
+                    <span
+                        class="material-symbols-outlined absolute left-4 top-1/2 -translate-y-1/2 text-on-surface-variant group-focus-within:text-primary transition-colors">search</span>
+                    <input
+                        class="w-full bg-surface-container-highest border-none rounded-xl py-4 pl-12 pr-4 text-sm focus:ring-1 focus:ring-primary placeholder:text-on-surface-variant/50 transition-all"
+                        placeholder="Search by area or facility..." type="text" />
+                </div>
+                <!-- Horizontal Filter Scroll -->
+                <div class="flex gap-2 overflow-x-auto pb-2 no-scrollbar">
+                    <button
+                        class="flex items-center gap-2 px-4 py-2 bg-primary text-on-primary-fixed rounded-full text-xs font-bold whitespace-nowrap">
+                        <span class="material-symbols-outlined text-sm">tune</span>
+                        Filters
+                    </button>
+                    <button
+                        class="px-4 py-2 bg-surface-container-high text-on-surface-variant hover:text-white rounded-full text-xs font-bold whitespace-nowrap transition-colors">Price</button>
+                    <button
+                        class="px-4 py-2 bg-surface-container-high text-on-surface-variant hover:text-white rounded-full text-xs font-bold whitespace-nowrap transition-colors">Rating
+                        4.5+</button>
+                    <button
+                        class="px-4 py-2 bg-surface-container-high text-on-surface-variant hover:text-white rounded-full text-xs font-bold whitespace-nowrap transition-colors">Open
+                        Now</button>
+                    <button
+                        class="px-4 py-2 bg-surface-container-high text-on-surface-variant hover:text-white rounded-full text-xs font-bold whitespace-nowrap transition-colors">Distance</button>
+                </div>
+            </div>
+            <!-- Scrollable Results List -->
+            <div class="flex-1 overflow-y-auto px-6 pb-20 space-y-4">
+                <!-- Result Card 1 (Gym) -->
+                <div
+                    class="group bg-surface-container-low rounded-xl overflow-hidden hover:bg-surface-container-highest transition-all duration-300 cursor-pointer">
+                    <div class="relative h-32 overflow-hidden">
+                        <img class="w-full h-full object-cover grayscale-[0.5] group-hover:grayscale-0 group-hover:scale-110 transition-all duration-500"
+                            data-alt="High-end urban gym interior with neon lighting and modern weightlifting equipment in dark moody tones"
+                            src="https://lh3.googleusercontent.com/aida-public/AB6AXuA6gDvPxnmcJ1ZGjBI49gZvE4jI_gXhpbDMBNp366BePlA0_maniRvTy4fELly-fE8cfc0G0IUgajl7cIp847xx1RSiD1VLj3KBkWJ3PCQQd3B7DFwK3E6vzNiM1QSYB5WGR8ublID_It6ZuEIpclahSeYDTsYqTF5Ubyd32Pvxij3x6WobmU8j0LhU7RnJbaIlKYJ2oqqC2cVevxbGF4W7Tfj_sm5t1xYsHl8bcdwa681BSAPMJR26c95TekWL85qN3fwTUz7sES0o" />
+                        <div
+                            class="absolute top-3 right-3 bg-primary text-on-primary-fixed px-2 py-1 rounded-md text-[10px] font-black uppercase tracking-widest">
+                            Premium</div>
+                    </div>
+                    <div class="p-5">
+                        <div class="flex justify-between items-start mb-2">
+                            <h3 class="font-headline font-bold text-xl uppercase tracking-tight">ONYX Performance</h3>
+                            <div class="flex items-center gap-1 text-primary">
+                                <span class="material-symbols-outlined text-sm"
+                                    style="font-variation-settings: 'FILL' 1;">star</span>
+                                <span class="text-xs font-bold">4.9</span>
+                            </div>
+                        </div>
+                        <div class="flex gap-4 text-on-surface-variant text-xs mb-4">
+                            <span class="flex items-center gap-1"><span
+                                    class="material-symbols-outlined text-sm">location_on</span> 0.8 km</span>
+                            <span class="flex items-center gap-1"><span
+                                    class="material-symbols-outlined text-sm">schedule</span> Open 24/7</span>
+                        </div>
+                        <div class="flex flex-wrap gap-2">
+                            <span
+                                class="px-2 py-1 bg-surface-container rounded-md text-[10px] font-bold uppercase text-on-surface-variant">Powerlifting</span>
+                            <span
+                                class="px-2 py-1 bg-surface-container rounded-md text-[10px] font-bold uppercase text-on-surface-variant">Sauna</span>
+                            <span
+                                class="px-2 py-1 bg-surface-container rounded-md text-[10px] font-bold uppercase text-on-surface-variant">Crossfit</span>
+                        </div>
+                    </div>
+                </div>
+                <!-- Result Card 2 (Shop) -->
+                <div
+                    class="group bg-surface-container-low rounded-xl overflow-hidden hover:bg-surface-container-highest transition-all duration-300 cursor-pointer">
+                    <div class="relative h-32 overflow-hidden">
+                        <img class="w-full h-full object-cover grayscale-[0.5] group-hover:grayscale-0 group-hover:scale-110 transition-all duration-500"
+                            data-alt="Modern minimal protein shop shelf with sleek black supplement containers and bright neon green accent lighting"
+                            src="https://lh3.googleusercontent.com/aida-public/AB6AXuAR47PxEjeN_rbIeJQ_238W10yRt5sdgj2LtUBtoEuPmjW-y2W4miPI_qlN8AHO5v57WRCvcm4pbOEes37h3nNEFubSmWBCHcyZyFq9Z5Npo5u9loFMEWJK8ss53W_jss0RcszLvWMIO2uMYoJg-L5Os-Hl0UEfczJeqjtwEHAwLCFI6lKP5EdEilp91zaD6hRlhS8u6A3FMvNR9Apax_sQojjPSveLqiFgkn-_WaEO7d8vKIr2Ncg6JNX_GdV5ZvnNHqb-q5rwhYvZ" />
+                    </div>
+                    <div class="p-5">
+                        <div class="flex justify-between items-start mb-2">
+                            <h3 class="font-headline font-bold text-xl uppercase tracking-tight">Fuel Vault Pro</h3>
+                            <div class="flex items-center gap-1 text-secondary">
+                                <span class="material-symbols-outlined text-sm"
+                                    style="font-variation-settings: 'FILL' 1;">star</span>
+                                <span class="text-xs font-bold">4.7</span>
+                            </div>
+                        </div>
+                        <div class="flex gap-4 text-on-surface-variant text-xs mb-4">
+                            <span class="flex items-center gap-1"><span
+                                    class="material-symbols-outlined text-sm">location_on</span> 1.2 km</span>
+                            <span class="flex items-center gap-1"><span
+                                    class="material-symbols-outlined text-sm">schedule</span> Closes 22:00</span>
+                        </div>
+                        <div class="flex flex-wrap gap-2">
+                            <span
+                                class="px-2 py-1 bg-surface-container rounded-md text-[10px] font-bold uppercase text-on-surface-variant">Whey
+                                Isolate</span>
+                            <span
+                                class="px-2 py-1 bg-surface-container rounded-md text-[10px] font-bold uppercase text-on-surface-variant">Smoothie
+                                Bar</span>
+                        </div>
+                    </div>
+                </div>
+                <!-- Result Card 3 (Gym) -->
+                <div
+                    class="group bg-surface-container-low rounded-xl overflow-hidden hover:bg-surface-container-highest transition-all duration-300 cursor-pointer">
+                    <div class="relative h-32 overflow-hidden">
+                        <img class="w-full h-full object-cover grayscale-[0.5] group-hover:grayscale-0 group-hover:scale-110 transition-all duration-500"
+                            data-alt="Industrial style gym with raw concrete walls exposed pipes and high-end cardio machines in low key lighting"
+                            src="https://lh3.googleusercontent.com/aida-public/AB6AXuB-Q24TCpD1nR66YVknnSRhsu8p6qs6gxI_dRAtOmsONECDzeRUGH4nkcTi5WVp-gJY5UmzQVI80wvZFC4-QXgGHw3dCg_by_nxR_m-hconNJDSBLdajwJ2yVfA5KcTC443TC7in8Xwffyj_vF6nN_-vrIkOz8TyYBOwx4pOG4oTooOXUWrCFP1PlNB5xKdshQUp5swtXK8fQO6awcexI26jhonHS7ht9ZPgh_6GddAjNtdnfovsqOhelSX7mS_-f73PwffKxQ488L9" />
+                    </div>
+                    <div class="p-5">
+                        <div class="flex justify-between items-start mb-2">
+                            <h3 class="font-headline font-bold text-xl uppercase tracking-tight">Apex Athletics</h3>
+                            <div class="flex items-center gap-1 text-primary">
+                                <span class="material-symbols-outlined text-sm"
+                                    style="font-variation-settings: 'FILL' 1;">star</span>
+                                <span class="text-xs font-bold">4.8</span>
+                            </div>
+                        </div>
+                        <div class="flex gap-4 text-on-surface-variant text-xs mb-4">
+                            <span class="flex items-center gap-1"><span
+                                    class="material-symbols-outlined text-sm">location_on</span> 2.5 km</span>
+                            <span class="flex items-center gap-1"><span
+                                    class="material-symbols-outlined text-sm">schedule</span> Open 24/7</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- Absolute bottom shadow for lists -->
+            <div
+                class="absolute bottom-0 left-0 w-full h-24 bg-gradient-to-t from-background to-transparent pointer-events-none">
+            </div>
+        </aside>
+        <!-- Right Side: Interactive Map -->
+        <section class="hidden md:block flex-1 bg-surface-container-lowest relative overflow-hidden">
+            <!-- Map Placeholder with custom visual style -->
+            <div class="absolute inset-0 grayscale contrast-[1.2] brightness-[0.4]"
+                data-alt="Dark stylized city map with deep charcoal streets and glowing grid lines in high contrast cinematic style"
+                data-location="Tokyo"
+                >
+            <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d191884.8398712116!2d69.11455620810692!3d41.2827379463425!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x38ae8b0cc379e9c3%3A0xa5a9323b4aa5cb98!2z0KLQsNGI0LrQtdC90YIsINCj0LfQsdC10LrQuNGB0YLQsNC9!5e0!3m2!1sru!2s!4v1776140529764!5m2!1sru!2s" width="1300" height="850" style="border:0;" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
+            </div>
+            <div class="absolute inset-0 map-gradient-overlay pointer-events-none"></div>
+            <!-- Map Controls Overlay -->
+            <div class="absolute top-8 right-8 flex flex-col gap-4">
+                <div
+                    class="flex flex-col bg-surface-container-highest/80 backdrop-blur-xl rounded-xl p-2 border border-white/5">
+                    <button class="p-3 text-on-surface hover:text-primary transition-colors border-b border-white/5">
+                        <span class="material-symbols-outlined">add</span>
+                    </button>
+                    <button class="p-3 text-on-surface hover:text-primary transition-colors">
+                        <span class="material-symbols-outlined">remove</span>
+                    </button>
+                </div>
+                <button
+                    class="bg-surface-container-highest/80 backdrop-blur-xl rounded-xl p-3 border border-white/5 text-on-surface hover:text-secondary transition-colors">
+                    <span class="material-symbols-outlined">my_location</span>
+                </button>
+                <button
+                    class="bg-surface-container-highest/80 backdrop-blur-xl rounded-xl p-3 border border-white/5 text-on-surface hover:text-primary transition-colors">
+                    <span class="material-symbols-outlined">layers</span>
+                </button>
+            </div>
+            <!-- Custom Neon Pins -->
+            <!-- Pin 1: ONYX -->
+            <div class="absolute top-[40%] left-[30%] -translate-x-1/2 -translate-y-1/2 group">
+                <div class="relative">
+                    <div
+                        class="absolute -inset-4 bg-primary/20 blur-xl rounded-full scale-0 group-hover:scale-100 transition-transform duration-500">
+                    </div>
+                    <div
+                        class="relative w-12 h-12 bg-surface-container-lowest rounded-full border-2 border-primary flex items-center justify-center cursor-pointer hover:scale-110 transition-transform">
+                        <span class="material-symbols-outlined text-primary text-xl"
+                            style="font-variation-settings: 'FILL' 1;">fitness_center</span>
+                    </div>
+                    <!-- Pin Label -->
+                    <div
+                        class="absolute top-full mt-3 left-1/2 -translate-x-1/2 opacity-0 group-hover:opacity-100 transition-opacity whitespace-nowrap bg-surface-container-highest px-3 py-1 rounded-md text-[10px] font-black uppercase tracking-tighter border border-primary/20">
+                        ONYX Performance
+                    </div>
+                </div>
+            </div>
+            <!-- Pin 2: Fuel Vault -->
+            <div class="absolute top-[60%] left-[55%] -translate-x-1/2 -translate-y-1/2 group">
+                <div class="relative">
+                    <div
+                        class="absolute -inset-4 bg-secondary/20 blur-xl rounded-full scale-0 group-hover:scale-100 transition-transform duration-500">
+                    </div>
+                    <div
+                        class="relative w-10 h-10 bg-surface-container-lowest rounded-full border-2 border-secondary flex items-center justify-center cursor-pointer hover:scale-110 transition-transform">
+                        <span class="material-symbols-outlined text-secondary text-lg"
+                            style="font-variation-settings: 'FILL' 1;">local_mall</span>
+                    </div>
+                    <div
+                        class="absolute top-full mt-3 left-1/2 -translate-x-1/2 opacity-0 group-hover:opacity-100 transition-opacity whitespace-nowrap bg-surface-container-highest px-3 py-1 rounded-md text-[10px] font-black uppercase tracking-tighter border border-secondary/20">
+                        Fuel Vault Pro
+                    </div>
+                </div>
+            </div>
+            <!-- Pin 3: Apex -->
+            <div class="absolute top-[25%] left-[70%] -translate-x-1/2 -translate-y-1/2 group">
+                <div class="relative">
+                    <div
+                        class="absolute -inset-4 bg-primary/20 blur-xl rounded-full scale-0 group-hover:scale-100 transition-transform duration-500">
+                    </div>
+                    <div
+                        class="relative w-12 h-12 bg-surface-container-lowest rounded-full border-2 border-primary flex items-center justify-center cursor-pointer hover:scale-110 transition-transform">
+                        <span class="material-symbols-outlined text-primary text-xl"
+                            style="font-variation-settings: 'FILL' 1;">fitness_center</span>
+                    </div>
+                    <div
+                        class="absolute top-full mt-3 left-1/2 -translate-x-1/2 opacity-0 group-hover:opacity-100 transition-opacity whitespace-nowrap bg-surface-container-highest px-3 py-1 rounded-md text-[10px] font-black uppercase tracking-tighter border border-primary/20">
+                        Apex Athletics
+                    </div>
+                </div>
+            </div>
+            <!-- Location Meta Badge (Bottom Left) -->
+            <div
+                class="absolute bottom-8 left-8 p-6 bg-surface-container-lowest/80 backdrop-blur-xl rounded-2xl border border-white/5 max-w-sm">
+                <div class="flex items-center gap-4 mb-4">
+                    <div class="w-12 h-12 bg-primary-container/20 rounded-xl flex items-center justify-center">
+                        <span class="material-symbols-outlined text-primary">explore</span>
+                    </div>
+                    <div>
+                        <h4 class="text-sm font-black uppercase tracking-widest leading-none">Your Neighborhood</h4>
+                        <p class="text-on-surface-variant text-xs mt-1">Found 24 facilities in 5km radius</p>
+                    </div>
+                </div>
+                <div class="space-y-3">
+                    <div
+                        class="flex justify-between items-center text-[10px] font-bold uppercase tracking-wider text-on-surface-variant">
+                        <span>Daily Activity Hubs</span>
+                        <span class="text-primary">+12%</span>
+                    </div>
+                    <div class="h-1 bg-surface-container-highest rounded-full overflow-hidden">
+                        <div class="w-[70%] h-full bg-gradient-to-r from-primary to-secondary"></div>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+    <!-- Floating Action Button (FAB) - Suppression Logic: Rendered here as it aligns with Search screen primary purpose -->
+    <button
+        class="fixed bottom-8 right-8 md:right-[500px] bg-primary text-on-primary-fixed w-14 h-14 rounded-full shadow-[0_0_40px_rgba(202,253,0,0.3)] flex items-center justify-center hover:scale-110 transition-transform z-50">
+        <span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">add</span>
+    </button>
+</body>
+
+</html>
