@@ -436,13 +436,41 @@
     </footer>
     <!-- FAB for Cart -->
     <div class="fixed bottom-8 right-8 z-40 group">
-        <button
+        <button id="cart-fab"
             class="w-16 h-16 bg-primary text-on-primary-fixed rounded-full flex items-center justify-center shadow-[0_0_40px_rgba(202,253,0,0.15)] hover:scale-110 transition-all duration-300">
             <span class="material-symbols-outlined text-2xl" data-weight="fill">shopping_cart</span>
-            <div
+            <div id="cart-count"
                 class="absolute -top-1 -right-1 w-6 h-6 bg-secondary text-on-secondary rounded-full flex items-center justify-center text-[10px] font-black border-2 border-background">
-                3</div>
+                0</div>
         </button>
+    </div>
+    <!-- Cart Modal -->
+    <div id="cart-modal" class="fixed inset-0 bg-black/50 backdrop-blur-sm z-50 hidden flex items-center justify-center">
+        <div class="bg-surface-container p-8 rounded-xl max-w-md w-full mx-4 max-h-[80vh] overflow-y-auto">
+            <div class="flex justify-between items-center mb-6">
+                <h2 class="text-2xl font-headline font-bold text-white uppercase tracking-tight">Your Cart</h2>
+                <button id="close-cart" class="text-on-surface-variant hover:text-white">
+                    <span class="material-symbols-outlined">close</span>
+                </button>
+            </div>
+            <div id="cart-items" class="space-y-4 mb-6">
+                <!-- Items will be populated here -->
+            </div>
+            <div class="border-t border-white/10 pt-4">
+                <div class="flex justify-between items-center mb-4">
+                    <span class="text-white font-bold">Total:</span>
+                    <span id="cart-total" class="text-secondary font-bold text-xl">$0.00</span>
+                </div>
+                <div class="flex gap-4">
+                    <button id="clear-cart" class="flex-1 bg-error text-on-error py-3 rounded-xl font-headline font-bold uppercase tracking-tight hover:bg-error/80 transition-colors">
+                        Clear Cart
+                    </button>
+                    <button class="flex-1 bg-primary text-on-primary-fixed py-3 rounded-xl font-headline font-bold uppercase tracking-tight hover:bg-primary/80 transition-colors">
+                        Checkout
+                    </button>
+                </div>
+            </div>
+        </div>
     </div>
     <script>
 // =======================
@@ -509,9 +537,11 @@ document.querySelectorAll("button").forEach(btn => {
 // 🌙 DARK / LIGHT MODE
 // =======================
 const toggleBtn = document.querySelector("[data-icon='language']");
-toggleBtn.addEventListener("click", () => {
-    document.documentElement.classList.toggle("dark");
-});
+if (toggleBtn) {
+    toggleBtn.addEventListener("click", () => {
+        document.documentElement.classList.toggle("dark");
+    });
+}
 
 // =======================
 // 📅 BOOK SESSION
@@ -525,12 +555,93 @@ document.querySelectorAll("button").forEach(btn => {
 });
 
 // =======================
-// 🚀 FAB BUTTON (Quick Log)
+// 🛒 Cart (Add to cart increments qty)
 // =======================
-const fab = document.querySelector(".fixed.bottom-8.right-8");
-fab.addEventListener("click", () => {
-    alert("Быстрое добавление тренировки 🔥");
+let cart = JSON.parse(localStorage.getItem('cart') || '{}');
+
+function updateCartCount() {
+    const countEl = document.getElementById('cart-count');
+    const total = Object.values(cart).reduce((s, it) => s + (it.qty || 0), 0);
+    if (countEl) countEl.textContent = total;
+}
+
+function updateCartModal() {
+    const cartItemsEl = document.getElementById('cart-items');
+    const cartTotalEl = document.getElementById('cart-total');
+    let totalPrice = 0;
+    let html = '';
+    for (const [title, item] of Object.entries(cart)) {
+        const itemTotal = item.price * item.qty;
+        totalPrice += itemTotal;
+        html += `
+            <div class="flex justify-between items-center">
+                <div>
+                    <h4 class="text-white font-bold">${title}</h4>
+                    <p class="text-on-surface-variant text-sm">Qty: ${item.qty} x $${item.price.toFixed(2)}</p>
+                </div>
+                <span class="text-secondary font-bold">$${itemTotal.toFixed(2)}</span>
+            </div>
+        `;
+    }
+    if (!html) {
+        html = '<p class="text-on-surface-variant">Your cart is empty</p>';
+    }
+    cartItemsEl.innerHTML = html;
+    cartTotalEl.textContent = `$${totalPrice.toFixed(2)}`;
+}
+
+document.querySelectorAll('section .grid button').forEach(btn => {
+    btn.addEventListener('click', (e) => {
+        e.stopPropagation();
+        const card = btn.closest('.group');
+        if (!card) return;
+        const titleEl = card.querySelector('h3');
+        const priceEl = card.querySelector('.p-8 .flex span');
+        const title = titleEl ? titleEl.innerText.trim() : 'Item';
+        const price = priceEl ? parseFloat(priceEl.innerText.replace('$','')) || 0 : 0;
+        if (!cart[title]) cart[title] = { price: price, qty: 0 };
+        cart[title].qty += 1;
+        localStorage.setItem('cart', JSON.stringify(cart));
+        updateCartCount();
+    });
 });
+
+const cartFab = document.getElementById('cart-fab');
+const cartModal = document.getElementById('cart-modal');
+const closeCart = document.getElementById('close-cart');
+const clearCartBtn = document.getElementById('clear-cart');
+
+if (cartFab) {
+    cartFab.addEventListener('click', (e) => {
+        e.stopPropagation();
+        updateCartModal();
+        cartModal.classList.remove('hidden');
+    });
+}
+
+if (closeCart) {
+    closeCart.addEventListener('click', () => {
+        cartModal.classList.add('hidden');
+    });
+}
+
+if (clearCartBtn) {
+    clearCartBtn.addEventListener('click', () => {
+        cart = {};
+        localStorage.setItem('cart', JSON.stringify(cart));
+        updateCartCount();
+        updateCartModal();
+    });
+}
+
+// Close modal when clicking outside
+cartModal.addEventListener('click', (e) => {
+    if (e.target === cartModal) {
+        cartModal.classList.add('hidden');
+    }
+});
+
+updateCartCount();
 </script>
 </body>
 
