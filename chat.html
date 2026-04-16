@@ -302,8 +302,8 @@
 <script>
     // Google Gemini API Configuration
     let GEMINI_API_KEY = localStorage.getItem('gemini_api_key') || '';
-    const GEMINI_API_URL = 'https://generativelanguage.googleapis.com/v1/models/gemini-pro-vision:generateContent';
-    const API_TIMEOUT = 15000; // 15 seconds timeout
+    const GEMINI_API_URL = 'https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash:generateContent';
+    const API_TIMEOUT = 60000; // 60 seconds timeout
 
     // Chat history for context
     let chatHistory = [
@@ -354,6 +354,40 @@
     // Load API key from localStorage
     if (GEMINI_API_KEY) {
         apiKeyInput.value = GEMINI_API_KEY;
+        // Show status indicator
+        showConnectionStatus('connected');
+    } else {
+        showConnectionStatus('disconnected');
+    }
+
+    // Check online status
+    window.addEventListener('online', () => showConnectionStatus('connected'));
+    window.addEventListener('offline', () => showConnectionStatus('disconnected'));
+
+    // Show connection status indicator
+    function showConnectionStatus(status) {
+        // Remove existing status indicator if any
+        const existingStatus = document.querySelector('.connection-status');
+        if (existingStatus) existingStatus.remove();
+
+        const statusDiv = document.createElement('div');
+        statusDiv.className = 'connection-status fixed top-20 right-6 z-40 px-3 py-1 rounded-full text-xs font-bold uppercase tracking-widest flex items-center gap-2';
+        
+        if (status === 'connected' && GEMINI_API_KEY) {
+            statusDiv.className += ' bg-green-500/20 text-green-400 border border-green-500/30';
+            statusDiv.innerHTML = '<span class="w-2 h-2 bg-green-400 rounded-full animate-pulse"></span>AI Ready';
+        } else if (!navigator.onLine) {
+            statusDiv.className += ' bg-red-500/20 text-red-400 border border-red-500/30';
+            statusDiv.innerHTML = '<span class="w-2 h-2 bg-red-400 rounded-full"></span>Offline';
+        } else if (!GEMINI_API_KEY) {
+            statusDiv.className += ' bg-yellow-500/20 text-yellow-400 border border-yellow-500/30';
+            statusDiv.innerHTML = '<span class="w-2 h-2 bg-yellow-400 rounded-full"></span>No API Key';
+        } else {
+            statusDiv.className += ' bg-zinc-500/20 text-zinc-400 border border-zinc-500/30';
+            statusDiv.innerHTML = '<span class="w-2 h-2 bg-zinc-400 rounded-full"></span>Checking...';
+        }
+        
+        document.body.appendChild(statusDiv);
     }
 
     // Settings modal handlers
@@ -372,10 +406,12 @@
             GEMINI_API_KEY = key;
             localStorage.setItem('gemini_api_key', key);
             settingsModal.classList.add('hidden');
+            // Update status indicator
+            showConnectionStatus('connected');
             // Show success message
-            alert('✅ API Key saved! Chat is now ready to use.');
+            alert('✅ API ключ сохранен! Чат готов к использованию.');
         } else {
-            alert('⚠️ Please enter a valid API key.');
+            alert('⚠️ Пожалуйста, введите корректный API ключ.');
         }
     });
 
@@ -431,7 +467,7 @@
     // Send image to Gemini API with vision
     async function sendImageToAI(imageData) {
         if (!GEMINI_API_KEY) {
-            displayError('⚠️ Please configure API key first! Click settings (⚙️) icon.');
+            displayError('⚠️ Пожалуйста, настройте API ключ! Нажмите значок настроек (⚙️).');
             return;
         }
         
@@ -476,10 +512,22 @@
             if (!response.ok) {
                 const errorData = await response.json();
                 console.error('API Error:', errorData);
-                throw new Error(errorData.error?.message || 'API request failed');
+                const errorMsg = errorData.error?.message || 'API request failed';
+                if (errorMsg.includes('API_KEY_INVALID') || errorMsg.includes('PERMISSION_DENIED')) {
+                    throw new Error('Неверный API ключ! Пожалуйста, проверьте ключ в настройках (⚙️).');
+                } else if (errorMsg.includes('QUOTA_EXCEEDED')) {
+                    throw new Error('Превышен лимит запросов API. Попробуйте позже.');
+                } else {
+                    throw new Error(errorMsg);
+                }
             }
 
             const data = await response.json();
+            
+            if (!data.candidates || !data.candidates[0] || !data.candidates[0].content || !data.candidates[0].content.parts || !data.candidates[0].content.parts[0]) {
+                throw new Error('Пустой ответ от API. Попробуйте еще раз.');
+            }
+            
             const aiMessage = data.candidates[0].content.parts[0].text;
             
             // Display AI response
@@ -487,12 +535,17 @@
         } catch (error) {
             console.error('Error analyzing image:', error);
             
-            // Fallback to demo response if API fails
+            let errorMessage = '❌ Ошибка при анализе изображения. ';
             if (error.name === 'AbortError') {
-                displayAIResponse(generateDemoAnalysis());
+                errorMessage += 'Превышено время ожидания ответа. Проверьте интернет-соединение.';
+            } else if (!navigator.onLine) {
+                errorMessage += 'Нет подключения к интернету.';
+            } else if (error.message) {
+                errorMessage += error.message;
             } else {
-                displayAIResponse(generateDemoAnalysis());
+                errorMessage += 'Проверьте API ключ и интернет-соединение.';
             }
+            displayError(errorMessage);
         }
     }
 
@@ -540,10 +593,10 @@
         }
     });
 
-    // Send text message to Gemini
+    // Send text message using Gemini API format
     async function sendMessage(message) {
         if (!GEMINI_API_KEY) {
-            displayError('⚠️ Please configure API key first! Click settings (⚙️) icon.');
+            displayError('⚠️ Пожалуйста, настройте API ключ! Нажмите значок настроек (⚙️).');
             return;
         }
         
@@ -563,31 +616,23 @@
         showLoadingIndicator();
 
         try {
-            // Build conversation history in Gemini format
-            const contents = [
-                {
-                    role: 'user',
-                    parts: [{
-                        text: 'Ты - PULSE_AI, профессиональный AI-ассистент по питанию и фитнесу с глубокими знаниями в диетологии, спортивной нутрициологии и тренировочном процессе. Отвечай ТОЛЬКО на русском языке. Давай подробные, практические рекомендации по питанию, тренировкам, расчету калорий и макронутриентов. Будь конкретным, используй научный подход, но объясняй простым языком. Приводи примеры продуктов и граммовки.'
-                    }]
-                }
-            ];
+            // Build contents in Gemini format
+            const contents = [];
+            
+            // Add system prompt as first user message
+            contents.push({
+                role: 'user',
+                parts: [{ text: 'Ты - PULSE_AI, профессиональный AI-ассистент по питанию и фитнесу. Отвечай ТОЛЬКО на русском языке. Давай подробные, практические рекомендации по питанию, тренировкам, расчету калорий и макронутриентов.' }]
+            });
             
             // Add previous messages
             chatHistory
                 .filter(msg => msg.role !== 'system')
                 .forEach(msg => {
-                    if (msg.role === 'user' && msg.content !== chatHistory[0].content) {
-                        contents.push({
-                            role: 'user',
-                            parts: [{ text: msg.content }]
-                        });
-                    } else if (msg.role === 'assistant') {
-                        contents.push({
-                            role: 'model',
-                            parts: [{ text: msg.content }]
-                        });
-                    }
+                    contents.push({
+                        role: msg.role === 'assistant' ? 'model' : 'user',
+                        parts: [{ text: msg.content }]
+                    });
                 });
             
             // Add current message
@@ -607,7 +652,11 @@
                 },
                 signal: controller.signal,
                 body: JSON.stringify({
-                    contents: contents
+                    contents: contents,
+                    generationConfig: {
+                        temperature: 0.7,
+                        maxOutputTokens: 2048
+                    }
                 })
             });
             
@@ -616,10 +665,22 @@
             if (!response.ok) {
                 const errorData = await response.json();
                 console.error('API Error:', errorData);
-                throw new Error(errorData.error?.message || 'API request failed');
+                const errorMsg = errorData.error?.message || 'API request failed';
+                if (errorMsg.includes('API_KEY_INVALID') || errorMsg.includes('PERMISSION_DENIED') || errorMsg.includes('invalid_api_key')) {
+                    throw new Error('Неверный API ключ! Пожалуйста, проверьте ключ в настройках (⚙️).');
+                } else if (errorMsg.includes('QUOTA_EXCEEDED') || errorMsg.includes('rate_limit')) {
+                    throw new Error('Превышен лимит запросов API. Попробуйте позже.');
+                } else {
+                    throw new Error(errorMsg);
+                }
             }
 
             const data = await response.json();
+            
+            if (!data.candidates || !data.candidates[0] || !data.candidates[0].content || !data.candidates[0].content.parts || !data.candidates[0].content.parts[0]) {
+                throw new Error('Пустой ответ от API. Попробуйте еще раз.');
+            }
+            
             const aiMessage = data.candidates[0].content.parts[0].text;
             
             // Add to chat history
@@ -637,17 +698,17 @@
         } catch (error) {
             console.error('Error sending message:', error);
             
-            // Fallback to demo response if API fails
-            const demoResponse = generateDemoResponse(message);
-            chatHistory.push({
-                role: 'user',
-                content: message
-            });
-            chatHistory.push({
-                role: 'assistant',
-                content: demoResponse
-            });
-            displayAIResponse(demoResponse);
+            let errorMessage = '❌ Ошибка при отправке сообщения. ';
+            if (error.name === 'AbortError') {
+                errorMessage += 'Превышено время ожидания ответа. Проверьте интернет-соединение.';
+            } else if (!navigator.onLine) {
+                errorMessage += 'Нет подключения к интернету.';
+            } else if (error.message) {
+                errorMessage += error.message;
+            } else {
+                errorMessage += 'Проверьте API ключ и интернет-соединение.';
+            }
+            displayError(errorMessage);
         }
     }
 
