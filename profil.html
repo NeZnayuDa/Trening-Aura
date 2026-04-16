@@ -309,8 +309,27 @@
                 </div>
             </div>
         </div>
-        <!-- Training Split & Upcoming -->
-        <div class="grid grid-cols-1 md:grid-cols-2 gap-12">
+        <!-- User Preferences Section -->
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-12">
+            <div class="bg-surface-container-low rounded-xl p-8 border border-primary/20">
+                <div class="flex items-center justify-between mb-4">
+                    <span class="material-symbols-outlined text-primary text-4xl" data-icon="restaurant">restaurant</span>
+                    <span class="text-[10px] text-on-surface-variant font-bold">NUTRITION PREFERENCE</span>
+                </div>
+                <p class="text-4xl font-headline font-black mb-2" id="nutritionDisplay">Everything</p>
+                <p class="text-on-surface-variant text-sm font-label">Your dietary choice for optimization</p>
+                <button onclick="document.location.href='./oprosnik.html'" class="mt-6 text-[10px] font-black uppercase tracking-widest text-primary border-b border-primary/30 pb-1 hover:border-primary transition-colors">Edit Preferences</button>
+            </div>
+            <div class="bg-surface-container-low rounded-xl p-8 border border-secondary/20">
+                <div class="flex items-center justify-between mb-4">
+                    <span class="material-symbols-outlined text-secondary text-4xl" data-icon="track_changes">track_changes</span>
+                    <span class="text-[10px] text-on-surface-variant font-bold">PRIMARY GOAL</span>
+                </div>
+                <p class="text-4xl font-headline font-black mb-2" id="goalDisplay">Gain Weight</p>
+                <p class="text-on-surface-variant text-sm font-label">Your fitness journey direction</p>
+                <button onclick="document.location.href='./oprosnik.html'" class="mt-6 text-[10px] font-black uppercase tracking-widest text-secondary border-b border-secondary/30 pb-1 hover:border-secondary transition-colors">Edit Preferences</button>
+            </div>
+        </div>
             <section>
                 <div class="flex items-center justify-between mb-6">
                     <h2 class="text-2xl font-headline font-black uppercase tracking-tight">Active Training Split</h2>
@@ -428,3 +447,21 @@
 </body>
 
 </html>
+    <script>
+        // Load and display user preferences from localStorage
+        document.addEventListener('DOMContentLoaded', function() {
+            const nutritionDisplay = document.getElementById('nutritionDisplay');
+            const goalDisplay = document.getElementById('goalDisplay');
+            
+            const savedNutrition = localStorage.getItem('selectedNutrition');
+            const savedGoal = localStorage.getItem('selectedGoal');
+            
+            if (savedNutrition) {
+                nutritionDisplay.textContent = savedNutrition;
+            }
+            
+            if (savedGoal) {
+                goalDisplay.textContent = savedGoal;
+            }
+        });
+    </script>

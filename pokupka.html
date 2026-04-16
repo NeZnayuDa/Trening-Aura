@@ -223,10 +223,11 @@
                             style="font-variation-settings: 'FILL' 1;">restaurant</span>
                         <span class="text-on-surface">Premium Nutrition Plans</span>
                     </div>
-                </div><a href="./oplata.html">                <button
+                </div>
+                <button id="premium-btn"
                     class="w-full py-5 bg-primary-container text-on-primary-fixed rounded-xl font-headline font-black uppercase tracking-widest hover:scale-95 duration-200 transition-transform">
                     Select Premium
-                </button></a>
+                </button>
 
             </div>
             <!-- STANDARD CARD -->
@@ -252,10 +253,11 @@
                         <span class="material-symbols-outlined text-secondary text-xl">check_circle</span>
                         <span class="text-on-surface">Free Aura Shaker</span>
                     </div>
-                </div><a href="./oplata.html">                <button
+                </div>
+                <button id="standard-btn"
                     class="w-full py-4 bg-secondary-container text-on-secondary-container rounded-xl font-headline font-bold uppercase tracking-wider hover:opacity-80 transition-opacity">
                     Select Standard
-                </button></a>
+                </button>
 
             </div>
         </div>
@@ -331,6 +333,28 @@
             </div>
         </div>
     </footer>
+    <script>
+        // Handle subscription selection
+        document.getElementById('premium-btn').addEventListener('click', () => {
+            const premiumPlan = {
+                type: 'Premium',
+                price: 89,
+                description: '24/7 Global Gym Access'
+            };
+            localStorage.setItem('subscriptionPlan', JSON.stringify(premiumPlan));
+            window.location.href = './oplata.html';
+        });
+
+        document.getElementById('standard-btn').addEventListener('click', () => {
+            const standardPlan = {
+                type: 'Standard',
+                price: 45,
+                description: '1 Month Local Gym Access'
+            };
+            localStorage.setItem('subscriptionPlan', JSON.stringify(standardPlan));
+            window.location.href = './oplata.html';
+        });
+    </script>
 </body>
 
 </html>
