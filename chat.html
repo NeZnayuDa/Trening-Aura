@@ -1,6 +1,6 @@
 <!DOCTYPE html>
 
-<html class="dark" lang="en">
+<html class="dark" lang="ru">
 
 <head>
     <meta charset="utf-8" />
@@ -234,7 +234,7 @@
                         <input id="fileInput" type="file" accept="image/*" class="hidden" />
                         <input id="messageInput"
                             class="flex-1 bg-transparent border-none focus:ring-0 text-sm placeholder:text-zinc-600 px-4 font-body"
-                            placeholder="Ask about your macros or upload a meal..." type="text" />
+                            placeholder="Спросите о калориях, БЖУ или загрузите фото блюда..." type="text" />
                         <button id="sendBtn"
                             class="p-4 rounded-xl bg-[#CCFF00] text-zinc-950 font-bold hover:shadow-[0_0_20px_#CCFF00] transition-all active:scale-95 duration-200">
                             <span class="material-symbols-outlined">send</span>
@@ -309,7 +309,33 @@
     let chatHistory = [
         {
             role: 'system',
-            content: 'You are PULSE_AI, a professional nutrition and fitness analysis bot. Analyze food images and questions about nutrition, macros, and fitness. Provide detailed, practical advice. Keep responses concise and actionable.'
+            content: `Ты - PULSE_AI, профессиональный AI-ассистент по питанию и фитнесу с глубокими знаниями в диетологии, спортивной нутрициологии и тренировочном процессе.
+
+ТВОИ ОСНОВНЫЕ КОМПЕТЕНЦИИ:
+• Анализ состава продуктов и блюд (белки, жиры, углеводы, калории, микроэлементы)
+• Расчет суточных норм калорий и макронутриентов
+• Составление планов питания для разных целей (похудение, набор массы, поддержание)
+• Рекомендации по спортивному питанию и добавкам
+• Анализ тренировочного процесса и восстановления
+• Советы по оптимизации метаболизма и здоровья
+
+ПРАВИЛА ОТВЕТОВ:
+• Отвечай ТОЛЬКО на русском языке
+• Будь конкретным и давай практические рекомендации
+• Используй научный подход, но объясняй простым языком
+• Учитывай индивидуальные особенности (возраст, пол, активность, цели)
+• Приводи примеры продуктов и блюд
+• Давай реалистичные и выполнимые советы
+• Всегда указывай примерные граммовки и пропорции
+• Предупреждай о возможных противопоказаниях
+
+СТИЛЬ ОБЩЕНИЯ:
+• Профессиональный, но дружелюбный
+• Поддерживающий и мотивирующий
+• Без излишней академичности
+• С использованием эмодзи для наглядности (🍎💪🏋️‍♂️)
+
+ВАЖНО: Ты не заменяешь врача или диетолога. При серьезных проблемах со здоровьем рекомендуй консультацию специалиста.`
         }
     ];
 
@@ -431,7 +457,7 @@
                             role: 'user',
                             parts: [
                                 {
-                                    text: 'You are PULSE_AI, a professional nutrition and fitness analysis bot. Analyze this meal image. Provide nutritional analysis including estimated calories, protein, carbs, fat, and any health recommendations.'
+                                    text: 'Ты - PULSE_AI, профессиональный AI-ассистент по питанию и фитнесу. Проанализируй изображение еды и дай подробный разбор: оцени калорийность, содержание белков, жиров, углеводов, клетчатки, витаминов и минералов. Дай практические рекомендации по улучшению блюда, укажи примерные граммовки ингредиентов. Отвечай на русском языке, используй эмодзи для наглядности.'
                                 },
                                 {
                                     inlineData: {
@@ -473,28 +499,29 @@
     // Генерирует демо-анализ блюда с рандомными данными
     function generateDemoAnalysis() {
         const meals = [
-            { name: 'Protein Bowl', calories: 450 + Math.random() * 200, protein: 35 + Math.random() * 25, carbs: 40 + Math.random() * 30, fat: 12 + Math.random() * 15 },
-            { name: 'Salad with Chicken', calories: 380 + Math.random() * 150, protein: 40 + Math.random() * 20, carbs: 25 + Math.random() * 20, fat: 10 + Math.random() * 12 },
-            { name: 'Steak and Quinoa', calories: 550 + Math.random() * 200, protein: 45 + Math.random() * 25, carbs: 50 + Math.random() * 30, fat: 20 + Math.random() * 18 },
-            { name: 'Veggie Mix', calories: 280 + Math.random() * 120, protein: 15 + Math.random() * 15, carbs: 35 + Math.random() * 25, fat: 8 + Math.random() * 10 },
-            { name: 'Pasta Primavera', calories: 480 + Math.random() * 180, protein: 18 + Math.random() * 15, carbs: 60 + Math.random() * 35, fat: 15 + Math.random() * 15 }
+            { name: 'Протеиновая боула', calories: 450 + Math.random() * 200, protein: 35 + Math.random() * 25, carbs: 40 + Math.random() * 30, fat: 12 + Math.random() * 15 },
+            { name: 'Салат с курицей', calories: 380 + Math.random() * 150, protein: 40 + Math.random() * 20, carbs: 25 + Math.random() * 20, fat: 10 + Math.random() * 12 },
+            { name: 'Стейк с киноа', calories: 550 + Math.random() * 200, protein: 45 + Math.random() * 25, carbs: 50 + Math.random() * 30, fat: 20 + Math.random() * 18 },
+            { name: 'Овощной микс', calories: 280 + Math.random() * 120, protein: 15 + Math.random() * 15, carbs: 35 + Math.random() * 25, fat: 8 + Math.random() * 10 },
+            { name: 'Паста Примавера', calories: 480 + Math.random() * 180, protein: 18 + Math.random() * 15, carbs: 60 + Math.random() * 35, fat: 15 + Math.random() * 15 }
         ];
         
         const meal = meals[Math.floor(Math.random() * meals.length)];
         
         return `🍽️ **${meal.name}**
 
-**Nutritional Analysis:**
-• **Calories:** ${Math.round(meal.calories)} kcal (+${Math.round(Math.random() * 20)}% daily)
-• **Protein:** ${Math.round(meal.protein)}g (High protein content)
-• **Carbs:** ${Math.round(meal.carbs)}g (Complex carbohydrates)
-• **Fat:** ${Math.round(meal.fat)}g (Healthy fats)
+**Пищевая ценность:**
+• **Калории:** ${Math.round(meal.calories)} ккал (+${Math.round(Math.random() * 20)}% от дневной нормы)
+• **Белки:** ${Math.round(meal.protein)}г (высокое содержание белка 💪)
+• **Углеводы:** ${Math.round(meal.carbs)}г (сложные углеводы)
+• **Жиры:** ${Math.round(meal.fat)}г (полезные жиры)
 
-**Health Recommendations:**
-✓ Excellent post-workout meal
-✓ Balanced macro composition
-✓ Rich in micronutrients
-✓ Supports muscle recovery`;
+**Рекомендации по здоровью:**
+✓ Отличный прием пищи после тренировки
+✓ Сбалансированный состав макронутриентов
+✓ Богато микроэлементами и витаминами
+✓ Поддерживает восстановление мышц
+✓ Способствует достижению фитнес-целей`;
     }
 
     // Send message button functionality
@@ -541,7 +568,7 @@
                 {
                     role: 'user',
                     parts: [{
-                        text: 'You are PULSE_AI, a professional nutrition and fitness analysis bot. Analyze food images and questions about nutrition, macros, and fitness. Provide detailed, practical advice. Keep responses concise and actionable.'
+                        text: 'Ты - PULSE_AI, профессиональный AI-ассистент по питанию и фитнесу с глубокими знаниями в диетологии, спортивной нутрициологии и тренировочном процессе. Отвечай ТОЛЬКО на русском языке. Давай подробные, практические рекомендации по питанию, тренировкам, расчету калорий и макронутриентов. Будь конкретным, используй научный подход, но объясняй простым языком. Приводи примеры продуктов и граммовки.'
                     }]
                 }
             ];
@@ -629,23 +656,130 @@
         const lower = message.toLowerCase();
         
         if (lower.includes('калор') || lower.includes('calor')) {
-            return `Based on your current profile:\n\n📊 Daily Caloric Needs: ~${2200 + Math.round(Math.random() * 600)} kcal\n\nYour goal is to ${lower.includes('набат') || lower.includes('gain') ? 'gain weight' : 'lose weight'}, so:\n• Target calories: ${lower.includes('набат') || lower.includes('gain') ? '2800-3000 kcal' : '1800-2000 kcal'}\n• Adjust based on weekly weigh-ins`;
+            const targetCalories = lower.includes('набат') || lower.includes('набор') || lower.includes('gain') 
+                ? '2800-3000 ккал' 
+                : '1800-2000 ккал';
+            const goal = lower.includes('набат') || lower.includes('набор') || lower.includes('gain')
+                ? 'набор массы'
+                : 'похудение';
+            return `📊 **Расчет калорийности на основе ваших данных:**
+
+**Суточная норма калорий:** ~${2200 + Math.round(Math.random() * 600)} ккал
+
+**Ваша цель:** ${goal}
+**Целевая калорийность:** ${targetCalories}
+
+**Рекомендации:**
+• Взвешивайтесь 2-3 раза в неделю утром натощак
+• Корректируйте калорийность каждые 2 недели
+• При застое уменьшите/увеличьте на 200 ккал
+• Пейте достаточно воды (30-40 мл на 1 кг веса)`;
         }
         
         if (lower.includes('белк') || lower.includes('protein')) {
-            return `💪 Protein Recommendations:\n\n• Daily target: ${Math.round(1.6 * (70 + Math.random() * 30))}g (1.6g per kg bodyweight)\n• Per meal: 25-35g\n• Best sources: Chicken, fish, eggs, Greek yogurt\n• Timing: Distribute evenly throughout the day`;
+            const weight = 70 + Math.random() * 30;
+            const proteinTarget = Math.round(1.6 * weight);
+            return `💪 **Рекомендации по белку:**
+
+**Суточная норма:** ${proteinTarget}г (1.6г на 1 кг веса тела)
+**На один прием пищи:** 25-35г
+
+**Лучшие источники белка:**
+🍗 Куриная грудка (23г белка на 100г)
+🐟 Рыба (20-25г белка на 100г)
+🥚 Яйца (6г белка в 1 яйце)
+🥛 Греческий йогурт (10г белка на 100г)
+🧀 Творог (16г белка на 100г)
+🫘 Бобовые (8-10г белка на 100г)
+
+**Время приема:** Равномерно распределяйте в течение дня (каждые 3-4 часа)`;
         }
         
-        if (lower.includes('тренир') || lower.includes('workout')) {
-            return `🏋️ Workout Nutrition:\n\nPre-workout (1-2 hours before):\n• Carbs: 30-40g\n• Protein: 15-20g\n• Low fat/fiber\n\nPost-workout:\n• Protein: 30-40g\n• Carbs: 40-60g\n• Replenish glycogen stores\n\nExamples: Banana + protein shake, rice + chicken`;
+        if (lower.includes('тренир') || lower.includes('workout') || lower.includes('спорт')) {
+            return `🏋️ **Питание вокруг тренировки:**
+
+**До тренировки (за 1-2 часа):**
+• Углеводы: 30-40г (овсянка, банан, рис)
+• Белок: 15-20г (курица, протеиновый коктейль)
+• Минимум жиров и клетчатки
+
+**После тренировки (в течение 1-2 часов):**
+• Белок: 30-40г (для восстановления мышц)
+• Углеводы: 40-60г (для восполнения гликогена)
+
+**Примеры:**
+🍌 Банан + протеиновый коктейль
+🍚 Рис + куриная грудка
+🥪 Тост с арахисовой пастой и яйцом
+
+**Важно:** Пейте воду до, во время и после тренировки!`;
         }
         
-        if (lower.includes('вес') || lower.includes('weight')) {
-            return `⚖️ Weight Management Plan:\n\nCurrent: ${70 + Math.round(Math.random() * 30)}kg\nTarget: ${lower.includes('набат') || lower.includes('gain') ? 85 : 65}kg\n\nExpected timeline: ${lower.includes('набат') || lower.includes('gain') ? '4-6 months' : '3-4 months'}\nRate: ${lower.includes('набат') || lower.includes('gain') ? '+0.5kg/week' : '-0.5kg/week'}\n\nMonitor weekly, adjust as needed`;
+        if (lower.includes('вес') || lower.includes('weight') || lower.includes('похуд')) {
+            const currentWeight = 70 + Math.round(Math.random() * 30);
+            const targetWeight = lower.includes('набат') || lower.includes('набор') || lower.includes('gain') ? 85 : 65;
+            const timeline = lower.includes('набат') || lower.includes('набор') || lower.includes('gain') ? '4-6 месяцев' : '3-4 месяца';
+            const rate = lower.includes('набат') || lower.includes('набор') || lower.includes('gain') ? '+0.5 кг/неделю' : '-0.5 кг/неделю';
+            
+            return `⚖️ **План управления весом:**
+
+**Текущий вес:** ${currentWeight} кг
+**Целевой вес:** ${targetWeight} кг
+
+**Ожидаемые сроки:** ${timeline}
+**Темп:** ${rate}
+
+**Рекомендации:**
+• Взвешивайтесь 2-3 раза в неделю
+• Замеряйте объемы (талия, бедра, грудь)
+• Делайте фото прогресса каждые 2 недели
+• При застое измените тренировочную программу
+• Убедитесь, что спите 7-8 часов в сутки`;
+        }
+        
+        if (lower.includes('углевод') || lower.includes('carbs')) {
+            return `🍞 **Рекомендации по углеводам:**
+
+**Суточная норма:** ${Math.round(3 * (70 + Math.random() * 30))}г (3-5г на 1 кг веса)
+
+**Типы углеводов:**
+✅ **Сложные (основа рациона):**
+• Овсянка, гречка, киноа, бурый рис
+• Цельнозерновой хлеб, макароны из твердых сортов
+• Овощи, картофель
+
+⚠️ **Простые (ограничить):**
+• Сахар, конфеты, выпечка
+• Сладкие напитки, соки
+
+**Время приема:**
+• Утром и до тренировки - можно больше
+• Вечером - уменьшите порцию`;
         }
         
         // Default response
-        return `I'm PULSE_AI, your nutrition and fitness assistant!\n\nI can help you with:\n✓ Analyzing meal nutrition\n✓ Daily calorie calculations\n✓ Macro ratios for your goals\n✓ Workout nutrition timing\n✓ Weight management strategies\n\nAsk me anything about nutrition!`;
+        return `🤖 **Я - PULSE_AI, ваш персональный помощник по питанию и фитнесу!**
+
+**Чем я могу помочь:**
+✅ Анализ пищевой ценности блюд
+✅ Расчет суточной калорийности и макронутриентов
+✅ Планы питания для разных целей
+✅ Рекомендации по спортивному питанию
+✅ Советы по тренировкам и восстановлению
+✅ Помощь в управлении весом
+
+**Задайте мне вопрос о:**
+• Калориях и макронутриентах
+• Планах питания
+• Тренировочном процессе
+• Спортивных добавках
+• Здоровом образе жизни
+
+**Примеры вопросов:**
+"Сколько калорий мне нужно в день?"
+"Как набрать мышечную массу?"
+"Что есть до и после тренировки?"
+"Как рассчитать БЖУ?"`;
     }
 
     // Display AI response in chat
