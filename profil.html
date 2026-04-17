@@ -105,6 +105,29 @@
         .tonal-transition {
             transition: background 0.3s ease;
         }
+
+        /* Goals drag & drop */
+        .goal-card {
+            transition: opacity 0.2s, transform 0.2s, box-shadow 0.2s;
+        }
+        .goal-card.dragging {
+            opacity: 0.4;
+            transform: scale(0.97);
+        }
+        .goal-card.drag-over {
+            box-shadow: 0 0 0 2px #cafd00, 0 8px 32px rgba(202,253,0,0.12);
+            transform: scale(1.01);
+        }
+        .goal-drag-handle {
+            cursor: grab;
+            touch-action: none;
+        }
+        .goal-drag-handle:active {
+            cursor: grabbing;
+        }
+        #goalsList {
+            min-height: 60px;
+        }
     </style>
 </head>
 
@@ -309,6 +332,92 @@
                 </div>
             </div>
         </div>
+        <!-- My Goals Section -->
+        <section class="mb-12">
+            <div class="flex items-center justify-between mb-6">
+                <h2 class="text-2xl font-headline font-black uppercase tracking-tight">🎯 Мои Цели</h2>
+                <span class="text-[10px] text-on-surface-variant font-black uppercase tracking-widest">Что вы хотите достичь?</span>
+            </div>
+
+            <!-- Add Goal Form -->
+            <div class="bg-surface-container-low rounded-xl p-6 border border-primary/20 mb-6">
+                <div class="flex flex-col gap-4">
+                    <div class="flex flex-col md:flex-row gap-4">
+                        <div class="flex-1">
+                            <label class="text-[10px] font-black uppercase tracking-widest text-on-surface-variant mb-2 block">Название цели</label>
+                            <input 
+                                type="text" 
+                                id="goalTitle" 
+                                placeholder="Например: Пробежать 5 км без остановки..."
+                                class="w-full bg-surface-container-highest border border-white/10 rounded-xl px-4 py-3 text-sm font-label text-on-surface placeholder:text-on-surface-variant/50 focus:outline-none focus:border-primary/60 focus:ring-1 focus:ring-primary/30 transition-all"
+                            />
+                        </div>
+                        <div class="md:w-48">
+                            <label class="text-[10px] font-black uppercase tracking-widest text-on-surface-variant mb-2 block">Категория</label>
+                            <select 
+                                id="goalCategory"
+                                class="w-full bg-surface-container-highest border border-white/10 rounded-xl px-4 py-3 text-sm font-label text-on-surface focus:outline-none focus:border-primary/60 focus:ring-1 focus:ring-primary/30 transition-all appearance-none cursor-pointer"
+                            >
+                                <option value="strength">💪 Сила</option>
+                                <option value="cardio">🏃 Кардио</option>
+                                <option value="weight">⚖️ Вес</option>
+                                <option value="nutrition">🥗 Питание</option>
+                                <option value="habit">🔥 Привычка</option>
+                                <option value="other">⭐ Другое</option>
+                            </select>
+                        </div>
+                        <div class="md:w-48">
+                            <label class="text-[10px] font-black uppercase tracking-widest text-on-surface-variant mb-2 block">Дедлайн</label>
+                            <input 
+                                type="date" 
+                                id="goalDeadline"
+                                class="w-full bg-surface-container-highest border border-white/10 rounded-xl px-4 py-3 text-sm font-label text-on-surface focus:outline-none focus:border-primary/60 focus:ring-1 focus:ring-primary/30 transition-all cursor-pointer"
+                            />
+                        </div>
+                    </div>
+                    <div>
+                        <label class="text-[10px] font-black uppercase tracking-widest text-on-surface-variant mb-2 block">Описание / Детали</label>
+                        <textarea 
+                            id="goalDescription" 
+                            rows="3"
+                            placeholder="Опишите подробнее вашу цель, шаги к достижению, мотивацию..."
+                            class="w-full bg-surface-container-highest border border-white/10 rounded-xl px-4 py-3 text-sm font-label text-on-surface placeholder:text-on-surface-variant/50 focus:outline-none focus:border-primary/60 focus:ring-1 focus:ring-primary/30 transition-all resize-none"
+                        ></textarea>
+                    </div>
+                    <div class="flex items-center gap-4">
+                        <div class="flex-1">
+                            <label class="text-[10px] font-black uppercase tracking-widest text-on-surface-variant mb-2 block">Прогресс: <span id="progressLabel">0%</span></label>
+                            <input 
+                                type="range" 
+                                id="goalProgress" 
+                                min="0" max="100" value="0"
+                                class="w-full accent-[#cafd00] cursor-pointer"
+                                oninput="document.getElementById('progressLabel').textContent = this.value + '%'"
+                            />
+                        </div>
+                        <button 
+                            onclick="addGoal()"
+                            class="mt-4 px-8 py-3 bg-primary-container text-on-primary-fixed font-headline font-extrabold uppercase rounded-xl hover:scale-[0.98] transition-transform flex items-center gap-2 whitespace-nowrap"
+                        >
+                            <span class="material-symbols-outlined text-lg" style="font-variation-settings: 'FILL' 1;">add_circle</span>
+                            Добавить цель
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Goals List -->
+            <div id="goalsList" class="space-y-4">
+                <!-- Goals will be rendered here by JS -->
+            </div>
+
+            <!-- Empty state -->
+            <div id="goalsEmpty" class="hidden flex flex-col items-center justify-center py-16 text-center">
+                <span class="material-symbols-outlined text-6xl text-on-surface-variant/30 mb-4" style="font-variation-settings: 'FILL' 1;">flag</span>
+                <p class="text-on-surface-variant font-label text-sm">У вас пока нет целей.<br/>Добавьте первую цель выше!</p>
+            </div>
+        </section>
+
         <!-- User Preferences Section -->
         <div class="grid grid-cols-1 md:grid-cols-2 gap-6 mb-12">
             <div class="bg-surface-container-low rounded-xl p-8 border border-primary/20">
@@ -370,8 +479,54 @@
                     </div>
                 </div>
             </section>
+            <!-- Weekly Schedule - Drag & Drop -->
+            <section class="mt-12">
+                <div class="flex items-center justify-between mb-6">
+                    <h2 class="text-2xl font-headline font-black uppercase tracking-tight">Weekly Schedule</h2>
+                    <span class="text-[10px] text-on-surface-variant font-black uppercase tracking-widest">Drag & Drop to Schedule</span>
+                </div>
+                
+                <div class="grid grid-cols-1 lg:grid-cols-4 gap-6">
+                    <!-- Workout Types (Draggable + Editable) -->
+                    <div class="lg:col-span-1">
+                        <div class="flex items-center justify-between mb-4">
+                            <h3 class="text-sm font-headline font-bold uppercase tracking-tight text-on-surface-variant">Workout Types</h3>
+                            <button onclick="addWorkoutType()" title="Добавить тип тренировки"
+                                class="w-7 h-7 rounded-lg bg-primary-container text-on-primary-fixed flex items-center justify-center hover:scale-110 transition-transform">
+                                <span class="material-symbols-outlined text-base" style="font-variation-settings:'FILL' 1;">add</span>
+                            </button>
+                        </div>
+                        <div id="workoutTypesList" class="space-y-3">
+                            <!-- Rendered by JS -->
+                        </div>
+                    </div>
+                    
+                    <!-- Schedule Grid -->
+                    <div class="lg:col-span-3">
+                        <div class="bg-surface-container-low rounded-xl p-6 overflow-x-auto">
+                            <table class="w-full min-w-[800px]">
+                                <thead>
+                                    <tr class="border-b border-white/10">
+                                        <th class="text-left py-3 px-2 text-[10px] font-black uppercase tracking-widest text-on-surface-variant w-20">Time</th>
+                                        <th class="text-center py-3 px-2 text-[10px] font-black uppercase tracking-widest text-on-surface-variant">Monday</th>
+                                        <th class="text-center py-3 px-2 text-[10px] font-black uppercase tracking-widest text-on-surface-variant">Tuesday</th>
+                                        <th class="text-center py-3 px-2 text-[10px] font-black uppercase tracking-widest text-on-surface-variant">Wednesday</th>
+                                        <th class="text-center py-3 px-2 text-[10px] font-black uppercase tracking-widest text-on-surface-variant">Thursday</th>
+                                        <th class="text-center py-3 px-2 text-[10px] font-black uppercase tracking-widest text-on-surface-variant">Friday</th>
+                                        <th class="text-center py-3 px-2 text-[10px] font-black uppercase tracking-widest text-on-surface-variant">Saturday</th>
+                                        <th class="text-center py-3 px-2 text-[10px] font-black uppercase tracking-widest text-on-surface-variant">Sunday</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="scheduleGrid">
+                                    <!-- Time slots will be generated by JavaScript -->
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </section>
             <section>
-                <h2 class="text-2xl font-headline font-black uppercase tracking-tight mb-6">Milestones &amp;
+                <h2 class="text-2xl font-headline font-black uppercase tracking-tight mb-6">Milestones &
                     Achievements</h2>
                 <div class="grid grid-cols-3 gap-4">
                     <div
@@ -448,6 +603,455 @@
 
 </html>
     <script>
+        // ===================== GOALS SYSTEM =====================
+        let userGoals = JSON.parse(localStorage.getItem('userGoals') || '[]');
+
+        const categoryConfig = {
+            strength:  { emoji: '💪', color: '#cafd00',  label: 'Сила' },
+            cardio:    { emoji: '🏃', color: '#00e3fd',  label: 'Кардио' },
+            weight:    { emoji: '⚖️', color: '#f59e0b',  label: 'Вес' },
+            nutrition: { emoji: '🥗', color: '#10b981',  label: 'Питание' },
+            habit:     { emoji: '🔥', color: '#ff7351',  label: 'Привычка' },
+            other:     { emoji: '⭐', color: '#a855f7',  label: 'Другое' },
+        };
+
+        function saveGoals() {
+            localStorage.setItem('userGoals', JSON.stringify(userGoals));
+        }
+
+        function addGoal() {
+            const title = document.getElementById('goalTitle').value.trim();
+            const category = document.getElementById('goalCategory').value;
+            const deadline = document.getElementById('goalDeadline').value;
+            const description = document.getElementById('goalDescription').value.trim();
+            const progress = parseInt(document.getElementById('goalProgress').value);
+
+            if (!title) {
+                document.getElementById('goalTitle').focus();
+                document.getElementById('goalTitle').style.borderColor = '#ff7351';
+                setTimeout(() => document.getElementById('goalTitle').style.borderColor = '', 1500);
+                return;
+            }
+
+            const goal = {
+                id: Date.now(),
+                title,
+                category,
+                deadline,
+                description,
+                progress,
+                completed: progress === 100,
+                createdAt: new Date().toLocaleDateString('ru-RU')
+            };
+
+            userGoals.unshift(goal);
+            saveGoals();
+            renderGoals();
+
+            // Reset form
+            document.getElementById('goalTitle').value = '';
+            document.getElementById('goalDescription').value = '';
+            document.getElementById('goalDeadline').value = '';
+            document.getElementById('goalProgress').value = 0;
+            document.getElementById('progressLabel').textContent = '0%';
+        }
+
+        function deleteGoal(id) {
+            userGoals = userGoals.filter(g => g.id !== id);
+            saveGoals();
+            renderGoals();
+        }
+
+        function toggleGoalComplete(id) {
+            const goal = userGoals.find(g => g.id === id);
+            if (goal) {
+                goal.completed = !goal.completed;
+                if (goal.completed) goal.progress = 100;
+                saveGoals();
+                renderGoals();
+            }
+        }
+
+        function updateGoalProgress(id, value) {
+            const goal = userGoals.find(g => g.id === id);
+            if (goal) {
+                goal.progress = parseInt(value);
+                goal.completed = goal.progress === 100;
+                saveGoals();
+                // Update just the progress bar and label without full re-render
+                const card = document.querySelector(`[data-goal-id="${id}"]`);
+                if (card) {
+                    const bar = card.querySelector('.goal-progress-bar');
+                    const label = card.querySelector('.goal-progress-label');
+                    if (bar) bar.style.width = value + '%';
+                    if (label) label.textContent = value + '%';
+                    if (goal.completed) {
+                        card.classList.add('opacity-60');
+                    } else {
+                        card.classList.remove('opacity-60');
+                    }
+                }
+            }
+        }
+
+        function getDaysLeft(deadline) {
+            if (!deadline) return null;
+            const today = new Date();
+            today.setHours(0,0,0,0);
+            const d = new Date(deadline);
+            const diff = Math.ceil((d - today) / (1000 * 60 * 60 * 24));
+            return diff;
+        }
+
+        function renderGoals() {
+            const list = document.getElementById('goalsList');
+            const empty = document.getElementById('goalsEmpty');
+
+            if (userGoals.length === 0) {
+                list.innerHTML = '';
+                empty.classList.remove('hidden');
+                empty.classList.add('flex');
+                return;
+            }
+
+            empty.classList.add('hidden');
+            empty.classList.remove('flex');
+
+            list.innerHTML = userGoals.map(goal => {
+                const cfg = categoryConfig[goal.category] || categoryConfig.other;
+                const daysLeft = getDaysLeft(goal.deadline);
+                let deadlineHtml = '';
+                if (daysLeft !== null) {
+                    if (daysLeft < 0) {
+                        deadlineHtml = `<span class="text-[10px] font-bold text-red-400 bg-red-400/10 px-2 py-0.5 rounded-full">Просрочено на ${Math.abs(daysLeft)} дн.</span>`;
+                    } else if (daysLeft === 0) {
+                        deadlineHtml = `<span class="text-[10px] font-bold text-[#f59e0b] bg-[#f59e0b]/10 px-2 py-0.5 rounded-full">Сегодня дедлайн!</span>`;
+                    } else if (daysLeft <= 3) {
+                        deadlineHtml = `<span class="text-[10px] font-bold text-[#f59e0b] bg-[#f59e0b]/10 px-2 py-0.5 rounded-full">Осталось ${daysLeft} дн.</span>`;
+                    } else {
+                        deadlineHtml = `<span class="text-[10px] font-bold text-on-surface-variant bg-white/5 px-2 py-0.5 rounded-full">📅 ${new Date(goal.deadline).toLocaleDateString('ru-RU')}</span>`;
+                    }
+                }
+
+                const completedClass = goal.completed ? 'opacity-60' : '';
+                const checkIcon = goal.completed ? 'check_circle' : 'radio_button_unchecked';
+                const checkColor = goal.completed ? 'text-[#cafd00]' : 'text-on-surface-variant/40';
+
+                return `
+                <div class="goal-card ${completedClass} bg-surface-container-low rounded-xl p-5 border border-white/5 hover:border-white/10 transition-all group" 
+                     data-goal-id="${goal.id}"
+                     draggable="true"
+                     style="border-left: 4px solid ${cfg.color}20;">
+                    <div class="flex items-start gap-3">
+
+                        <!-- Drag Handle -->
+                        <div class="goal-drag-handle flex-shrink-0 mt-1 flex flex-col gap-0.5 px-1 py-2 rounded-lg opacity-30 group-hover:opacity-80 transition-opacity hover:bg-white/5"
+                             title="Перетащите для изменения порядка">
+                            <span class="block w-4 h-0.5 bg-current rounded-full"></span>
+                            <span class="block w-4 h-0.5 bg-current rounded-full"></span>
+                            <span class="block w-4 h-0.5 bg-current rounded-full"></span>
+                            <span class="block w-4 h-0.5 bg-current rounded-full"></span>
+                            <span class="block w-4 h-0.5 bg-current rounded-full"></span>
+                            <span class="block w-4 h-0.5 bg-current rounded-full"></span>
+                        </div>
+
+                        <!-- Complete toggle -->
+                        <button onclick="toggleGoalComplete(${goal.id})" 
+                                class="mt-0.5 flex-shrink-0 transition-transform hover:scale-110"
+                                title="${goal.completed ? 'Отметить незавершённой' : 'Отметить выполненной'}">
+                            <span class="material-symbols-outlined text-2xl ${checkColor}" 
+                                  style="${goal.completed ? 'font-variation-settings: \'FILL\' 1; color: #cafd00;' : ''}">
+                                ${checkIcon}
+                            </span>
+                        </button>
+
+                        <!-- Content -->
+                        <div class="flex-1 min-w-0">
+                            <div class="flex flex-wrap items-center gap-2 mb-1">
+                                <span class="text-xs font-black uppercase tracking-widest px-2 py-0.5 rounded-full" 
+                                      style="background: ${cfg.color}15; color: ${cfg.color};">
+                                    ${cfg.emoji} ${cfg.label}
+                                </span>
+                                ${deadlineHtml}
+                                <span class="text-[10px] text-on-surface-variant/50 ml-auto">Добавлено: ${goal.createdAt}</span>
+                            </div>
+
+                            <h3 class="font-headline font-bold text-lg leading-tight mb-1 ${goal.completed ? 'line-through text-on-surface-variant' : ''}">
+                                ${goal.title}
+                            </h3>
+
+                            ${goal.description ? `<p class="text-on-surface-variant text-sm font-label leading-relaxed mb-3">${goal.description}</p>` : ''}
+
+                            <!-- Progress -->
+                            <div class="mt-3">
+                                <div class="flex items-center justify-between mb-1.5">
+                                    <span class="text-[10px] font-black uppercase tracking-widest text-on-surface-variant">Прогресс</span>
+                                    <span class="text-[10px] font-black goal-progress-label" style="color: ${cfg.color};">${goal.progress}%</span>
+                                </div>
+                                <div class="h-1.5 w-full bg-surface-container-highest rounded-full overflow-hidden mb-2">
+                                    <div class="goal-progress-bar h-full rounded-full transition-all duration-500" 
+                                         style="width: ${goal.progress}%; background: ${cfg.color}; box-shadow: 0 0 8px ${cfg.color}60;"></div>
+                                </div>
+                                <input type="range" min="0" max="100" value="${goal.progress}"
+                                       class="w-full cursor-pointer h-1 opacity-0 group-hover:opacity-100 transition-opacity"
+                                       style="accent-color: ${cfg.color};"
+                                       oninput="updateGoalProgress(${goal.id}, this.value)"
+                                       title="Перетащите для изменения прогресса" />
+                                <p class="text-[9px] text-on-surface-variant/40 text-center -mt-1 group-hover:opacity-100 opacity-0 transition-opacity">← слайдер прогресса →</p>
+                            </div>
+                        </div>
+
+                        <!-- Delete button -->
+                        <button onclick="deleteGoal(${goal.id})" 
+                                class="flex-shrink-0 opacity-0 group-hover:opacity-100 transition-opacity p-1.5 rounded-lg hover:bg-error-container/20 text-on-surface-variant hover:text-error"
+                                title="Удалить цель">
+                            <span class="material-symbols-outlined text-lg">delete</span>
+                        </button>
+                    </div>
+                </div>`;
+            }).join('');
+
+            // Setup drag & drop reordering after rendering
+            setupGoalsDragDrop();
+        }
+
+        // ===================== GOALS DRAG & DROP REORDER =====================
+        let goalDragSrcId = null;
+
+        function setupGoalsDragDrop() {
+            const cards = document.querySelectorAll('.goal-card');
+
+            cards.forEach(card => {
+                // Only start drag from the handle
+                const handle = card.querySelector('.goal-drag-handle');
+
+                // Make the whole card draggable but only activate via handle
+                card.addEventListener('dragstart', function(e) {
+                    // Only allow drag if it started from the handle
+                    if (!e.target.closest('.goal-drag-handle')) {
+                        e.preventDefault();
+                        return;
+                    }
+                    goalDragSrcId = parseInt(this.getAttribute('data-goal-id'));
+                    this.classList.add('dragging');
+                    e.dataTransfer.effectAllowed = 'move';
+                    e.dataTransfer.setData('text/plain', goalDragSrcId);
+                });
+
+                card.addEventListener('dragend', function() {
+                    this.classList.remove('dragging');
+                    document.querySelectorAll('.goal-card').forEach(c => c.classList.remove('drag-over'));
+                    goalDragSrcId = null;
+                });
+
+                card.addEventListener('dragover', function(e) {
+                    if (goalDragSrcId === null) return;
+                    e.preventDefault();
+                    e.dataTransfer.dropEffect = 'move';
+                    document.querySelectorAll('.goal-card').forEach(c => c.classList.remove('drag-over'));
+                    const srcId = goalDragSrcId;
+                    const targetId = parseInt(this.getAttribute('data-goal-id'));
+                    if (srcId !== targetId) {
+                        this.classList.add('drag-over');
+                    }
+                });
+
+                card.addEventListener('dragleave', function() {
+                    this.classList.remove('drag-over');
+                });
+
+                card.addEventListener('drop', function(e) {
+                    e.preventDefault();
+                    e.stopPropagation();
+                    this.classList.remove('drag-over');
+
+                    const srcId = goalDragSrcId;
+                    const targetId = parseInt(this.getAttribute('data-goal-id'));
+                    if (srcId === null || srcId === targetId) return;
+
+                    // Reorder userGoals array
+                    const srcIndex = userGoals.findIndex(g => g.id === srcId);
+                    const targetIndex = userGoals.findIndex(g => g.id === targetId);
+                    if (srcIndex === -1 || targetIndex === -1) return;
+
+                    const [moved] = userGoals.splice(srcIndex, 1);
+                    userGoals.splice(targetIndex, 0, moved);
+
+                    saveGoals();
+                    renderGoals();
+                });
+
+                // Make handle visually indicate draggability
+                if (handle) {
+                    handle.addEventListener('mousedown', function() {
+                        card.setAttribute('draggable', 'true');
+                    });
+                }
+            });
+        }
+        // ===================== END GOALS DRAG & DROP =====================
+
+        // Allow pressing Enter in title field to add goal
+        document.addEventListener('DOMContentLoaded', function() {
+            document.getElementById('goalTitle').addEventListener('keydown', function(e) {
+                if (e.key === 'Enter') addGoal();
+            });
+            renderGoals();
+        });
+
+        // ===================== END GOALS SYSTEM =====================
+
+        // ===================== WORKOUT TYPES SYSTEM =====================
+        const defaultWorkoutTypes = [
+            { id: 1, name: 'Push A', fullName: 'Push A: Hypertrophy Focus', muscle: 'Chest, Delts, Triceps', duration: '65 min', color: '#cafd00' },
+            { id: 2, name: 'Pull B', fullName: 'Pull B: Posterior Chain',   muscle: 'Back, Rear Delts, Biceps', duration: '70 min', color: '#00e3fd' },
+            { id: 3, name: 'Legs A', fullName: 'Legs A: Quad Dominant',     muscle: 'Quads, Calves',           duration: '55 min', color: '#ff7351' },
+            { id: 4, name: 'Legs B', fullName: 'Legs B: Hamstring Focus',   muscle: 'Hamstrings, Glutes',      duration: '60 min', color: '#a855f7' },
+            { id: 5, name: 'Push B', fullName: 'Push B: Strength',          muscle: 'Shoulders, Triceps',      duration: '50 min', color: '#f59e0b' },
+            { id: 6, name: 'Pull A', fullName: 'Pull A: Width Focus',       muscle: 'Lats, Biceps',            duration: '55 min', color: '#10b981' },
+            { id: 7, name: 'Cardio', fullName: 'Cardio Session',            muscle: 'Full Body',               duration: '30 min', color: '#ef4444' },
+        ];
+
+        let workoutTypes = JSON.parse(localStorage.getItem('workoutTypes') || 'null') || defaultWorkoutTypes;
+
+        function saveWorkoutTypes() {
+            localStorage.setItem('workoutTypes', JSON.stringify(workoutTypes));
+        }
+
+        function renderWorkoutTypes() {
+            const list = document.getElementById('workoutTypesList');
+            list.innerHTML = workoutTypes.map(wt => `
+                <div class="draggable-workout group relative p-4 bg-surface-container-low rounded-xl border-l-4 cursor-grab active:cursor-grabbing transition-all hover:scale-[1.02] hover:shadow-lg"
+                     draggable="true"
+                     data-workout="${wt.fullName}"
+                     data-muscle="${wt.muscle}"
+                     data-duration="${wt.duration}"
+                     data-wt-id="${wt.id}"
+                     style="border-left-color: ${wt.color};">
+                    <div class="flex items-center justify-between">
+                        <div class="flex-1 min-w-0">
+                            <p class="font-headline font-bold text-sm wt-name" style="color: ${wt.color};">${wt.name}</p>
+                            <p class="text-[10px] text-on-surface-variant wt-muscle">${wt.muscle} • ${wt.duration}</p>
+                        </div>
+                        <div class="flex items-center gap-1">
+                            <button onclick="startEditWorkout(${wt.id})"
+                                    class="opacity-0 group-hover:opacity-100 transition-opacity p-1 rounded-lg hover:bg-white/10 text-on-surface-variant hover:text-white"
+                                    title="Переименовать">
+                                <span class="material-symbols-outlined text-base">edit</span>
+                            </button>
+                            <button onclick="deleteWorkoutType(${wt.id})"
+                                    class="opacity-0 group-hover:opacity-100 transition-opacity p-1 rounded-lg hover:bg-error-container/20 text-on-surface-variant hover:text-error"
+                                    title="Удалить">
+                                <span class="material-symbols-outlined text-base">delete</span>
+                            </button>
+                            <span class="material-symbols-outlined text-lg" style="color: ${wt.color};">drag_indicator</span>
+                        </div>
+                    </div>
+                </div>
+            `).join('');
+
+            // Re-attach drag events
+            setupDragAndDrop();
+        }
+
+        function startEditWorkout(id) {
+            const wt = workoutTypes.find(w => w.id === id);
+            if (!wt) return;
+
+            // Find the card
+            const card = document.querySelector(`[data-wt-id="${id}"]`);
+            if (!card) return;
+
+            // Replace content with inline edit form
+            const inner = card.querySelector('.flex.items-center.justify-between');
+            inner.innerHTML = `
+                <div class="flex flex-col gap-2 w-full">
+                    <input id="edit-name-${id}" type="text" value="${wt.name}"
+                           placeholder="Короткое название (Push A)"
+                           class="w-full bg-surface-container-highest border border-white/20 rounded-lg px-3 py-1.5 text-sm font-headline font-bold text-on-surface focus:outline-none focus:border-primary/60 transition-all"
+                           style="color: ${wt.color};" />
+                    <input id="edit-full-${id}" type="text" value="${wt.fullName}"
+                           placeholder="Полное название"
+                           class="w-full bg-surface-container-highest border border-white/20 rounded-lg px-3 py-1.5 text-xs font-label text-on-surface focus:outline-none focus:border-primary/60 transition-all" />
+                    <input id="edit-muscle-${id}" type="text" value="${wt.muscle}"
+                           placeholder="Группы мышц"
+                           class="w-full bg-surface-container-highest border border-white/20 rounded-lg px-3 py-1.5 text-xs font-label text-on-surface focus:outline-none focus:border-primary/60 transition-all" />
+                    <div class="flex gap-2 items-center">
+                        <input id="edit-duration-${id}" type="text" value="${wt.duration}"
+                               placeholder="Длительность"
+                               class="flex-1 bg-surface-container-highest border border-white/20 rounded-lg px-3 py-1.5 text-xs font-label text-on-surface focus:outline-none focus:border-primary/60 transition-all" />
+                        <input id="edit-color-${id}" type="color" value="${wt.color}"
+                               class="w-8 h-8 rounded-lg cursor-pointer border-0 bg-transparent" title="Цвет" />
+                    </div>
+                    <div class="flex gap-2 mt-1">
+                        <button onclick="saveEditWorkout(${id})"
+                                class="flex-1 py-1.5 bg-primary-container text-on-primary-fixed text-xs font-black uppercase rounded-lg hover:scale-[0.98] transition-transform">
+                            Сохранить
+                        </button>
+                        <button onclick="renderWorkoutTypes()"
+                                class="px-3 py-1.5 bg-surface-container-highest text-on-surface-variant text-xs font-black uppercase rounded-lg hover:bg-surface-bright transition-colors">
+                            Отмена
+                        </button>
+                    </div>
+                </div>
+            `;
+            card.setAttribute('draggable', 'false');
+
+            // Focus first input
+            document.getElementById(`edit-name-${id}`).focus();
+
+            // Save on Enter
+            document.getElementById(`edit-name-${id}`).addEventListener('keydown', e => {
+                if (e.key === 'Enter') saveEditWorkout(id);
+                if (e.key === 'Escape') renderWorkoutTypes();
+            });
+        }
+
+        function saveEditWorkout(id) {
+            const wt = workoutTypes.find(w => w.id === id);
+            if (!wt) return;
+
+            const name     = document.getElementById(`edit-name-${id}`)?.value.trim();
+            const fullName = document.getElementById(`edit-full-${id}`)?.value.trim();
+            const muscle   = document.getElementById(`edit-muscle-${id}`)?.value.trim();
+            const duration = document.getElementById(`edit-duration-${id}`)?.value.trim();
+            const color    = document.getElementById(`edit-color-${id}`)?.value;
+
+            if (name)     wt.name     = name;
+            if (fullName) wt.fullName = fullName;
+            if (muscle)   wt.muscle   = muscle;
+            if (duration) wt.duration = duration;
+            if (color)    wt.color    = color;
+
+            saveWorkoutTypes();
+            renderWorkoutTypes();
+        }
+
+        function deleteWorkoutType(id) {
+            workoutTypes = workoutTypes.filter(w => w.id !== id);
+            saveWorkoutTypes();
+            renderWorkoutTypes();
+        }
+
+        function addWorkoutType() {
+            const newId = Date.now();
+            const colors = ['#cafd00','#00e3fd','#ff7351','#a855f7','#f59e0b','#10b981','#ef4444','#3b82f6'];
+            const color = colors[workoutTypes.length % colors.length];
+            workoutTypes.push({
+                id: newId,
+                name: 'New',
+                fullName: 'New Workout',
+                muscle: 'Muscles',
+                duration: '45 min',
+                color
+            });
+            saveWorkoutTypes();
+            renderWorkoutTypes();
+            // Auto-open edit for the new item
+            setTimeout(() => startEditWorkout(newId), 50);
+        }
+        // ===================== END WORKOUT TYPES SYSTEM =====================
+
         // Load and display user preferences from localStorage
         document.addEventListener('DOMContentLoaded', function() {
             const nutritionDisplay = document.getElementById('nutritionDisplay');
@@ -463,5 +1067,213 @@
             if (savedGoal) {
                 goalDisplay.textContent = savedGoal;
             }
+            
+            // Initialize the schedule grid
+            initializeScheduleGrid();
+            renderWorkoutTypes(); // renders + calls setupDragAndDrop inside
         });
+
+        // Generate time slots from 6:00 to 22:00
+        function initializeScheduleGrid() {
+            const grid = document.getElementById('scheduleGrid');
+            grid.innerHTML = '';
+            
+            for (let hour = 6; hour <= 22; hour++) {
+                const row = document.createElement('tr');
+                row.className = 'border-b border-white/5 hover:bg-surface-container-highest transition-colors';
+                
+                // Time column
+                const timeCell = document.createElement('td');
+                timeCell.className = 'py-2 px-2 text-[10px] text-on-surface-variant font-bold w-20';
+                timeCell.textContent = `${hour.toString().padStart(2, '0')}:00`;
+                row.appendChild(timeCell);
+                
+                // Day columns (7 days)
+                for (let day = 0; day < 7; day++) {
+                    const dayCell = document.createElement('td');
+                    dayCell.className = 'py-2 px-2 relative';
+                    dayCell.style.height = '40px';
+                    dayCell.style.minHeight = '40px';
+                    
+                    // Add drop zone styling
+                    dayCell.innerHTML = `
+                        <div class="drop-zone h-full w-full border-2 border-dashed border-white/10 rounded-lg 
+                                     hover:border-primary/50 hover:bg-surface-container transition-all duration-200
+                                     flex items-center justify-center text-[10px] text-on-surface-variant/50
+                                     font-black uppercase tracking-widest cursor-pointer">
+                            <span>Drop here</span>
+                        </div>
+                    `;
+                    
+                    // Add data attributes for day identification
+                    dayCell.setAttribute('data-day', day);
+                    dayCell.setAttribute('data-hour', hour);
+                    
+                    row.appendChild(dayCell);
+                }
+                
+                grid.appendChild(row);
+            }
+        }
+
+        // Setup drag and drop functionality
+        function setupDragAndDrop() {
+            const draggables = document.querySelectorAll('.draggable-workout');
+            const dropZones = document.querySelectorAll('.drop-zone');
+            
+            // Make items draggable
+            draggables.forEach(draggable => {
+                draggable.addEventListener('dragstart', handleDragStart);
+                draggable.addEventListener('dragend', handleDragEnd);
+            });
+            
+            // Setup drop zones
+            dropZones.forEach(dropZone => {
+                const cell = dropZone.parentElement;
+                
+                cell.addEventListener('dragover', handleDragOver);
+                cell.addEventListener('dragenter', handleDragEnter);
+                cell.addEventListener('dragleave', handleDragLeave);
+                cell.addEventListener('drop', handleDrop);
+            });
+        }
+
+        function handleDragStart(e) {
+            this.style.opacity = '0.5';
+            this.style.transform = 'scale(0.95)';
+            e.dataTransfer.effectAllowed = 'move';
+            e.dataTransfer.setData('text/plain', this.dataset.workout);
+            e.dataTransfer.setData('workout-data', JSON.stringify({
+                workout: this.dataset.workout,
+                muscle: this.dataset.muscle,
+                duration: this.dataset.duration,
+                color: getBorderColor(this)
+            }));
+        }
+
+        function handleDragEnd(e) {
+            this.style.opacity = '1';
+            this.style.transform = 'scale(1)';
+        }
+
+        function handleDragOver(e) {
+            e.preventDefault();
+            e.dataTransfer.dropEffect = 'move';
+        }
+
+        function handleDragEnter(e) {
+            e.preventDefault();
+            this.style.borderColor = '#cafd00';
+            this.style.backgroundColor = 'rgba(202, 253, 0, 0.05)';
+        }
+
+        function handleDragLeave(e) {
+            this.style.borderColor = 'rgba(255, 255, 255, 0.1)';
+            this.style.backgroundColor = 'transparent';
+        }
+
+        function handleDrop(e) {
+            e.preventDefault();
+            
+            // Remove drag styling
+            this.style.borderColor = 'rgba(255, 255, 255, 0.1)';
+            this.style.backgroundColor = 'transparent';
+            
+            // Get the dropped data
+            const workoutData = JSON.parse(e.dataTransfer.getData('workout-data'));
+            const day = this.parentElement.getAttribute('data-day');
+            const hour = this.parentElement.getAttribute('data-hour');
+            
+            // Check if there's already a workout at this time
+            if (this.querySelector('.scheduled-workout')) {
+                // Remove existing workout
+                this.innerHTML = '<span>Drop here</span>';
+            }
+            
+            // Create the scheduled workout element
+            const workoutElement = document.createElement('div');
+            workoutElement.className = `scheduled-workout absolute inset-1 bg-surface-container-highest rounded-lg border-2 border-${getColorClass(workoutData.color)} shadow-lg p-2 cursor-pointer group hover:scale-[1.02] transition-all`;
+            workoutElement.style.top = '2px';
+            workoutElement.style.left = '2px';
+            workoutElement.style.right = '2px';
+            workoutElement.style.bottom = '2px';
+            
+            // Add workout content
+            workoutElement.innerHTML = `
+                <div class="flex items-start justify-between mb-1">
+                    <div>
+                        <p class="font-headline font-bold text-xs truncate">${workoutData.workout}</p>
+                        <p class="text-[8px] text-on-surface-variant truncate">${workoutData.muscle}</p>
+                    </div>
+                    <div class="flex gap-1">
+                        <span class="material-symbols-outlined text-[10px] text-on-surface-variant" data-icon="schedule">${hour}:00</span>
+                        <span class="material-symbols-outlined text-[10px] text-on-surface-variant cursor-pointer hover:text-white" data-icon="close" onclick="removeWorkout(this)">close</span>
+                    </div>
+                </div>
+                <div class="flex items-center justify-between">
+                    <span class="text-[8px] text-on-surface-variant font-bold">${workoutData.duration}</span>
+                    <span class="w-2 h-2 rounded-full bg-${getColorClass(workoutData.color)}"></span>
+                </div>
+            `;
+            
+            // Clear the drop zone and add the workout
+            this.innerHTML = '';
+            this.appendChild(workoutElement);
+        }
+
+        function getBorderColor(element) {
+            const computedStyle = window.getComputedStyle(element);
+            const borderColor = computedStyle.borderColor;
+            
+            // Map border colors to CSS classes
+            if (borderColor.includes('202, 253, 0')) return 'primary';
+            if (borderColor.includes('0, 227, 253')) return 'secondary';
+            if (borderColor.includes('255, 115, 81')) return 'error';
+            if (borderColor.includes('168, 85, 247')) return 'violet';
+            if (borderColor.includes('245, 158, 11')) return 'amber';
+            if (borderColor.includes('16, 185, 129')) return 'emerald';
+            if (borderColor.includes('239, 68, 68')) return 'red';
+            
+            return 'primary';
+        }
+
+        function getColorClass(color) {
+            switch(color) {
+                case 'primary': return 'primary';
+                case 'secondary': return 'secondary';
+                case 'error': return 'error';
+                case 'violet': return 'violet-500';
+                case 'amber': return 'amber-500';
+                case 'emerald': return 'emerald-500';
+                case 'red': return 'red-500';
+                default: return 'primary';
+            }
+        }
+
+        // Function to remove a scheduled workout
+        window.removeWorkout = function(element) {
+            const workoutContainer = element.closest('.scheduled-workout');
+            const dropZone = workoutContainer.parentElement;
+            
+            // Remove the workout
+            workoutContainer.remove();
+            
+            // Restore the drop zone
+            dropZone.innerHTML = `
+                <div class="drop-zone h-full w-full border-2 border-dashed border-white/10 rounded-lg 
+                             hover:border-primary/50 hover:bg-surface-container transition-all duration-200
+                             flex items-center justify-center text-[10px] text-on-surface-variant/50
+                             font-black uppercase tracking-widest cursor-pointer">
+                    <span>Drop here</span>
+                </div>
+            `;
+            
+            // Re-setup the drop zone
+            const newDropZone = dropZone.querySelector('.drop-zone');
+            const cell = dropZone;
+            cell.addEventListener('dragover', handleDragOver);
+            cell.addEventListener('dragenter', handleDragEnter);
+            cell.addEventListener('dragleave', handleDragLeave);
+            cell.addEventListener('drop', handleDrop);
+        };
     </script>

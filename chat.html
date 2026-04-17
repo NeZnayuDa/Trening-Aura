@@ -279,19 +279,53 @@
             </div>
             
             <div class="space-y-4">
+                <!-- API Provider Selection -->
                 <div>
+                    <label class="block text-xs font-bold text-zinc-400 uppercase tracking-widest mb-2">AI Provider</label>
+                    <div class="flex gap-2">
+                        <button id="geminiProviderBtn" class="flex-1 py-3 px-4 rounded-xl border-2 border-[#CCFF00] bg-[#CCFF00]/10 text-[#CCFF00] font-bold text-sm transition-all hover:bg-[#CCFF00]/20">
+                            Google Gemini
+                        </button>
+                        <button id="openaiProviderBtn" class="flex-1 py-3 px-4 rounded-xl border-2 border-white/10 bg-transparent text-zinc-400 font-bold text-sm transition-all hover:border-white/30 hover:text-white">
+                            OpenAI
+                        </button>
+                    </div>
+                </div>
+                
+                <!-- Gemini API Key Input -->
+                <div id="geminiKeySection">
                     <label class="block text-xs font-bold text-zinc-400 uppercase tracking-widest mb-2">Gemini API Key</label>
-                    <input id="apiKeyInput" type="password" placeholder="Paste your Google Gemini API key here"
+                    <input id="geminiApiKeyInput" type="password" placeholder="Paste your Google Gemini API key here"
                         class="w-full bg-surface-container-low border border-white/10 rounded-xl px-4 py-3 text-sm text-on-surface placeholder:text-zinc-600 focus:outline-none focus:border-[#CCFF00] transition-colors" />
                     <p class="text-[10px] text-zinc-500 mt-2">Get your key from: <a href="https://ai.google.dev" target="_blank" class="text-[#CCFF00] hover:underline">ai.google.dev</a></p>
                 </div>
                 
+                <!-- OpenAI API Key Input -->
+                <div id="openaiKeySection" class="hidden">
+                    <label class="block text-xs font-bold text-zinc-400 uppercase tracking-widest mb-2">OpenAI API Key</label>
+                    <input id="openaiApiKeyInput" type="password" placeholder="Paste your OpenAI API key here"
+                        class="w-full bg-surface-container-low border border-white/10 rounded-xl px-4 py-3 text-sm text-on-surface placeholder:text-zinc-600 focus:outline-none focus:border-[#00e3fd] transition-colors" />
+                    <p class="text-[10px] text-zinc-500 mt-2">Get your key from: <a href="https://platform.openai.com/api-keys" target="_blank" class="text-[#00e3fd] hover:underline">platform.openai.com</a></p>
+                </div>
+                
+                <!-- Model Selection -->
+                <div>
+                    <label class="block text-xs font-bold text-zinc-400 uppercase tracking-widest mb-2">Model</label>
+                    <select id="modelSelect" class="w-full bg-surface-container-low border border-white/10 rounded-xl px-4 py-3 text-sm text-on-surface focus:outline-none focus:border-[#CCFF00] transition-colors">
+                        <option value="gemini-2.5-flash">Gemini 2.5 Flash</option>
+                        <option value="gemini-2.5-pro">Gemini 2.5 Pro</option>
+                        <option value="gpt-4o">GPT-4o</option>
+                        <option value="gpt-4-turbo">GPT-4 Turbo</option>
+                        <option value="gpt-3.5-turbo">GPT-3.5 Turbo</option>
+                    </select>
+                </div>
+                
                 <button id="saveApiKey" class="w-full bg-[#CCFF00] text-zinc-950 font-bold py-3 rounded-xl hover:shadow-[0_0_20px_#CCFF00] transition-all active:scale-95 uppercase text-xs tracking-widest">
-                    Save Key
+                    Save Configuration
                 </button>
                 
                 <div class="bg-yellow-500/10 border border-yellow-500/30 rounded-xl p-3 mt-4">
-                    <p class="text-[10px] text-yellow-400">⚠️ Your key is stored locally in browser. Never share it publicly.</p>
+                    <p class="text-[10px] text-yellow-400">⚠️ Your keys are stored locally in browser. Never share them publicly.</p>
                 </div>
             </div>
         </div>
@@ -300,10 +334,19 @@
 
 </html>
 <script>
-    // Google Gemini API Configuration
+    // API Configuration
+    let selectedProvider = localStorage.getItem('selected_provider') || 'gemini';
     let GEMINI_API_KEY = localStorage.getItem('gemini_api_key') || '';
-    const GEMINI_API_URL = 'https://generativelanguage.googleapis.com/v1beta/models/gemini-2.5-flash:generateContent';
+    let OPENAI_API_KEY = localStorage.getItem('openai_api_key') || '';
+    let selectedModel = localStorage.getItem('selected_model') || 'gemini-2.5-flash';
+    
     const API_TIMEOUT = 60000; // 60 seconds timeout
+
+    // Gemini API endpoints
+    const GEMINI_API_URL = 'https://generativelanguage.googleapis.com/v1beta/models';
+    
+    // OpenAI API endpoint
+    const OPENAI_API_URL = 'https://api.openai.com/v1/chat/completions';
 
     // Chat history for context
     let chatHistory = [
@@ -348,21 +391,54 @@
     const settingsBtn = document.getElementById('settingsBtn');
     const settingsModal = document.getElementById('settingsModal');
     const closeModal = document.getElementById('closeModal');
-    const apiKeyInput = document.getElementById('apiKeyInput');
-    const saveApiKey = document.getElementById('saveApiKey');
+    const geminiProviderBtn = document.getElementById('geminiProviderBtn');
+    const openaiProviderBtn = document.getElementById('openaiProviderBtn');
+    const geminiKeySection = document.getElementById('geminiKeySection');
+    const openaiKeySection = document.getElementById('openaiKeySection');
+    const geminiApiKeyInput = document.getElementById('geminiApiKeyInput');
+    const openaiApiKeyInput = document.getElementById('openaiApiKeyInput');
+    const modelSelect = document.getElementById('modelSelect');
+    const saveApiKeyBtn = document.getElementById('saveApiKey');
 
-    // Load API key from localStorage
-    if (GEMINI_API_KEY) {
-        apiKeyInput.value = GEMINI_API_KEY;
-        // Show status indicator
-        showConnectionStatus('connected');
-    } else {
-        showConnectionStatus('disconnected');
+    // Initialize UI based on saved preferences
+    function initializeSettingsUI() {
+        // Set provider buttons
+        if (selectedProvider === 'gemini') {
+            geminiProviderBtn.classList.add('border-[#CCFF00]', 'bg-[#CCFF00]/10', 'text-[#CCFF00]');
+            geminiProviderBtn.classList.remove('border-white/10', 'bg-transparent', 'text-zinc-400');
+            openaiProviderBtn.classList.add('border-white/10', 'bg-transparent', 'text-zinc-400');
+            openaiProviderBtn.classList.remove('border-[#00e3fd]', 'bg-[#00e3fd]/10', 'text-[#00e3fd]');
+            geminiKeySection.classList.remove('hidden');
+            openaiKeySection.classList.add('hidden');
+        } else {
+            openaiProviderBtn.classList.add('border-[#00e3fd]', 'bg-[#00e3fd]/10', 'text-[#00e3fd]');
+            openaiProviderBtn.classList.remove('border-white/10', 'bg-transparent', 'text-zinc-400');
+            geminiProviderBtn.classList.add('border-white/10', 'bg-transparent', 'text-zinc-400');
+            geminiProviderBtn.classList.remove('border-[#CCFF00]', 'bg-[#CCFF00]/10', 'text-[#CCFF00]');
+            openaiKeySection.classList.remove('hidden');
+            geminiKeySection.classList.add('hidden');
+        }
+        
+        // Set input values
+        geminiApiKeyInput.value = GEMINI_API_KEY;
+        openaiApiKeyInput.value = OPENAI_API_KEY;
+        
+        // Set model
+        modelSelect.value = selectedModel;
+        
+        // Update status indicator
+        updateConnectionStatus();
+    }
+
+    // Update connection status
+    function updateConnectionStatus() {
+        const hasKey = selectedProvider === 'gemini' ? GEMINI_API_KEY : OPENAI_API_KEY;
+        showConnectionStatus(hasKey ? 'connected' : 'disconnected');
     }
 
     // Check online status
-    window.addEventListener('online', () => showConnectionStatus('connected'));
-    window.addEventListener('offline', () => showConnectionStatus('disconnected'));
+    window.addEventListener('online', () => updateConnectionStatus());
+    window.addEventListener('offline', () => updateConnectionStatus());
 
     // Show connection status indicator
     function showConnectionStatus(status) {
@@ -373,45 +449,75 @@
         const statusDiv = document.createElement('div');
         statusDiv.className = 'connection-status fixed top-20 right-6 z-40 px-3 py-1 rounded-full text-xs font-bold uppercase tracking-widest flex items-center gap-2';
         
-        if (status === 'connected' && GEMINI_API_KEY) {
+        const providerName = selectedProvider === 'gemini' ? 'Gemini' : 'OpenAI';
+        
+        if (status === 'connected') {
             statusDiv.className += ' bg-green-500/20 text-green-400 border border-green-500/30';
-            statusDiv.innerHTML = '<span class="w-2 h-2 bg-green-400 rounded-full animate-pulse"></span>AI Ready';
+            statusDiv.innerHTML = `<span class="w-2 h-2 bg-green-400 rounded-full animate-pulse"></span>${providerName} Ready`;
         } else if (!navigator.onLine) {
             statusDiv.className += ' bg-red-500/20 text-red-400 border border-red-500/30';
             statusDiv.innerHTML = '<span class="w-2 h-2 bg-red-400 rounded-full"></span>Offline';
-        } else if (!GEMINI_API_KEY) {
-            statusDiv.className += ' bg-yellow-500/20 text-yellow-400 border border-yellow-500/30';
-            statusDiv.innerHTML = '<span class="w-2 h-2 bg-yellow-400 rounded-full"></span>No API Key';
         } else {
-            statusDiv.className += ' bg-zinc-500/20 text-zinc-400 border border-zinc-500/30';
-            statusDiv.innerHTML = '<span class="w-2 h-2 bg-zinc-400 rounded-full"></span>Checking...';
+            statusDiv.className += ' bg-yellow-500/20 text-yellow-400 border border-yellow-500/30';
+            statusDiv.innerHTML = `<span class="w-2 h-2 bg-yellow-400 rounded-full"></span>No ${providerName} Key`;
         }
         
         document.body.appendChild(statusDiv);
     }
 
+    // Provider selection handlers
+    geminiProviderBtn.addEventListener('click', function() {
+        selectedProvider = 'gemini';
+        localStorage.setItem('selected_provider', 'gemini');
+        initializeSettingsUI();
+    });
+
+    openaiProviderBtn.addEventListener('click', function() {
+        selectedProvider = 'openai';
+        localStorage.setItem('selected_provider', 'openai');
+        initializeSettingsUI();
+    });
+
+    // Model selection handler
+    modelSelect.addEventListener('change', function() {
+        selectedModel = this.value;
+        localStorage.setItem('selected_model', this.value);
+    });
+
     // Settings modal handlers
     settingsBtn.addEventListener('click', function() {
+        initializeSettingsUI();
         settingsModal.classList.remove('hidden');
-        apiKeyInput.focus();
     });
 
     closeModal.addEventListener('click', function() {
         settingsModal.classList.add('hidden');
     });
 
-    saveApiKey.addEventListener('click', function() {
-        const key = apiKeyInput.value.trim();
-        if (key) {
-            GEMINI_API_KEY = key;
-            localStorage.setItem('gemini_api_key', key);
-            settingsModal.classList.add('hidden');
-            // Update status indicator
-            showConnectionStatus('connected');
-            // Show success message
-            alert('✅ API ключ сохранен! Чат готов к использованию.');
+    // Save API configuration
+    saveApiKeyBtn.addEventListener('click', function() {
+        if (selectedProvider === 'gemini') {
+            const key = geminiApiKeyInput.value.trim();
+            if (key) {
+                GEMINI_API_KEY = key;
+                localStorage.setItem('gemini_api_key', key);
+                settingsModal.classList.add('hidden');
+                updateConnectionStatus();
+                alert('✅ Gemini API ключ сохранен! Чат готов к использованию.');
+            } else {
+                alert('⚠️ Пожалуйста, введите корректный API ключ.');
+            }
         } else {
-            alert('⚠️ Пожалуйста, введите корректный API ключ.');
+            const key = openaiApiKeyInput.value.trim();
+            if (key) {
+                OPENAI_API_KEY = key;
+                localStorage.setItem('openai_api_key', key);
+                settingsModal.classList.add('hidden');
+                updateConnectionStatus();
+                alert('✅ OpenAI API ключ сохранен! Чат готов к использованию.');
+            } else {
+                alert('⚠️ Пожалуйста, введите корректный API ключ.');
+            }
         }
     });
 
@@ -421,6 +527,9 @@
             settingsModal.classList.add('hidden');
         }
     });
+
+    // Initialize on load
+    initializeSettingsUI();
 
     // Open file picker when camera button is clicked
     cameraBtn.addEventListener('click', function() {
@@ -464,10 +573,19 @@
         }
     });
 
-    // Send image to Gemini API with vision
+    // Send image to AI (supports both Gemini and OpenAI)
     async function sendImageToAI(imageData) {
+        if (selectedProvider === 'gemini') {
+            await sendImageToGemini(imageData);
+        } else if (selectedProvider === 'openai') {
+            await sendImageToOpenAI(imageData);
+        }
+    }
+
+    // Send image to Gemini API with vision
+    async function sendImageToGemini(imageData) {
         if (!GEMINI_API_KEY) {
-            displayError('⚠️ Пожалуйста, настройте API ключ! Нажмите значок настроек (⚙️).');
+            displayError('⚠️ Пожалуйста, настройте Gemini API ключ! Нажмите значок настроек (⚙️).');
             return;
         }
         
@@ -481,7 +599,7 @@
             const controller = new AbortController();
             const timeout = setTimeout(() => controller.abort(), API_TIMEOUT);
             
-            const response = await fetch(`${GEMINI_API_URL}?key=${GEMINI_API_KEY}`, {
+            const response = await fetch(`${GEMINI_API_URL}/${selectedModel}:generateContent?key=${GEMINI_API_KEY}`, {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json'
@@ -513,10 +631,17 @@
                 const errorData = await response.json();
                 console.error('API Error:', errorData);
                 const errorMsg = errorData.error?.message || 'API request failed';
+                
                 if (errorMsg.includes('API_KEY_INVALID') || errorMsg.includes('PERMISSION_DENIED')) {
                     throw new Error('Неверный API ключ! Пожалуйста, проверьте ключ в настройках (⚙️).');
-                } else if (errorMsg.includes('QUOTA_EXCEEDED')) {
-                    throw new Error('Превышен лимит запросов API. Попробуйте позже.');
+                } else if (errorMsg.includes('QUOTA_EXCEEDED') || errorMsg.includes('resource_exhausted')) {
+                    // Проверяем, какая модель используется
+                    const isProModel = selectedModel.includes('pro');
+                    if (isProModel) {
+                        throw new Error('Превышен бесплатный лимит Gemini Pro! Попробуйте:\n1. Переключиться на Gemini 2.5 Flash (больше бесплатных запросов)\n2. Добавить биллинг аккаунт Google\n3. Подождать ~50 секунд для сброса лимита');
+                    } else {
+                        throw new Error('Превышен лимит запросов Gemini! Подождите ~1 минуту или переключитесь на другую модель.');
+                    }
                 } else {
                     throw new Error(errorMsg);
                 }
@@ -529,6 +654,110 @@
             }
             
             const aiMessage = data.candidates[0].content.parts[0].text;
+            
+            // Display AI response
+            displayAIResponse(aiMessage);
+        } catch (error) {
+            console.error('Error analyzing image:', error);
+            
+            let errorMessage = '❌ Ошибка при анализе изображения. ';
+            if (error.name === 'AbortError') {
+                errorMessage += 'Превышено время ожидания ответа. Проверьте интернет-соединение.';
+            } else if (!navigator.onLine) {
+                errorMessage += 'Нет подключения к интернету.';
+            } else if (error.message) {
+                errorMessage += error.message;
+            } else {
+                errorMessage += 'Проверьте API ключ и интернет-соединение.';
+            }
+            displayError(errorMessage);
+        }
+    }
+
+    // Send image to OpenAI API with vision (GPT-4 Vision)
+    async function sendImageToOpenAI(imageData) {
+        if (!OPENAI_API_KEY) {
+            displayError('⚠️ Пожалуйста, настройте OpenAI API ключ! Нажмите значок настроек (⚙️).');
+            return;
+        }
+        
+        showLoadingIndicator();
+        
+        try {
+            const controller = new AbortController();
+            const timeout = setTimeout(() => controller.abort(), API_TIMEOUT);
+            
+            const response = await fetch(OPENAI_API_URL, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Authorization': `Bearer ${OPENAI_API_KEY}`
+                },
+                signal: controller.signal,
+                body: JSON.stringify({
+                    model: selectedModel || 'gpt-4o',
+                    messages: [
+                        {
+                            role: 'system',
+                            content: 'Ты - TRENING AURA AI, профессиональный AI-ассистент по питанию и фитнесу. Отвечай ТОЛЬКО на русском языке. Давай подробные, практические рекомендации по питанию, тренировкам, расчету калорий и макронутриентов.'
+                        },
+                        {
+                            role: 'user',
+                            content: [
+                                {
+                                    type: 'text',
+                                    text: 'Проанализируй изображение еды и дай подробный разбор: оцени калорийность, содержание белков, жиров, углеводов, клетчатки, витаминов и минералов. Дай практические рекомендации по улучшению блюда, укажи примерные граммовки ингредиентов. Отвечай на русском языке, используй эмодзи для наглядности.'
+                                },
+                                {
+                                    type: 'image_url',
+                                    image_url: {
+                                        url: imageData
+                                    }
+                                }
+                            ]
+                        }
+                    ],
+                    max_tokens: 2048,
+                    temperature: 0.7
+                })
+            });
+            
+            clearTimeout(timeout);
+
+            if (!response.ok) {
+                const errorData = await response.json();
+                console.error('API Error:', errorData);
+                const errorMsg = errorData.error?.message || 'API request failed';
+                const errorCode = errorData.error?.code;
+                
+                if (errorMsg.includes('invalid_api_key') || errorMsg.includes('incorrect_api_key')) {
+                    throw new Error('Неверный OpenAI API ключ! Пожалуйста, проверьте ключ в настройках (⚙️).');
+                } else if (errorMsg.includes('insufficient_quota') || errorCode === 'insufficient_quota') {
+                    throw new Error('Превышен лимит кредитов OpenAI! Проверьте ваш план и биллинг на platform.openai.com/account/billing/overview');
+                } else if (errorMsg.includes('rate_limit_exceeded') || errorCode === 'rate_limit_exceeded') {
+                    throw new Error('Превышен лимит запросов API. Попробуйте позже (через 1-2 минуты).');
+                } else {
+                    throw new Error(errorMsg);
+                }
+            }
+
+            const data = await response.json();
+            
+            if (!data.choices || !data.choices[0] || !data.choices[0].message || !data.choices[0].message.content) {
+                throw new Error('Пустой ответ от API. Попробуйте еще раз.');
+            }
+            
+            const aiMessage = data.choices[0].message.content;
+            
+            // Add to chat history
+            chatHistory.push({
+                role: 'user',
+                content: '[Image Analysis Request]'
+            });
+            chatHistory.push({
+                role: 'assistant',
+                content: aiMessage
+            });
             
             // Display AI response
             displayAIResponse(aiMessage);
@@ -593,10 +822,19 @@
         }
     });
 
-    // Send text message using Gemini API format
+    // Send text message (supports both Gemini and OpenAI)
     async function sendMessage(message) {
+        if (selectedProvider === 'gemini') {
+            await sendTextToGemini(message);
+        } else if (selectedProvider === 'openai') {
+            await sendTextToOpenAI(message);
+        }
+    }
+
+    // Send text message to Gemini API
+    async function sendTextToGemini(message) {
         if (!GEMINI_API_KEY) {
-            displayError('⚠️ Пожалуйста, настройте API ключ! Нажмите значок настроек (⚙️).');
+            displayError('⚠️ Пожалуйста, настройте Gemini API ключ! Нажмите значок настроек (⚙️).');
             return;
         }
         
@@ -645,7 +883,7 @@
             const controller = new AbortController();
             const timeout = setTimeout(() => controller.abort(), API_TIMEOUT);
 
-            const response = await fetch(`${GEMINI_API_URL}?key=${GEMINI_API_KEY}`, {
+            const response = await fetch(`${GEMINI_API_URL}/${selectedModel}:generateContent?key=${GEMINI_API_KEY}`, {
                 method: 'POST',
                 headers: {
                     'Content-Type': 'application/json'
@@ -666,9 +904,9 @@
                 const errorData = await response.json();
                 console.error('API Error:', errorData);
                 const errorMsg = errorData.error?.message || 'API request failed';
-                if (errorMsg.includes('API_KEY_INVALID') || errorMsg.includes('PERMISSION_DENIED') || errorMsg.includes('invalid_api_key')) {
+                if (errorMsg.includes('API_KEY_INVALID') || errorMsg.includes('PERMISSION_DENIED')) {
                     throw new Error('Неверный API ключ! Пожалуйста, проверьте ключ в настройках (⚙️).');
-                } else if (errorMsg.includes('QUOTA_EXCEEDED') || errorMsg.includes('rate_limit')) {
+                } else if (errorMsg.includes('QUOTA_EXCEEDED')) {
                     throw new Error('Превышен лимит запросов API. Попробуйте позже.');
                 } else {
                     throw new Error(errorMsg);
@@ -682,6 +920,129 @@
             }
             
             const aiMessage = data.candidates[0].content.parts[0].text;
+            
+            // Add to chat history
+            chatHistory.push({
+                role: 'user',
+                content: message
+            });
+            chatHistory.push({
+                role: 'assistant',
+                content: aiMessage
+            });
+
+            // Display AI response
+            displayAIResponse(aiMessage);
+        } catch (error) {
+            console.error('Error sending message:', error);
+            
+            let errorMessage = '❌ Ошибка при отправке сообщения. ';
+            if (error.name === 'AbortError') {
+                errorMessage += 'Превышено время ожидания ответа. Проверьте интернет-соединение.';
+            } else if (!navigator.onLine) {
+                errorMessage += 'Нет подключения к интернету.';
+            } else if (error.message) {
+                errorMessage += error.message;
+            } else {
+                errorMessage += 'Проверьте API ключ и интернет-соединение.';
+            }
+            displayError(errorMessage);
+        }
+    }
+
+    // Send text message to OpenAI API
+    async function sendTextToOpenAI(message) {
+        if (!OPENAI_API_KEY) {
+            displayError('⚠️ Пожалуйста, настройте OpenAI API ключ! Нажмите значок настроек (⚙️).');
+            return;
+        }
+        
+        // Create user message element
+        const userMessageDiv = document.createElement('div');
+        userMessageDiv.className = 'flex justify-end';
+        userMessageDiv.innerHTML = `
+            <div class="max-w-xl w-full bg-[#00e3fd]/10 p-4 rounded-2xl border border-[#00e3fd]/30">
+                <p class="text-on-surface">${escapeHtml(message)}</p>
+            </div>
+        `;
+        messagesContainer.appendChild(userMessageDiv);
+        messageInput.value = '';
+        messagesContainer.scrollTop = messagesContainer.scrollHeight;
+
+        // Show loading indicator
+        showLoadingIndicator();
+
+        try {
+            // Build messages for OpenAI format
+            const messages = [];
+            
+            // Add system prompt
+            messages.push({
+                role: 'system',
+                content: 'Ты - TRENING AURA AI, профессиональный AI-ассистент по питанию и фитнесу. Отвечай ТОЛЬКО на русском языке. Давай подробные, практические рекомендации по питанию, тренировкам, расчету калорий и макронутриентов.'
+            });
+            
+            // Add previous messages
+            chatHistory
+                .filter(msg => msg.role !== 'system')
+                .forEach(msg => {
+                    messages.push({
+                        role: msg.role,
+                        content: msg.content
+                    });
+                });
+            
+            // Add current message
+            messages.push({
+                role: 'user',
+                content: message
+            });
+
+            // Create abort controller for timeout
+            const controller = new AbortController();
+            const timeout = setTimeout(() => controller.abort(), API_TIMEOUT);
+
+            const response = await fetch(OPENAI_API_URL, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'Authorization': `Bearer ${OPENAI_API_KEY}`
+                },
+                signal: controller.signal,
+                body: JSON.stringify({
+                    model: selectedModel || 'gpt-4o',
+                    messages: messages,
+                    max_tokens: 2048,
+                    temperature: 0.7
+                })
+            });
+            
+            clearTimeout(timeout);
+
+            if (!response.ok) {
+                const errorData = await response.json();
+                console.error('API Error:', errorData);
+                const errorMsg = errorData.error?.message || 'API request failed';
+                const errorCode = errorData.error?.code;
+                
+                if (errorMsg.includes('invalid_api_key') || errorMsg.includes('incorrect_api_key')) {
+                    throw new Error('Неверный OpenAI API ключ! Пожалуйста, проверьте ключ в настройках (⚙️).');
+                } else if (errorMsg.includes('insufficient_quota') || errorCode === 'insufficient_quota') {
+                    throw new Error('Превышен лимит кредитов OpenAI! Проверьте ваш план и биллинг на platform.openai.com/account/billing/overview');
+                } else if (errorMsg.includes('rate_limit_exceeded') || errorCode === 'rate_limit_exceeded') {
+                    throw new Error('Превышен лимит запросов API. Попробуйте позже (через 1-2 минуты).');
+                } else {
+                    throw new Error(errorMsg);
+                }
+            }
+
+            const data = await response.json();
+            
+            if (!data.choices || !data.choices[0] || !data.choices[0].message || !data.choices[0].message.content) {
+                throw new Error('Пустой ответ от API. Попробуйте еще раз.');
+            }
+            
+            const aiMessage = data.choices[0].message.content;
             
             // Add to chat history
             chatHistory.push({
