@@ -89,6 +89,11 @@
         }
     </script>
     <style>
+        html, body {
+            height: 100%;
+            overflow: hidden;
+        }
+
         .material-symbols-outlined {
             font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
         }
@@ -171,7 +176,7 @@
         </div>
     </aside>
     <!-- Main Content Area -->
-    <main class="lg:ml-64 pt-20 pb-24 md:pb-10 min-h-screen flex flex-col md:flex-row">
+    <main class="lg:ml-64 flex flex-col md:flex-row" style="height: 100vh; padding-top: 4rem;">
         <!-- Recent Analyses Sidebar (In-page) -->
         <aside class="hidden xl:flex flex-col w-80 p-6 border-r border-white/5 space-y-6">
             <h3 class="font-headline text-sm font-bold tracking-widest uppercase text-zinc-400">Recent Analyses</h3>
@@ -209,9 +214,9 @@
             </div>
         </aside>
         <!-- Chat Canvas -->
-        <section class="flex-1 flex flex-col relative overflow-hidden">
+        <section class="flex-1 flex flex-col" style="height: calc(100vh - 5rem); overflow: hidden;">
             <!-- Messages Container -->
-            <div class="flex-1 p-6 md:p-10 space-y-12 overflow-y-auto max-w-4xl mx-auto w-full pb-48">
+            <div class="flex-1 p-6 md:p-10 space-y-12 overflow-y-auto max-w-4xl mx-auto w-full" style="overflow-y: auto;">
                 <!-- System Greeting -->
                 <div class="flex flex-col items-center justify-center py-10 opacity-40">
                     <span class="material-symbols-outlined text-6xl text-[#CCFF00]"
@@ -221,8 +226,7 @@
                 </div>
             </div>
             <!-- Sleek Input Field Area -->
-            <div
-                class="absolute bottom-0 left-0 w-full p-6 md:p-10 bg-gradient-to-t from-surface via-surface/95 to-transparent">
+            <div class="w-full p-6 md:p-10 bg-gradient-to-t from-surface via-surface/95 to-transparent flex-shrink-0">
                 <div class="max-w-4xl mx-auto">
                     <div
                         class="flex items-center gap-3 p-2 bg-surface-container border border-white/5 rounded-2xl shadow-2xl kinetic-blur">
