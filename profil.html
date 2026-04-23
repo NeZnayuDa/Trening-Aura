@@ -150,6 +150,8 @@
                     href="./treker.html">Tracker</a>
                 <a class="font-headline tracking-tight font-bold uppercase text-[#adaaaa] hover:text-white transition-colors"
                     href="./rewards.html">Rewards</a>
+                                    <a class="font-headline tracking-tight font-bold uppercase text-[#adaaaa] hover:text-white transition-colors"
+                    href="./chatpeople.html">CHAT PARTNER</a>
             </div>
             <div class="flex items-center gap-4">
                 <div
@@ -167,47 +169,76 @@
     </nav>
     <main class="pt-24 pb-20 px-6 md:px-12 max-w-[1400px] mx-auto">
         <!-- Profile Header Section -->
+        <!-- Edit Profile Modal -->
+        <div id="editProfileModal" class="hidden fixed inset-0 z-[100] flex items-center justify-center bg-black/70 backdrop-blur-sm p-4">
+            <div class="bg-surface-container-high rounded-2xl p-8 w-full max-w-lg border border-white/10 shadow-2xl">
+                <div class="flex items-center justify-between mb-6">
+                    <h3 class="text-xl font-headline font-bold uppercase">Edit Profile</h3>
+                    <button onclick="closeEditModal()" class="text-on-surface-variant hover:text-white transition-colors">
+                        <span class="material-symbols-outlined">close</span>
+                    </button>
+                </div>
+                <div class="space-y-4">
+                    <div>
+                        <label class="block text-[10px] font-bold uppercase tracking-widest text-on-surface-variant mb-2">Full Name</label>
+                        <input id="editName" type="text" class="w-full bg-surface-container-highest border border-white/10 rounded-xl px-4 py-3 text-white focus:outline-none focus:border-primary/60 transition-all" />
+                    </div>
+                    <div>
+                        <label class="block text-[10px] font-bold uppercase tracking-widest text-on-surface-variant mb-2">Bio</label>
+                        <textarea id="editBio" rows="3" class="w-full bg-surface-container-highest border border-white/10 rounded-xl px-4 py-3 text-white focus:outline-none focus:border-primary/60 transition-all resize-none" placeholder="Tell others about yourself..."></textarea>
+                    </div>
+                    <div>
+                        <label class="block text-[10px] font-bold uppercase tracking-widest text-on-surface-variant mb-2">Email</label>
+                        <input id="editEmail" type="email" class="w-full bg-surface-container-highest border border-white/10 rounded-xl px-4 py-3 text-white focus:outline-none focus:border-primary/60 transition-all" />
+                    </div>
+                    <div>
+                        <label class="block text-[10px] font-bold uppercase tracking-widest text-on-surface-variant mb-2">New Password (leave blank to keep current)</label>
+                        <input id="editPassword" type="password" placeholder="••••••••" class="w-full bg-surface-container-highest border border-white/10 rounded-xl px-4 py-3 text-white focus:outline-none focus:border-primary/60 transition-all" />
+                    </div>
+                    <div id="editProfileError" class="hidden text-red-400 text-sm p-3 bg-red-900/20 rounded-xl border border-red-500/30"></div>
+                    <button onclick="saveProfile()" class="w-full bg-primary-container text-on-primary-fixed font-headline font-black uppercase py-3 rounded-xl hover:scale-[0.98] transition-transform">
+                        Save Changes
+                    </button>
+                </div>
+            </div>
+        </div>
+
         <header class="flex flex-col md:flex-row items-end justify-between gap-8 mb-16">
             <div class="flex flex-col md:flex-row items-center md:items-end gap-8">
                 <div class="relative group">
-                    <div
-                        class="w-40 h-40 md:w-56 md:h-56 rounded-xl overflow-hidden shadow-[0_0_40px_rgba(202,253,0,0.08)] bg-surface-container">
-                        <img class="w-full h-full object-cover grayscale hover:grayscale-0 transition-all duration-700"
-                            data-alt="portrait of a muscular man in a dark gym environment, intense look, cyan and lime neon rim lighting"
-                            src="https://lh3.googleusercontent.com/aida-public/AB6AXuCl5vu_GXpPgw_j30IohpYsq5blVdAE398mp-D-baqhnTGpMoX_HHVbQ2HjnSfoHEGP-WTyl_40NaZM9EIpfxBp1ZW5Dho3kxR5VwVpYL3utqLGVBkLFuZAsKY1Nma-6wQu_ptoHOorFjS2IZqYcWgPBrHIy5NNnmwKzrvuMG2cFqf5-Wien8Tlcwx6h0Fcq-Xo9ngbTn4Gv3DBvGkZ0GrWh3l2lJYv8plIBORPoyzEvubyANdeDBHqrAPAlkdZne4fkE6mkcefWTWO" />
+                    <div class="w-40 h-40 md:w-56 md:h-56 rounded-xl overflow-hidden shadow-[0_0_40px_rgba(202,253,0,0.08)] bg-surface-container flex items-center justify-center">
+                        <div id="profileAvatarInitials" class="text-6xl font-headline font-black text-[#cafd00]">?</div>
                     </div>
-                    <button
+                    <button onclick="openEditModal()"
                         class="absolute -bottom-3 -right-3 w-12 h-12 bg-primary-container text-on-primary-fixed rounded-xl flex items-center justify-center hover:scale-105 transition-transform">
-                        <span class="material-symbols-outlined" data-icon="edit">edit</span>
+                        <span class="material-symbols-outlined">edit</span>
                     </button>
                 </div>
                 <div class="text-center md:text-left">
                     <div class="flex items-center gap-3 mb-2 justify-center md:justify-start">
-                        <span
-                            class="px-3 py-1 bg-secondary-container text-secondary text-[10px] font-black uppercase tracking-widest rounded-full">Pro
-                            Member</span>
-                        <span class="text-on-surface-variant text-sm font-label">Since Oct 2023</span>
+                        <span class="px-3 py-1 bg-secondary-container text-secondary text-[10px] font-black uppercase tracking-widest rounded-full">Aura Member</span>
+                        <span id="profileJoinDate" class="text-on-surface-variant text-sm font-label">Since —</span>
                     </div>
-                    <h1
-                        class="text-5xl md:text-7xl font-headline font-black uppercase tracking-tighter leading-none mb-2">
-                        MARCUS V.<br /><span class="text-primary">KINETIC PULSE</span></h1>
-                    <p class="text-on-surface-variant font-label tracking-wide">Elite Athlete • Current Plan:
-                        Hypertrophy Masterclass V2</p>
+                    <h1 class="text-5xl md:text-7xl font-headline font-black uppercase tracking-tighter leading-none mb-2">
+                        <span id="profileName">LOADING...</span><br /><span class="text-primary">KINETIC PULSE</span>
+                    </h1>
+                    <p id="profileBio" class="text-on-surface-variant font-label tracking-wide">Elite Athlete</p>
+                    <p id="profileEmail" class="text-on-surface-variant/50 text-sm font-label mt-1"></p>
                 </div>
             </div>
             <div class="flex flex-col gap-3 w-full md:w-auto">
-                <button
-                    class="w-full md:w-64 bg-primary-container text-on-primary-fixed font-headline font-extrabold uppercase py-4 rounded-xl flex items-center justify-center gap-3 hover:scale-[0.98] transition-transform">
-                    <span class="material-symbols-outlined" data-icon="bolt"
-                        style="font-variation-settings: 'FILL' 1;">bolt</span>
-                    Start Workout
-                </button>
+                <a href="./chatpeople.html">
+                    <button class="w-full md:w-64 bg-primary-container text-on-primary-fixed font-headline font-extrabold uppercase py-4 rounded-xl flex items-center justify-center gap-3 hover:scale-[0.98] transition-transform">
+                        <span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">chat</span>
+                        Chat Partners
+                    </button>
+                </a>
                 <div class="flex gap-3">
-                    <button
-                        class="flex-1 bg-surface-container-highest text-on-surface font-headline font-bold uppercase py-3 px-6 rounded-xl hover:bg-surface-bright transition-colors">Settings</button>
-                    <button
+                    <button onclick="openEditModal()"
+                        class="flex-1 bg-surface-container-highest text-on-surface font-headline font-bold uppercase py-3 px-6 rounded-xl hover:bg-surface-bright transition-colors">Edit Profile</button>
+                    <button onclick="doLogout()"
                         class="bg-error-container/20 text-error px-4 rounded-xl hover:bg-error-container hover:text-white transition-all flex items-center justify-center">
-                        <span class="material-symbols-outlined" data-icon="logout">logout</span>
+                        <span class="material-symbols-outlined">logout</span>
                     </button>
                 </div>
             </div>
@@ -602,7 +633,75 @@
 </body>
 
 </html>
+    <script src="./auth.js"></script>
     <script>
+        // Load user profile data
+        document.addEventListener('DOMContentLoaded', function() {
+            const user = AuraAuth.getCurrentUser();
+            if (!user) {
+                window.location.href = './login.html';
+                return;
+            }
+            document.getElementById('profileName').textContent = user.name.toUpperCase();
+            document.getElementById('profileAvatarInitials').textContent = user.name.charAt(0).toUpperCase();
+            document.getElementById('profileJoinDate').textContent = 'Since ' + user.joinDate;
+            document.getElementById('profileEmail').textContent = user.email;
+            if (user.bio) document.getElementById('profileBio').textContent = user.bio;
+        });
+
+        function doLogout() {
+            AuraAuth.logout();
+            window.location.href = './index.html';
+        }
+
+        function openEditModal() {
+            const user = AuraAuth.getCurrentUser();
+            if (!user) return;
+            document.getElementById('editName').value = user.name;
+            document.getElementById('editBio').value = user.bio || '';
+            document.getElementById('editEmail').value = user.email;
+            document.getElementById('editPassword').value = '';
+            document.getElementById('editProfileError').classList.add('hidden');
+            document.getElementById('editProfileModal').classList.remove('hidden');
+        }
+
+        function closeEditModal() {
+            document.getElementById('editProfileModal').classList.add('hidden');
+        }
+
+        function saveProfile() {
+            const name = document.getElementById('editName').value.trim();
+            const bio = document.getElementById('editBio').value.trim();
+            const email = document.getElementById('editEmail').value.trim();
+            const password = document.getElementById('editPassword').value;
+            const errEl = document.getElementById('editProfileError');
+
+            if (!name || !email) {
+                errEl.textContent = 'Name and email are required.';
+                errEl.classList.remove('hidden');
+                return;
+            }
+
+            const updates = { name, bio, email };
+            if (password) {
+                if (password.length < 6) {
+                    errEl.textContent = 'Password must be at least 6 characters.';
+                    errEl.classList.remove('hidden');
+                    return;
+                }
+                updates.password = password;
+            }
+
+            AuraAuth.updateProfile(updates);
+            closeEditModal();
+
+            // Refresh displayed data
+            document.getElementById('profileName').textContent = name.toUpperCase();
+            document.getElementById('profileAvatarInitials').textContent = name.charAt(0).toUpperCase();
+            document.getElementById('profileEmail').textContent = email;
+            document.getElementById('profileBio').textContent = bio || 'Elite Athlete';
+        }
+
         // ===================== GOALS SYSTEM =====================
         let userGoals = JSON.parse(localStorage.getItem('userGoals') || '[]');
 

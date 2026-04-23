@@ -7,15 +7,8 @@
     <meta content="width=device-width, initial-scale=1.0" name="viewport" />
     <title>TRENING AURA - Login</title>
     <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
-    <link
-        href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700;900&amp;family=Manrope:wght@200;300;400;500;600;700;800&amp;display=swap"
-        rel="stylesheet" />
-    <link
-        href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap"
-        rel="stylesheet" />
-    <link
-        href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap"
-        rel="stylesheet" />
+    <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700;900&amp;family=Manrope:wght@200;300;400;500;600;700;800&amp;display=swap" rel="stylesheet" />
+    <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet" />
     <script id="tailwind-config">
         tailwind.config = {
             darkMode: "class",
@@ -90,49 +83,27 @@
         }
     </script>
     <style>
-        .material-symbols-outlined {
-            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
-        }
-
-        .kinetic-gradient {
-            background: linear-gradient(180deg, rgba(202, 253, 0, 0.15) 0%, rgba(0, 0, 0, 0) 100%);
-        }
-
-        .glass-card {
-            background: rgba(38, 38, 38, 0.6);
-            backdrop-filter: blur(20px);
-        }
-
-        .hero-text-outline {
-            -webkit-text-stroke: 1px rgba(255, 255, 255, 0.3);
-            color: transparent;
-        }
+        .material-symbols-outlined { font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24; }
+        .kinetic-gradient { background: linear-gradient(180deg, rgba(202, 253, 0, 0.15) 0%, rgba(0, 0, 0, 0) 100%); }
+        .glass-card { background: rgba(38, 38, 38, 0.6); backdrop-filter: blur(20px); }
+        .hero-text-outline { -webkit-text-stroke: 1px rgba(255, 255, 255, 0.3); color: transparent; }
     </style>
 </head>
 
-<body
-    class="bg-background text-on-surface font-body selection:bg-primary-container selection:text-on-primary-container min-h-screen">
+<body class="bg-background text-on-surface font-body selection:bg-primary-container selection:text-on-primary-container min-h-screen">
     <main class="flex min-h-screen">
         <!-- Left Side: Hero Section -->
         <section class="hidden lg:flex relative w-1/2 flex-col justify-end p-16 overflow-hidden">
-            <!-- Background Image -->
             <div class="absolute inset-0 z-0">
                 <img alt="Athletic person in dark gym"
                     class="w-full h-full object-cover grayscale brightness-50 contrast-125"
-                    data-alt="Intense close-up of a muscular athlete in a dark moody urban gym with high contrast shadows and dramatic overhead lighting"
                     src="https://lh3.googleusercontent.com/aida-public/AB6AXuAxH31gSPR00siK5H0B4D41YbDr0h-_m5vP4-JZatpNrOWGbfWquUqLYsOSBnhRQFEEYFrfDMxCm1nBLJdc0zR34Lscf1pbRqmXMCfjD0ar6gicJXRlWZW8scnxu8iZu9Eg5AzlYisPTXIrbtWK33S-gRifZX4CehddBwC_eUMy5lPGDtUhbRdFjK8iOmX_q-Um__c-KxUQ58Zaj715s6DczO1ewjwOzM3-GGB2LVkG_tsdV206O0Ku1sxKWdyg2AqrPSnXMvnpYmzt" />
-                <!-- Tonal Overlay -->
-                <div
-                    class="absolute inset-0 bg-gradient-to-t from-background via-transparent to-transparent opacity-90">
-                </div>
+                <div class="absolute inset-0 bg-gradient-to-t from-background via-transparent to-transparent opacity-90"></div>
                 <div class="absolute inset-0 bg-gradient-to-r from-background/40 to-transparent"></div>
             </div>
-            <!-- Content Over Image -->
             <div class="relative z-10 space-y-4">
                 <div class="flex items-center gap-2 mb-8">
-                    <span
-                        class="text-primary-container font-black text-2xl italic tracking-tighter font-headline">TRENING
-                        AURA</span>
+                    <span class="text-primary-container font-black text-2xl italic tracking-tighter font-headline">TRENING AURA</span>
                 </div>
                 <h1 class="font-headline font-black text-7xl leading-none tracking-tighter uppercase italic">
                     UNLEASH YOUR<br />
@@ -144,121 +115,130 @@
                 </p>
                 <div class="flex items-center gap-4 mt-12">
                     <div class="h-[1px] w-12 bg-primary-container"></div>
-                    <span
-                        class="text-xs font-headline font-bold uppercase tracking-[0.3em] text-primary-container">Limitless
-                        performance</span>
+                    <span class="text-xs font-headline font-bold uppercase tracking-[0.3em] text-primary-container">Limitless performance</span>
                 </div>
             </div>
         </section>
+
         <!-- Right Side: Login Form -->
-        <section
-            class="w-full lg:w-1/2 flex items-center justify-center p-8 md:p-16 lg:p-24 bg-surface-container-lowest">
+        <section class="w-full lg:w-1/2 flex items-center justify-center p-8 md:p-16 lg:p-24 bg-surface-container-lowest">
             <div class="w-full max-w-md space-y-10">
                 <!-- Mobile Logo -->
                 <div class="lg:hidden flex justify-center mb-12">
-                    <span
-                        class="text-primary-container font-black text-3xl italic tracking-tighter font-headline">TRENING
-                        AURA</span>
+                    <span class="text-primary-container font-black text-3xl italic tracking-tighter font-headline">TRENING AURA</span>
                 </div>
                 <div class="space-y-2">
                     <h2 class="text-4xl font-headline font-bold tracking-tight">Welcome Back</h2>
                     <p class="text-on-surface-variant">Enter your credentials to access your aura.</p>
                 </div>
+
+                <!-- Error message -->
+                <div id="loginError" class="p-4 bg-red-900/20 border border-red-500/30 rounded-xl text-red-400 text-sm hidden"></div>
+
                 <!-- Form -->
-                <form class="space-y-6">
+                <form id="loginForm" class="space-y-6">
                     <div class="space-y-4">
                         <div class="group">
-                            <label
-                                class="block text-xs font-headline font-bold uppercase tracking-widest text-on-surface-variant mb-2 group-focus-within:text-primary-container transition-colors"
-                                for="email">Email Address</label>
+                            <label class="block text-xs font-headline font-bold uppercase tracking-widest text-on-surface-variant mb-2 group-focus-within:text-primary-container transition-colors" for="email">Email Address</label>
                             <div class="relative">
-                                <input
-                                    class="w-full bg-surface-container-highest/50 border-0 rounded-xl px-4 py-4 text-on-surface placeholder:text-outline focus:ring-2 focus:ring-primary-container transition-all"
-                                    id="email" placeholder="name@example.com" type="email" />
+                                <input class="w-full bg-surface-container-highest/50 border-0 rounded-xl px-4 py-4 text-on-surface placeholder:text-outline focus:ring-2 focus:ring-primary-container transition-all"
+                                    id="email" placeholder="name@example.com" type="email" required />
                             </div>
                         </div>
                         <div class="group">
                             <div class="flex justify-between items-center mb-2">
-                                <label
-                                    class="block text-xs font-headline font-bold uppercase tracking-widest text-on-surface-variant group-focus-within:text-primary-container transition-colors"
-                                    for="password">Password</label>
-                                <a class="text-xs font-headline font-bold uppercase tracking-widest text-on-surface-variant hover:text-secondary transition-colors"
-                                    href="#">Forgot Password?</a>
+                                <label class="block text-xs font-headline font-bold uppercase tracking-widest text-on-surface-variant group-focus-within:text-primary-container transition-colors" for="password">Password</label>
+                                <a class="text-xs font-headline font-bold uppercase tracking-widest text-on-surface-variant hover:text-secondary transition-colors" href="#">Forgot Password?</a>
                             </div>
                             <div class="relative">
-                                <input
-                                    class="w-full bg-surface-container-highest/50 border-0 rounded-xl px-4 py-4 text-on-surface placeholder:text-outline focus:ring-2 focus:ring-primary-container transition-all"
-                                    id="password" placeholder="••••••••" type="password" />
+                                <input class="w-full bg-surface-container-highest/50 border-0 rounded-xl px-4 py-4 text-on-surface placeholder:text-outline focus:ring-2 focus:ring-primary-container transition-all"
+                                    id="password" placeholder="••••••••" type="password" required />
                             </div>
                         </div>
                     </div>
-                    <button
+                    <button id="loginBtn"
                         class="w-full bg-primary-container text-on-primary-fixed font-headline font-black uppercase tracking-widest py-5 rounded-xl hover:bg-primary-dim transition-all active:scale-[0.98] shadow-[0_10px_40px_-10px_rgba(202,253,0,0.3)]"
                         type="submit">
-                        Log In
+                        <span id="loginBtnText">Log In</span>
                     </button>
-                    <script>
-                        document.querySelector('button[type="submit"]').addEventListener('click', function (event) {
-                            event.preventDefault(); // Предотвращаем отправку формы
-
-                            const email = document.getElementById('email').value.trim();
-                            const password = document.getElementById('password').value.trim();
-
-                            if (email && password) {
-                                window.location.href = 'index.html';
-                            } else {
-                                alert('Please fill in both email and password fields.');
-                            }
-                        });
-                    </script>
                 </form>
+
                 <!-- Divider -->
                 <div class="relative flex items-center py-4">
                     <div class="flex-grow border-t border-outline-variant/30"></div>
-                    <span
-                        class="flex-shrink mx-4 text-xs font-headline font-bold uppercase tracking-widest text-on-surface-variant">Or
-                        sign in with</span>
+                    <span class="flex-shrink mx-4 text-xs font-headline font-bold uppercase tracking-widest text-on-surface-variant">Or sign in with</span>
                     <div class="flex-grow border-t border-outline-variant/30"></div>
                 </div>
+
                 <!-- Social Logins -->
                 <div class="grid grid-cols-2 gap-4">
-                    <button
-                        class="flex items-center justify-center gap-3 bg-surface-container-high border border-outline-variant/20 rounded-xl py-3.5 hover:bg-surface-variant transition-colors group">
+                    <button class="flex items-center justify-center gap-3 bg-surface-container-high border border-outline-variant/20 rounded-xl py-3.5 hover:bg-surface-variant transition-colors group">
                         <span class="material-symbols-outlined text-xl group-hover:text-primary-container">google</span>
                         <span class="text-sm font-bold font-headline uppercase tracking-tight">Google</span>
                     </button>
-                    <button
-                        class="flex items-center justify-center gap-3 bg-surface-container-high border border-outline-variant/20 rounded-xl py-3.5 hover:bg-surface-variant transition-colors group">
-                        <span class="material-symbols-outlined text-xl group-hover:text-primary-container"
-                            style="font-variation-settings: 'FILL' 1;">ios</span>
+                    <button class="flex items-center justify-center gap-3 bg-surface-container-high border border-outline-variant/20 rounded-xl py-3.5 hover:bg-surface-variant transition-colors group">
+                        <span class="material-symbols-outlined text-xl group-hover:text-primary-container" style="font-variation-settings: 'FILL' 1;">ios</span>
                         <span class="text-sm font-bold font-headline uppercase tracking-tight">Apple</span>
                     </button>
                 </div>
+
                 <!-- Footer Link -->
                 <p class="text-center text-on-surface-variant text-sm mt-10">
                     Don't have an account?
-                    <a class="text-primary-container font-bold hover:underline underline-offset-4 ml-1"
-                        href="./register.html">Sign
-                        Up</a>
+                    <a class="text-primary-container font-bold hover:underline underline-offset-4 ml-1" href="./register.html">Sign Up</a>
                 </p>
             </div>
         </section>
     </main>
-    <!-- Fixed Language Switcher (Shared Component Logic) -->
+
+    <!-- Fixed Language Switcher -->
     <div class="fixed top-8 right-8 z-[60]">
         <div class="glass-card rounded-full px-2 py-2 flex items-center gap-1 border border-white/5">
-            <button
-                class="px-4 py-1.5 rounded-full text-xs font-headline font-bold uppercase tracking-widest text-primary-container relative">
+            <button class="px-4 py-1.5 rounded-full text-xs font-headline font-bold uppercase tracking-widest text-primary-container relative">
                 EN
-                <span
-                    class="absolute -bottom-1 left-1/2 -translate-x-1/2 w-1 h-1 bg-primary-container rounded-full"></span>
+                <span class="absolute -bottom-1 left-1/2 -translate-x-1/2 w-1 h-1 bg-primary-container rounded-full"></span>
             </button>
-            <button
-                class="px-4 py-1.5 rounded-full text-xs font-headline font-bold uppercase tracking-widest text-on-surface-variant hover:text-white transition-colors">RU</button>
-            <button
-                class="px-4 py-1.5 rounded-full text-xs font-headline font-bold uppercase tracking-widest text-on-surface-variant hover:text-white transition-colors">UZ</button>
+            <button class="px-4 py-1.5 rounded-full text-xs font-headline font-bold uppercase tracking-widest text-on-surface-variant hover:text-white transition-colors">RU</button>
+            <button class="px-4 py-1.5 rounded-full text-xs font-headline font-bold uppercase tracking-widest text-on-surface-variant hover:text-white transition-colors">UZ</button>
         </div>
     </div>
-</body>
 
+    <script src="./auth.js"></script>
+    <script>
+        // Redirect if already logged in
+        if (AuraAuth.getCurrentUser()) {
+            window.location.href = './index.html';
+        }
+
+        document.getElementById('loginForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            const email = document.getElementById('email').value.trim();
+            const password = document.getElementById('password').value;
+            const errorEl = document.getElementById('loginError');
+            const btn = document.getElementById('loginBtn');
+            const btnText = document.getElementById('loginBtnText');
+
+            errorEl.classList.add('hidden');
+
+            if (!email || !password) {
+                errorEl.textContent = 'Please fill in both email and password fields.';
+                errorEl.classList.remove('hidden');
+                return;
+            }
+
+            btn.disabled = true;
+            btnText.textContent = 'Logging in...';
+
+            const result = AuraAuth.login(email, password);
+            if (result.success) {
+                window.location.href = './index.html';
+            } else {
+                errorEl.textContent = 'Invalid email or password. Please try again.';
+                errorEl.classList.remove('hidden');
+                btn.disabled = false;
+                btnText.textContent = 'Log In';
+            }
+        });
+    </script>
+</body>
 </html>

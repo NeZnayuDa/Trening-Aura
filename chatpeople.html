@@ -1,0 +1,551 @@
+<!DOCTYPE html>
+<html class="dark" lang="en">
+<head>
+    <meta charset="utf-8" />
+    <meta content="width=device-width, initial-scale=1.0" name="viewport" />
+    <title>TRENING AURA | Chat & Friends</title>
+    <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700;900&family=Manrope:wght@200;300;400;500;600;700;800&display=swap" rel="stylesheet" />
+    <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet" />
+    <script>
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    colors: {
+                        "background": "#0e0e0e",
+                        "surface-container-lowest": "#000000",
+                        "surface-container-low": "#131313",
+                        "surface-container": "#1a1a1a",
+                        "surface-container-high": "#20201f",
+                        "surface-container-highest": "#262626",
+                        "surface-bright": "#2c2c2c",
+                        "on-surface": "#ffffff",
+                        "on-surface-variant": "#adaaaa",
+                        "primary-container": "#cafd00",
+                        "primary-fixed": "#cafd00",
+                        "on-primary-fixed": "#3a4a00",
+                        "secondary": "#00e3fd",
+                        "secondary-container": "#006875",
+                        "outline-variant": "#484847",
+                        "error": "#ff7351",
+                        "error-container": "#b92902",
+                    },
+                    fontFamily: {
+                        "headline": ["Space Grotesk"],
+                        "body": ["Manrope"],
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        .material-symbols-outlined { font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24; }
+        body { font-family: 'Manrope', sans-serif; background: #0e0e0e; color: #fff; }
+        .chat-messages { scrollbar-width: thin; scrollbar-color: #262626 transparent; }
+        .chat-messages::-webkit-scrollbar { width: 4px; }
+        .chat-messages::-webkit-scrollbar-thumb { background: #262626; border-radius: 4px; }
+        .msg-bubble-me { background: #cafd00; color: #3a4a00; border-radius: 18px 18px 4px 18px; }
+        .msg-bubble-them { background: #20201f; color: #fff; border-radius: 18px 18px 18px 4px; }
+        .friend-item { transition: background 0.15s; }
+        .friend-item:hover, .friend-item.active { background: #20201f; }
+        .friend-item.active { border-left: 3px solid #cafd00; }
+        .online-dot { width: 10px; height: 10px; background: #22c55e; border-radius: 50%; border: 2px solid #0e0e0e; }
+        .tab-btn.active { color: #cafd00; border-bottom: 2px solid #cafd00; }
+        .tab-btn { border-bottom: 2px solid transparent; }
+        #chatPanel { display: none; }
+        #chatPanel.open { display: flex; }
+        .notification-badge { background: #cafd00; color: #3a4a00; font-size: 9px; font-weight: 900; min-width: 16px; height: 16px; border-radius: 8px; display: flex; align-items: center; justify-content: center; padding: 0 3px; }
+    </style>
+</head>
+<body class="min-h-screen bg-background">
+
+<!-- Nav -->
+<nav class="fixed top-0 w-full z-50 bg-black/80 backdrop-blur-xl border-b border-white/5">
+    <div class="flex justify-between items-center px-6 py-3 max-w-[1400px] mx-auto">
+        <a href="./index.html" class="text-xl font-black italic text-[#cafd00] tracking-tighter font-headline">TRENING AURA</a>
+        <div class="flex items-center gap-4">
+            <a href="./profil.html" class="flex items-center gap-2 text-sm text-on-surface-variant hover:text-white transition-colors">
+                <span class="material-symbols-outlined text-lg">person</span>
+                <span id="navUserName" class="font-bold hidden md:block"></span>
+            </a>
+            <button onclick="doLogout()" class="text-on-surface-variant hover:text-error transition-colors" title="Logout">
+                <span class="material-symbols-outlined">logout</span>
+            </button>
+        </div>
+    </div>
+</nav>
+
+<!-- Main Layout -->
+<div class="flex h-screen pt-[57px]">
+
+    <!-- LEFT SIDEBAR: Friends & Search -->
+    <div class="w-full md:w-80 lg:w-96 flex-shrink-0 border-r border-white/5 flex flex-col bg-surface-container-lowest" id="sidebar">
+
+        <!-- Tabs -->
+        <div class="flex border-b border-white/5 px-4 pt-4">
+            <button class="tab-btn active flex-1 pb-3 text-xs font-black uppercase tracking-widest transition-colors" onclick="switchTab('friends')" id="tab-friends">
+                Friends
+            </button>
+            <button class="tab-btn flex-1 pb-3 text-xs font-black uppercase tracking-widest text-on-surface-variant transition-colors" onclick="switchTab('search')" id="tab-search">
+                Find People
+            </button>
+            <button class="tab-btn flex-1 pb-3 text-xs font-black uppercase tracking-widest text-on-surface-variant transition-colors relative" onclick="switchTab('requests')" id="tab-requests">
+                Requests
+                <span id="reqBadge" class="hidden absolute top-1 right-2 notification-badge">0</span>
+            </button>
+        </div>
+
+        <!-- FRIENDS TAB -->
+        <div id="panel-friends" class="flex-1 overflow-y-auto">
+            <div class="p-4">
+                <p class="text-[10px] font-black uppercase tracking-widest text-on-surface-variant mb-3">Your Friends</p>
+                <div id="friendsList" class="space-y-1">
+                    <!-- Rendered by JS -->
+                </div>
+                <div id="friendsEmpty" class="hidden py-12 text-center">
+                    <span class="material-symbols-outlined text-4xl text-on-surface-variant/30 mb-3 block">group</span>
+                    <p class="text-on-surface-variant text-sm">No friends yet.<br/>Search for people to add!</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- SEARCH TAB -->
+        <div id="panel-search" class="hidden flex-1 overflow-y-auto flex-col">
+            <div class="p-4">
+                <div class="relative mb-4">
+                    <span class="material-symbols-outlined absolute left-3 top-1/2 -translate-y-1/2 text-on-surface-variant text-lg">search</span>
+                    <input id="searchInput" type="text" placeholder="Search by name or email..."
+                        class="w-full bg-surface-container-high border border-white/10 rounded-xl pl-10 pr-4 py-3 text-sm text-white placeholder:text-on-surface-variant/50 focus:outline-none focus:border-primary-container/60 transition-all"
+                        oninput="searchUsers(this.value)" />
+                </div>
+                <div id="searchResults" class="space-y-2">
+                    <p class="text-on-surface-variant text-sm text-center py-8">Type to search for users...</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- REQUESTS TAB -->
+        <div id="panel-requests" class="hidden flex-1 overflow-y-auto">
+            <div class="p-4">
+                <p class="text-[10px] font-black uppercase tracking-widest text-on-surface-variant mb-3">Incoming Requests</p>
+                <div id="requestsList" class="space-y-2">
+                    <!-- Rendered by JS -->
+                </div>
+                <div id="requestsEmpty" class="hidden py-12 text-center">
+                    <span class="material-symbols-outlined text-4xl text-on-surface-variant/30 mb-3 block">mark_email_unread</span>
+                    <p class="text-on-surface-variant text-sm">No pending requests.</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- RIGHT: Chat Panel -->
+    <div class="flex-1 flex flex-col" id="chatPanel">
+
+        <!-- Chat Header -->
+        <div class="flex items-center gap-4 px-6 py-4 border-b border-white/5 bg-surface-container-lowest">
+            <button class="md:hidden text-on-surface-variant hover:text-white" onclick="closeChatPanel()">
+                <span class="material-symbols-outlined">arrow_back</span>
+            </button>
+            <div class="w-10 h-10 rounded-full bg-primary-container flex items-center justify-center text-on-primary-fixed font-black text-lg" id="chatFriendAvatar">?</div>
+            <div class="flex-1">
+                <p class="font-headline font-bold" id="chatFriendName">Select a friend</p>
+                <p class="text-xs text-on-surface-variant" id="chatFriendStatus">—</p>
+            </div>
+            <button onclick="removeFriendConfirm()" class="text-on-surface-variant hover:text-error transition-colors" title="Remove friend">
+                <span class="material-symbols-outlined">person_remove</span>
+            </button>
+        </div>
+
+        <!-- Messages -->
+        <div class="flex-1 overflow-y-auto chat-messages p-6 space-y-4" id="chatMessages">
+            <div class="flex flex-col items-center justify-center h-full text-center">
+                <span class="material-symbols-outlined text-6xl text-on-surface-variant/20 mb-4">chat_bubble</span>
+                <p class="text-on-surface-variant">Select a friend to start chatting</p>
+            </div>
+        </div>
+
+        <!-- Message Input -->
+        <div class="px-6 py-4 border-t border-white/5 bg-surface-container-lowest">
+            <div class="flex items-center gap-3">
+                <input id="msgInput" type="text" placeholder="Type a message..."
+                    class="flex-1 bg-surface-container-high border border-white/10 rounded-xl px-4 py-3 text-sm text-white placeholder:text-on-surface-variant/50 focus:outline-none focus:border-primary-container/60 transition-all"
+                    onkeydown="if(event.key==='Enter') sendMessage()" />
+                <button onclick="sendMessage()"
+                    class="w-12 h-12 bg-primary-container text-on-primary-fixed rounded-xl flex items-center justify-center hover:scale-105 active:scale-95 transition-transform">
+                    <span class="material-symbols-outlined" style="font-variation-settings:'FILL' 1;">send</span>
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Empty state when no chat selected (desktop) -->
+    <div class="flex-1 hidden md:flex flex-col items-center justify-center text-center" id="noChatSelected">
+        <span class="material-symbols-outlined text-8xl text-on-surface-variant/10 mb-6">forum</span>
+        <h2 class="text-2xl font-headline font-bold text-on-surface-variant/40 uppercase tracking-tight">Select a conversation</h2>
+        <p class="text-on-surface-variant/30 mt-2">Choose a friend from the left to start chatting</p>
+    </div>
+</div>
+
+<script src="./auth.js"></script>
+<script>
+    let currentUser = null;
+    let activeFriendId = null;
+    let chatPollInterval = null;
+
+    // ─── INIT ───────────────────────────────────────────────────────────────
+    document.addEventListener('DOMContentLoaded', function() {
+        currentUser = AuraAuth.getCurrentUser();
+        if (!currentUser) {
+            window.location.href = './login.html';
+            return;
+        }
+        document.getElementById('navUserName').textContent = currentUser.name;
+        renderFriends();
+        renderRequests();
+        updateRequestBadge();
+    });
+
+    function doLogout() {
+        AuraAuth.logout();
+        window.location.href = './index.html';
+    }
+
+    // ─── TABS ────────────────────────────────────────────────────────────────
+    function switchTab(tab) {
+        ['friends','search','requests'].forEach(t => {
+            document.getElementById('panel-' + t).classList.add('hidden');
+            document.getElementById('tab-' + t).classList.remove('active');
+            document.getElementById('tab-' + t).classList.add('text-on-surface-variant');
+        });
+        document.getElementById('panel-' + tab).classList.remove('hidden');
+        document.getElementById('tab-' + tab).classList.add('active');
+        document.getElementById('tab-' + tab).classList.remove('text-on-surface-variant');
+    }
+
+    // ─── FRIENDS LIST ────────────────────────────────────────────────────────
+    function renderFriends() {
+        const friends = AuraAuth.getFriends();
+        const list = document.getElementById('friendsList');
+        const empty = document.getElementById('friendsEmpty');
+
+        if (friends.length === 0) {
+            list.innerHTML = '';
+            empty.classList.remove('hidden');
+            return;
+        }
+        empty.classList.add('hidden');
+
+        list.innerHTML = friends.map(f => {
+            const unread = getUnreadCount(f.id);
+            return `
+            <div class="friend-item ${activeFriendId === f.id ? 'active' : ''} flex items-center gap-3 px-3 py-3 rounded-xl cursor-pointer"
+                 onclick="openChat('${f.id}')">
+                <div class="relative flex-shrink-0">
+                    <div class="w-10 h-10 rounded-full bg-surface-container-highest flex items-center justify-center font-black text-[#cafd00] font-headline">
+                        ${f.name.charAt(0).toUpperCase()}
+                    </div>
+                    <div class="online-dot absolute -bottom-0.5 -right-0.5"></div>
+                </div>
+                <div class="flex-1 min-w-0">
+                    <p class="font-bold text-sm truncate">${f.name}</p>
+                    <p class="text-xs text-on-surface-variant truncate">${getLastMessage(f.id)}</p>
+                </div>
+                ${unread > 0 ? `<span class="notification-badge">${unread}</span>` : ''}
+            </div>`;
+        }).join('');
+    }
+
+    function getLastMessage(friendId) {
+        const msgs = getMessages(friendId);
+        if (msgs.length === 0) return 'No messages yet';
+        const last = msgs[msgs.length - 1];
+        const prefix = last.senderId === currentUser.id ? 'You: ' : '';
+        return prefix + (last.text.length > 30 ? last.text.slice(0, 30) + '…' : last.text);
+    }
+
+    function getUnreadCount(friendId) {
+        const msgs = getMessages(friendId);
+        return msgs.filter(m => m.senderId !== currentUser.id && !m.read).length;
+    }
+
+    // ─── SEARCH USERS ────────────────────────────────────────────────────────
+    function searchUsers(query) {
+        const results = document.getElementById('searchResults');
+        if (!query.trim()) {
+            results.innerHTML = '<p class="text-on-surface-variant text-sm text-center py-8">Type to search for users...</p>';
+            return;
+        }
+
+        const allUsers = AuraAuth.searchUsers(query);
+        const friends = AuraAuth.getFriends().map(f => f.id);
+        const sentReqs = AuraAuth.getSentRequests();
+
+        if (allUsers.length === 0) {
+            results.innerHTML = '<p class="text-on-surface-variant text-sm text-center py-8">No users found.</p>';
+            return;
+        }
+
+        results.innerHTML = allUsers.map(u => {
+            const isFriend = friends.includes(u.id);
+            const isPending = sentReqs.includes(u.id);
+            let actionBtn = '';
+            if (isFriend) {
+                actionBtn = `<span class="text-[10px] font-black uppercase tracking-widest text-[#cafd00] bg-[#cafd00]/10 px-3 py-1.5 rounded-full">Friends ✓</span>`;
+            } else if (isPending) {
+                actionBtn = `<span class="text-[10px] font-black uppercase tracking-widest text-on-surface-variant bg-white/5 px-3 py-1.5 rounded-full">Pending...</span>`;
+            } else {
+                actionBtn = `<button onclick="sendFriendRequest('${u.id}')" class="text-[10px] font-black uppercase tracking-widest text-on-primary-fixed bg-primary-container px-3 py-1.5 rounded-full hover:scale-105 active:scale-95 transition-transform">Add Friend</button>`;
+            }
+
+            return `
+            <div class="flex items-center gap-3 p-3 bg-surface-container-high rounded-xl">
+                <div class="w-10 h-10 rounded-full bg-surface-container-highest flex items-center justify-center font-black text-[#cafd00] font-headline flex-shrink-0">
+                    ${u.name.charAt(0).toUpperCase()}
+                </div>
+                <div class="flex-1 min-w-0">
+                    <p class="font-bold text-sm">${u.name}</p>
+                    <p class="text-xs text-on-surface-variant truncate">${u.email}</p>
+                </div>
+                ${actionBtn}
+            </div>`;
+        }).join('');
+    }
+
+    function sendFriendRequest(toUserId) {
+        const result = AuraAuth.sendFriendRequest(toUserId);
+        if (result.success) {
+            // Re-run search to update button state
+            searchUsers(document.getElementById('searchInput').value);
+            showToast('Friend request sent!');
+        } else {
+            showToast(result.error || 'Could not send request', true);
+        }
+    }
+
+    // ─── FRIEND REQUESTS ─────────────────────────────────────────────────────
+    function renderRequests() {
+        const reqs = AuraAuth.getFriendRequests();
+        const list = document.getElementById('requestsList');
+        const empty = document.getElementById('requestsEmpty');
+
+        if (reqs.length === 0) {
+            list.innerHTML = '';
+            empty.classList.remove('hidden');
+            return;
+        }
+        empty.classList.add('hidden');
+
+        list.innerHTML = reqs.map(req => `
+            <div class="flex items-center gap-3 p-3 bg-surface-container-high rounded-xl">
+                <div class="w-10 h-10 rounded-full bg-surface-container-highest flex items-center justify-center font-black text-[#cafd00] font-headline flex-shrink-0">
+                    ${req.name.charAt(0).toUpperCase()}
+                </div>
+                <div class="flex-1 min-w-0">
+                    <p class="font-bold text-sm">${req.name}</p>
+                    <p class="text-xs text-on-surface-variant truncate">${req.email}</p>
+                </div>
+                <div class="flex gap-2">
+                    <button onclick="acceptRequest('${req.id}')"
+                        class="w-8 h-8 bg-primary-container text-on-primary-fixed rounded-lg flex items-center justify-center hover:scale-110 transition-transform" title="Accept">
+                        <span class="material-symbols-outlined text-base" style="font-variation-settings:'FILL' 1;">check</span>
+                    </button>
+                    <button onclick="declineRequest('${req.id}')"
+                        class="w-8 h-8 bg-error-container/20 text-error rounded-lg flex items-center justify-center hover:scale-110 transition-transform" title="Decline">
+                        <span class="material-symbols-outlined text-base">close</span>
+                    </button>
+                </div>
+            </div>`).join('');
+    }
+
+    function acceptRequest(fromUserId) {
+        AuraAuth.acceptFriendRequest(fromUserId);
+        renderRequests();
+        renderFriends();
+        updateRequestBadge();
+        showToast('Friend added! 🎉');
+    }
+
+    function declineRequest(fromUserId) {
+        AuraAuth.declineFriendRequest(fromUserId);
+        renderRequests();
+        updateRequestBadge();
+    }
+
+    function updateRequestBadge() {
+        const reqs = AuraAuth.getFriendRequests();
+        const badge = document.getElementById('reqBadge');
+        if (reqs.length > 0) {
+            badge.textContent = reqs.length;
+            badge.classList.remove('hidden');
+        } else {
+            badge.classList.add('hidden');
+        }
+    }
+
+    // ─── CHAT ────────────────────────────────────────────────────────────────
+    function openChat(friendId) {
+        activeFriendId = friendId;
+        const friends = AuraAuth.getFriends();
+        const friend = friends.find(f => f.id === friendId);
+        if (!friend) return;
+
+        // Update header
+        document.getElementById('chatFriendAvatar').textContent = friend.name.charAt(0).toUpperCase();
+        document.getElementById('chatFriendName').textContent = friend.name;
+        document.getElementById('chatFriendStatus').textContent = friend.email;
+
+        // Show chat panel on mobile
+        document.getElementById('chatPanel').classList.add('open');
+        document.getElementById('noChatSelected').classList.add('hidden');
+        document.getElementById('sidebar').classList.add('hidden');
+        document.getElementById('sidebar').classList.remove('md:flex');
+
+        // Mark messages as read
+        markMessagesRead(friendId);
+
+        // Render messages
+        renderMessages();
+        renderFriends(); // update unread counts
+
+        // Start polling for new messages
+        if (chatPollInterval) clearInterval(chatPollInterval);
+        chatPollInterval = setInterval(() => {
+            if (activeFriendId) {
+                renderMessages(true);
+                renderFriends();
+                updateRequestBadge();
+            }
+        }, 1500);
+
+        // Focus input
+        setTimeout(() => document.getElementById('msgInput').focus(), 100);
+    }
+
+    function closeChatPanel() {
+        activeFriendId = null;
+        document.getElementById('chatPanel').classList.remove('open');
+        document.getElementById('sidebar').classList.remove('hidden');
+        document.getElementById('sidebar').classList.add('md:flex');
+        document.getElementById('noChatSelected').classList.remove('hidden');
+        if (chatPollInterval) clearInterval(chatPollInterval);
+    }
+
+    function getMessages(friendId) {
+        const key = getChatKey(friendId);
+        return JSON.parse(localStorage.getItem(key) || '[]');
+    }
+
+    function saveMessages(friendId, msgs) {
+        const key = getChatKey(friendId);
+        localStorage.setItem(key, JSON.stringify(msgs));
+    }
+
+    function getChatKey(friendId) {
+        // Consistent key regardless of who initiated
+        const ids = [currentUser.id, friendId].sort();
+        return `aura_chat_${ids[0]}_${ids[1]}`;
+    }
+
+    function markMessagesRead(friendId) {
+        const msgs = getMessages(friendId);
+        msgs.forEach(m => { if (m.senderId !== currentUser.id) m.read = true; });
+        saveMessages(friendId, msgs);
+    }
+
+    function renderMessages(silent = false) {
+        if (!activeFriendId) return;
+        const msgs = getMessages(activeFriendId);
+        const container = document.getElementById('chatMessages');
+        const wasAtBottom = container.scrollHeight - container.scrollTop - container.clientHeight < 60;
+
+        if (msgs.length === 0) {
+            container.innerHTML = `
+                <div class="flex flex-col items-center justify-center h-full text-center">
+                    <span class="material-symbols-outlined text-5xl text-on-surface-variant/20 mb-3">waving_hand</span>
+                    <p class="text-on-surface-variant text-sm">Say hello! Start the conversation.</p>
+                </div>`;
+            return;
+        }
+
+        container.innerHTML = msgs.map((m, i) => {
+            const isMe = m.senderId === currentUser.id;
+            const showTime = i === 0 || msgs[i-1].senderId !== m.senderId ||
+                             (new Date(m.ts) - new Date(msgs[i-1].ts)) > 60000;
+            const timeStr = new Date(m.ts).toLocaleTimeString([], {hour:'2-digit', minute:'2-digit'});
+
+            return `
+            <div class="flex ${isMe ? 'justify-end' : 'justify-start'} items-end gap-2">
+                ${!isMe ? `<div class="w-7 h-7 rounded-full bg-surface-container-highest flex items-center justify-center text-[#cafd00] font-black text-xs font-headline flex-shrink-0">${m.senderName.charAt(0)}</div>` : ''}
+                <div class="max-w-[70%]">
+                    <div class="${isMe ? 'msg-bubble-me' : 'msg-bubble-them'} px-4 py-2.5 text-sm font-medium leading-relaxed break-words">
+                        ${escapeHtml(m.text)}
+                    </div>
+                    <p class="text-[10px] text-on-surface-variant/50 mt-1 ${isMe ? 'text-right' : 'text-left'}">${timeStr}</p>
+                </div>
+            </div>`;
+        }).join('');
+
+        // Auto-scroll to bottom if was at bottom or new message
+        if (!silent || wasAtBottom) {
+            container.scrollTop = container.scrollHeight;
+        }
+    }
+
+    function sendMessage() {
+        if (!activeFriendId) return;
+        const input = document.getElementById('msgInput');
+        const text = input.value.trim();
+        if (!text) return;
+
+        const msgs = getMessages(activeFriendId);
+        msgs.push({
+            id: Date.now(),
+            senderId: currentUser.id,
+            senderName: currentUser.name,
+            text,
+            ts: new Date().toISOString(),
+            read: false
+        });
+        saveMessages(activeFriendId, msgs);
+        input.value = '';
+        renderMessages();
+        renderFriends();
+    }
+
+    function removeFriendConfirm() {
+        if (!activeFriendId) return;
+        const friends = AuraAuth.getFriends();
+        const friend = friends.find(f => f.id === activeFriendId);
+        if (!friend) return;
+        if (confirm(`Remove ${friend.name} from friends?`)) {
+            AuraAuth.removeFriend(activeFriendId);
+            closeChatPanel();
+            renderFriends();
+            showToast('Friend removed.');
+        }
+    }
+
+    // ─── HELPERS ─────────────────────────────────────────────────────────────
+    function escapeHtml(text) {
+        return text.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
+    }
+
+    function showToast(msg, isError = false) {
+        const toast = document.createElement('div');
+        toast.className = `fixed bottom-8 left-1/2 -translate-x-1/2 z-[200] px-6 py-3 rounded-xl font-bold text-sm shadow-2xl transition-all ${isError ? 'bg-error-container text-white' : 'bg-primary-container text-on-primary-fixed'}`;
+        toast.textContent = msg;
+        document.body.appendChild(toast);
+        setTimeout(() => { toast.style.opacity = '0'; setTimeout(() => toast.remove(), 400); }, 2500);
+    }
+
+    // Poll for friend requests even when no chat is open
+    setInterval(() => {
+        updateRequestBadge();
+        renderRequests();
+        if (!activeFriendId) renderFriends();
+    }, 3000);
+</script>
+</body>
+</html>

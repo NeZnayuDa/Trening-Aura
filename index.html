@@ -151,13 +151,30 @@
                         </div>
                     </div>
                 </div>
-                <a href="./login.html">                <button data-lang="login"
-                    class="bg-[#cafd00] text-[#3a4a00] px-6 py-2 rounded-xl font-bold uppercase tracking-wider scale-95 hover:scale-100 transition-transform duration-200">
-                    Log In
-                </button></a>
 
-                <span class="material-symbols-outlined text-[#adaaaa] cursor-pointer"
-                    data-icon="language">language</span>
+                <!-- Login button (shown when NOT logged in) -->
+                <a id="nav-login-btn" href="./login.html">
+                    <button data-lang="login"
+                        class="bg-[#cafd00] text-[#3a4a00] px-6 py-2 rounded-xl font-bold uppercase tracking-wider scale-95 hover:scale-100 transition-transform duration-200">
+                        Log In
+                    </button>
+                </a>
+
+                <!-- User profile button (shown when logged in) -->
+                <div id="nav-profile-btn" class="hidden items-center gap-3">
+                    <a href="./chatpeople.html" class="relative">
+                        <span class="material-symbols-outlined text-[#adaaaa] hover:text-[#cafd00] cursor-pointer transition-colors">chat</span>
+                        <span id="nav-friend-req-badge" class="hidden absolute -top-1 -right-1 w-4 h-4 bg-[#cafd00] text-[#3a4a00] text-[9px] font-black rounded-full flex items-center justify-center">!</span>
+                    </a>
+                    <a href="./profil.html" class="flex items-center gap-2 bg-surface-bright/40 px-3 py-1.5 rounded-full border border-white/10 hover:border-[#cafd00]/40 transition-colors">
+                        <div class="w-6 h-6 rounded-full bg-[#cafd00] flex items-center justify-center text-[#3a4a00] font-black text-xs" id="nav-avatar-initials">?</div>
+                        <span id="nav-user-name" class="text-sm font-bold text-white"></span>
+                    </a>
+                    <button onclick="doLogout()" class="text-[#adaaaa] hover:text-[#ff7351] transition-colors" title="Logout">
+                        <span class="material-symbols-outlined text-xl">logout</span>
+                    </button>
+                </div>
+
                 <a href="./profil.html"><img src="./Border.png" alt="img"></a>
             </div>
         </div>
@@ -453,7 +470,40 @@
             class="absolute right-20 bg-surface-container-highest px-4 py-2 rounded-xl text-white text-xs font-bold opacity-0 group-hover:opacity-100 transition-opacity pointer-events-none whitespace-nowrap uppercase tracking-widest">Quick
             Log</span>
     </button>
+<script src="./auth.js"></script>
 <script>
+// Auth-aware nav update
+document.addEventListener('DOMContentLoaded', function() {
+    const user = AuraAuth.getCurrentUser();
+    const loginBtn = document.getElementById('nav-login-btn');
+    const profileBtn = document.getElementById('nav-profile-btn');
+    const nameEl = document.getElementById('nav-user-name');
+    const initialsEl = document.getElementById('nav-avatar-initials');
+    const badge = document.getElementById('nav-friend-req-badge');
+
+    if (user) {
+        if (loginBtn) loginBtn.style.display = 'none';
+        if (profileBtn) { profileBtn.style.display = 'flex'; }
+        if (nameEl) nameEl.textContent = user.name.split(' ')[0];
+        if (initialsEl) initialsEl.textContent = user.name.charAt(0).toUpperCase();
+        // Show badge if friend requests pending
+        const reqs = AuraAuth.getFriendRequests();
+        if (badge && reqs.length > 0) {
+            badge.classList.remove('hidden');
+            badge.classList.add('flex');
+            badge.textContent = reqs.length;
+        }
+    } else {
+        if (loginBtn) loginBtn.style.display = '';
+        if (profileBtn) profileBtn.style.display = 'none';
+    }
+});
+
+function doLogout() {
+    AuraAuth.logout();
+    window.location.reload();
+}
+
 const translations = {
     en: {
         home: "Home",
