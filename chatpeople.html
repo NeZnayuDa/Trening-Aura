@@ -4,45 +4,9 @@
     <meta charset="utf-8" />
     <meta content="width=device-width, initial-scale=1.0" name="viewport" />
     <title>TRENING AURA | Chat & Friends</title>
-    <script>
-        // Must be set BEFORE Tailwind CDN loads
-        tailwind = window.tailwind || {};
-    </script>
     <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
     <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700;900&family=Manrope:wght@200;300;400;500;600;700;800&display=swap" rel="stylesheet" />
     <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet" />
-    <script id="tailwind-config">
-        tailwind.config = {
-            darkMode: "class",
-            theme: {
-                extend: {
-                    colors: {
-                        "background": "#0e0e0e",
-                        "surface-container-lowest": "#000000",
-                        "surface-container-low": "#131313",
-                        "surface-container": "#1a1a1a",
-                        "surface-container-high": "#20201f",
-                        "surface-container-highest": "#262626",
-                        "surface-bright": "#2c2c2c",
-                        "on-surface": "#ffffff",
-                        "on-surface-variant": "#adaaaa",
-                        "primary-container": "#cafd00",
-                        "primary-fixed": "#cafd00",
-                        "on-primary-fixed": "#3a4a00",
-                        "secondary": "#00e3fd",
-                        "secondary-container": "#006875",
-                        "outline-variant": "#484847",
-                        "error": "#ff7351",
-                        "error-container": "#b92902",
-                    },
-                    fontFamily: {
-                        "headline": ["Space Grotesk"],
-                        "body": ["Manrope"],
-                    }
-                }
-            }
-        }
-    </script>
     <style>
         .material-symbols-outlined { font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24; }
         body { font-family: 'Manrope', sans-serif; background: #0e0e0e; color: #fff; }
@@ -60,6 +24,23 @@
         #chatPanel { display: none; }
         #chatPanel.open { display: flex; }
         .notification-badge { background: #cafd00; color: #3a4a00; font-size: 9px; font-weight: 900; min-width: 16px; height: 16px; border-radius: 8px; display: flex; align-items: center; justify-content: center; padding: 0 3px; }
+        /* Panel visibility - use display:none/block instead of Tailwind hidden to avoid conflicts */
+        .panel { display: none; flex: 1; overflow-y: auto; }
+        .panel.active-panel { display: block; }
+        /* Search input styling */
+        #searchInput { background: #20201f; border: 1px solid rgba(255,255,255,0.1); color: #fff; width: 100%; padding: 12px 12px 12px 40px; border-radius: 12px; font-size: 14px; outline: none; }
+        #searchInput:focus { border-color: rgba(202,253,0,0.4); }
+        #searchInput::placeholder { color: rgba(173,170,170,0.5); }
+        /* User card in search results */
+        .user-card { display: flex; align-items: center; gap: 12px; padding: 12px; background: #20201f; border-radius: 12px; margin-bottom: 8px; }
+        .user-avatar { width: 40px; height: 40px; border-radius: 50%; background: #262626; display: flex; align-items: center; justify-content: center; font-weight: 900; color: #cafd00; font-size: 16px; flex-shrink: 0; }
+        .user-info { flex: 1; min-width: 0; }
+        .user-name { font-weight: 700; font-size: 14px; }
+        .user-email { font-size: 12px; color: #adaaaa; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+        .btn-add { background: #cafd00; color: #3a4a00; font-size: 10px; font-weight: 900; text-transform: uppercase; letter-spacing: 0.1em; padding: 6px 12px; border-radius: 20px; border: none; cursor: pointer; white-space: nowrap; }
+        .btn-add:hover { transform: scale(1.05); }
+        .btn-friends { background: rgba(202,253,0,0.1); color: #cafd00; font-size: 10px; font-weight: 900; text-transform: uppercase; letter-spacing: 0.1em; padding: 6px 12px; border-radius: 20px; border: none; }
+        .btn-pending { background: rgba(255,255,255,0.05); color: #adaaaa; font-size: 10px; font-weight: 900; text-transform: uppercase; letter-spacing: 0.1em; padding: 6px 12px; border-radius: 20px; border: none; }
     </style>
 </head>
 <body class="min-h-screen bg-background">
@@ -101,44 +82,39 @@
         </div>
 
         <!-- FRIENDS TAB -->
-        <div id="panel-friends" class="flex-1 overflow-y-auto">
-            <div class="p-4">
-                <p class="text-[10px] font-black uppercase tracking-widest text-on-surface-variant mb-3">Your Friends</p>
-                <div id="friendsList" class="space-y-1">
-                    <!-- Rendered by JS -->
-                </div>
-                <div id="friendsEmpty" class="hidden py-12 text-center">
-                    <span class="material-symbols-outlined text-4xl text-on-surface-variant/30 mb-3 block">group</span>
-                    <p class="text-on-surface-variant text-sm">No friends yet.<br/>Search for people to add!</p>
+        <div id="panel-friends" style="display:block; flex:1; overflow-y:auto;">
+            <div style="padding:16px;">
+                <p style="font-size:10px; font-weight:900; text-transform:uppercase; letter-spacing:0.2em; color:#adaaaa; margin-bottom:12px;">Your Friends</p>
+                <div id="friendsList"></div>
+                <div id="friendsEmpty" style="display:none; padding:48px 0; text-align:center;">
+                    <span class="material-symbols-outlined" style="font-size:40px; color:rgba(173,170,170,0.3); display:block; margin-bottom:12px;">group</span>
+                    <p style="color:#adaaaa; font-size:14px;">No friends yet.<br/>Search for people to add!</p>
                 </div>
             </div>
         </div>
 
         <!-- SEARCH TAB -->
-        <div id="panel-search" class="hidden flex-1 overflow-y-auto flex-col">
-            <div class="p-4">
-                <div class="relative mb-4">
-                    <span class="material-symbols-outlined absolute left-3 top-1/2 -translate-y-1/2 text-on-surface-variant text-lg">search</span>
+        <div id="panel-search" style="display:none; flex:1; overflow-y:auto;">
+            <div style="padding:16px;">
+                <div style="position:relative; margin-bottom:16px;">
+                    <span class="material-symbols-outlined" style="position:absolute; left:12px; top:50%; transform:translateY(-50%); color:#adaaaa; font-size:20px;">search</span>
                     <input id="searchInput" type="text" placeholder="Search by name or email..."
-                        class="w-full bg-surface-container-high border border-white/10 rounded-xl pl-10 pr-4 py-3 text-sm text-white placeholder:text-on-surface-variant/50 focus:outline-none focus:border-primary-container/60 transition-all"
                         oninput="searchUsers(this.value)" />
                 </div>
-                <div id="searchResults" class="space-y-2">
-                    <p class="text-on-surface-variant text-sm text-center py-8">Type to search for users...</p>
+                <div id="searchResults">
+                    <p style="color:#adaaaa; font-size:14px; text-align:center; padding:32px 0;">Type to search for users...</p>
                 </div>
             </div>
         </div>
 
         <!-- REQUESTS TAB -->
-        <div id="panel-requests" class="hidden flex-1 overflow-y-auto">
-            <div class="p-4">
-                <p class="text-[10px] font-black uppercase tracking-widest text-on-surface-variant mb-3">Incoming Requests</p>
-                <div id="requestsList" class="space-y-2">
-                    <!-- Rendered by JS -->
-                </div>
-                <div id="requestsEmpty" class="hidden py-12 text-center">
-                    <span class="material-symbols-outlined text-4xl text-on-surface-variant/30 mb-3 block">mark_email_unread</span>
-                    <p class="text-on-surface-variant text-sm">No pending requests.</p>
+        <div id="panel-requests" style="display:none; flex:1; overflow-y:auto;">
+            <div style="padding:16px;">
+                <p style="font-size:10px; font-weight:900; text-transform:uppercase; letter-spacing:0.2em; color:#adaaaa; margin-bottom:12px;">Incoming Requests</p>
+                <div id="requestsList"></div>
+                <div id="requestsEmpty" style="display:none; padding:48px 0; text-align:center;">
+                    <span class="material-symbols-outlined" style="font-size:40px; color:rgba(173,170,170,0.3); display:block; margin-bottom:12px;">mark_email_unread</span>
+                    <p style="color:#adaaaa; font-size:14px;">No pending requests.</p>
                 </div>
             </div>
         </div>
@@ -219,13 +195,20 @@
     // ─── TABS ────────────────────────────────────────────────────────────────
     function switchTab(tab) {
         ['friends','search','requests'].forEach(t => {
-            document.getElementById('panel-' + t).classList.add('hidden');
-            document.getElementById('tab-' + t).classList.remove('active');
-            document.getElementById('tab-' + t).classList.add('text-on-surface-variant');
+            document.getElementById('panel-' + t).style.display = 'none';
+            const btn = document.getElementById('tab-' + t);
+            btn.classList.remove('active');
+            btn.style.color = '#adaaaa';
         });
-        document.getElementById('panel-' + tab).classList.remove('hidden');
-        document.getElementById('tab-' + tab).classList.add('active');
-        document.getElementById('tab-' + tab).classList.remove('text-on-surface-variant');
+        document.getElementById('panel-' + tab).style.display = 'block';
+        const activeBtn = document.getElementById('tab-' + tab);
+        activeBtn.classList.add('active');
+        activeBtn.style.color = '#cafd00';
+
+        // Focus search input when switching to search tab
+        if (tab === 'search') {
+            setTimeout(() => document.getElementById('searchInput').focus(), 50);
+        }
     }
 
     // ─── FRIENDS LIST ────────────────────────────────────────────────────────
@@ -236,25 +219,26 @@
 
         if (friends.length === 0) {
             list.innerHTML = '';
-            empty.classList.remove('hidden');
+            empty.style.display = 'block';
             return;
         }
-        empty.classList.add('hidden');
+        empty.style.display = 'none';
 
         list.innerHTML = friends.map(f => {
             const unread = getUnreadCount(f.id);
             return `
-            <div class="friend-item ${activeFriendId === f.id ? 'active' : ''} flex items-center gap-3 px-3 py-3 rounded-xl cursor-pointer"
+            <div class="friend-item ${activeFriendId === f.id ? 'active' : ''}"
+                 style="display:flex; align-items:center; gap:12px; padding:10px 12px; border-radius:12px; cursor:pointer;"
                  onclick="openChat('${f.id}')">
-                <div class="relative flex-shrink-0">
-                    <div class="w-10 h-10 rounded-full bg-surface-container-highest flex items-center justify-center font-black text-[#cafd00] font-headline">
+                <div style="position:relative; flex-shrink:0;">
+                    <div style="width:40px; height:40px; border-radius:50%; background:#262626; display:flex; align-items:center; justify-content:center; font-weight:900; color:#cafd00; font-size:16px;">
                         ${f.name.charAt(0).toUpperCase()}
                     </div>
-                    <div class="online-dot absolute -bottom-0.5 -right-0.5"></div>
+                    <div class="online-dot" style="position:absolute; bottom:-1px; right:-1px;"></div>
                 </div>
-                <div class="flex-1 min-w-0">
-                    <p class="font-bold text-sm truncate">${f.name}</p>
-                    <p class="text-xs text-on-surface-variant truncate">${getLastMessage(f.id)}</p>
+                <div style="flex:1; min-width:0;">
+                    <p style="font-weight:700; font-size:14px; overflow:hidden; text-overflow:ellipsis; white-space:nowrap;">${f.name}</p>
+                    <p style="font-size:12px; color:#adaaaa; overflow:hidden; text-overflow:ellipsis; white-space:nowrap;">${getLastMessage(f.id)}</p>
                 </div>
                 ${unread > 0 ? `<span class="notification-badge">${unread}</span>` : ''}
             </div>`;
@@ -336,28 +320,28 @@
 
         if (reqs.length === 0) {
             list.innerHTML = '';
-            empty.classList.remove('hidden');
+            empty.style.display = 'block';
             return;
         }
-        empty.classList.add('hidden');
+        empty.style.display = 'none';
 
         list.innerHTML = reqs.map(req => `
-            <div class="flex items-center gap-3 p-3 bg-surface-container-high rounded-xl">
-                <div class="w-10 h-10 rounded-full bg-surface-container-highest flex items-center justify-center font-black text-[#cafd00] font-headline flex-shrink-0">
+            <div style="display:flex; align-items:center; gap:12px; padding:12px; background:#20201f; border-radius:12px; margin-bottom:8px;">
+                <div style="width:40px; height:40px; border-radius:50%; background:#262626; display:flex; align-items:center; justify-content:center; font-weight:900; color:#cafd00; font-size:16px; flex-shrink:0;">
                     ${req.name.charAt(0).toUpperCase()}
                 </div>
-                <div class="flex-1 min-w-0">
-                    <p class="font-bold text-sm">${req.name}</p>
-                    <p class="text-xs text-on-surface-variant truncate">${req.email}</p>
+                <div style="flex:1; min-width:0;">
+                    <p style="font-weight:700; font-size:14px;">${req.name}</p>
+                    <p style="font-size:12px; color:#adaaaa; overflow:hidden; text-overflow:ellipsis; white-space:nowrap;">${req.email}</p>
                 </div>
-                <div class="flex gap-2">
+                <div style="display:flex; gap:8px;">
                     <button onclick="acceptRequest('${req.id}')"
-                        class="w-8 h-8 bg-primary-container text-on-primary-fixed rounded-lg flex items-center justify-center hover:scale-110 transition-transform" title="Accept">
-                        <span class="material-symbols-outlined text-base" style="font-variation-settings:'FILL' 1;">check</span>
+                        style="width:32px; height:32px; background:#cafd00; color:#3a4a00; border-radius:8px; border:none; cursor:pointer; display:flex; align-items:center; justify-content:center;" title="Accept">
+                        <span class="material-symbols-outlined" style="font-size:18px; font-variation-settings:'FILL' 1;">check</span>
                     </button>
                     <button onclick="declineRequest('${req.id}')"
-                        class="w-8 h-8 bg-error-container/20 text-error rounded-lg flex items-center justify-center hover:scale-110 transition-transform" title="Decline">
-                        <span class="material-symbols-outlined text-base">close</span>
+                        style="width:32px; height:32px; background:rgba(185,41,2,0.2); color:#ff7351; border-radius:8px; border:none; cursor:pointer; display:flex; align-items:center; justify-content:center;" title="Decline">
+                        <span class="material-symbols-outlined" style="font-size:18px;">close</span>
                     </button>
                 </div>
             </div>`).join('');
