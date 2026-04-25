@@ -320,29 +320,18 @@ const AuraChat = {
     },
 
     // Listen to messages in real-time
-listenMessages(chatId, callback) {
-    AuraAuth.init();
-    return AuraAuth.db.ref('chats/' + chatId + '/messages')
-        .orderByChild('time')
-        .on('value', snapshot => {
-
-            const msgs = [];
-
-            if (snapshot.exists()) {
-                snapshot.forEach(child => {
-                    msgs.push({
-                        key: child.key,
-                        ...child.val()
-                    });
-                });
-            }
-
-            // 🔥 ВАЖНО — сортировка
-            msgs.sort((a, b) => a.time - b.time);
-
-            callback(msgs);
-        });
-},
+    listenMessages(chatId, callback) {
+        AuraAuth.init();
+        return AuraAuth.db.ref('chats/' + chatId + '/messages')
+            .orderByChild('time')
+            .on('value', snapshot => {
+                const msgs = [];
+                if (snapshot.exists()) {
+                    snapshot.forEach(child => msgs.push({ key: child.key, ...child.val() }));
+                }
+                callback(msgs);
+            });
+    },
 
     // Stop listening
     stopListening(chatId) {

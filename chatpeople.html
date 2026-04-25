@@ -243,21 +243,26 @@
 @keyframes spin { from { transform: rotate(0deg); } to { transform: rotate(360deg); } }
 </style>
 
+<!-- ================= TRENING AURA CHAT FIXED ================= -->
 <script>
 let currentUser = null;
 let activeFriendId = null;
 let activeChatId = null;
-let chatListener = null;
+let chatRef = null;
+let chatHandler = null;
 let searchTimeout = null;
 
-// ─── INIT ────────────────────────────────────────────────────
-document.addEventListener('DOMContentLoaded', async function() {
+// ───────────────── INIT ─────────────────
+document.addEventListener('DOMContentLoaded', async function () {
     currentUser = AuraAuth.getCurrentUser();
+
     if (!currentUser) {
         window.location.href = './login.html';
         return;
     }
+
     document.getElementById('navUserName').textContent = currentUser.name;
+
     await renderFriends();
     await renderRequests();
 });
@@ -267,286 +272,256 @@ function doLogout() {
     window.location.href = './index.html';
 }
 
-// ─── TABS ────────────────────────────────────────────────────
+// ───────────────── TABS ─────────────────
 function switchTab(tab) {
-    ['friends','search','requests'].forEach(t => {
+    ['friends', 'search', 'requests'].forEach(t => {
         document.getElementById('panel-' + t).classList.remove('active');
         document.getElementById('tab-' + t).classList.remove('active');
     });
+
     document.getElementById('panel-' + tab).classList.add('active');
     document.getElementById('tab-' + tab).classList.add('active');
+
     if (tab === 'search') {
         setTimeout(() => document.getElementById('searchInput').focus(), 50);
     }
 }
 
-// ─── FRIENDS LIST ────────────────────────────────────────────
+// ───────────────── FRIENDS ─────────────────
 async function renderFriends() {
     const list = document.getElementById('friendsList');
     const friends = await AuraAuth.getFriends();
 
-    if (friends.length === 0) {
-        list.innerHTML = `<div class="empty-state"><span class="material-symbols-outlined">group</span><p>No friends yet.<br/>Search for people to add!</p></div>`;
+    if (!friends.length) {
+        list.innerHTML = `
+        <div class="empty-state">
+            <span class="material-symbols-outlined">group</span>
+            <p>No friends yet</p>
+        </div>`;
         return;
     }
 
     list.innerHTML = friends.map(f => `
-        <div class="friend-item ${activeFriendId === f.id ? 'active' : ''}" onclick="openChat('${f.id}', '${escapeHtml(f.name)}', '${escapeHtml(f.email)}')">
-            <div style="position:relative;">
-                <div class="avatar">${f.name.charAt(0).toUpperCase()}</div>
-                <div class="online-dot"></div>
-            </div>
+        <div class="friend-item ${activeFriendId === f.uid ? 'active' : ''}"
+             onclick="openChat('${f.uid}', '${escapeHtml(f.name)}', '${escapeHtml(f.email)}')">
+            <div class="avatar">${f.name.charAt(0).toUpperCase()}</div>
             <div style="flex:1; min-width:0;">
-                <div style="font-weight:700; font-size:14px; overflow:hidden; text-overflow:ellipsis; white-space:nowrap;">${escapeHtml(f.name)}</div>
-                <div style="font-size:12px; color:#adaaaa; overflow:hidden; text-overflow:ellipsis; white-space:nowrap;" id="lastmsg-${f.id}">...</div>
+                <div style="font-weight:700;">${escapeHtml(f.name)}</div>
+                <div style="font-size:12px;color:#aaa;" id="last-${f.uid}">...</div>
             </div>
         </div>
     `).join('');
 
-    // Load last messages for each friend
-    friends.forEach(f => loadLastMessage(f.id));
+    friends.forEach(loadLastMessage);
 }
 
-function loadLastMessage(friendId) {
-    const chatId = AuraChat.getChatId(currentUser.uid, friendId);
-    AuraAuth.db.ref('chats/' + chatId + '/messages').orderByChild('time').limitToLast(1).once('value', snap => {
-        const el = document.getElementById('lastmsg-' + friendId);
-        if (!el) return;
-        if (!snap.exists()) { el.textContent = 'No messages yet'; return; }
-        let last = null;
-        snap.forEach(c => { last = c.val(); });
-        if (!last) return;
-        const prefix = last.senderId === currentUser.uid ? 'You: ' : '';
-        el.textContent = prefix + (last.text.length > 28 ? last.text.slice(0, 28) + '…' : last.text);
-    });
+function loadLastMessage(friendUid) {
+    const chatId = AuraChat.getChatId(currentUser.uid, friendUid);
+
+    AuraAuth.db.ref(`chats/${chatId}/messages`)
+        .orderByChild('time')
+        .limitToLast(1)
+        .once('value', snap => {
+
+            const el = document.getElementById('last-' + friendUid);
+            if (!el) return;
+
+            if (!snap.exists()) {
+                el.textContent = 'No messages';
+                return;
+            }
+
+            let last = null;
+            snap.forEach(m => last = m.val());
+
+            if (!last) return;
+
+            el.textContent =
+                (last.senderId === currentUser.uid ? 'You: ' : '') +
+                last.text;
+        });
 }
 
-// ─── SEARCH ──────────────────────────────────────────────────
+// ───────────────── SEARCH ─────────────────
 function onSearchInput(val) {
     clearTimeout(searchTimeout);
+
     if (!val.trim()) {
-        document.getElementById('searchResults').innerHTML = `<div class="empty-state" style="padding-top:32px;"><span class="material-symbols-outlined">person_search</span><p>Type to search for users</p></div>`;
+        document.getElementById('searchResults').innerHTML =
+            `<div class="empty-state"><p>Type to search</p></div>`;
         return;
     }
-    document.getElementById('searchResults').innerHTML = `<div class="loading"><span class="material-symbols-outlined" style="font-size:18px; animation:spin 1s linear infinite;">refresh</span> Searching...</div>`;
-    searchTimeout = setTimeout(() => doSearch(val), 400);
+
+    searchTimeout = setTimeout(() => doSearch(val), 300);
 }
 
 async function doSearch(query) {
     const results = document.getElementById('searchResults');
-    const allUsers = await AuraAuth.searchUsers(query);
-    const sentReqs = await AuraAuth.getSentRequests();
-    const friends = await AuraAuth.getFriends();
-    const friendIds = friends.map(f => f.id);
 
-    if (allUsers.length === 0) {
-        results.innerHTML = `<div class="empty-state" style="padding-top:32px;"><span class="material-symbols-outlined">search_off</span><p>No users found.<br/>Try a different name or email.</p></div>`;
+    const users = await AuraAuth.searchUsers(query);
+    const friends = await AuraAuth.getFriends();
+    const sent = await AuraAuth.getSentRequests();
+
+    const friendIds = friends.map(f => f.uid);
+
+    if (!users.length) {
+        results.innerHTML = `<div class="empty-state"><p>No users found</p></div>`;
         return;
     }
 
-    results.innerHTML = allUsers.map(u => {
-        const isFriend = friendIds.includes(u.id);
-        const isPending = sentReqs.includes(u.id);
+    results.innerHTML = users.map(u => {
+
+        const isFriend = friendIds.includes(u.uid);
+        const isSent = sent.includes(u.uid);
+
         let btn = '';
+
         if (isFriend) {
-            btn = `<span class="btn-friends">Friends ✓</span>`;
-        } else if (isPending) {
-            btn = `<span class="btn-pending">Pending...</span>`;
+            btn = `<span class="btn-friends">Friends</span>`;
+        } else if (isSent) {
+            btn = `<span class="btn-pending">Sent</span>`;
         } else {
-            btn = `<button class="btn-add" onclick="sendFriendRequest('${u.id}')">Add Friend</button>`;
+            btn = `<button class="btn-add" onclick="sendFriendRequest('${u.uid}')">Add</button>`;
         }
+
         return `
         <div class="user-card">
-            <div class="avatar">${u.name.charAt(0).toUpperCase()}</div>
-            <div class="user-info">
-                <div class="user-name">${escapeHtml(u.name)}</div>
-                <div class="user-email">${escapeHtml(u.email)}</div>
+            <div class="avatar">${u.name.charAt(0)}</div>
+            <div style="flex:1;">
+                <div>${escapeHtml(u.name)}</div>
+                <div style="font-size:12px;color:#aaa">${escapeHtml(u.email)}</div>
             </div>
             ${btn}
         </div>`;
     }).join('');
 }
 
-async function sendFriendRequest(toUserId) {
-    const result = await AuraAuth.sendFriendRequest(toUserId);
-    if (result.success) {
+async function sendFriendRequest(uid) {
+    const r = await AuraAuth.sendFriendRequest(uid);
+
+    if (r.success) {
+        showToast('Request sent');
         doSearch(document.getElementById('searchInput').value);
-        showToast('Friend request sent! 📨');
     } else {
-        showToast(result.error || 'Could not send request', true);
+        showToast(r.error, true);
     }
 }
 
-// ─── REQUESTS ────────────────────────────────────────────────
+// ───────────────── REQUESTS ─────────────────
 async function renderRequests() {
     const list = document.getElementById('requestsList');
     const reqs = await AuraAuth.getFriendRequests();
 
     const badge = document.getElementById('reqBadge');
-    if (reqs.length > 0) {
-        badge.textContent = reqs.length;
+
+    if (reqs.length) {
         badge.style.display = 'flex';
+        badge.textContent = reqs.length;
     } else {
         badge.style.display = 'none';
     }
 
-    if (reqs.length === 0) {
-        list.innerHTML = `<div class="empty-state"><span class="material-symbols-outlined">mark_email_unread</span><p>No pending requests.</p></div>`;
+    if (!reqs.length) {
+        list.innerHTML = `<div class="empty-state"><p>No requests</p></div>`;
         return;
     }
 
-    list.innerHTML = reqs.map(req => `
+    list.innerHTML = reqs.map(r => `
         <div class="req-item">
-            <div class="avatar">${req.name.charAt(0).toUpperCase()}</div>
-            <div style="flex:1; min-width:0;">
-                <div style="font-weight:700; font-size:14px;">${escapeHtml(req.name)}</div>
-                <div style="font-size:12px; color:#adaaaa; overflow:hidden; text-overflow:ellipsis; white-space:nowrap;">${escapeHtml(req.email)}</div>
+            <div class="avatar">${r.name.charAt(0)}</div>
+            <div style="flex:1;">
+                <div>${escapeHtml(r.name)}</div>
+                <div style="font-size:12px;color:#aaa">${escapeHtml(r.email)}</div>
             </div>
-            <div class="req-actions">
-                <button class="req-btn accept" onclick="acceptRequest('${req.id}')" title="Accept">
-                    <span class="material-symbols-outlined" style="font-size:18px; font-variation-settings:'FILL' 1;">check</span>
-                </button>
-                <button class="req-btn decline" onclick="declineRequest('${req.id}')" title="Decline">
-                    <span class="material-symbols-outlined" style="font-size:18px;">close</span>
-                </button>
-            </div>
+            <button onclick="acceptRequest('${r.uid}')">✔</button>
+            <button onclick="declineRequest('${r.uid}')">✖</button>
         </div>
     `).join('');
 }
 
-async function acceptRequest(fromUid) {
-    await AuraAuth.acceptFriendRequest(fromUid);
+async function acceptRequest(uid) {
+    await AuraAuth.acceptFriendRequest(uid);
     await renderRequests();
     await renderFriends();
-    showToast('Friend added! 🎉');
+    showToast('Added!');
 }
 
-async function declineRequest(fromUid) {
-    await AuraAuth.declineFriendRequest(fromUid);
+async function declineRequest(uid) {
+    await AuraAuth.declineFriendRequest(uid);
     await renderRequests();
 }
 
-// ─── CHAT ────────────────────────────────────────────────────
-function openChat(friendId, friendName, friendEmail) {
-    // Stop previous listener
-    if (activeChatId && chatListener) {
-        AuraAuth.db.ref('chats/' + activeChatId + '/messages').off('value', chatListener);
-        chatListener = null;
-    }
+// ───────────────── CHAT ─────────────────
+function openChat(uid, name, email) {
 
-    activeFriendId = friendId;
-    activeChatId = AuraChat.getChatId(currentUser.uid, friendId);
+    if (chatRef) chatRef.off();
 
-    // Update header
-    document.getElementById('chatAvatar').textContent = friendName.charAt(0).toUpperCase();
-    document.getElementById('chatName').textContent = friendName;
-    document.getElementById('chatStatus').textContent = friendEmail;
+    activeFriendId = uid;
+    activeChatId = AuraChat.getChatId(currentUser.uid, uid);
 
-    // Mobile: show chat panel
-    document.getElementById('chatPanel').classList.add('open');
-    document.getElementById('sidebar').classList.add('hidden');
-    document.getElementById('noChatSelected').style.display = 'none';
+    document.getElementById('chatName').textContent = name;
+    document.getElementById('chatStatus').textContent = email;
 
-    // Show loading
-    document.getElementById('chatMessages').innerHTML = `<div class="loading"><span class="material-symbols-outlined" style="font-size:18px; animation:spin 1s linear infinite;">refresh</span> Loading messages...</div>`;
+    chatRef = AuraAuth.db.ref(`chats/${activeChatId}/messages`);
 
-    // Listen to messages in real-time
-    chatListener = AuraAuth.db.ref('chats/' + activeChatId + '/messages')
-        .orderByChild('time')
-        .on('value', snapshot => {
-            const msgs = [];
-            if (snapshot.exists()) {
-                snapshot.forEach(child => msgs.push({ key: child.key, ...child.val() }));
-            }
-            renderMessages(msgs);
+    document.getElementById('chatMessages').innerHTML =
+        `<div class="loading">Loading...</div>`;
+
+    chatHandler = chatRef.orderByChild('time').on('value', snap => {
+
+        const msgs = [];
+
+        snap.forEach(m => {
+            msgs.push(m.val());
         });
 
-    // Update friends list to show active
-    renderFriends();
-
-    // Focus input
-    setTimeout(() => document.getElementById('msgInput').focus(), 100);
-}
-
-function closeChatPanel() {
-    if (activeChatId && chatListener) {
-        AuraAuth.db.ref('chats/' + activeChatId + '/messages').off('value', chatListener);
-        chatListener = null;
-    }
-    activeFriendId = null;
-    activeChatId = null;
-    document.getElementById('chatPanel').classList.remove('open');
-    document.getElementById('sidebar').classList.remove('hidden');
-    document.getElementById('noChatSelected').style.display = '';
+        renderMessages(msgs);
+    });
 }
 
 function renderMessages(msgs) {
-    const container = document.getElementById('chatMessages');
-    const wasAtBottom = container.scrollHeight - container.scrollTop - container.clientHeight < 80;
+    const box = document.getElementById('chatMessages');
 
-    if (msgs.length === 0) {
-        container.innerHTML = `<div class="empty-state"><span class="material-symbols-outlined">waving_hand</span><p>Say hello!<br/>Start the conversation.</p></div>`;
+    if (!msgs.length) {
+        box.innerHTML = `<div class="empty-state"><p>Say hi 👋</p></div>`;
         return;
     }
 
-    container.innerHTML = msgs.map(m => {
-        const isMe = m.senderId === currentUser.uid;
-        const timeStr = new Date(m.time).toLocaleTimeString([], {hour:'2-digit', minute:'2-digit'});
-        return `
-        <div class="msg-row ${isMe ? 'me' : 'them'}">
-            ${!isMe ? `<div class="msg-avatar">${(m.senderName||'?').charAt(0)}</div>` : ''}
-            <div>
-                <div class="msg-bubble ${isMe ? 'me' : 'them'}">${escapeHtml(m.text)}</div>
-                <div class="msg-time" style="text-align:${isMe ? 'right' : 'left'};">${timeStr}</div>
+    box.innerHTML = msgs.map(m => `
+        <div style="text-align:${m.senderId === currentUser.uid ? 'right' : 'left'}">
+            <div class="msg-bubble ${m.senderId === currentUser.uid ? 'me' : 'them'}">
+                ${escapeHtml(m.text)}
             </div>
-        </div>`;
-    }).join('');
+        </div>
+    `).join('');
 
-    if (wasAtBottom || msgs.length <= 1) {
-        container.scrollTop = container.scrollHeight;
-    }
+    box.scrollTop = box.scrollHeight;
 }
 
 async function sendMessage() {
-    if (!activeFriendId) return;
     const input = document.getElementById('msgInput');
     const text = input.value.trim();
-    if (!text) return;
+
+    if (!text || !activeFriendId) return;
+
     input.value = '';
+
     await AuraChat.sendMessage(activeFriendId, text);
 }
 
-async function removeFriendConfirm() {
-    if (!activeFriendId) return;
-    const name = document.getElementById('chatName').textContent;
-    if (confirm(`Remove ${name} from friends?`)) {
-        await AuraAuth.removeFriend(activeFriendId);
-        closeChatPanel();
-        await renderFriends();
-        showToast('Friend removed.');
-    }
+// ───────────────── HELPERS ─────────────────
+function escapeHtml(t) {
+    return (t || '').replace(/&/g,'&amp;')
+        .replace(/</g,'&lt;')
+        .replace(/>/g,'&gt;');
 }
 
-// ─── HELPERS ─────────────────────────────────────────────────
-function escapeHtml(text) {
-    if (!text) return '';
-    return String(text).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
-}
-
-function showToast(msg, isError = false) {
+function showToast(msg, err = false) {
     const t = document.createElement('div');
     t.className = 'toast';
-    t.style.background = isError ? '#b92902' : '#cafd00';
-    t.style.color = isError ? '#fff' : '#3a4a00';
+    t.style.background = err ? '#b92902' : '#cafd00';
     t.textContent = msg;
     document.body.appendChild(t);
-    setTimeout(() => { t.style.opacity = '0'; t.style.transition = 'opacity 0.4s'; setTimeout(() => t.remove(), 400); }, 2500);
+    setTimeout(() => t.remove(), 2500);
 }
-
-// Poll for new requests every 5 seconds
-setInterval(async () => {
-    if (currentUser) await renderRequests();
-}, 5000);
 </script>
-</body>
-</html>
