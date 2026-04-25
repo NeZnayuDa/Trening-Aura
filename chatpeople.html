@@ -453,6 +453,7 @@ async function declineRequest(uid) {
 
 // ───────────────── CHAT ─────────────────
 function openChat(uid, name, email) {
+
     if (chatRef) chatRef.off();
 
     activeFriendId = uid;
@@ -461,22 +462,39 @@ function openChat(uid, name, email) {
     document.getElementById('chatName').textContent = name;
     document.getElementById('chatStatus').textContent = email;
 
-    // ✅ FIX MOBILE SWITCH (ВАЖНО)
     document.getElementById('sidebar').style.display = 'none';
     document.getElementById('chatPanel').classList.add('open');
-    document.getElementById('noChatSelected').style.display = 'none';
+
+    const container = document.getElementById('chatMessages');
+    container.innerHTML = `<div class="loading">Loading...</div>`;
 
     chatRef = AuraAuth.db.ref(`chats/${activeChatId}/messages`);
 
-    chatRef.on('value', snap => {
-        const msgs = [];
-        snap.forEach(m => msgs.push(m.val()));
-        renderMessages(msgs);
-    });
+    // ✅ FIX: child_added вместо value (ВАЖНО!)
+    chatRef.off();
 
-    // ✅ ONLINE STATUS LISTENER
-    setOnline(currentUser.uid, true);
-    setTyping(false);
+    chatRef.on('child_added', snap => {
+        const m = snap.val();
+        addMessageToUI(m);
+    });
+}
+
+function addMessageToUI(m) {
+    const box = document.getElementById('chatMessages');
+
+    const isMe = m.senderId === currentUser.uid;
+
+    const div = document.createElement('div');
+    div.style.textAlign = isMe ? 'right' : 'left';
+
+    div.innerHTML = `
+        <div class="msg-bubble ${isMe ? 'me' : 'them'}">
+            ${escapeHtml(m.text)}
+        </div>
+    `;
+
+    box.appendChild(div);
+    box.scrollTop = box.scrollHeight;
 }
 
 function closeChatPanel() {
