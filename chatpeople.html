@@ -479,6 +479,16 @@ function openChat(uid, name, email) {
     setTyping(false);
 }
 
+function closeChatPanel() {
+    if (chatRef) chatRef.off();
+
+    activeFriendId = null;
+    activeChatId = null;
+
+    document.getElementById('sidebar').style.display = 'flex';
+    document.getElementById('chatPanel').classList.remove('open');
+}
+
 function renderMessages(msgs) {
     const box = document.getElementById('chatMessages');
 
