@@ -453,7 +453,6 @@ async function declineRequest(uid) {
 
 // ───────────────── CHAT ─────────────────
 function openChat(uid, name, email) {
-
     if (chatRef) chatRef.off();
 
     activeFriendId = uid;
@@ -462,21 +461,22 @@ function openChat(uid, name, email) {
     document.getElementById('chatName').textContent = name;
     document.getElementById('chatStatus').textContent = email;
 
+    // ✅ FIX MOBILE SWITCH (ВАЖНО)
+    document.getElementById('sidebar').style.display = 'none';
+    document.getElementById('chatPanel').classList.add('open');
+    document.getElementById('noChatSelected').style.display = 'none';
+
     chatRef = AuraAuth.db.ref(`chats/${activeChatId}/messages`);
 
-    document.getElementById('chatMessages').innerHTML =
-        `<div class="loading">Loading...</div>`;
-
-    chatHandler = chatRef.orderByChild('time').on('value', snap => {
-
+    chatRef.on('value', snap => {
         const msgs = [];
-
-        snap.forEach(m => {
-            msgs.push(m.val());
-        });
-
+        snap.forEach(m => msgs.push(m.val()));
         renderMessages(msgs);
     });
+
+    // ✅ ONLINE STATUS LISTENER
+    setOnline(currentUser.uid, true);
+    setTyping(false);
 }
 
 function renderMessages(msgs) {
@@ -507,6 +507,14 @@ async function sendMessage() {
     input.value = '';
 
     await AuraChat.sendMessage(activeFriendId, text);
+
+    await chatRef.push({
+    senderId: current.uid,
+    text,
+    time: Date.now(),
+    delivered: true,
+    read: false
+});
 }
 
 // ───────────────── HELPERS ─────────────────
