@@ -462,23 +462,26 @@ function openChat(uid, name, email) {
     document.getElementById('chatName').textContent = name;
     document.getElementById('chatStatus').textContent = email;
 
-    document.getElementById('sidebar').style.display = 'none';
+    // ❌ НЕ скрываем sidebar
+    // document.getElementById('sidebar').style.display = 'none';
+
+    // ✅ просто добавляем режим "chat open"
+    document.querySelector('.layout').classList.add('chat-open');
+
     document.getElementById('chatPanel').classList.add('open');
+    document.getElementById('noChatSelected').style.display = 'none';
 
     const container = document.getElementById('chatMessages');
     container.innerHTML = `<div class="loading">Loading...</div>`;
 
     chatRef = AuraAuth.db.ref(`chats/${activeChatId}/messages`);
 
-    // ✅ FIX: child_added вместо value (ВАЖНО!)
     chatRef.off();
 
     chatRef.on('child_added', snap => {
-        const m = snap.val();
-        addMessageToUI(m);
+        addMessageToUI(snap.val());
     });
 }
-
 function addMessageToUI(m) {
     const box = document.getElementById('chatMessages');
 
