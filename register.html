@@ -255,6 +255,10 @@
         </div>
     </div>
 
+    <!-- Firebase SDKs -->
+    <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-database-compat.js"></script>
+    <script src="./firebase-config.js"></script>
     <script src="./auth.js"></script>
     <script>
         // Redirect if already logged in
@@ -262,7 +266,7 @@
             window.location.href = './index.html';
         }
 
-        document.getElementById('registerForm').addEventListener('submit', function(e) {
+        document.getElementById('registerForm').addEventListener('submit', async function(e) {
             e.preventDefault();
             const name = document.getElementById('name').value.trim();
             const email = document.getElementById('email').value.trim();
@@ -299,14 +303,13 @@
             btn.disabled = true;
             btnText.textContent = 'Creating...';
 
-            const result = AuraAuth.register(name, email, password);
+            const result = await AuraAuth.register(name, email, password);
             if (result.success) {
-                // Redirect to survey/onboarding
                 window.location.href = './oprosnik.html';
             } else {
                 errorEl.textContent = result.error === 'Email already registered'
                     ? 'This email is already registered. Please log in.'
-                    : result.error;
+                    : (result.error || 'Registration failed. Check your internet connection.');
                 errorEl.classList.remove('hidden');
                 btn.disabled = false;
                 btnText.textContent = 'Create Account';

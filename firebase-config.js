@@ -1,19 +1,13 @@
 // Firebase Configuration for TRENING AURA
-// Using Firebase v9 compat mode for easy integration
-
-// Import Firebase scripts are loaded via CDN in HTML files
-// This file contains the shared config and auth helpers
+// Using Firebase v9 compat mode (CDN)
 
 const firebaseConfig = {
-    apiKey: "AIzaSyDemo-ReplaceWithYourKey",
+    apiKey: "AIzaSyB_TO3XD2Uj_p62UroAvA57igN-XD4wVrU",
     authDomain: "trening-aura.firebaseapp.com",
     databaseURL: "https://trening-aura-default-rtdb.firebaseio.com",
     projectId: "trening-aura",
-    storageBucket: "trening-aura.appspot.com",
-    messagingSenderId: "123456789",
-    appId: "1:123456789:web:abcdef"
+    storageBucket: "trening-aura.firebasestorage.app",
+    messagingSenderId: "237244099863",
+    appId: "1:237244099863:web:3ffbcd47132da71b469b52",
+    measurementId: "G-DXZQG97TV1"
 };
-
-// NOTE: This is a LOCAL STORAGE based implementation
-// that works without Firebase setup.
-// All data is stored in localStorage for persistence.

@@ -1,555 +1,552 @@
 <!DOCTYPE html>
-<html class="dark" lang="en">
+<html lang="en">
 <head>
     <meta charset="utf-8" />
     <meta content="width=device-width, initial-scale=1.0" name="viewport" />
     <title>TRENING AURA | Chat & Friends</title>
-    <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
     <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700;900&family=Manrope:wght@200;300;400;500;600;700;800&display=swap" rel="stylesheet" />
     <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet" />
     <style>
-        .material-symbols-outlined { font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24; }
-        body { font-family: 'Manrope', sans-serif; background: #0e0e0e; color: #fff; }
-        .chat-messages { scrollbar-width: thin; scrollbar-color: #262626 transparent; }
-        .chat-messages::-webkit-scrollbar { width: 4px; }
-        .chat-messages::-webkit-scrollbar-thumb { background: #262626; border-radius: 4px; }
-        .msg-bubble-me { background: #cafd00; color: #3a4a00; border-radius: 18px 18px 4px 18px; }
-        .msg-bubble-them { background: #20201f; color: #fff; border-radius: 18px 18px 18px 4px; }
-        .friend-item { transition: background 0.15s; }
-        .friend-item:hover, .friend-item.active { background: #20201f; }
-        .friend-item.active { border-left: 3px solid #cafd00; }
-        .online-dot { width: 10px; height: 10px; background: #22c55e; border-radius: 50%; border: 2px solid #0e0e0e; }
-        .tab-btn.active { color: #cafd00; border-bottom: 2px solid #cafd00; }
-        .tab-btn { border-bottom: 2px solid transparent; }
-        #chatPanel { display: none; }
-        #chatPanel.open { display: flex; }
-        .notification-badge { background: #cafd00; color: #3a4a00; font-size: 9px; font-weight: 900; min-width: 16px; height: 16px; border-radius: 8px; display: flex; align-items: center; justify-content: center; padding: 0 3px; }
-        /* Panel visibility - use display:none/block instead of Tailwind hidden to avoid conflicts */
-        .panel { display: none; flex: 1; overflow-y: auto; }
-        .panel.active-panel { display: block; }
-        /* Search input styling */
-        #searchInput { background: #20201f; border: 1px solid rgba(255,255,255,0.1); color: #fff; width: 100%; padding: 12px 12px 12px 40px; border-radius: 12px; font-size: 14px; outline: none; }
-        #searchInput:focus { border-color: rgba(202,253,0,0.4); }
-        #searchInput::placeholder { color: rgba(173,170,170,0.5); }
-        #msgInput::placeholder { color: rgba(173,170,170,0.5); }
-        /* Fix Tailwind forms plugin resetting input backgrounds */
-        input[type="text"] { box-sizing: border-box; }
-        /* User card in search results */
-        .user-card { display: flex; align-items: center; gap: 12px; padding: 12px; background: #20201f; border-radius: 12px; margin-bottom: 8px; }
-        .user-avatar { width: 40px; height: 40px; border-radius: 50%; background: #262626; display: flex; align-items: center; justify-content: center; font-weight: 900; color: #cafd00; font-size: 16px; flex-shrink: 0; }
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+        body { font-family: 'Manrope', sans-serif; background: #0e0e0e; color: #fff; height: 100vh; overflow: hidden; }
+        .material-symbols-outlined { font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24; font-family: 'Material Symbols Outlined'; font-size: 24px; line-height: 1; display: inline-block; }
+
+        /* NAV */
+        nav { position: fixed; top: 0; width: 100%; z-index: 50; background: rgba(0,0,0,0.85); backdrop-filter: blur(20px); border-bottom: 1px solid rgba(255,255,255,0.05); }
+        .nav-inner { display: flex; justify-content: space-between; align-items: center; padding: 12px 24px; max-width: 1400px; margin: 0 auto; }
+        .nav-logo { font-size: 20px; font-weight: 900; font-style: italic; color: #cafd00; text-decoration: none; letter-spacing: -0.05em; font-family: 'Space Grotesk', sans-serif; }
+        .nav-actions { display: flex; align-items: center; gap: 16px; }
+        .nav-btn { background: none; border: none; cursor: pointer; color: #adaaaa; display: flex; align-items: center; gap: 8px; font-size: 14px; font-weight: 700; text-decoration: none; transition: color 0.15s; }
+        .nav-btn:hover { color: #fff; }
+
+        /* LAYOUT */
+        .layout { display: flex; height: 100vh; padding-top: 57px; }
+
+        /* SIDEBAR */
+        .sidebar { width: 340px; flex-shrink: 0; border-right: 1px solid rgba(255,255,255,0.05); display: flex; flex-direction: column; background: #0a0a0a; }
+        .tabs { display: flex; border-bottom: 1px solid rgba(255,255,255,0.05); padding: 0 16px; }
+        .tab-btn { flex: 1; padding: 14px 0; font-size: 10px; font-weight: 900; text-transform: uppercase; letter-spacing: 0.15em; color: #adaaaa; background: none; border: none; border-bottom: 2px solid transparent; cursor: pointer; transition: all 0.15s; position: relative; }
+        .tab-btn.active { color: #cafd00; border-bottom-color: #cafd00; }
+        .tab-panel { display: none; flex: 1; overflow-y: auto; }
+        .tab-panel.active { display: block; }
+        .tab-panel::-webkit-scrollbar { width: 3px; }
+        .tab-panel::-webkit-scrollbar-thumb { background: #262626; border-radius: 3px; }
+
+        /* FRIEND ITEMS */
+        .friend-item { display: flex; align-items: center; gap: 12px; padding: 12px 16px; cursor: pointer; transition: background 0.15s; border-left: 3px solid transparent; }
+        .friend-item:hover { background: #131313; }
+        .friend-item.active { background: #131313; border-left-color: #cafd00; }
+        .avatar { width: 40px; height: 40px; border-radius: 50%; background: #262626; display: flex; align-items: center; justify-content: center; font-weight: 900; color: #cafd00; font-size: 16px; flex-shrink: 0; font-family: 'Space Grotesk', sans-serif; }
+        .avatar.lg { width: 44px; height: 44px; font-size: 18px; }
+        .online-dot { width: 10px; height: 10px; background: #22c55e; border-radius: 50%; border: 2px solid #0a0a0a; position: absolute; bottom: -1px; right: -1px; }
+        .badge { background: #cafd00; color: #3a4a00; font-size: 9px; font-weight: 900; min-width: 16px; height: 16px; border-radius: 8px; display: flex; align-items: center; justify-content: center; padding: 0 3px; }
+        .req-badge { position: absolute; top: 6px; right: 6px; }
+
+        /* SEARCH */
+        .search-wrap { padding: 16px; }
+        .search-box { position: relative; }
+        .search-box .material-symbols-outlined { position: absolute; left: 12px; top: 50%; transform: translateY(-50%); color: #adaaaa; font-size: 20px; }
+        .search-input { width: 100%; background: #1a1a1a; border: 1px solid rgba(255,255,255,0.08); color: #fff; padding: 11px 12px 11px 40px; border-radius: 12px; font-size: 14px; outline: none; font-family: 'Manrope', sans-serif; transition: border-color 0.15s; }
+        .search-input:focus { border-color: rgba(202,253,0,0.4); }
+        .search-input::placeholder { color: rgba(173,170,170,0.4); }
+        #searchResults { margin-top: 12px; }
+
+        /* USER CARD */
+        .user-card { display: flex; align-items: center; gap: 12px; padding: 12px; background: #1a1a1a; border-radius: 12px; margin-bottom: 8px; }
         .user-info { flex: 1; min-width: 0; }
         .user-name { font-weight: 700; font-size: 14px; }
         .user-email { font-size: 12px; color: #adaaaa; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
-        .btn-add { background: #cafd00; color: #3a4a00; font-size: 10px; font-weight: 900; text-transform: uppercase; letter-spacing: 0.1em; padding: 6px 12px; border-radius: 20px; border: none; cursor: pointer; white-space: nowrap; }
+        .btn-add { background: #cafd00; color: #3a4a00; font-size: 10px; font-weight: 900; text-transform: uppercase; letter-spacing: 0.1em; padding: 7px 14px; border-radius: 20px; border: none; cursor: pointer; white-space: nowrap; transition: transform 0.1s; }
         .btn-add:hover { transform: scale(1.05); }
-        .btn-friends { background: rgba(202,253,0,0.1); color: #cafd00; font-size: 10px; font-weight: 900; text-transform: uppercase; letter-spacing: 0.1em; padding: 6px 12px; border-radius: 20px; border: none; }
-        .btn-pending { background: rgba(255,255,255,0.05); color: #adaaaa; font-size: 10px; font-weight: 900; text-transform: uppercase; letter-spacing: 0.1em; padding: 6px 12px; border-radius: 20px; border: none; }
+        .btn-friends { background: rgba(202,253,0,0.1); color: #cafd00; font-size: 10px; font-weight: 900; text-transform: uppercase; letter-spacing: 0.1em; padding: 7px 14px; border-radius: 20px; border: none; white-space: nowrap; }
+        .btn-pending { background: rgba(255,255,255,0.05); color: #adaaaa; font-size: 10px; font-weight: 900; text-transform: uppercase; letter-spacing: 0.1em; padding: 7px 14px; border-radius: 20px; border: none; white-space: nowrap; }
+
+        /* CHAT PANEL */
+        .chat-panel { flex: 1; display: flex; flex-direction: column; background: #0e0e0e; }
+        .chat-header { display: flex; align-items: center; gap: 16px; padding: 14px 24px; border-bottom: 1px solid rgba(255,255,255,0.05); background: #0a0a0a; flex-shrink: 0; }
+        .chat-messages { flex: 1; overflow-y: auto; padding: 20px 24px; display: flex; flex-direction: column; gap: 12px; }
+        .chat-messages::-webkit-scrollbar { width: 3px; }
+        .chat-messages::-webkit-scrollbar-thumb { background: #262626; border-radius: 3px; }
+        .chat-input-area { padding: 14px 24px; border-top: 1px solid rgba(255,255,255,0.05); background: #0a0a0a; flex-shrink: 0; display: flex; gap: 12px; align-items: center; }
+        .msg-input { flex: 1; background: #1a1a1a; border: 1px solid rgba(255,255,255,0.08); border-radius: 12px; padding: 12px 16px; font-size: 14px; color: #fff; outline: none; font-family: 'Manrope', sans-serif; transition: border-color 0.15s; }
+        .msg-input:focus { border-color: rgba(202,253,0,0.4); }
+        .msg-input::placeholder { color: rgba(173,170,170,0.4); }
+        .send-btn { width: 46px; height: 46px; background: #cafd00; color: #3a4a00; border-radius: 12px; border: none; cursor: pointer; display: flex; align-items: center; justify-content: center; flex-shrink: 0; transition: transform 0.1s; }
+        .send-btn:hover { transform: scale(1.05); }
+        .send-btn:active { transform: scale(0.95); }
+
+        /* MESSAGES */
+        .msg-row { display: flex; align-items: flex-end; gap: 8px; }
+        .msg-row.me { justify-content: flex-end; }
+        .msg-row.them { justify-content: flex-start; }
+        .msg-avatar { width: 26px; height: 26px; border-radius: 50%; background: #262626; display: flex; align-items: center; justify-content: center; color: #cafd00; font-weight: 900; font-size: 11px; flex-shrink: 0; }
+        .msg-bubble { padding: 10px 14px; font-size: 14px; line-height: 1.5; word-break: break-word; max-width: 70%; }
+        .msg-bubble.me { background: #cafd00; color: #3a4a00; border-radius: 18px 18px 4px 18px; font-weight: 600; }
+        .msg-bubble.them { background: #1a1a1a; color: #fff; border-radius: 18px 18px 18px 4px; }
+        .msg-time { font-size: 10px; color: rgba(173,170,170,0.4); margin-top: 3px; }
+
+        /* EMPTY STATE */
+        .empty-state { display: flex; flex-direction: column; align-items: center; justify-content: center; height: 100%; text-align: center; padding: 32px; }
+        .empty-state .material-symbols-outlined { font-size: 56px; color: rgba(173,170,170,0.15); margin-bottom: 12px; }
+        .empty-state p { color: #adaaaa; font-size: 14px; line-height: 1.6; }
+
+        /* REQUEST ITEMS */
+        .req-item { display: flex; align-items: center; gap: 12px; padding: 12px 16px; border-bottom: 1px solid rgba(255,255,255,0.04); }
+        .req-actions { display: flex; gap: 8px; margin-left: auto; }
+        .req-btn { width: 32px; height: 32px; border-radius: 8px; border: none; cursor: pointer; display: flex; align-items: center; justify-content: center; }
+        .req-btn.accept { background: #cafd00; color: #3a4a00; }
+        .req-btn.decline { background: rgba(185,41,2,0.2); color: #ff7351; }
+
+        /* SECTION LABEL */
+        .section-label { font-size: 10px; font-weight: 900; text-transform: uppercase; letter-spacing: 0.2em; color: #adaaaa; padding: 14px 16px 8px; }
+
+        /* LOADING */
+        .loading { display: flex; align-items: center; justify-content: center; padding: 24px; color: #adaaaa; font-size: 13px; gap: 8px; }
+
+        /* NO CHAT SELECTED (desktop) */
+        .no-chat { flex: 1; display: flex; flex-direction: column; align-items: center; justify-content: center; text-align: center; }
+        .no-chat .material-symbols-outlined { font-size: 80px; color: rgba(173,170,170,0.08); margin-bottom: 16px; }
+        .no-chat h2 { font-size: 20px; font-weight: 900; color: rgba(255,255,255,0.15); text-transform: uppercase; letter-spacing: -0.02em; font-family: 'Space Grotesk', sans-serif; }
+        .no-chat p { color: rgba(173,170,170,0.3); font-size: 13px; margin-top: 8px; }
+
+        /* MOBILE */
+        @media (max-width: 768px) {
+            .sidebar { width: 100%; position: absolute; top: 57px; left: 0; right: 0; bottom: 0; z-index: 10; }
+            .sidebar.hidden { display: none; }
+            .chat-panel { position: absolute; top: 57px; left: 0; right: 0; bottom: 0; z-index: 10; display: none; }
+            .chat-panel.open { display: flex; }
+            .no-chat { display: none; }
+            .back-btn { display: flex !important; }
+        }
+        .back-btn { display: none; }
+
+        /* TOAST */
+        .toast { position: fixed; bottom: 32px; left: 50%; transform: translateX(-50%); z-index: 9999; padding: 12px 24px; border-radius: 12px; font-weight: 700; font-size: 14px; box-shadow: 0 8px 32px rgba(0,0,0,0.5); white-space: nowrap; animation: toastIn 0.3s ease; }
+        @keyframes toastIn { from { opacity: 0; transform: translateX(-50%) translateY(10px); } to { opacity: 1; transform: translateX(-50%) translateY(0); } }
     </style>
 </head>
-<body class="min-h-screen bg-background">
+<body>
 
-<!-- Nav -->
-<nav class="fixed top-0 w-full z-50 bg-black/80 backdrop-blur-xl border-b border-white/5">
-    <div class="flex justify-between items-center px-6 py-3 max-w-[1400px] mx-auto">
-        <a href="./index.html" class="text-xl font-black italic text-[#cafd00] tracking-tighter font-headline">TRENING AURA</a>
-        <div class="flex items-center gap-4">
-            <a href="./profil.html" class="flex items-center gap-2 text-sm text-on-surface-variant hover:text-white transition-colors">
-                <span class="material-symbols-outlined text-lg">person</span>
-                <span id="navUserName" class="font-bold hidden md:block"></span>
+<!-- Firebase SDKs (compat mode) -->
+<script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-database-compat.js"></script>
+<script src="./firebase-config.js"></script>
+<script src="./auth.js"></script>
+
+<!-- NAV -->
+<nav>
+    <div class="nav-inner">
+        <a href="./index.html" class="nav-logo">TRENING AURA</a>
+        <div class="nav-actions">
+            <a href="./profil.html" class="nav-btn">
+                <span class="material-symbols-outlined" style="font-size:20px;">person</span>
+                <span id="navUserName"></span>
             </a>
-            <button onclick="doLogout()" class="text-on-surface-variant hover:text-error transition-colors" title="Logout">
-                <span class="material-symbols-outlined">logout</span>
+            <button onclick="doLogout()" class="nav-btn" title="Logout">
+                <span class="material-symbols-outlined" style="font-size:20px;">logout</span>
             </button>
         </div>
     </div>
 </nav>
 
-<!-- Main Layout -->
-<div class="flex h-screen pt-[57px]">
+<!-- LAYOUT -->
+<div class="layout">
 
-    <!-- LEFT SIDEBAR: Friends & Search -->
-    <div class="w-full md:w-80 lg:w-96 flex-shrink-0 border-r border-white/5 flex flex-col bg-surface-container-lowest" id="sidebar">
-
-        <!-- Tabs -->
-        <div class="flex border-b border-white/5 px-4 pt-4">
-            <button class="tab-btn active flex-1 pb-3 text-xs font-black uppercase tracking-widest transition-colors" onclick="switchTab('friends')" id="tab-friends">
-                Friends
-            </button>
-            <button class="tab-btn flex-1 pb-3 text-xs font-black uppercase tracking-widest text-on-surface-variant transition-colors" onclick="switchTab('search')" id="tab-search">
-                Find People
-            </button>
-            <button class="tab-btn flex-1 pb-3 text-xs font-black uppercase tracking-widest text-on-surface-variant transition-colors relative" onclick="switchTab('requests')" id="tab-requests">
+    <!-- SIDEBAR -->
+    <div class="sidebar" id="sidebar">
+        <!-- TABS -->
+        <div class="tabs">
+            <button class="tab-btn active" onclick="switchTab('friends')" id="tab-friends">Friends</button>
+            <button class="tab-btn" onclick="switchTab('search')" id="tab-search">Find People</button>
+            <button class="tab-btn" onclick="switchTab('requests')" id="tab-requests" style="position:relative;">
                 Requests
-                <span id="reqBadge" class="hidden absolute top-1 right-2 notification-badge">0</span>
+                <span class="badge req-badge" id="reqBadge" style="display:none;">0</span>
             </button>
         </div>
 
-        <!-- FRIENDS TAB -->
-        <div id="panel-friends" style="display:block; flex:1; overflow-y:auto;">
-            <div style="padding:16px;">
-                <p style="font-size:10px; font-weight:900; text-transform:uppercase; letter-spacing:0.2em; color:#adaaaa; margin-bottom:12px;">Your Friends</p>
-                <div id="friendsList"></div>
-                <div id="friendsEmpty" style="display:none; padding:48px 0; text-align:center;">
-                    <span class="material-symbols-outlined" style="font-size:40px; color:rgba(173,170,170,0.3); display:block; margin-bottom:12px;">group</span>
-                    <p style="color:#adaaaa; font-size:14px;">No friends yet.<br/>Search for people to add!</p>
-                </div>
+        <!-- FRIENDS PANEL -->
+        <div class="tab-panel active" id="panel-friends">
+            <div class="section-label">Your Friends</div>
+            <div id="friendsList">
+                <div class="loading"><span class="material-symbols-outlined" style="font-size:18px; animation:spin 1s linear infinite;">refresh</span> Loading...</div>
             </div>
         </div>
 
-        <!-- SEARCH TAB -->
-        <div id="panel-search" style="display:none; flex:1; overflow-y:auto;">
-            <div style="padding:16px;">
-                <div style="position:relative; margin-bottom:16px;">
-                    <span class="material-symbols-outlined" style="position:absolute; left:12px; top:50%; transform:translateY(-50%); color:#adaaaa; font-size:20px;">search</span>
-                    <input id="searchInput" type="text" placeholder="Search by name or email..."
-                        oninput="searchUsers(this.value)" />
+        <!-- SEARCH PANEL -->
+        <div class="tab-panel" id="panel-search">
+            <div class="search-wrap">
+                <div class="search-box">
+                    <span class="material-symbols-outlined">search</span>
+                    <input class="search-input" id="searchInput" type="text" placeholder="Search by name or email..." oninput="onSearchInput(this.value)" />
                 </div>
                 <div id="searchResults">
-                    <p style="color:#adaaaa; font-size:14px; text-align:center; padding:32px 0;">Type to search for users...</p>
+                    <div class="empty-state" style="padding-top:32px;">
+                        <span class="material-symbols-outlined">person_search</span>
+                        <p>Type to search for users</p>
+                    </div>
                 </div>
             </div>
         </div>
 
-        <!-- REQUESTS TAB -->
-        <div id="panel-requests" style="display:none; flex:1; overflow-y:auto;">
-            <div style="padding:16px;">
-                <p style="font-size:10px; font-weight:900; text-transform:uppercase; letter-spacing:0.2em; color:#adaaaa; margin-bottom:12px;">Incoming Requests</p>
-                <div id="requestsList"></div>
-                <div id="requestsEmpty" style="display:none; padding:48px 0; text-align:center;">
-                    <span class="material-symbols-outlined" style="font-size:40px; color:rgba(173,170,170,0.3); display:block; margin-bottom:12px;">mark_email_unread</span>
-                    <p style="color:#adaaaa; font-size:14px;">No pending requests.</p>
-                </div>
+        <!-- REQUESTS PANEL -->
+        <div class="tab-panel" id="panel-requests">
+            <div class="section-label">Incoming Requests</div>
+            <div id="requestsList">
+                <div class="loading"><span class="material-symbols-outlined" style="font-size:18px; animation:spin 1s linear infinite;">refresh</span> Loading...</div>
             </div>
         </div>
     </div>
 
-    <!-- RIGHT: Chat Panel -->
-    <div class="flex-1 flex flex-col" id="chatPanel">
-
-        <!-- Chat Header -->
-        <div style="display:flex; align-items:center; gap:16px; padding:16px 24px; border-bottom:1px solid rgba(255,255,255,0.05); background:#131313;">
-            <button class="md:hidden" onclick="closeChatPanel()" style="color:#adaaaa; background:none; border:none; cursor:pointer;">
+    <!-- CHAT PANEL -->
+    <div class="chat-panel" id="chatPanel">
+        <!-- Header -->
+        <div class="chat-header">
+            <button class="back-btn nav-btn" onclick="closeChatPanel()">
                 <span class="material-symbols-outlined">arrow_back</span>
             </button>
-            <div id="chatFriendAvatar" style="width:40px; height:40px; border-radius:50%; background:#cafd00; color:#3a4a00; display:flex; align-items:center; justify-content:center; font-weight:900; font-size:18px; flex-shrink:0;">?</div>
+            <div class="avatar lg" id="chatAvatar">?</div>
             <div style="flex:1;">
-                <p style="font-weight:700; font-size:15px;" id="chatFriendName">Select a friend</p>
-                <p style="font-size:12px; color:#adaaaa;" id="chatFriendStatus">—</p>
+                <div style="font-weight:700; font-size:15px;" id="chatName">—</div>
+                <div style="font-size:12px; color:#adaaaa;" id="chatStatus">—</div>
             </div>
-            <button onclick="removeFriendConfirm()" style="color:#adaaaa; background:none; border:none; cursor:pointer;" title="Remove friend">
-                <span class="material-symbols-outlined">person_remove</span>
+            <button onclick="removeFriendConfirm()" class="nav-btn" title="Remove friend">
+                <span class="material-symbols-outlined" style="font-size:20px;">person_remove</span>
             </button>
         </div>
 
         <!-- Messages -->
-        <div class="chat-messages" id="chatMessages" style="flex:1; overflow-y:auto; padding:24px; display:flex; flex-direction:column; gap:16px;">
-            <div style="display:flex; flex-direction:column; align-items:center; justify-content:center; height:100%; text-align:center;">
-                <span class="material-symbols-outlined" style="font-size:64px; color:rgba(173,170,170,0.2); margin-bottom:16px;">chat_bubble</span>
-                <p style="color:#adaaaa;">Select a friend to start chatting</p>
+        <div class="chat-messages" id="chatMessages">
+            <div class="empty-state">
+                <span class="material-symbols-outlined">chat_bubble</span>
+                <p>Select a friend to start chatting</p>
             </div>
         </div>
 
-        <!-- Message Input -->
-        <div style="padding:16px 24px; border-top:1px solid rgba(255,255,255,0.05); background:#131313;">
-            <div style="display:flex; align-items:center; gap:12px;">
-                <input id="msgInput" type="text" placeholder="Type a message..."
-                    style="flex:1; background:#20201f; border:1px solid rgba(255,255,255,0.1); border-radius:12px; padding:12px 16px; font-size:14px; color:#fff; outline:none; font-family:'Manrope',sans-serif;"
-                    onkeydown="if(event.key==='Enter') sendMessage()"
-                    onfocus="this.style.borderColor='rgba(202,253,0,0.4)'"
-                    onblur="this.style.borderColor='rgba(255,255,255,0.1)'" />
-                <button onclick="sendMessage()"
-                    style="width:48px; height:48px; background:#cafd00; color:#3a4a00; border-radius:12px; border:none; cursor:pointer; display:flex; align-items:center; justify-content:center; flex-shrink:0;">
-                    <span class="material-symbols-outlined" style="font-variation-settings:'FILL' 1;">send</span>
-                </button>
-            </div>
+        <!-- Input -->
+        <div class="chat-input-area">
+            <input class="msg-input" id="msgInput" type="text" placeholder="Type a message..." onkeydown="if(event.key==='Enter') sendMessage()" />
+            <button class="send-btn" onclick="sendMessage()">
+                <span class="material-symbols-outlined" style="font-variation-settings:'FILL' 1;">send</span>
+            </button>
         </div>
     </div>
 
-    <!-- Empty state when no chat selected (desktop) -->
-    <div class="flex-1 hidden md:flex flex-col items-center justify-center text-center" id="noChatSelected">
-        <span class="material-symbols-outlined text-8xl text-on-surface-variant/10 mb-6">forum</span>
-        <h2 class="text-2xl font-headline font-bold text-on-surface-variant/40 uppercase tracking-tight">Select a conversation</h2>
-        <p class="text-on-surface-variant/30 mt-2">Choose a friend from the left to start chatting</p>
+    <!-- NO CHAT SELECTED (desktop) -->
+    <div class="no-chat" id="noChatSelected">
+        <span class="material-symbols-outlined">forum</span>
+        <h2>Select a conversation</h2>
+        <p>Choose a friend from the left to start chatting</p>
     </div>
 </div>
 
-<script src="./auth.js"></script>
+<style>
+@keyframes spin { from { transform: rotate(0deg); } to { transform: rotate(360deg); } }
+</style>
+
 <script>
-    let currentUser = null;
-    let activeFriendId = null;
-    let chatPollInterval = null;
+let currentUser = null;
+let activeFriendId = null;
+let activeChatId = null;
+let chatListener = null;
+let searchTimeout = null;
 
-    // ─── INIT ───────────────────────────────────────────────────────────────
-    document.addEventListener('DOMContentLoaded', function() {
-        currentUser = AuraAuth.getCurrentUser();
-        if (!currentUser) {
-            window.location.href = './login.html';
-            return;
-        }
-        document.getElementById('navUserName').textContent = currentUser.name;
-        renderFriends();
-        renderRequests();
-        updateRequestBadge();
+// ─── INIT ────────────────────────────────────────────────────
+document.addEventListener('DOMContentLoaded', async function() {
+    currentUser = AuraAuth.getCurrentUser();
+    if (!currentUser) {
+        window.location.href = './login.html';
+        return;
+    }
+    document.getElementById('navUserName').textContent = currentUser.name;
+    await renderFriends();
+    await renderRequests();
+});
+
+function doLogout() {
+    AuraAuth.logout();
+    window.location.href = './index.html';
+}
+
+// ─── TABS ────────────────────────────────────────────────────
+function switchTab(tab) {
+    ['friends','search','requests'].forEach(t => {
+        document.getElementById('panel-' + t).classList.remove('active');
+        document.getElementById('tab-' + t).classList.remove('active');
     });
+    document.getElementById('panel-' + tab).classList.add('active');
+    document.getElementById('tab-' + tab).classList.add('active');
+    if (tab === 'search') {
+        setTimeout(() => document.getElementById('searchInput').focus(), 50);
+    }
+}
 
-    function doLogout() {
-        AuraAuth.logout();
-        window.location.href = './index.html';
+// ─── FRIENDS LIST ────────────────────────────────────────────
+async function renderFriends() {
+    const list = document.getElementById('friendsList');
+    const friends = await AuraAuth.getFriends();
+
+    if (friends.length === 0) {
+        list.innerHTML = `<div class="empty-state"><span class="material-symbols-outlined">group</span><p>No friends yet.<br/>Search for people to add!</p></div>`;
+        return;
     }
 
-    // ─── TABS ────────────────────────────────────────────────────────────────
-    function switchTab(tab) {
-        ['friends','search','requests'].forEach(t => {
-            document.getElementById('panel-' + t).style.display = 'none';
-            const btn = document.getElementById('tab-' + t);
-            btn.classList.remove('active');
-            btn.style.color = '#adaaaa';
-        });
-        document.getElementById('panel-' + tab).style.display = 'block';
-        const activeBtn = document.getElementById('tab-' + tab);
-        activeBtn.classList.add('active');
-        activeBtn.style.color = '#cafd00';
+    list.innerHTML = friends.map(f => `
+        <div class="friend-item ${activeFriendId === f.id ? 'active' : ''}" onclick="openChat('${f.id}', '${escapeHtml(f.name)}', '${escapeHtml(f.email)}')">
+            <div style="position:relative;">
+                <div class="avatar">${f.name.charAt(0).toUpperCase()}</div>
+                <div class="online-dot"></div>
+            </div>
+            <div style="flex:1; min-width:0;">
+                <div style="font-weight:700; font-size:14px; overflow:hidden; text-overflow:ellipsis; white-space:nowrap;">${escapeHtml(f.name)}</div>
+                <div style="font-size:12px; color:#adaaaa; overflow:hidden; text-overflow:ellipsis; white-space:nowrap;" id="lastmsg-${f.id}">...</div>
+            </div>
+        </div>
+    `).join('');
 
-        // Focus search input when switching to search tab
-        if (tab === 'search') {
-            setTimeout(() => document.getElementById('searchInput').focus(), 50);
-        }
+    // Load last messages for each friend
+    friends.forEach(f => loadLastMessage(f.id));
+}
+
+function loadLastMessage(friendId) {
+    const chatId = AuraChat.getChatId(currentUser.uid, friendId);
+    AuraAuth.db.ref('chats/' + chatId + '/messages').orderByChild('time').limitToLast(1).once('value', snap => {
+        const el = document.getElementById('lastmsg-' + friendId);
+        if (!el) return;
+        if (!snap.exists()) { el.textContent = 'No messages yet'; return; }
+        let last = null;
+        snap.forEach(c => { last = c.val(); });
+        if (!last) return;
+        const prefix = last.senderId === currentUser.uid ? 'You: ' : '';
+        el.textContent = prefix + (last.text.length > 28 ? last.text.slice(0, 28) + '…' : last.text);
+    });
+}
+
+// ─── SEARCH ──────────────────────────────────────────────────
+function onSearchInput(val) {
+    clearTimeout(searchTimeout);
+    if (!val.trim()) {
+        document.getElementById('searchResults').innerHTML = `<div class="empty-state" style="padding-top:32px;"><span class="material-symbols-outlined">person_search</span><p>Type to search for users</p></div>`;
+        return;
+    }
+    document.getElementById('searchResults').innerHTML = `<div class="loading"><span class="material-symbols-outlined" style="font-size:18px; animation:spin 1s linear infinite;">refresh</span> Searching...</div>`;
+    searchTimeout = setTimeout(() => doSearch(val), 400);
+}
+
+async function doSearch(query) {
+    const results = document.getElementById('searchResults');
+    const allUsers = await AuraAuth.searchUsers(query);
+    const sentReqs = await AuraAuth.getSentRequests();
+    const friends = await AuraAuth.getFriends();
+    const friendIds = friends.map(f => f.id);
+
+    if (allUsers.length === 0) {
+        results.innerHTML = `<div class="empty-state" style="padding-top:32px;"><span class="material-symbols-outlined">search_off</span><p>No users found.<br/>Try a different name or email.</p></div>`;
+        return;
     }
 
-    // ─── FRIENDS LIST ────────────────────────────────────────────────────────
-    function renderFriends() {
-        const friends = AuraAuth.getFriends();
-        const list = document.getElementById('friendsList');
-        const empty = document.getElementById('friendsEmpty');
-
-        if (friends.length === 0) {
-            list.innerHTML = '';
-            empty.style.display = 'block';
-            return;
-        }
-        empty.style.display = 'none';
-
-        list.innerHTML = friends.map(f => {
-            const unread = getUnreadCount(f.id);
-            return `
-            <div class="friend-item ${activeFriendId === f.id ? 'active' : ''}"
-                 style="display:flex; align-items:center; gap:12px; padding:10px 12px; border-radius:12px; cursor:pointer;"
-                 onclick="openChat('${f.id}')">
-                <div style="position:relative; flex-shrink:0;">
-                    <div style="width:40px; height:40px; border-radius:50%; background:#262626; display:flex; align-items:center; justify-content:center; font-weight:900; color:#cafd00; font-size:16px;">
-                        ${f.name.charAt(0).toUpperCase()}
-                    </div>
-                    <div class="online-dot" style="position:absolute; bottom:-1px; right:-1px;"></div>
-                </div>
-                <div style="flex:1; min-width:0;">
-                    <p style="font-weight:700; font-size:14px; overflow:hidden; text-overflow:ellipsis; white-space:nowrap;">${f.name}</p>
-                    <p style="font-size:12px; color:#adaaaa; overflow:hidden; text-overflow:ellipsis; white-space:nowrap;">${getLastMessage(f.id)}</p>
-                </div>
-                ${unread > 0 ? `<span class="notification-badge">${unread}</span>` : ''}
-            </div>`;
-        }).join('');
-    }
-
-    function getLastMessage(friendId) {
-        const msgs = getMessages(friendId);
-        if (msgs.length === 0) return 'No messages yet';
-        const last = msgs[msgs.length - 1];
-        const prefix = last.senderId === currentUser.id ? 'You: ' : '';
-        return prefix + (last.text.length > 30 ? last.text.slice(0, 30) + '…' : last.text);
-    }
-
-    function getUnreadCount(friendId) {
-        const msgs = getMessages(friendId);
-        return msgs.filter(m => m.senderId !== currentUser.id && !m.read).length;
-    }
-
-    // ─── SEARCH USERS ────────────────────────────────────────────────────────
-    function searchUsers(query) {
-        const results = document.getElementById('searchResults');
-        if (!query || !query.trim()) {
-            results.innerHTML = '<p style="color:#adaaaa; font-size:14px; text-align:center; padding:32px 0;">Type to search for users...</p>';
-            return;
-        }
-
-        const allUsers = AuraAuth.searchUsers(query);
-        const friends = AuraAuth.getFriends().map(f => f.id);
-        const sentReqs = AuraAuth.getSentRequests();
-
-        if (allUsers.length === 0) {
-            results.innerHTML = '<p style="color:#adaaaa; font-size:14px; text-align:center; padding:32px 0;">No users found. Try a different name or email.</p>';
-            return;
-        }
-
-        results.innerHTML = allUsers.map(u => {
-            const isFriend = friends.includes(u.id);
-            const isPending = sentReqs.includes(u.id);
-            let actionBtn = '';
-            if (isFriend) {
-                actionBtn = `<span style="font-size:10px; font-weight:900; text-transform:uppercase; letter-spacing:0.1em; color:#cafd00; background:rgba(202,253,0,0.1); padding:6px 12px; border-radius:20px; white-space:nowrap;">Friends ✓</span>`;
-            } else if (isPending) {
-                actionBtn = `<span style="font-size:10px; font-weight:900; text-transform:uppercase; letter-spacing:0.1em; color:#adaaaa; background:rgba(255,255,255,0.05); padding:6px 12px; border-radius:20px; white-space:nowrap;">Pending...</span>`;
-            } else {
-                actionBtn = `<button onclick="sendFriendRequest('${u.id}')" style="font-size:10px; font-weight:900; text-transform:uppercase; letter-spacing:0.1em; color:#3a4a00; background:#cafd00; padding:6px 12px; border-radius:20px; border:none; cursor:pointer; white-space:nowrap;">Add Friend</button>`;
-            }
-
-            return `
-            <div class="user-card">
-                <div class="user-avatar">${u.name.charAt(0).toUpperCase()}</div>
-                <div class="user-info">
-                    <p class="user-name">${escapeHtml(u.name)}</p>
-                    <p class="user-email">${escapeHtml(u.email)}</p>
-                </div>
-                ${actionBtn}
-            </div>`;
-        }).join('');
-    }
-
-    function sendFriendRequest(toUserId) {
-        const result = AuraAuth.sendFriendRequest(toUserId);
-        if (result.success) {
-            // Re-run search to update button state
-            searchUsers(document.getElementById('searchInput').value);
-            showToast('Friend request sent!');
+    results.innerHTML = allUsers.map(u => {
+        const isFriend = friendIds.includes(u.id);
+        const isPending = sentReqs.includes(u.id);
+        let btn = '';
+        if (isFriend) {
+            btn = `<span class="btn-friends">Friends ✓</span>`;
+        } else if (isPending) {
+            btn = `<span class="btn-pending">Pending...</span>`;
         } else {
-            showToast(result.error || 'Could not send request', true);
+            btn = `<button class="btn-add" onclick="sendFriendRequest('${u.id}')">Add Friend</button>`;
         }
+        return `
+        <div class="user-card">
+            <div class="avatar">${u.name.charAt(0).toUpperCase()}</div>
+            <div class="user-info">
+                <div class="user-name">${escapeHtml(u.name)}</div>
+                <div class="user-email">${escapeHtml(u.email)}</div>
+            </div>
+            ${btn}
+        </div>`;
+    }).join('');
+}
+
+async function sendFriendRequest(toUserId) {
+    const result = await AuraAuth.sendFriendRequest(toUserId);
+    if (result.success) {
+        doSearch(document.getElementById('searchInput').value);
+        showToast('Friend request sent! 📨');
+    } else {
+        showToast(result.error || 'Could not send request', true);
+    }
+}
+
+// ─── REQUESTS ────────────────────────────────────────────────
+async function renderRequests() {
+    const list = document.getElementById('requestsList');
+    const reqs = await AuraAuth.getFriendRequests();
+
+    const badge = document.getElementById('reqBadge');
+    if (reqs.length > 0) {
+        badge.textContent = reqs.length;
+        badge.style.display = 'flex';
+    } else {
+        badge.style.display = 'none';
     }
 
-    // ─── FRIEND REQUESTS ─────────────────────────────────────────────────────
-    function renderRequests() {
-        const reqs = AuraAuth.getFriendRequests();
-        const list = document.getElementById('requestsList');
-        const empty = document.getElementById('requestsEmpty');
-
-        if (reqs.length === 0) {
-            list.innerHTML = '';
-            empty.style.display = 'block';
-            return;
-        }
-        empty.style.display = 'none';
-
-        list.innerHTML = reqs.map(req => `
-            <div style="display:flex; align-items:center; gap:12px; padding:12px; background:#20201f; border-radius:12px; margin-bottom:8px;">
-                <div style="width:40px; height:40px; border-radius:50%; background:#262626; display:flex; align-items:center; justify-content:center; font-weight:900; color:#cafd00; font-size:16px; flex-shrink:0;">
-                    ${req.name.charAt(0).toUpperCase()}
-                </div>
-                <div style="flex:1; min-width:0;">
-                    <p style="font-weight:700; font-size:14px;">${req.name}</p>
-                    <p style="font-size:12px; color:#adaaaa; overflow:hidden; text-overflow:ellipsis; white-space:nowrap;">${req.email}</p>
-                </div>
-                <div style="display:flex; gap:8px;">
-                    <button onclick="acceptRequest('${req.id}')"
-                        style="width:32px; height:32px; background:#cafd00; color:#3a4a00; border-radius:8px; border:none; cursor:pointer; display:flex; align-items:center; justify-content:center;" title="Accept">
-                        <span class="material-symbols-outlined" style="font-size:18px; font-variation-settings:'FILL' 1;">check</span>
-                    </button>
-                    <button onclick="declineRequest('${req.id}')"
-                        style="width:32px; height:32px; background:rgba(185,41,2,0.2); color:#ff7351; border-radius:8px; border:none; cursor:pointer; display:flex; align-items:center; justify-content:center;" title="Decline">
-                        <span class="material-symbols-outlined" style="font-size:18px;">close</span>
-                    </button>
-                </div>
-            </div>`).join('');
+    if (reqs.length === 0) {
+        list.innerHTML = `<div class="empty-state"><span class="material-symbols-outlined">mark_email_unread</span><p>No pending requests.</p></div>`;
+        return;
     }
 
-    function acceptRequest(fromUserId) {
-        AuraAuth.acceptFriendRequest(fromUserId);
-        renderRequests();
-        renderFriends();
-        updateRequestBadge();
-        showToast('Friend added! 🎉');
+    list.innerHTML = reqs.map(req => `
+        <div class="req-item">
+            <div class="avatar">${req.name.charAt(0).toUpperCase()}</div>
+            <div style="flex:1; min-width:0;">
+                <div style="font-weight:700; font-size:14px;">${escapeHtml(req.name)}</div>
+                <div style="font-size:12px; color:#adaaaa; overflow:hidden; text-overflow:ellipsis; white-space:nowrap;">${escapeHtml(req.email)}</div>
+            </div>
+            <div class="req-actions">
+                <button class="req-btn accept" onclick="acceptRequest('${req.id}')" title="Accept">
+                    <span class="material-symbols-outlined" style="font-size:18px; font-variation-settings:'FILL' 1;">check</span>
+                </button>
+                <button class="req-btn decline" onclick="declineRequest('${req.id}')" title="Decline">
+                    <span class="material-symbols-outlined" style="font-size:18px;">close</span>
+                </button>
+            </div>
+        </div>
+    `).join('');
+}
+
+async function acceptRequest(fromUid) {
+    await AuraAuth.acceptFriendRequest(fromUid);
+    await renderRequests();
+    await renderFriends();
+    showToast('Friend added! 🎉');
+}
+
+async function declineRequest(fromUid) {
+    await AuraAuth.declineFriendRequest(fromUid);
+    await renderRequests();
+}
+
+// ─── CHAT ────────────────────────────────────────────────────
+function openChat(friendId, friendName, friendEmail) {
+    // Stop previous listener
+    if (activeChatId && chatListener) {
+        AuraAuth.db.ref('chats/' + activeChatId + '/messages').off('value', chatListener);
+        chatListener = null;
     }
 
-    function declineRequest(fromUserId) {
-        AuraAuth.declineFriendRequest(fromUserId);
-        renderRequests();
-        updateRequestBadge();
-    }
+    activeFriendId = friendId;
+    activeChatId = AuraChat.getChatId(currentUser.uid, friendId);
 
-    function updateRequestBadge() {
-        const reqs = AuraAuth.getFriendRequests();
-        const badge = document.getElementById('reqBadge');
-        if (reqs.length > 0) {
-            badge.textContent = reqs.length;
-            badge.classList.remove('hidden');
-        } else {
-            badge.classList.add('hidden');
-        }
-    }
+    // Update header
+    document.getElementById('chatAvatar').textContent = friendName.charAt(0).toUpperCase();
+    document.getElementById('chatName').textContent = friendName;
+    document.getElementById('chatStatus').textContent = friendEmail;
 
-    // ─── CHAT ────────────────────────────────────────────────────────────────
-    function openChat(friendId) {
-        activeFriendId = friendId;
-        const friends = AuraAuth.getFriends();
-        const friend = friends.find(f => f.id === friendId);
-        if (!friend) return;
+    // Mobile: show chat panel
+    document.getElementById('chatPanel').classList.add('open');
+    document.getElementById('sidebar').classList.add('hidden');
+    document.getElementById('noChatSelected').style.display = 'none';
 
-        // Update header
-        document.getElementById('chatFriendAvatar').textContent = friend.name.charAt(0).toUpperCase();
-        document.getElementById('chatFriendName').textContent = friend.name;
-        document.getElementById('chatFriendStatus').textContent = friend.email;
+    // Show loading
+    document.getElementById('chatMessages').innerHTML = `<div class="loading"><span class="material-symbols-outlined" style="font-size:18px; animation:spin 1s linear infinite;">refresh</span> Loading messages...</div>`;
 
-        // Show chat panel on mobile
-        document.getElementById('chatPanel').classList.add('open');
-        document.getElementById('noChatSelected').classList.add('hidden');
-        document.getElementById('sidebar').classList.add('hidden');
-        document.getElementById('sidebar').classList.remove('md:flex');
-
-        // Mark messages as read
-        markMessagesRead(friendId);
-
-        // Render messages
-        renderMessages();
-        renderFriends(); // update unread counts
-
-        // Start polling for new messages
-        if (chatPollInterval) clearInterval(chatPollInterval);
-        chatPollInterval = setInterval(() => {
-            if (activeFriendId) {
-                renderMessages(true);
-                renderFriends();
-                updateRequestBadge();
+    // Listen to messages in real-time
+    chatListener = AuraAuth.db.ref('chats/' + activeChatId + '/messages')
+        .orderByChild('time')
+        .on('value', snapshot => {
+            const msgs = [];
+            if (snapshot.exists()) {
+                snapshot.forEach(child => msgs.push({ key: child.key, ...child.val() }));
             }
-        }, 1500);
-
-        // Focus input
-        setTimeout(() => document.getElementById('msgInput').focus(), 100);
-    }
-
-    function closeChatPanel() {
-        activeFriendId = null;
-        document.getElementById('chatPanel').classList.remove('open');
-        document.getElementById('sidebar').classList.remove('hidden');
-        document.getElementById('sidebar').classList.add('md:flex');
-        document.getElementById('noChatSelected').classList.remove('hidden');
-        if (chatPollInterval) clearInterval(chatPollInterval);
-    }
-
-    function getMessages(friendId) {
-        const key = getChatKey(friendId);
-        return JSON.parse(localStorage.getItem(key) || '[]');
-    }
-
-    function saveMessages(friendId, msgs) {
-        const key = getChatKey(friendId);
-        localStorage.setItem(key, JSON.stringify(msgs));
-    }
-
-    function getChatKey(friendId) {
-        // Consistent key regardless of who initiated
-        const ids = [currentUser.id, friendId].sort();
-        return `aura_chat_${ids[0]}_${ids[1]}`;
-    }
-
-    function markMessagesRead(friendId) {
-        const msgs = getMessages(friendId);
-        msgs.forEach(m => { if (m.senderId !== currentUser.id) m.read = true; });
-        saveMessages(friendId, msgs);
-    }
-
-    function renderMessages(silent = false) {
-        if (!activeFriendId) return;
-        const msgs = getMessages(activeFriendId);
-        const container = document.getElementById('chatMessages');
-        const wasAtBottom = container.scrollHeight - container.scrollTop - container.clientHeight < 60;
-
-        if (msgs.length === 0) {
-            container.innerHTML = `
-                <div style="display:flex; flex-direction:column; align-items:center; justify-content:center; height:100%; text-align:center;">
-                    <span class="material-symbols-outlined" style="font-size:48px; color:rgba(173,170,170,0.2); margin-bottom:12px;">waving_hand</span>
-                    <p style="color:#adaaaa; font-size:14px;">Say hello! Start the conversation.</p>
-                </div>`;
-            return;
-        }
-
-        container.innerHTML = msgs.map((m, i) => {
-            const isMe = m.senderId === currentUser.id;
-            const timeStr = new Date(m.ts).toLocaleTimeString([], {hour:'2-digit', minute:'2-digit'});
-
-            return `
-            <div style="display:flex; justify-content:${isMe ? 'flex-end' : 'flex-start'}; align-items:flex-end; gap:8px;">
-                ${!isMe ? `<div style="width:28px; height:28px; border-radius:50%; background:#262626; display:flex; align-items:center; justify-content:center; color:#cafd00; font-weight:900; font-size:12px; flex-shrink:0;">${m.senderName.charAt(0)}</div>` : ''}
-                <div style="max-width:70%;">
-                    <div class="${isMe ? 'msg-bubble-me' : 'msg-bubble-them'}" style="padding:10px 16px; font-size:14px; font-weight:500; line-height:1.5; word-break:break-word;">
-                        ${escapeHtml(m.text)}
-                    </div>
-                    <p style="font-size:10px; color:rgba(173,170,170,0.5); margin-top:4px; text-align:${isMe ? 'right' : 'left'};">${timeStr}</p>
-                </div>
-            </div>`;
-        }).join('');
-
-        // Auto-scroll to bottom if was at bottom or new message
-        if (!silent || wasAtBottom) {
-            container.scrollTop = container.scrollHeight;
-        }
-    }
-
-    function sendMessage() {
-        if (!activeFriendId) return;
-        const input = document.getElementById('msgInput');
-        const text = input.value.trim();
-        if (!text) return;
-
-        const msgs = getMessages(activeFriendId);
-        msgs.push({
-            id: Date.now(),
-            senderId: currentUser.id,
-            senderName: currentUser.name,
-            text,
-            ts: new Date().toISOString(),
-            read: false
+            renderMessages(msgs);
         });
-        saveMessages(activeFriendId, msgs);
-        input.value = '';
-        renderMessages();
-        renderFriends();
+
+    // Update friends list to show active
+    renderFriends();
+
+    // Focus input
+    setTimeout(() => document.getElementById('msgInput').focus(), 100);
+}
+
+function closeChatPanel() {
+    if (activeChatId && chatListener) {
+        AuraAuth.db.ref('chats/' + activeChatId + '/messages').off('value', chatListener);
+        chatListener = null;
+    }
+    activeFriendId = null;
+    activeChatId = null;
+    document.getElementById('chatPanel').classList.remove('open');
+    document.getElementById('sidebar').classList.remove('hidden');
+    document.getElementById('noChatSelected').style.display = '';
+}
+
+function renderMessages(msgs) {
+    const container = document.getElementById('chatMessages');
+    const wasAtBottom = container.scrollHeight - container.scrollTop - container.clientHeight < 80;
+
+    if (msgs.length === 0) {
+        container.innerHTML = `<div class="empty-state"><span class="material-symbols-outlined">waving_hand</span><p>Say hello!<br/>Start the conversation.</p></div>`;
+        return;
     }
 
-    function removeFriendConfirm() {
-        if (!activeFriendId) return;
-        const friends = AuraAuth.getFriends();
-        const friend = friends.find(f => f.id === activeFriendId);
-        if (!friend) return;
-        if (confirm(`Remove ${friend.name} from friends?`)) {
-            AuraAuth.removeFriend(activeFriendId);
-            closeChatPanel();
-            renderFriends();
-            showToast('Friend removed.');
-        }
-    }
+    container.innerHTML = msgs.map(m => {
+        const isMe = m.senderId === currentUser.uid;
+        const timeStr = new Date(m.time).toLocaleTimeString([], {hour:'2-digit', minute:'2-digit'});
+        return `
+        <div class="msg-row ${isMe ? 'me' : 'them'}">
+            ${!isMe ? `<div class="msg-avatar">${(m.senderName||'?').charAt(0)}</div>` : ''}
+            <div>
+                <div class="msg-bubble ${isMe ? 'me' : 'them'}">${escapeHtml(m.text)}</div>
+                <div class="msg-time" style="text-align:${isMe ? 'right' : 'left'};">${timeStr}</div>
+            </div>
+        </div>`;
+    }).join('');
 
-    // ─── HELPERS ─────────────────────────────────────────────────────────────
-    function escapeHtml(text) {
-        return text.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
+    if (wasAtBottom || msgs.length <= 1) {
+        container.scrollTop = container.scrollHeight;
     }
+}
 
-    function showToast(msg, isError = false) {
-        const toast = document.createElement('div');
-        toast.style.cssText = `
-            position: fixed;
-            bottom: 32px;
-            left: 50%;
-            transform: translateX(-50%);
-            z-index: 9999;
-            padding: 12px 24px;
-            border-radius: 12px;
-            font-weight: 700;
-            font-size: 14px;
-            box-shadow: 0 8px 32px rgba(0,0,0,0.5);
-            transition: opacity 0.4s;
-            background: ${isError ? '#b92902' : '#cafd00'};
-            color: ${isError ? '#fff' : '#3a4a00'};
-            white-space: nowrap;
-        `;
-        toast.textContent = msg;
-        document.body.appendChild(toast);
-        setTimeout(() => { toast.style.opacity = '0'; setTimeout(() => toast.remove(), 400); }, 2500);
+async function sendMessage() {
+    if (!activeFriendId) return;
+    const input = document.getElementById('msgInput');
+    const text = input.value.trim();
+    if (!text) return;
+    input.value = '';
+    await AuraChat.sendMessage(activeFriendId, text);
+}
+
+async function removeFriendConfirm() {
+    if (!activeFriendId) return;
+    const name = document.getElementById('chatName').textContent;
+    if (confirm(`Remove ${name} from friends?`)) {
+        await AuraAuth.removeFriend(activeFriendId);
+        closeChatPanel();
+        await renderFriends();
+        showToast('Friend removed.');
     }
+}
 
-    // Poll for friend requests even when no chat is open
-    setInterval(() => {
-        updateRequestBadge();
-        renderRequests();
-        if (!activeFriendId) renderFriends();
-    }, 3000);
+// ─── HELPERS ─────────────────────────────────────────────────
+function escapeHtml(text) {
+    if (!text) return '';
+    return String(text).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
+}
+
+function showToast(msg, isError = false) {
+    const t = document.createElement('div');
+    t.className = 'toast';
+    t.style.background = isError ? '#b92902' : '#cafd00';
+    t.style.color = isError ? '#fff' : '#3a4a00';
+    t.textContent = msg;
+    document.body.appendChild(t);
+    setTimeout(() => { t.style.opacity = '0'; t.style.transition = 'opacity 0.4s'; setTimeout(() => t.remove(), 400); }, 2500);
+}
+
+// Poll for new requests every 5 seconds
+setInterval(async () => {
+    if (currentUser) await renderRequests();
+}, 5000);
 </script>
 </body>
 </html>

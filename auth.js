@@ -1,290 +1,365 @@
 // ============================================================
-// TRENING AURA - Auth & User System (localStorage based)
+// TRENING AURA - Auth & User System (Firebase Realtime DB)
 // ============================================================
 
+// Firebase SDK loaded via CDN in HTML files (compat mode)
+// This file assumes firebase app is already initialized
+
 const AuraAuth = {
-    // Get all registered users
-    getUsers() {
-        return JSON.parse(localStorage.getItem('aura_users') || '{}');
+    db: null,
+
+    // Initialize Firebase connection
+    init() {
+        if (this.db) return;
+        try {
+            if (!firebase.apps.length) {
+                firebase.initializeApp(firebaseConfig);
+            }
+            this.db = firebase.database();
+        } catch(e) {
+            console.error('Firebase init error:', e);
+        }
     },
 
-    // Save all users
-    saveUsers(users) {
-        localStorage.setItem('aura_users', JSON.stringify(users));
-    },
-
-    // Get current logged-in user (returns user with .id alias for .uid)
+    // Get current logged-in user from localStorage (session)
     getCurrentUser() {
         const uid = localStorage.getItem('aura_current_uid');
         if (!uid) return null;
-        const users = this.getUsers();
-        const user = users[uid];
-        if (!user) return null;
-        // Ensure .id is always available as alias for .uid
+        const userData = localStorage.getItem('aura_user_' + uid);
+        if (!userData) return null;
+        const user = JSON.parse(userData);
         return { ...user, id: user.uid };
     },
 
-    // Register new user
-    register(name, email, password) {
-        const users = this.getUsers();
-        // Check if email already exists
-        const existing = Object.values(users).find(u => u.email === email);
-        if (existing) return { success: false, error: 'Email already registered' };
+    // Save current user session locally (cache)
+    _saveSession(user) {
+        localStorage.setItem('aura_current_uid', user.uid);
+        localStorage.setItem('aura_user_' + user.uid, JSON.stringify(user));
+    },
 
-        const uid = 'user_' + Date.now() + '_' + Math.random().toString(36).substr(2, 9);
-        const user = {
-            uid,
-            id: uid, // alias
-            name,
-            email,
-            password, // In production use hashing; here it's demo
-            avatar: '',
-            bio: '',
-            joinDate: new Date().toLocaleDateString('ru-RU'),
-            friends: [],
-            friendRequests: [],  // incoming: [{ from: uid, name, email, time }]
-            sentRequests: [],    // outgoing: [uid, ...]
-            createdAt: Date.now()
-        };
-        users[uid] = user;
-        this.saveUsers(users);
-        localStorage.setItem('aura_current_uid', uid);
-        return { success: true, user };
+    // Register new user
+    async register(name, email, password) {
+        this.init();
+        try {
+            // Check if email exists
+            const snapshot = await this.db.ref('users').orderByChild('email').equalTo(email).once('value');
+            if (snapshot.exists()) {
+                return { success: false, error: 'Email already registered' };
+            }
+
+            const uid = 'user_' + Date.now() + '_' + Math.random().toString(36).substr(2, 9);
+            const user = {
+                uid,
+                id: uid,
+                name,
+                email,
+                password,
+                avatar: '',
+                bio: '',
+                joinDate: new Date().toLocaleDateString('ru-RU'),
+                friends: {},
+                friendRequests: {},
+                sentRequests: {},
+                createdAt: Date.now()
+            };
+
+            await this.db.ref('users/' + uid).set(user);
+            this._saveSession(user);
+            return { success: true, user };
+        } catch(e) {
+            console.error('Register error:', e);
+            return { success: false, error: 'Connection error. Check internet.' };
+        }
     },
 
     // Login
-    login(email, password) {
-        const users = this.getUsers();
-        const user = Object.values(users).find(u => u.email === email && u.password === password);
-        if (!user) return { success: false, error: 'Invalid email or password' };
-        localStorage.setItem('aura_current_uid', user.uid);
-        return { success: true, user };
+    async login(email, password) {
+        this.init();
+        try {
+            const snapshot = await this.db.ref('users').orderByChild('email').equalTo(email).once('value');
+            if (!snapshot.exists()) {
+                return { success: false, error: 'Invalid email or password' };
+            }
+            let user = null;
+            snapshot.forEach(child => { user = child.val(); });
+            if (!user || user.password !== password) {
+                return { success: false, error: 'Invalid email or password' };
+            }
+            user.id = user.uid;
+            this._saveSession(user);
+            return { success: true, user };
+        } catch(e) {
+            console.error('Login error:', e);
+            return { success: false, error: 'Connection error. Check internet.' };
+        }
     },
 
     // Logout
     logout() {
+        const uid = localStorage.getItem('aura_current_uid');
+        if (uid) localStorage.removeItem('aura_user_' + uid);
         localStorage.removeItem('aura_current_uid');
     },
 
     // Update user profile
-    updateProfile(updates) {
+    async updateProfile(updates) {
+        this.init();
         const user = this.getCurrentUser();
         if (!user) return false;
-        const users = this.getUsers();
-        // Don't overwrite uid/id
-        const safeUpdates = { ...updates };
-        delete safeUpdates.uid;
-        delete safeUpdates.id;
-        users[user.uid] = { ...users[user.uid], ...safeUpdates };
-        this.saveUsers(users);
-        return true;
+        try {
+            const safeUpdates = { ...updates };
+            delete safeUpdates.uid;
+            delete safeUpdates.id;
+            await this.db.ref('users/' + user.uid).update(safeUpdates);
+            // Update local cache
+            const updated = { ...user, ...safeUpdates };
+            this._saveSession(updated);
+            return true;
+        } catch(e) {
+            console.error('Update profile error:', e);
+            return false;
+        }
     },
 
-    // Get user by uid
-    getUserById(uid) {
-        const users = this.getUsers();
-        const u = users[uid];
-        if (!u) return null;
-        return { ...u, id: u.uid };
+    // Get user by uid (from Firebase)
+    async getUserById(uid) {
+        this.init();
+        try {
+            const snap = await this.db.ref('users/' + uid).once('value');
+            if (!snap.exists()) return null;
+            const u = snap.val();
+            return { ...u, id: u.uid };
+        } catch(e) { return null; }
     },
 
     // Search users by name or email (excludes self)
-    searchUsers(query) {
-        const users = this.getUsers();
+    async searchUsers(query) {
+        this.init();
         const current = this.getCurrentUser();
         query = query.toLowerCase().trim();
         if (!query) return [];
-        return Object.values(users)
-            .filter(u => {
-                if (current && u.uid === current.uid) return false;
-                return u.name.toLowerCase().includes(query) || u.email.toLowerCase().includes(query);
-            })
-            .map(u => ({ ...u, id: u.uid }));
+        try {
+            const snap = await this.db.ref('users').once('value');
+            if (!snap.exists()) return [];
+            const results = [];
+            snap.forEach(child => {
+                const u = child.val();
+                if (current && u.uid === current.uid) return;
+                if (u.name.toLowerCase().includes(query) || u.email.toLowerCase().includes(query)) {
+                    results.push({ ...u, id: u.uid });
+                }
+            });
+            return results;
+        } catch(e) {
+            console.error('Search error:', e);
+            return [];
+        }
     },
 
-    // Send friend request to another user
-    sendFriendRequest(toUid) {
+    // Send friend request
+    async sendFriendRequest(toUid) {
+        this.init();
         const current = this.getCurrentUser();
         if (!current) return { success: false, error: 'Not logged in' };
-        const users = this.getUsers();
-        const target = users[toUid];
-        if (!target) return { success: false, error: 'User not found' };
+        try {
+            // Check already friends
+            const friendSnap = await this.db.ref(`users/${current.uid}/friends/${toUid}`).once('value');
+            if (friendSnap.exists()) return { success: false, error: 'Already friends' };
 
-        // Already friends?
-        if ((users[current.uid].friends || []).includes(toUid)) {
-            return { success: false, error: 'Already friends' };
-        }
+            // Check already sent
+            const sentSnap = await this.db.ref(`users/${current.uid}/sentRequests/${toUid}`).once('value');
+            if (sentSnap.exists()) return { success: false, error: 'Request already sent' };
 
-        // Already sent?
-        if ((users[current.uid].sentRequests || []).includes(toUid)) {
-            return { success: false, error: 'Request already sent' };
-        }
-
-        // Add to target's incoming requests
-        if (!target.friendRequests) target.friendRequests = [];
-        if (!target.friendRequests.find(r => r.from === current.uid)) {
-            target.friendRequests.push({
+            // Add to target's incoming requests
+            await this.db.ref(`users/${toUid}/friendRequests/${current.uid}`).set({
                 from: current.uid,
                 name: current.name,
                 email: current.email,
                 time: Date.now()
             });
-        }
-        users[toUid] = target;
 
-        // Track sent requests on sender's side
-        if (!users[current.uid].sentRequests) users[current.uid].sentRequests = [];
-        if (!users[current.uid].sentRequests.includes(toUid)) {
-            users[current.uid].sentRequests.push(toUid);
-        }
+            // Track sent on sender's side
+            await this.db.ref(`users/${current.uid}/sentRequests/${toUid}`).set(true);
 
-        this.saveUsers(users);
-        return { success: true };
+            return { success: true };
+        } catch(e) {
+            console.error('Send request error:', e);
+            return { success: false, error: 'Connection error' };
+        }
     },
 
     // Get sent friend requests (array of uids)
-    getSentRequests() {
+    async getSentRequests() {
+        this.init();
         const current = this.getCurrentUser();
         if (!current) return [];
-        const users = this.getUsers();
-        return users[current.uid].sentRequests || [];
+        try {
+            const snap = await this.db.ref(`users/${current.uid}/sentRequests`).once('value');
+            if (!snap.exists()) return [];
+            return Object.keys(snap.val());
+        } catch(e) { return []; }
     },
 
     // Accept friend request
-    acceptFriendRequest(fromUid) {
+    async acceptFriendRequest(fromUid) {
+        this.init();
         const current = this.getCurrentUser();
         if (!current) return false;
-        const users = this.getUsers();
+        try {
+            // Add to each other's friends
+            await this.db.ref(`users/${current.uid}/friends/${fromUid}`).set(true);
+            await this.db.ref(`users/${fromUid}/friends/${current.uid}`).set(true);
 
-        // Add to each other's friends list
-        if (!users[current.uid].friends) users[current.uid].friends = [];
-        if (!users[fromUid]) return false;
-        if (!users[fromUid].friends) users[fromUid].friends = [];
+            // Remove incoming request
+            await this.db.ref(`users/${current.uid}/friendRequests/${fromUid}`).remove();
 
-        if (!users[current.uid].friends.includes(fromUid)) {
-            users[current.uid].friends.push(fromUid);
+            // Remove from sender's sentRequests
+            await this.db.ref(`users/${fromUid}/sentRequests/${current.uid}`).remove();
+
+            return true;
+        } catch(e) {
+            console.error('Accept request error:', e);
+            return false;
         }
-        if (!users[fromUid].friends.includes(current.uid)) {
-            users[fromUid].friends.push(current.uid);
-        }
-
-        // Remove incoming request
-        users[current.uid].friendRequests = (users[current.uid].friendRequests || [])
-            .filter(r => r.from !== fromUid);
-
-        // Remove from sender's sentRequests
-        if (users[fromUid].sentRequests) {
-            users[fromUid].sentRequests = users[fromUid].sentRequests.filter(uid => uid !== current.uid);
-        }
-
-        this.saveUsers(users);
-        return true;
     },
 
     // Decline friend request
-    declineFriendRequest(fromUid) {
+    async declineFriendRequest(fromUid) {
+        this.init();
         const current = this.getCurrentUser();
         if (!current) return false;
-        const users = this.getUsers();
-
-        // Remove incoming request
-        users[current.uid].friendRequests = (users[current.uid].friendRequests || [])
-            .filter(r => r.from !== fromUid);
-
-        // Remove from sender's sentRequests
-        if (users[fromUid] && users[fromUid].sentRequests) {
-            users[fromUid].sentRequests = users[fromUid].sentRequests.filter(uid => uid !== current.uid);
-        }
-
-        this.saveUsers(users);
-        return true;
+        try {
+            await this.db.ref(`users/${current.uid}/friendRequests/${fromUid}`).remove();
+            await this.db.ref(`users/${fromUid}/sentRequests/${current.uid}`).remove();
+            return true;
+        } catch(e) { return false; }
     },
 
     // Remove a friend
-    removeFriend(friendUid) {
+    async removeFriend(friendUid) {
+        this.init();
         const current = this.getCurrentUser();
         if (!current) return false;
-        const users = this.getUsers();
-
-        // Remove from both sides
-        if (users[current.uid].friends) {
-            users[current.uid].friends = users[current.uid].friends.filter(uid => uid !== friendUid);
-        }
-        if (users[friendUid] && users[friendUid].friends) {
-            users[friendUid].friends = users[friendUid].friends.filter(uid => uid !== current.uid);
-        }
-
-        this.saveUsers(users);
-        return true;
+        try {
+            await this.db.ref(`users/${current.uid}/friends/${friendUid}`).remove();
+            await this.db.ref(`users/${friendUid}/friends/${current.uid}`).remove();
+            return true;
+        } catch(e) { return false; }
     },
 
-    // Get friends list (full user objects with .id)
-    getFriends() {
+    // Get friends list (full user objects)
+    async getFriends() {
+        this.init();
         const current = this.getCurrentUser();
         if (!current) return [];
-        const users = this.getUsers();
-        return (users[current.uid].friends || [])
-            .map(uid => users[uid])
-            .filter(Boolean)
-            .map(u => ({ ...u, id: u.uid }));
+        try {
+            const snap = await this.db.ref(`users/${current.uid}/friends`).once('value');
+            if (!snap.exists()) return [];
+            const friendUids = Object.keys(snap.val());
+            const friends = [];
+            for (const uid of friendUids) {
+                const uSnap = await this.db.ref('users/' + uid).once('value');
+                if (uSnap.exists()) {
+                    const u = uSnap.val();
+                    friends.push({ ...u, id: u.uid });
+                }
+            }
+            return friends;
+        } catch(e) {
+            console.error('Get friends error:', e);
+            return [];
+        }
     },
 
-    // Get incoming friend requests (full objects with from user info)
-    getFriendRequests() {
+    // Get incoming friend requests
+    async getFriendRequests() {
+        this.init();
         const current = this.getCurrentUser();
         if (!current) return [];
-        const users = this.getUsers();
-        const reqs = users[current.uid].friendRequests || [];
-        // Return enriched objects with id field
-        return reqs.map(r => {
-            const fromUser = users[r.from];
-            if (!fromUser) return null;
-            return {
-                id: fromUser.uid,
-                uid: fromUser.uid,
-                name: fromUser.name,
-                email: fromUser.email,
-                time: r.time
-            };
-        }).filter(Boolean);
+        try {
+            const snap = await this.db.ref(`users/${current.uid}/friendRequests`).once('value');
+            if (!snap.exists()) return [];
+            const reqs = [];
+            snap.forEach(child => {
+                const r = child.val();
+                reqs.push({
+                    id: r.from,
+                    uid: r.from,
+                    name: r.name,
+                    email: r.email,
+                    time: r.time
+                });
+            });
+            return reqs;
+        } catch(e) { return []; }
+    },
+
+    // Refresh current user data from Firebase
+    async refreshCurrentUser() {
+        this.init();
+        const current = this.getCurrentUser();
+        if (!current) return null;
+        try {
+            const snap = await this.db.ref('users/' + current.uid).once('value');
+            if (!snap.exists()) return null;
+            const user = snap.val();
+            user.id = user.uid;
+            this._saveSession(user);
+            return user;
+        } catch(e) { return current; }
     }
 };
 
 // ============================================================
-// CHAT SYSTEM (localStorage based real-time simulation)
+// CHAT SYSTEM (Firebase Realtime Database)
 // ============================================================
 
 const AuraChat = {
-    // Get chat ID between two users (sorted for consistency)
     getChatId(uid1, uid2) {
         return [uid1, uid2].sort().join('_');
     },
 
-    // Get all messages for a chat
-    getMessages(chatId) {
-        return JSON.parse(localStorage.getItem('aura_chat_' + chatId) || '[]');
+    // Listen to messages in real-time
+    listenMessages(chatId, callback) {
+        AuraAuth.init();
+        return AuraAuth.db.ref('chats/' + chatId + '/messages')
+            .orderByChild('time')
+            .on('value', snapshot => {
+                const msgs = [];
+                if (snapshot.exists()) {
+                    snapshot.forEach(child => msgs.push({ key: child.key, ...child.val() }));
+                }
+                callback(msgs);
+            });
+    },
+
+    // Stop listening
+    stopListening(chatId) {
+        AuraAuth.init();
+        AuraAuth.db.ref('chats/' + chatId + '/messages').off();
     },
 
     // Send a message
-    sendMessage(toUid, text) {
+    async sendMessage(toUid, text) {
+        AuraAuth.init();
         const current = AuraAuth.getCurrentUser();
         if (!current || !text.trim()) return false;
         const chatId = this.getChatId(current.uid, toUid);
-        const messages = this.getMessages(chatId);
-        const msg = {
-            id: Date.now(),
-            from: current.uid,
-            fromName: current.name,
-            text: text.trim(),
-            time: Date.now(),
-            read: false
-        };
-        messages.push(msg);
-        localStorage.setItem('aura_chat_' + chatId, JSON.stringify(messages));
-        return msg;
+        try {
+            await AuraAuth.db.ref('chats/' + chatId + '/messages').push({
+                senderId: current.uid,
+                senderName: current.name,
+                text: text.trim(),
+                time: Date.now(),
+                read: false
+            });
+            return true;
+        } catch(e) {
+            console.error('Send message error:', e);
+            return false;
+        }
     },
 
-    // Format time
     formatTime(timestamp) {
         const d = new Date(timestamp);
         return d.toLocaleTimeString('ru-RU', { hour: '2-digit', minute: '2-digit' });
@@ -292,10 +367,10 @@ const AuraChat = {
 };
 
 // ============================================================
-// NAV HELPER - updates nav based on auth state
+// NAV HELPER
 // ============================================================
 
-function updateNavAuth() {
+async function updateNavAuth() {
     const user = AuraAuth.getCurrentUser();
     const loginBtn = document.getElementById('nav-login-btn');
     const profileBtn = document.getElementById('nav-profile-btn');
@@ -308,16 +383,17 @@ function updateNavAuth() {
         if (profileBtn) profileBtn.style.display = 'flex';
         if (userNameEl) userNameEl.textContent = user.name.split(' ')[0];
         if (initialsEl) initialsEl.textContent = user.name.charAt(0).toUpperCase();
-        // Show badge if friend requests pending
         if (badge) {
-            const reqs = AuraAuth.getFriendRequests();
-            if (reqs.length > 0) {
-                badge.classList.remove('hidden');
-                badge.classList.add('flex');
-                badge.textContent = reqs.length;
-            } else {
-                badge.classList.add('hidden');
-            }
+            try {
+                const reqs = await AuraAuth.getFriendRequests();
+                if (reqs.length > 0) {
+                    badge.classList.remove('hidden');
+                    badge.classList.add('flex');
+                    badge.textContent = reqs.length;
+                } else {
+                    badge.classList.add('hidden');
+                }
+            } catch(e) {}
         }
     } else {
         if (loginBtn) loginBtn.style.display = '';
@@ -325,5 +401,7 @@ function updateNavAuth() {
     }
 }
 
-// Run on every page load
-document.addEventListener('DOMContentLoaded', updateNavAuth);
+document.addEventListener('DOMContentLoaded', () => {
+    AuraAuth.init();
+    updateNavAuth();
+});
