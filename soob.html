@@ -1,0 +1,494 @@
+<!DOCTYPE html>
+
+<html class="dark" lang="en">
+
+<head>
+    <meta charset="utf-8" />
+    <meta content="width=device-width, initial-scale=1.0" name="viewport" />
+    <link
+        href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700;900&amp;family=Manrope:wght@300;400;500;600;700;800&amp;family=Public+Sans:wght@300;400;500;600;700&amp;display=swap"
+        rel="stylesheet" />
+    <link
+        href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap"
+        rel="stylesheet" />
+    <link
+        href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap"
+        rel="stylesheet" />
+    <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+    <script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    colors: {
+                        primary: "#cafd00",
+                        "on-primary": "#000000",
+                        surface: "#0a0a0a",
+                        "surface-container-lowest": "#000000",
+                        "surface-container-low": "#121212",
+                        "surface-container": "#1a1a1a",
+                        "on-surface": "#ffffff",
+                        "on-surface-variant": "#adaaaa"
+                    },
+                    borderRadius: {
+                        "DEFAULT": "0.25rem",
+                        "lg": "0.5rem",
+                        "xl": "0.75rem",
+                        "full": "9999px"
+                    },
+                    fontFamily: {
+                        headline: ["Space Grotesk", "sans-serif"],
+                        display: ["Space Grotesk", "sans-serif"],
+                        body: ["Manrope", "sans-serif"],
+                        label: ["Public Sans", "sans-serif"]
+                    }
+                }
+            }
+        }
+    </script>
+    <!-- Firebase SDK -->
+    <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-database-compat.js"></script>
+    <script src="./firebase-config.js"></script>
+    <script src="./auth.js"></script>
+    <style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+
+        .kinetic-glow {
+            text-shadow: 0 0 12px rgba(202, 253, 0, 0.4);
+        }
+
+        .tonal-transition {
+            background: linear-gradient(180deg, rgba(0, 0, 0, 0.9) 0%, rgba(0, 0, 0, 0) 100%);
+        }
+    </style>
+</head>
+
+<body class="bg-black text-white font-body selection:bg-primary selection:text-black">
+    <!-- TopNavBar -->
+    <header class="fixed top-0 w-full z-50 bg-surface-container-lowest/60 backdrop-blur-xl dark:bg-black/60">
+        <div class="flex justify-between items-center px-8 py-4 max-w-[1920px] mx-auto">
+            <div class="text-2xl font-black italic text-[#cafd00] tracking-tighter font-headline">
+                TRENING AURA
+            </div>
+            <nav class="hidden md:flex items-center space-x-8 font-headline tracking-tight font-bold uppercase text-sm">
+                <a class="text-[#adaaaa] hover:text-white transition-colors" href="./index.html">Home</a>
+                <a class="text-[#adaaaa] hover:text-white transition-colors" href="./gym.html">Gyms</a>
+                <a class="text-[#adaaaa] hover:text-white transition-colors" href="./shop.html">Protein Shop</a>
+                <a class="text-[#adaaaa] hover:text-white transition-colors" href="./treker.html">Tracker</a>
+                <a class="text-[#adaaaa] hover:text-white transition-colors" href="./rewerds.html">Rewards</a>
+            </nav>
+            <div class="flex items-center space-x-6">
+                <div
+                    class="flex items-center space-x-2 text-[#adaaaa] hover:text-[#cafd00] transition-colors cursor-pointer group">
+                    <span class="material-symbols-outlined text-xl">language</span>
+                    <span class="font-headline font-bold uppercase text-sm tracking-tight">EN</span>
+                </div>
+                <button
+                    class="bg-[#cafd00] text-black px-6 py-2 rounded-lg font-headline font-bold uppercase text-xs tracking-widest hover:scale-95 duration-200 transition-transform">
+                    Log In
+                </button>
+            </div>
+        </div>
+    </header>
+    <main class="pt-24 pb-20 px-8 max-w-[1920px] mx-auto min-h-screen">
+        <div class="grid grid-cols-1 lg:grid-cols-12 gap-8 items-start">
+            <!-- Left Column: User Profile & Quick Nav -->
+            <aside class="hidden lg:flex lg:col-span-3 flex-col gap-6 sticky top-24">
+                <!-- Profile Card -->
+                <div class="bg-surface-container rounded-xl p-6 border border-white/5 relative overflow-hidden group">
+                    <div class="absolute top-0 right-0 p-3 opacity-20 group-hover:opacity-100 transition-opacity">
+                        <span class="material-symbols-outlined text-[#cafd00]"
+                            style="font-variation-settings: 'FILL' 1;">bolt</span>
+                    </div>
+                    <div class="flex items-center gap-4 mb-6">
+                        <div class="w-16 h-16 rounded-full border-2 border-[#cafd00] p-0.5 overflow-hidden">
+                            <img class="w-full h-full object-cover rounded-full"
+                                data-alt="A professional close-up portrait of a fit, determined athletic male trainer with short hair, sweating slightly after an intense workout. The lighting is cinematic with neon green rim light highlights against a dark, textured studio background, emphasizing a gritty Kinetic Noir aesthetic. The composition is tight and focused, conveying high energy and motivation."
+                                src="https://lh3.googleusercontent.com/aida-public/AB6AXuAXzKpA_mF445vQpfXi6Ov6_jGS8AwLjThTMVdPdltiB289x1YPlmDHLV5WMxh5nzYgUWn6WQ1LpZhvYQ45u3vdN6-XVx2-xevXbLLP-G6IFK_r22gwVOMn_6WJjDKVPrxPw5yeNWtiGCqmHf1Yamif5lfhTn1Dmhr_u9s1gNIzSuFsBB655WPi1wOnC94V84lAR2pBztlj804bYuJMnSYTewE3ctAx-H31UF2MLzL8RIgzhAmrE5xwYvcIf6AbP0MiXyNmBlZwRVw" />
+                        </div>
+                        <div>
+                            <h3 id="sidebar-user-name" class="font-headline font-bold text-lg leading-tight">Alex V.</h3>
+                            <p id="sidebar-user-type" class="text-[#adaaaa] text-xs font-medium uppercase tracking-widest">Aura Member</p>
+                        </div>
+                    </div>
+                    <div class="grid grid-cols-3 gap-4 border-t border-white/5 pt-4">
+                        <div class="text-center">
+                            <p class="text-xs text-[#adaaaa] mb-1">Posts</p>
+                            <p class="font-headline font-bold">124</p>
+                        </div>
+                        <div class="text-center border-x border-white/5">
+                            <p class="text-xs text-[#adaaaa] mb-1">K-Score</p>
+                            <p class="font-headline font-bold text-[#cafd00]">9.8</p>
+                        </div>
+                        <div class="text-center">
+                            <p class="text-xs text-[#adaaaa] mb-1">Streak</p>
+                            <p class="font-headline font-bold">18</p>
+                        </div>
+                    </div>
+                </div>
+                <!-- Navigation Sidebar -->
+                <nav class="flex flex-col gap-1 bg-surface-container/50 rounded-xl p-2 border border-white/5">
+                    <a class="flex items-center gap-4 px-4 py-3 rounded-lg text-[#cafd00] bg-white/5 border-l-4 border-[#cafd00]"
+                        href="#">
+                        <span class="material-symbols-outlined"
+                            style="font-variation-settings: 'FILL' 1;">dynamic_feed</span>
+                        <span class="font-headline font-bold text-sm uppercase tracking-wider">My Feed</span>
+                    </a>
+                    <a class="flex items-center gap-4 px-4 py-3 rounded-lg text-[#adaaaa] hover:bg-white/5 hover:text-white transition-all group"
+                        href="#">
+                        <span class="material-symbols-outlined">public</span>
+                        <span class="font-headline font-bold text-sm uppercase tracking-wider">Global</span>
+                    </a>
+                    <a class="flex items-center gap-4 px-4 py-3 rounded-lg text-[#adaaaa] hover:bg-white/5 hover:text-white transition-all"
+                        href="#">
+                        <span class="material-symbols-outlined">military_tech</span>
+                        <span class="font-headline font-bold text-sm uppercase tracking-wider">Challenges</span>
+                    </a>
+                    <a class="flex items-center gap-4 px-4 py-3 rounded-lg text-[#adaaaa] hover:bg-white/5 hover:text-white transition-all"
+                        href="#">
+                        <span class="material-symbols-outlined">groups</span>
+                        <span class="font-headline font-bold text-sm uppercase tracking-wider">Groups</span>
+                    </a>
+                </nav>
+            </aside>
+            <!-- Middle Column: Kinetic Feed -->
+            <section class="lg:col-span-6 flex flex-col gap-6">
+                <!-- Status Creator -->
+                <div class="bg-surface-container rounded-xl p-6 border border-white/5 shadow-2xl">
+                    <div class="flex gap-4">
+                        <div class="w-10 h-10 rounded-full overflow-hidden flex-shrink-0">
+                            <img class="w-full h-full object-cover"
+                                data-alt="A small profile thumbnail of an athlete in a dimly lit high-performance gym. The athlete is blurred in the background, focusing on the dark surface and vibrant neon lime accents of the environment. High-contrast lighting with deep shadows and sharp highlights, consistent with a premium Kinetic fitness brand."
+                                src="https://lh3.googleusercontent.com/aida-public/AB6AXuApTqDpyH-eSdBL6oUUsuEkGkqPfjNZ5pQCwaocA27rXANgYVk4ZTNDya2UhDkRNVKxKcxmiuBB_8apWlVifHSTQz3reKR3QtQ5p3t7pRFBo8fZjTm_2hkNeHKEfm35lw4lFjVVQKiA4bKCJhJFPAT_3DC4F6LXI06EJTy1VlHRzSDSyO_qCAiAyjvJZl5TW61H2u_RaSLO1G6fdC4L0-8TNXlg7fM6pgMco9dZgD19ph7Hj14PltQHMALJHrq0FHGCWpAl_rCCoAo" />
+                        </div>
+                        <div class="flex-grow">
+                            <textarea
+                                class="w-full bg-black/40 border-none rounded-lg p-3 text-white placeholder-[#adaaaa] focus:ring-1 focus:ring-[#cafd00] min-h-[100px] resize-none font-body"
+                                placeholder="Share your kinetic energy..."></textarea>
+                            <div class="flex justify-between items-center mt-4">
+                                <div class="flex gap-2">
+                                    <button
+                                        class="p-2 text-[#adaaaa] hover:text-[#cafd00] transition-colors rounded-lg bg-white/5">
+                                        <span class="material-symbols-outlined">image</span>
+                                    </button>
+                                    <button
+                                        class="p-2 text-[#adaaaa] hover:text-[#cafd00] transition-colors rounded-lg bg-white/5">
+                                        <span class="material-symbols-outlined">equalizer</span>
+                                    </button>
+                                    <button
+                                        class="p-2 text-[#adaaaa] hover:text-[#cafd00] transition-colors rounded-lg bg-white/5">
+                                        <span class="material-symbols-outlined">location_on</span>
+                                    </button>
+                                </div>
+                                <button
+                                    class="bg-[#cafd00] text-black font-headline font-bold uppercase text-xs px-8 py-2.5 rounded-lg hover:scale-95 transition-transform tracking-widest">
+                                    POST
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!-- Feed Post 1 -->
+                <article class="bg-surface-container rounded-xl border border-white/5 overflow-hidden group">
+                    <div class="p-6">
+                        <div class="flex justify-between items-start mb-4">
+                            <div class="flex gap-3">
+                                <div class="w-12 h-12 rounded-full overflow-hidden border border-[#cafd00]/30">
+                                    <img class="w-full h-full object-cover"
+                                        data-alt="Close-up avatar of a female powerlifter with a fierce expression, captured mid-session. Dramatic side lighting highlights muscle definition and skin texture. The color palette is dominated by deep charcoal and electric lime, evoking a high-intensity training atmosphere characteristic of Trening Aura."
+                                        src="https://lh3.googleusercontent.com/aida-public/AB6AXuCNa6KFxgV2e-G9ylLppUrpliiqQjbJDwxh4mGnBWP7r_u08Oq3DTY9Se8Z_HQNajf8S7aL9f420FTrM_BTX2JWeO7HaTUO0i5nUQtyOWH2LBkS2_-aWhdw7Qo9eWEuzt36RdtctQlDQANJ6uWLneaRv7BdWUvcrwd4BMRx3O-i1VrPcMoyFsd0BXGKmO68c40gpiOjKVd3PmWT6xglAf_Ugw_48er8i1rAT7Uz0OcTDe8G1t0e0kEShcvPQBDBD0B2MDne6bOh0gc" />
+                                </div>
+                                <div>
+                                    <h4 class="font-headline font-bold">Elena K. <span
+                                            class="text-[#cafd00] ml-1 text-xs">● PR HIT</span></h4>
+                                    <p class="text-xs text-[#adaaaa] font-medium">2 hours ago · Power Core Gym</p>
+                                </div>
+                            </div>
+                            <button class="text-[#adaaaa] hover:text-white transition-colors">
+                                <span class="material-symbols-outlined">more_horiz</span>
+                            </button>
+                        </div>
+                        <p class="text-sm leading-relaxed mb-4 text-white/90">
+                            Finally crushed the 140kg squat barrier today! 🚀 The energy in the community has been
+                            pushing me through this plateau for weeks. Stay kinetic! #PRDay #TreningAura #Powerlifting
+                        </p>
+                        <div class="aspect-video w-full rounded-xl overflow-hidden relative mb-4">
+                            <img class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700"
+                                data-alt="A wide-angle, cinematic shot of a female athlete performing a heavy barbell squat in a dark, atmospheric industrial-style gym. Vibrant neon lime laser lights cut through the dusty air, creating a high-energy, futuristic sport aesthetic. Sharp focus on the athlete's intense concentration and muscle strain, using a moody Kinetic Noir color scheme."
+                                src="https://lh3.googleusercontent.com/aida-public/AB6AXuCFI0uXnZIWsmveIpOff4iLYvU05HQwDBZb9ZPnGoAsM4R27yAPGel8dhLQCnVuFSkR9CEJCKJBB7BYMaY7ae_sbuv_Ny2lv7GCnJKJG0MLfTu5HjMDA8_4xjndhakxiuFiDVAksqfBWmowYTaDK7onrmra-DUQQkhcrjtMNdBrs-FhOi2vzJ6Q2Bk3LvCAh42Ki8TNB_7pkTjcdhcrm047rO7vXwVEd4Yqf5gBmg5SrH1AE0mU484u6rqPZwxoO7u-tq8lTlhSF68" />
+                            <div
+                                class="absolute bottom-4 right-4 bg-black/80 backdrop-blur-md px-3 py-1.5 rounded-lg border border-[#cafd00]/30 flex items-center gap-2">
+                                <span class="material-symbols-outlined text-[#cafd00] text-sm"
+                                    style="font-variation-settings: 'FILL' 1;">bolt</span>
+                                <span
+                                    class="text-[10px] font-headline font-bold uppercase tracking-widest text-[#cafd00]">Kinetic
+                                    Impact: +45</span>
+                            </div>
+                        </div>
+                        <div class="flex items-center justify-between pt-2">
+                            <div class="flex gap-6">
+                                <button
+                                    class="flex items-center gap-2 text-[#adaaaa] hover:text-[#cafd00] transition-colors group/btn">
+                                    <span
+                                        class="material-symbols-outlined group-hover/btn:scale-110 transition-transform"
+                                        style="font-variation-settings: 'FILL' 1;">favorite</span>
+                                    <span class="text-xs font-bold">428</span>
+                                </button>
+                                <button
+                                    class="flex items-center gap-2 text-[#adaaaa] hover:text-white transition-colors">
+                                    <span class="material-symbols-outlined">chat_bubble</span>
+                                    <span class="text-xs font-bold">56</span>
+                                </button>
+                                <button
+                                    class="flex items-center gap-2 text-[#adaaaa] hover:text-white transition-colors">
+                                    <span class="material-symbols-outlined">share</span>
+                                    <span class="text-xs font-bold">12</span>
+                                </button>
+                            </div>
+                            <div class="flex -space-x-2">
+                                <div class="w-6 h-6 rounded-full border-2 border-surface bg-gray-800"></div>
+                                <div class="w-6 h-6 rounded-full border-2 border-surface bg-gray-700"></div>
+                                <div class="w-6 h-6 rounded-full border-2 border-surface bg-gray-600"></div>
+                            </div>
+                        </div>
+                    </div>
+                </article>
+                <!-- Feed Post 2 -->
+                <article class="bg-surface-container rounded-xl border border-white/5 overflow-hidden group">
+                    <div class="p-6">
+                        <div class="flex justify-between items-start mb-4">
+                            <div class="flex gap-3">
+                                <div class="w-12 h-12 rounded-full overflow-hidden border border-[#cafd00]/30">
+                                    <img class="w-full h-full object-cover"
+                                        data-alt="Avatar portrait of an endurance athlete wearing high-tech sportswear, illuminated by soft blue and neon green ambient lighting. The background is a sleek, dark training facility with a minimalist feel. The image is rendered with high sharpness, showing fine details in fabric and expression, perfectly aligned with the Trening Aura brand."
+                                        src="https://lh3.googleusercontent.com/aida-public/AB6AXuB4xg_a70_wcVqez46hKSTQwpWHfOGteqT1XFS8PwD7qlB92QIjPjMxQ933DmeBbn3-gussGF76kJYkZnUmZ15mt8U_aRlq9xieEZM0o2wRpBeJWyu_tNHDuiDu_9Q-NB9A18ZqfYOIJD-vIzqwT98_Xhtp9PpcTK3cmvsNrB53o8xNtbscOOgP6mJlPvfkLpLBIutrZDEkvhMb-Ow_HpbfMjjJryTIZibFuRpflWAbOUTRgRfwy0C-2w8LV9wf9vhPYGk7B7uECs0" />
+                                </div>
+                                <div>
+                                    <h4 class="font-headline font-bold">Marcus Thorne</h4>
+                                    <p class="text-xs text-[#adaaaa] font-medium">5 hours ago · Outdoor Track</p>
+                                </div>
+                            </div>
+                            <button class="text-[#adaaaa] hover:text-white transition-colors">
+                                <span class="material-symbols-outlined">more_horiz</span>
+                            </button>
+                        </div>
+                        <p class="text-sm leading-relaxed mb-4 text-white/90">
+                            Early morning intervals in the rain. There's no such thing as bad weather, just weak aura.
+                            ⛈️⚡️
+                        </p>
+                        <div class="grid grid-cols-2 gap-2 mb-4">
+                            <div class="aspect-square rounded-xl overflow-hidden">
+                                <img class="w-full h-full object-cover"
+                                    data-alt="A moody, high-contrast action shot of a male runner's legs striking a wet asphalt surface at dawn. Rain droplets are frozen in mid-air, illuminated by the glow of nearby neon streetlights and a subtle green aura. The color palette is dark, dramatic, and cool, with heavy blacks and vivid lime highlights."
+                                    src="https://lh3.googleusercontent.com/aida-public/AB6AXuBjOtUinegZQwcJDxmhBPQKsA0A4x5YV24CAthz7ppBPYZbhRgUX5_NRQXI5QBSF5noYfJBy3DLJbrTvkDuSGiL4oaKvbl1O04LWHPiVXuZTV3mO78MkszI8uUchQlWk56GNPSvmrnMsrS5maJdXFxZQI3CvD61-U3pJZLTytkcePFVBzN2KkfuYTj7BG-mBUa42sXKAeKF4dIsqTPrxXu4RKmVZhsLp0Z15T3T0SKkvKlSJiooKG-9Rau-RB11UtG42x_CTNAR8qU" />
+                            </div>
+                            <div class="aspect-square rounded-xl overflow-hidden">
+                                <img class="w-full h-full object-cover"
+                                    data-alt="A detailed shot of a high-tech sports watch on a runner's wrist showing advanced metrics like heart rate and pace. The watch face glows in neon green, set against a dark, rain-soaked background with blurred city lights. The aesthetic is modern, sleek, and high-performance, emphasizing technical data in a noir setting."
+                                    src="https://lh3.googleusercontent.com/aida-public/AB6AXuC-TR5TsnwTzaq6y8C03YwF96fuJ3PCaqIQ2MDwb3r8fTXv7W02PLlv0fV8GbLsa-NXGrRztXqDMryJvg6UABUQ580GM0LEVGMBV37zvICd-AiigI3882QNV_-8kAlVWZvh-AIvirt23sO26zRQX1Sv3Mgf3QloCAGv1rJS5LtmcTnLZR0ZBcd846ysMZnhlvFSw8HwfRvkDWgCL_lhIgBvxKxMQecLO9KM-EBIUNH1JV3ntUkL1b-WxPn2WFIIqX8Ib5BpUldSvl4" />
+                            </div>
+                        </div>
+                        <div class="flex items-center justify-between pt-2">
+                            <div class="flex gap-6">
+                                <button
+                                    class="flex items-center gap-2 text-[#adaaaa] hover:text-[#cafd00] transition-colors group/btn">
+                                    <span class="material-symbols-outlined">favorite</span>
+                                    <span class="text-xs font-bold">215</span>
+                                </button>
+                                <button
+                                    class="flex items-center gap-2 text-[#adaaaa] hover:text-white transition-colors">
+                                    <span class="material-symbols-outlined">chat_bubble</span>
+                                    <span class="text-xs font-bold">12</span>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </article>
+            </section>
+            <!-- Right Column: Community Pulse -->
+            <aside class="hidden lg:flex lg:col-span-3 flex-col gap-6 sticky top-24">
+                <!-- Leaderboard Section -->
+                <div class="bg-surface-container rounded-xl border border-white/5 overflow-hidden">
+                    <div class="p-5 border-b border-white/5 flex justify-between items-center">
+                        <h3 class="font-headline font-bold text-sm uppercase tracking-widest text-[#cafd00]">Top
+                            Athletes</h3>
+                        <span class="material-symbols-outlined text-xs text-[#adaaaa]">leaderboard</span>
+                    </div>
+                    <div class="divide-y divide-white/5">
+                        <div class="flex items-center justify-between p-4 bg-white/[0.02]">
+                            <div class="flex items-center gap-3">
+                                <span class="font-headline font-bold text-xs text-[#cafd00]">01</span>
+                                <div
+                                    class="w-8 h-8 rounded-full bg-zinc-800 overflow-hidden border border-[#cafd00]/50">
+                                    <img class="w-full h-full object-cover"
+                                        data-alt="Minimalist profile picture of a top athlete, a woman with a sharp gaze and strong features, wearing a dark hoodie. The lighting is harsh and directional, creating deep shadows. Minimalist background in dark grey with a single vertical neon green light tube. High-end, premium aesthetic."
+                                        src="https://lh3.googleusercontent.com/aida-public/AB6AXuB1INGgFp662LgMq5PT5eQEC9LezgQSbgGVkTMCMoyZJrBKFxui6sDrHG35LUTQOuJU2q7_LtTgKs4-MaonWByzACG7AA5BSGXe533Y7h3aWy1Cdrx8b1NrRiBvtUW4WwCJRcrHmapig2rcEMc4yjIm6rIYynBPtFT_EmSjwhJDoIiwHAQBxQpG5UwlYS4oXUAex2199I7OE4lnhlpnmJMADSEfzlysQ6_zXgGqZnjVKGmMe49sxeu66QnusBsAbcsVSK9g8me8dSM" />
+                                </div>
+                                <span class="font-bold text-sm">Dmitry Z.</span>
+                            </div>
+                            <span class="text-[10px] font-headline font-black text-[#cafd00]">24.8K</span>
+                        </div>
+                        <div class="flex items-center justify-between p-4">
+                            <div class="flex items-center gap-3">
+                                <span class="font-headline font-bold text-xs text-[#adaaaa]">02</span>
+                                <div class="w-8 h-8 rounded-full bg-zinc-800 overflow-hidden">
+                                    <img class="w-full h-full object-cover"
+                                        data-alt="Close-up face of a male athlete with intense blue eyes, looking directly into the camera. The image is stylized with a noir filter, featuring heavy grain and high contrast. A subtle green glow illuminates one side of his face. The overall mood is serious, competitive, and powerful."
+                                        src="https://lh3.googleusercontent.com/aida-public/AB6AXuCHPb3nb3dAlWLjZJygTN3g12NDs3-qFTJIUfFWmbFZ2ZAtS2NSWHUJGUvbkecgYOBGFUmPZD-SGAmDghfob_Ew_86oDElflo34z9p1M2F7r_-MK_sqrKlmvWCAsgUkq3kvd5W6l921oJE6XPG8WDRgk4zokgjkLzcAB7VgXznfyAYEmm-26J8gmLQbbHSUyuep7HpPABzIuE_lKlHn0nXjf6okfGUcx1Np3_MMQDy5TvPOwjSgTJrvdcC9g90VNL9fArtI7JhSDqo" />
+                                </div>
+                                <span class="font-bold text-sm">Sarah W.</span>
+                            </div>
+                            <span class="text-[10px] font-headline font-black text-[#adaaaa]">22.1K</span>
+                        </div>
+                        <div class="flex items-center justify-between p-4">
+                            <div class="flex items-center gap-3">
+                                <span class="font-headline font-bold text-xs text-[#adaaaa]">03</span>
+                                <div class="w-8 h-8 rounded-full bg-zinc-800 overflow-hidden">
+                                    <img class="w-full h-full object-cover"
+                                        data-alt="Portrait of an athlete of Asian descent in a professional fitness pose, wearing sleek black techwear. The lighting consists of multiple soft neon lime sources creating a futuristic radiance. The background is a dark, out-of-focus gym environment. Professional, high-energy digital art style."
+                                        src="https://lh3.googleusercontent.com/aida-public/AB6AXuCDjwD66qQJzL9-STvU-x3_34P57uecB0ECeRaRkalkFUU8asMekWL9LMhEGO4uG7AVLsO6j2w79IOpX8SLRuExgGWQLFfkbCx860KNFfJK-lkm12RKOQ4s9szTXG1K7dH4HNA7R0FVuD5khQAP0AUdFcXTKvRzsw-DpFqxBgWCLCzd33HRaDm99MarIEgg4n3SANpOgyljYB3YRip4prKKzubw15GXZBWdHsmaGzLZJIgd5lZytNhnKaIxaoZc37hxGDt5h2TV0Ec" />
+                                </div>
+                                <span class="font-bold text-sm">Kamal I.</span>
+                            </div>
+                            <span class="text-[10px] font-headline font-black text-[#adaaaa]">20.5K</span>
+                        </div>
+                    </div>
+                    <a class="block text-center p-3 text-[10px] font-headline font-bold uppercase tracking-widest text-[#adaaaa] hover:text-white transition-colors bg-white/5"
+                        href="#">View Full Board</a>
+                </div>
+                <!-- Challenges Section -->
+                <div class="bg-surface-container rounded-xl border border-white/5 p-5">
+                    <h3 class="font-headline font-bold text-sm uppercase tracking-widest text-white mb-4">Active
+                        Challenges</h3>
+                    <div class="space-y-4">
+                        <div class="group cursor-pointer">
+                            <div class="flex justify-between items-end mb-2">
+                                <h4
+                                    class="font-headline font-bold text-xs group-hover:text-[#cafd00] transition-colors uppercase">
+                                    30-Day Burn</h4>
+                                <span class="text-[10px] text-[#adaaaa]">85% Done</span>
+                            </div>
+                            <div class="w-full h-1 bg-white/10 rounded-full overflow-hidden">
+                                <div class="h-full bg-[#cafd00] w-[85%] rounded-full shadow-[0_0_8px_#cafd00]"></div>
+                            </div>
+                        </div>
+                        <div class="group cursor-pointer">
+                            <div class="flex justify-between items-end mb-2">
+                                <h4
+                                    class="font-headline font-bold text-xs group-hover:text-[#cafd00] transition-colors uppercase">
+                                    Vertical Gain</h4>
+                                <span class="text-[10px] text-[#adaaaa]">12 Days Left</span>
+                            </div>
+                            <div class="w-full h-1 bg-white/10 rounded-full overflow-hidden">
+                                <div class="h-full bg-white/20 w-[30%] rounded-full"></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!-- Trending Hashtags -->
+                <div class="bg-surface-container rounded-xl border border-white/5 p-5">
+                    <h3 class="font-headline font-bold text-sm uppercase tracking-widest text-white mb-4">Trending</h3>
+                    <div class="flex flex-wrap gap-2">
+                        <a class="px-3 py-1 bg-white/5 rounded-full text-[10px] font-bold text-[#adaaaa] hover:bg-[#cafd00] hover:text-black transition-all"
+                            href="#">#AURASTRONGER</a>
+                        <a class="px-3 py-1 bg-white/5 rounded-full text-[10px] font-bold text-[#adaaaa] hover:bg-[#cafd00] hover:text-black transition-all"
+                            href="#">#KINETICFLOW</a>
+                        <a class="px-3 py-1 bg-white/5 rounded-full text-[10px] font-bold text-[#adaaaa] hover:bg-[#cafd00] hover:text-black transition-all"
+                            href="#">#GLOWUP24</a>
+                        <a class="px-3 py-1 bg-white/5 rounded-full text-[10px] font-bold text-[#adaaaa] hover:bg-[#cafd00] hover:text-black transition-all"
+                            href="#">#NOMERCY</a>
+                    </div>
+                </div>
+            </aside>
+        </div>
+    </main>
+    <!-- Footer -->
+    <footer
+        class="w-full border-t border-white/5 bg-surface-container-lowest dark:bg-black font-['Manrope'] text-sm tracking-wide">
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-12 px-12 py-16 w-full max-w-[1920px] mx-auto">
+            <div class="space-y-4">
+                <div class="text-lg font-bold text-white font-headline">TRENING AURA</div>
+                <p class="text-[#adaaaa] max-w-xs">Pushing the limits of human kinetic potential through data-driven
+                    training and a relentless community spirit.</p>
+            </div>
+            <div class="flex flex-col gap-4">
+                <h4 class="text-white font-headline font-bold uppercase text-xs tracking-widest mb-2">Connect</h4>
+                <div class="flex flex-col gap-2">
+                    <a class="text-[#adaaaa] hover:text-[#cafd00] transition-colors" href="#">Instagram</a>
+                    <a class="text-[#adaaaa] hover:text-[#cafd00] transition-colors" href="#">Telegram</a>
+                    <a class="text-[#adaaaa] hover:text-[#cafd00] transition-colors" href="#">Contact Support</a>
+                </div>
+            </div>
+            <div class="flex flex-col gap-4">
+                <h4 class="text-white font-headline font-bold uppercase text-xs tracking-widest mb-2">Download</h4>
+                <div class="flex flex-col gap-2">
+                    <a class="text-[#adaaaa] hover:text-[#00e3fd] transition-colors" href="#">App Store</a>
+                    <a class="text-[#adaaaa] hover:text-[#00e3fd] transition-colors" href="#">Google Play</a>
+                </div>
+                <div class="pt-8">
+                    <p class="text-[#adaaaa] text-[10px] uppercase tracking-widest">© 2024 TRENING AURA. KINETIC ENERGY
+                        RESERVED.</p>
+                </div>
+            </div>
+        </div>
+    </footer>
+    <!-- Mobile Bottom Navigation Shell -->
+    <div
+        class="md:hidden fixed bottom-0 left-0 w-full bg-black/90 backdrop-blur-xl border-t border-white/5 px-6 py-3 flex justify-between items-center z-50">
+        <a class="flex flex-col items-center gap-1 text-[#adaaaa]" href="#">
+            <span class="material-symbols-outlined">home</span>
+            <span class="text-[9px] font-headline font-bold uppercase">Home</span>
+        </a>
+        <a class="flex flex-col items-center gap-1 text-[#cafd00]" href="#">
+            <span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">groups</span>
+            <span class="text-[9px] font-headline font-bold uppercase">Pulse</span>
+        </a>
+        <div class="relative -top-8">
+            <button
+                class="bg-[#cafd00] w-14 h-14 rounded-full flex items-center justify-center shadow-[0_0_20px_rgba(202,253,0,0.4)] text-black scale-110">
+                <span class="material-symbols-outlined font-black">add</span>
+            </button>
+        </div>
+        <a class="flex flex-col items-center gap-1 text-[#adaaaa]" href="#">
+            <span class="material-symbols-outlined">analytics</span>
+            <span class="text-[9px] font-headline font-bold uppercase">Stats</span>
+        </a>
+        <a class="flex flex-col items-center gap-1 text-[#adaaaa]" href="#">
+            <span class="material-symbols-outlined">account_circle</span>   
+            <span class="text-[9px] font-headline font-bold uppercase">Me</span>
+        </a>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            const user = AuraAuth.getCurrentUser();
+            const nameEl = document.getElementById('sidebar-user-name');
+            const typeEl = document.getElementById('sidebar-user-type');
+
+            if (user && nameEl) {
+                // Show first name + last initial (e.g. "Akbar M.")
+                const parts = user.name.trim().split(' ');
+                let displayName = parts[0];
+                if (parts.length > 1) {
+                    displayName += ' ' + parts[parts.length - 1].charAt(0) + '.';
+                }
+                nameEl.textContent = displayName;
+            }
+
+            if (typeEl) {
+                // Show the fitness goal type from oprosnik (e.g. "Gain Weight", "Lose Fat")
+                const goal = localStorage.getItem('selectedGoal');
+                if (goal) {
+                    typeEl.textContent = goal;
+                } else {
+                    typeEl.textContent = 'Aura Member';
+                }
+            }
+        });
+    </script>
+</body>
+
+</html>
