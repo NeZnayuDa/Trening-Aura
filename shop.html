@@ -183,25 +183,11 @@
                             </label>
                         </div>
                     </div>
-                    <div>
-                        <h3 class="font-headline text-2xl font-bold uppercase tracking-tighter text-white mb-6">Category
-                        </h3>
-                        <div class="flex flex-wrap gap-2">
-                            <button
-                                class="px-4 py-2 rounded-full glass-pill border border-white/5 text-sm text-primary font-bold">All
-                                Products</button>
-                            <button
-                                class="px-4 py-2 rounded-full border border-white/5 text-sm text-on-surface-variant hover:text-white transition-colors">Whey
-                                Protein</button>
-                            <button
-                                class="px-4 py-2 rounded-full border border-white/5 text-sm text-on-surface-variant hover:text-white transition-colors">Vitamins</button>
-                            <button
-                                class="px-4 py-2 rounded-full border border-white/5 text-sm text-on-surface-variant hover:text-white transition-colors">Amino
-                                Acids</button>
-                            <button
-                                class="px-4 py-2 rounded-full border border-white/5 text-sm text-on-surface-variant hover:text-white transition-colors">Pre-Workout</button>
-                        </div>
-                    </div>
+                    <button class="category-btn" data-filter="all">All Products</button>
+                    <button class="category-btn" data-filter="whey">Whey Protein</button>
+                    <button class="category-btn" data-filter="vitamins">Vitamins</button>
+                    <button class="category-btn" data-filter="amino">Amino Acids</button>
+                    <button class="category-btn" data-filter="preworkout">Pre-Workout</button>
                     <div
                         class="p-6 rounded-xl bg-gradient-to-br from-primary/10 to-transparent border border-primary/5">
                         <span class="material-symbols-outlined text-primary mb-4" data-weight="fill">verified</span>
@@ -228,7 +214,8 @@
                 <div class="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-3 gap-8">
                     <!-- Product Card 1 -->
                     <div
-                        class="group relative bg-surface-container-low rounded-xl overflow-hidden hover:bg-surface-container transition-all duration-300">
+                        class="group relative bg-surface-container-low rounded-xl overflow-hidden hover:bg-surface-container transition-all duration-300"
+                        data-category="whey">
                         <div class="aspect-[4/5] relative overflow-hidden bg-surface-container-high">
                             <img class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700 opacity-90 group-hover:opacity-100"
                                 data-alt="black aesthetic supplement container of whey protein isolated on dark textured background with dramatic spotlight"
@@ -254,7 +241,8 @@
                     </div>
                     <!-- Product Card 2 -->
                     <div
-                        class="group relative bg-surface-container-low rounded-xl overflow-hidden hover:bg-surface-container transition-all duration-300">
+                        class="group relative bg-surface-container-low rounded-xl overflow-hidden hover:bg-surface-container transition-all duration-300"
+                        data-category="casein">
                         <div class="aspect-[4/5] relative overflow-hidden bg-surface-container-high">
                             <img class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700 opacity-90 group-hover:opacity-100"
                                 data-alt="minimalist white supplement jar with neon blue accents for pre-workout powder on dark reflective surface"
@@ -277,7 +265,8 @@
                     </div>
                     <!-- Product Card 3 -->
                     <div
-                        class="group relative bg-surface-container-low rounded-xl overflow-hidden hover:bg-surface-container transition-all duration-300">
+                        class="group relative bg-surface-container-low rounded-xl overflow-hidden hover:bg-surface-container transition-all duration-300"
+                        data-category="casein">
                         <div class="aspect-[4/5] relative overflow-hidden bg-surface-container-high">
                             <img class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700 opacity-90 group-hover:opacity-100"
                                 data-alt="close-up of glass vitamins bottle with amber tint and high-end minimalist label in dark studio lighting"
@@ -303,7 +292,8 @@
                     </div>
                     <!-- Product Card 4 -->
                     <div
-                        class="group relative bg-surface-container-low rounded-xl overflow-hidden hover:bg-surface-container transition-all duration-300">
+                        class="group relative bg-surface-container-low rounded-xl overflow-hidden hover:bg-surface-container transition-all duration-300"
+                        data-category="whey">
                         <div class="aspect-[4/5] relative overflow-hidden bg-surface-container-high">
                             <img class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700 opacity-90 group-hover:opacity-100"
                                 data-alt="athletic supplements containers in a row on dark concrete background with teal and lime green ambient glow"
@@ -325,8 +315,9 @@
                         </div>
                     </div>
                     <!-- Product Card 5 -->
-                    <div
-                        class="group relative bg-surface-container-low rounded-xl overflow-hidden hover:bg-surface-container transition-all duration-300">
+                    <div class="group relative bg-surface-container-low rounded-xl overflow-hidden hover:bg-surface-container transition-all duration-300"
+     data-category="whey">
+                        data-category="casein">
                         <div class="aspect-[4/5] relative overflow-hidden bg-surface-container-high">
                             <img class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700 opacity-90 group-hover:opacity-100"
                                 data-alt="luxury sports supplement tub with matte black finish and neon yellow branding text in dark moody environment"
@@ -348,8 +339,8 @@
                         </div>
                     </div>
                     <!-- Product Card 6 -->
-                    <div
-                        class="group relative bg-surface-container-low rounded-xl overflow-hidden hover:bg-surface-container transition-all duration-300">
+                   <div class="group relative bg-surface-container-low rounded-xl overflow-hidden hover:bg-surface-container transition-all duration-300"
+     data-category="whey">
                         <div class="aspect-[4/5] relative overflow-hidden bg-surface-container-high">
                             <img class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700 opacity-90 group-hover:opacity-100"
                                 data-alt="clean top view of athletic health supplements capsules and powder in organized aesthetic layout on dark surface"
@@ -445,7 +436,8 @@
         </button>
     </div>
     <!-- Cart Modal -->
-    <div id="cart-modal" class="fixed inset-0 bg-black/50 backdrop-blur-sm z-50 hidden flex items-center justify-center">
+    <div id="cart-modal"
+        class="fixed inset-0 bg-black/50 backdrop-blur-sm z-50 hidden flex items-center justify-center">
         <div class="bg-surface-container p-8 rounded-xl max-w-md w-full mx-4 max-h-[80vh] overflow-y-auto">
             <div class="flex justify-between items-center mb-6">
                 <h2 class="text-2xl font-headline font-bold text-white uppercase tracking-tight">Your Cart</h2>
@@ -462,10 +454,12 @@
                     <span id="cart-total" class="text-secondary font-bold text-xl">$0.00</span>
                 </div>
                 <div class="flex gap-4">
-                    <button id="clear-cart" class="flex-1 bg-error text-on-error py-3 rounded-xl font-headline font-bold uppercase tracking-tight hover:bg-error/80 transition-colors">
+                    <button id="clear-cart"
+                        class="flex-1 bg-error text-on-error py-3 rounded-xl font-headline font-bold uppercase tracking-tight hover:bg-error/80 transition-colors">
                         Clear Cart
                     </button>
-                    <button id="checkout-btn" class="flex-1 bg-primary text-on-primary-fixed py-3 rounded-xl font-headline font-bold uppercase tracking-tight hover:bg-primary/80 transition-colors">
+                    <button id="checkout-btn"
+                        class="flex-1 bg-primary text-on-primary-fixed py-3 rounded-xl font-headline font-bold uppercase tracking-tight hover:bg-primary/80 transition-colors">
                         Checkout
                     </button>
                 </div>
@@ -473,107 +467,107 @@
         </div>
     </div>
     <script>
-// =======================
-// 🌍 LANGUAGE SYSTEM
-// =======================
-const translations = {
-    en: {
-        title: "Transform Your Body With Trening Aura",
-        search: "Find gyms near you",
-    },
-    ru: {
-        title: "Трансформируй своё тело с Trening Aura",
-        search: "Найди спортзал рядом",
-    },
-    uz: {
-        title: "Trening Aura bilan tanangizni o'zgartiring",
-        search: "Yaqin sport zalni toping",
-    }
-};
+        // =======================
+        // 🌍 LANGUAGE SYSTEM
+        // =======================
+        const translations = {
+            en: {
+                title: "Transform Your Body With Trening Aura",
+                search: "Find gyms near you",
+            },
+            ru: {
+                title: "Трансформируй своё тело с Trening Aura",
+                search: "Найди спортзал рядом",
+            },
+            uz: {
+                title: "Trening Aura bilan tanangizni o'zgartiring",
+                search: "Yaqin sport zalni toping",
+            }
+        };
 
-const langButtons = document.querySelectorAll("[class*='cursor-pointer']");
-const title = document.querySelector("h1");
-const searchInput = document.querySelector("input");
+        const langButtons = document.querySelectorAll("[class*='cursor-pointer']");
+        const title = document.querySelector("h1");
+        const searchInput = document.querySelector("input");
 
-langButtons.forEach(btn => {
-    btn.addEventListener("click", () => {
-        const lang = btn.innerText.toLowerCase();
-        if (translations[lang]) {
-            title.innerHTML = translations[lang].title;
-            searchInput.placeholder = translations[lang].search;
-        }
-    });
-});
-
-// =======================
-// 🔍 SEARCH FUNCTION
-// =======================
-const searchBtn = document.querySelector("button");
-searchBtn.addEventListener("click", () => {
-    const value = searchInput.value;
-    if (!value) {
-        alert("Введите что искать!");
-        return;
-    }
-    alert("Поиск: " + value);
-});
-
-// =======================
-// 🏋️ QUICK BUTTONS
-// =======================
-document.querySelectorAll("button").forEach(btn => {
-    if (btn.innerText.includes("Gyms")) {
-        btn.onclick = () => alert("Переход к залам 💪");
-    }
-    if (btn.innerText.includes("Protein")) {
-        btn.onclick = () => alert("Магазин протеина 🥤");
-    }
-    if (btn.innerText.includes("Calories")) {
-        btn.onclick = () => alert("Трекер калорий 📊");
-    }
-});
-
-// =======================
-// 🌙 DARK / LIGHT MODE
-// =======================
-const toggleBtn = document.querySelector("[data-icon='language']");
-if (toggleBtn) {
-    toggleBtn.addEventListener("click", () => {
-        document.documentElement.classList.toggle("dark");
-    });
-}
-
-// =======================
-// 📅 BOOK SESSION
-// =======================
-document.querySelectorAll("button").forEach(btn => {
-    if (btn.innerText.includes("Book")) {
-        btn.addEventListener("click", () => {
-            alert("Сессия забронирована ✅");
+        langButtons.forEach(btn => {
+            btn.addEventListener("click", () => {
+                const lang = btn.innerText.toLowerCase();
+                if (translations[lang]) {
+                    title.innerHTML = translations[lang].title;
+                    searchInput.placeholder = translations[lang].search;
+                }
+            });
         });
-    }
-});
 
-// =======================
-// 🛒 Cart (Add to cart increments qty)
-// =======================
-let cart = JSON.parse(localStorage.getItem('cart') || '{}');
+        // =======================
+        // 🔍 SEARCH FUNCTION
+        // =======================
+        const searchBtn = document.querySelector("button");
+        searchBtn.addEventListener("click", () => {
+            const value = searchInput.value;
+            if (!value) {
+                alert("Введите что искать!");
+                return;
+            }
+            alert("Поиск: " + value);
+        });
 
-function updateCartCount() {
-    const countEl = document.getElementById('cart-count');
-    const total = Object.values(cart).reduce((s, it) => s + (it.qty || 0), 0);
-    if (countEl) countEl.textContent = total;
-}
+        // =======================
+        // 🏋️ QUICK BUTTONS
+        // =======================
+        document.querySelectorAll("button").forEach(btn => {
+            if (btn.innerText.includes("Gyms")) {
+                btn.onclick = () => alert("Переход к залам 💪");
+            }
+            if (btn.innerText.includes("Protein")) {
+                btn.onclick = () => alert("Магазин протеина 🥤");
+            }
+            if (btn.innerText.includes("Calories")) {
+                btn.onclick = () => alert("Трекер калорий 📊");
+            }
+        });
 
-function updateCartModal() {
-    const cartItemsEl = document.getElementById('cart-items');
-    const cartTotalEl = document.getElementById('cart-total');
-    let totalPrice = 0;
-    let html = '';
-    for (const [title, item] of Object.entries(cart)) {
-        const itemTotal = item.price * item.qty;
-        totalPrice += itemTotal;
-        html += `
+        // =======================
+        // 🌙 DARK / LIGHT MODE
+        // =======================
+        const toggleBtn = document.querySelector("[data-icon='language']");
+        if (toggleBtn) {
+            toggleBtn.addEventListener("click", () => {
+                document.documentElement.classList.toggle("dark");
+            });
+        }
+
+        // =======================
+        // 📅 BOOK SESSION
+        // =======================
+        document.querySelectorAll("button").forEach(btn => {
+            if (btn.innerText.includes("Book")) {
+                btn.addEventListener("click", () => {
+                    alert("Сессия забронирована ✅");
+                });
+            }
+        });
+
+        // =======================
+        // 🛒 Cart (Add to cart increments qty)
+        // =======================
+        let cart = JSON.parse(localStorage.getItem('cart') || '{}');
+
+        function updateCartCount() {
+            const countEl = document.getElementById('cart-count');
+            const total = Object.values(cart).reduce((s, it) => s + (it.qty || 0), 0);
+            if (countEl) countEl.textContent = total;
+        }
+
+        function updateCartModal() {
+            const cartItemsEl = document.getElementById('cart-items');
+            const cartTotalEl = document.getElementById('cart-total');
+            let totalPrice = 0;
+            let html = '';
+            for (const [title, item] of Object.entries(cart)) {
+                const itemTotal = item.price * item.qty;
+                totalPrice += itemTotal;
+                html += `
             <div class="flex justify-between items-center">
                 <div>
                     <h4 class="text-white font-bold">${title}</h4>
@@ -582,84 +576,108 @@ function updateCartModal() {
                 <span class="text-secondary font-bold">$${itemTotal.toFixed(2)}</span>
             </div>
         `;
-    }
-    if (!html) {
-        html = '<p class="text-on-surface-variant">Your cart is empty</p>';
-    }
-    cartItemsEl.innerHTML = html;
-    cartTotalEl.textContent = `$${totalPrice.toFixed(2)}`;
-}
-
-document.querySelectorAll('section .grid button').forEach(btn => {
-    btn.addEventListener('click', (e) => {
-        e.stopPropagation();
-        const card = btn.closest('.group');
-        if (!card) return;
-        const titleEl = card.querySelector('h3');
-        const priceEl = card.querySelector('.p-8 .flex span');
-        const title = titleEl ? titleEl.innerText.trim() : 'Item';
-        const price = priceEl ? parseFloat(priceEl.innerText.replace('$','')) || 0 : 0;
-        if (!cart[title]) cart[title] = { price: price, qty: 0 };
-        cart[title].qty += 1;
-        localStorage.setItem('cart', JSON.stringify(cart));
-        updateCartCount();
-    });
-});
-
-const cartFab = document.getElementById('cart-fab');
-const cartModal = document.getElementById('cart-modal');
-const closeCart = document.getElementById('close-cart');
-const clearCartBtn = document.getElementById('clear-cart');
-
-if (cartFab) {
-    cartFab.addEventListener('click', (e) => {
-        e.stopPropagation();
-        updateCartModal();
-        cartModal.classList.remove('hidden');
-    });
-}
-
-if (closeCart) {
-    closeCart.addEventListener('click', () => {
-        cartModal.classList.add('hidden');
-    });
-}
-
-if (clearCartBtn) {
-    clearCartBtn.addEventListener('click', () => {
-        cart = {};
-        localStorage.setItem('cart', JSON.stringify(cart));
-        updateCartCount();
-        updateCartModal();
-    });
-}
-
-const checkoutBtn = document.getElementById('checkout-btn');
-if (checkoutBtn) {
-    checkoutBtn.addEventListener('click', () => {
-        // Проверяем, есть ли товары в корзине
-        if (Object.keys(cart).length === 0) {
-            alert('Ваша корзина пуста!');
-            return;
+            }
+            if (!html) {
+                html = '<p class="text-on-surface-variant">Your cart is empty</p>';
+            }
+            cartItemsEl.innerHTML = html;
+            cartTotalEl.textContent = `$${totalPrice.toFixed(2)}`;
         }
-        
-        // Сохраняем корзину в localStorage для oplata.html
-        localStorage.setItem('checkoutCart', JSON.stringify(cart));
-        
-        // Перенаправляем на страницу оплаты
-        window.location.href = './oplata.html';
+
+        document.querySelectorAll('.group button').forEach(btn => {
+            btn.addEventListener('click', (e) => {
+                e.stopPropagation();
+                const card = btn.closest('.group');
+                if (!card) return;
+                const titleEl = card.querySelector('h3');
+                const priceEl = card.querySelector('.p-8 .flex span');
+                const title = titleEl ? titleEl.innerText.trim() : 'Item';
+                const price = priceEl ? parseFloat(priceEl.innerText.replace('$', '')) || 0 : 0;
+                if (!cart[title]) cart[title] = { price: price, qty: 0 };
+                cart[title].qty += 1;
+                localStorage.setItem('cart', JSON.stringify(cart));
+                updateCartCount();
+            });
+        });
+
+        const cartFab = document.getElementById('cart-fab');
+        const cartModal = document.getElementById('cart-modal');
+        const closeCart = document.getElementById('close-cart');
+        const clearCartBtn = document.getElementById('clear-cart');
+
+        if (cartFab) {
+            cartFab.addEventListener('click', (e) => {
+                e.stopPropagation();
+                updateCartModal();
+                cartModal.classList.remove('hidden');
+            });
+        }
+
+        if (closeCart) {
+            closeCart.addEventListener('click', () => {
+                cartModal.classList.add('hidden');
+            });
+        }
+
+        if (clearCartBtn) {
+            clearCartBtn.addEventListener('click', () => {
+                cart = {};
+                localStorage.setItem('cart', JSON.stringify(cart));
+                updateCartCount();
+                updateCartModal();
+            });
+        }
+
+        const checkoutBtn = document.getElementById('checkout-btn');
+        if (checkoutBtn) {
+            checkoutBtn.addEventListener('click', () => {
+                // Проверяем, есть ли товары в корзине
+                if (Object.keys(cart).length === 0) {
+                    alert('Ваша корзина пуста!');
+                    return;
+                }
+
+                // Сохраняем корзину в localStorage для oplata.html
+                localStorage.setItem('checkoutCart', JSON.stringify(cart));
+
+                // Перенаправляем на страницу оплаты
+                window.location.href = './oplata.html';
+            });
+        }
+
+        // Close modal when clicking outside
+        cartModal.addEventListener('click', (e) => {
+            if (e.target === cartModal) {
+                cartModal.classList.add('hidden');
+            }
+        });
+
+        updateCartCount();
+const categoryButtons = document.querySelectorAll(".category-btn");
+const products = document.querySelectorAll(".group[data-category]");
+
+categoryButtons.forEach(btn => {
+    btn.addEventListener("click", () => {
+        const filter = btn.dataset.filter;
+
+        products.forEach(card => {
+            const category = card.dataset.category;
+
+            if (filter === "all" || category === filter) {
+                card.style.display = "block";
+            } else {
+                card.style.display = "none";
+            }
+        });
+
+        categoryButtons.forEach(b => {
+            b.classList.remove("text-primary");
+        });
+
+        btn.classList.add("text-primary");
     });
-}
-
-// Close modal when clicking outside
-cartModal.addEventListener('click', (e) => {
-    if (e.target === cartModal) {
-        cartModal.classList.add('hidden');
-    }
 });
-
-updateCartCount();
-</script>
+    </script>
 </body>
 
 </html>
