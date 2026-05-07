@@ -119,6 +119,11 @@
             font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
         }
     </style>
+    <!-- Firebase SDK -->
+    <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-database-compat.js"></script>
+    <script src="./firebase-config.js"></script>
+    <script src="./auth.js"></script>
 </head>
 
 <body class="bg-background text-on-background overflow-x-hidden">
@@ -340,6 +345,10 @@
 
 </html>
     <script>
+        // Initialize Firebase
+        AuraAuth.init();
+        let currentUser = null;
+
         // Load vitals from localStorage on page load
         function loadVitals() {
             const height = localStorage.getItem('userHeight') || '184';
@@ -404,6 +413,14 @@
 
         // Initialize on page load
         document.addEventListener('DOMContentLoaded', function() {
+            // Check if user is logged in
+            currentUser = AuraAuth.getCurrentUser();
+            if (!currentUser) {
+                // If no user, redirect to login/register
+                window.location.href = './register.html';
+                return;
+            }
+
             loadVitals();
             
             // Add event listeners for vital inputs

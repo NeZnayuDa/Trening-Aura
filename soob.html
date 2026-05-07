@@ -572,9 +572,12 @@
         AuraAuth.init();
         db = AuraAuth.db;
         currentUser = AuraAuth.getCurrentUser();
+        
+        console.log('Loaded user:', currentUser); // DEBUG
 
         // Nav
         if (currentUser) {
+            console.log('User name:', currentUser.name); // DEBUG
             document.getElementById('nav-guest').classList.add('hidden');
             const navUser = document.getElementById('nav-user');
             navUser.classList.remove('hidden');
@@ -609,11 +612,14 @@
         }
 
         // Allow Ctrl+Enter to post
-        document.getElementById('post-text').addEventListener('keydown', function(e) {
-            if (e.key === 'Enter' && (e.ctrlKey || e.metaKey)) {
-                submitPost();
-            }
-        });
+        const postTextEl = document.getElementById('post-text');
+        if (postTextEl) {
+            postTextEl.addEventListener('keydown', function(e) {
+                if (e.key === 'Enter' && (e.ctrlKey || e.metaKey)) {
+                    submitPost();
+                }
+            });
+        }
 
         // Start listening to feed
         listenFeed();

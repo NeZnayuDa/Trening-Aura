@@ -305,6 +305,7 @@
 
             const result = await AuraAuth.register(name, email, password);
             if (result.success) {
+                console.log('Registration successful, user:', result.user); // DEBUG
                 window.location.href = './oprosnik.html';
             } else {
                 errorEl.textContent = result.error === 'Email already registered'

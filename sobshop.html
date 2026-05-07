@@ -1,0 +1,461 @@
+<!DOCTYPE html>
+
+<html class="dark" lang="en">
+
+<head>
+    <meta charset="utf-8" />
+    <meta content="width=device-width, initial-scale=1.0" name="viewport" />
+    <link
+        href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&amp;family=Manrope:wght@300;400;500;600;700;800&amp;display=swap"
+        rel="stylesheet" />
+    <link
+        href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap"
+        rel="stylesheet" />
+    <link
+        href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap"
+        rel="stylesheet" />
+    <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+    <style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+
+        .glass-card {
+            background: rgba(18, 18, 18, 0.7);
+            backdrop-filter: blur(12px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .kinetic-glow {
+            box-shadow: 0 0 20px rgba(171, 214, 0, 0.3), inset 0 0 10px rgba(171, 214, 0, 0.2);
+            border: 1px solid #abd600;
+        }
+
+        .tactical-grid {
+            background-image: linear-gradient(rgba(171, 214, 0, 0.05) 1px, transparent 1px),
+                linear-gradient(90deg, rgba(171, 214, 0, 0.05) 1px, transparent 1px);
+            background-size: 40px 40px;
+        }
+
+        .scanline {
+            width: 100%;
+            height: 2px;
+            background: linear-gradient(90deg, transparent, #abd600, transparent);
+            position: absolute;
+            top: 0;
+            opacity: 0.5;
+        }
+    </style>
+    <script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    "colors": {
+                        "on-surface-variant": "#c4c9ac",
+                        "surface-tint": "#abd600",
+                        "surface-container-highest": "#353535",
+                        "error": "#ffb4ab",
+                        "on-tertiary-fixed": "#1c1b1b",
+                        "on-error-container": "#ffdad6",
+                        "secondary": "#bef4ff",
+                        "on-secondary-container": "#00616d",
+                        "tertiary-fixed": "#e5e2e1",
+                        "primary-fixed": "#c3f400",
+                        "outline-variant": "#444933",
+                        "primary-fixed-dim": "#abd600",
+                        "inverse-primary": "#506600",
+                        "on-tertiary": "#313030",
+                        "surface-dim": "#131313",
+                        "inverse-surface": "#e2e2e2",
+                        "surface": "#131313",
+                        "surface-variant": "#353535",
+                        "surface-container-lowest": "#0e0e0e",
+                        "outline": "#8e9379",
+                        "on-error": "#690005",
+                        "on-tertiary-fixed-variant": "#474646",
+                        "tertiary-container": "#e5e2e1",
+                        "on-secondary-fixed": "#001f24",
+                        "tertiary-fixed-dim": "#c8c6c5",
+                        "primary-container": "#c3f400",
+                        "secondary-fixed-dim": "#00daf3",
+                        "on-primary-container": "#556d00",
+                        "surface-container": "#1f1f1f",
+                        "on-tertiary-container": "#656464",
+                        "error-container": "#93000a",
+                        "surface-bright": "#393939",
+                        "on-secondary-fixed-variant": "#004f58",
+                        "on-secondary": "#00363d",
+                        "on-primary-fixed": "#161e00",
+                        "surface-container-low": "#1b1b1b",
+                        "inverse-on-surface": "#303030",
+                        "on-primary": "#283500",
+                        "tertiary": "#ffffff",
+                        "on-primary-fixed-variant": "#3c4d00",
+                        "background": "#131313",
+                        "surface-container-high": "#2a2a2a",
+                        "secondary-container": "#01e3fd",
+                        "on-surface": "#e2e2e2",
+                        "on-background": "#e2e2e2",
+                        "secondary-fixed": "#9cefff",
+                        "primary": "#ffffff"
+                    },
+                    "borderRadius": {
+                        "DEFAULT": "0.25rem",
+                        "lg": "0.5rem",
+                        "xl": "0.75rem",
+                        "full": "9999px"
+                    },
+                    "spacing": {
+                        "lg": "32px",
+                        "base": "4px",
+                        "grid_gutter": "16px",
+                        "grid_columns": "12",
+                        "xl": "48px",
+                        "sm": "12px",
+                        "grid_margin": "24px",
+                        "md": "20px",
+                        "xs": "8px"
+                    },
+                    "fontFamily": {
+                        "headline": ["Space Grotesk"],
+                        "label": ["Manrope"],
+                        "body": ["Manrope"],
+                        "stats": ["Space Grotesk"]
+                    }
+                },
+            }
+        }
+    </script>
+</head>
+
+<body class="bg-surface-dim text-on-surface selection:bg-surface-tint selection:text-on-primary">
+    <!-- TopNavBar -->
+    <header
+        class="fixed top-0 w-full z-50 bg-surface-dim/80 backdrop-blur-xl bg-gradient-to-b from-surface-container-high to-transparent shadow-[0_10px_40px_-15px_rgba(190,238,0,0.2)]">
+        <nav class="flex justify-between items-center px-8 h-20 w-full max-w-full">
+            <div class="font-headline text-2xl font-bold tracking-tighter text-primary-dim uppercase">TRENING AURA</div>
+            <div class="hidden md:flex items-center gap-8">
+                <a class="text-on-surface-variant font-label text-sm uppercase tracking-widest hover:text-on-surface transition-colors"
+                    href="#">Arena</a>
+                <a class="text-primary-dim border-b-2 border-primary-dim pb-1 font-label text-sm uppercase tracking-widest"
+                    href="#">Battles</a>
+                <a class="text-on-surface-variant font-label text-sm uppercase tracking-widest hover:text-on-surface transition-colors"
+                    href="#">Squads</a>
+                <a class="text-on-surface-variant font-label text-sm uppercase tracking-widest hover:text-on-surface transition-colors"
+                    href="#">Market</a>
+            </div>
+            <div class="flex items-center gap-6">
+                <button class="active:scale-95 transition-transform">
+                    <span class="material-symbols-outlined text-primary-dim"
+                        data-icon="notifications_active">notifications_active</span>
+                </button>
+                <button class="active:scale-95 transition-transform">
+                    <span class="material-symbols-outlined text-primary-dim"
+                        data-icon="sports_kabaddi">sports_kabaddi</span>
+                </button>
+                <div class="w-10 h-10 rounded-full border-2 border-surface-tint overflow-hidden">
+                    <img alt="Athlete Profile" class="w-full h-full object-cover"
+                        data-alt="A high-performance athlete with sweat on their brow, illuminated by intense neon lime and electric blue rim lighting. The portrait is set against a dark, tech-focused background with subtle data stream overlays. The aesthetic is aggressive and hyper-modern, reflecting a cyberpunk athletic command center vibe."
+                        src="https://lh3.googleusercontent.com/aida-public/AB6AXuCashstQEy0YPxspH9HL9obL5xaIji3YDbagULZQrB9hJCWtt5RlwaopD4wdMUTwO14ESQ6j0F6EcprVG569pCgA3QiLdTv66BBhndSPz2OBFxb06sZ7K9TeDL_tHgZF04HmwJ_TqP6Ejw9twep8MZwyQW7qJMBw_5l4evpo_P9yyUV0XkHR6QgwUMOfc-2-oOz0syGu8eRQxYJYTZAb1ucm4yjFl5r1jCBgRRuZ0bNwSIsEYFEB67OgIj2CwVeM4NG7FXksLVIRklA" />
+                </div>
+            </div>
+        </nav>
+    </header>
+    <main class="pt-20 tactical-grid min-h-screen">
+        <!-- Hero: Upcoming Global Battles Slider -->
+        <section class="relative py-16 px-8 overflow-hidden">
+            <div class="max-w-7xl mx-auto">
+                <div class="flex flex-col md:flex-row justify-between items-end mb-12 gap-6">
+                    <div class="max-w-2xl">
+                        <span
+                            class="font-label text-surface-tint text-sm font-extrabold tracking-[0.2em] uppercase">Tactical
+                            Feed // LIVE</span>
+                        <h1
+                            class="font-headline text-5xl md:text-7xl font-extrabold tracking-tighter uppercase mt-2 leading-none">
+                            Upcoming Global Battles</h1>
+                    </div>
+                    <div class="flex gap-4">
+                        <button
+                            class="w-12 h-12 rounded-full border border-surface-tint/30 flex items-center justify-center hover:bg-surface-tint/10 transition-colors">
+                            <span class="material-symbols-outlined text-surface-tint"
+                                data-icon="chevron_left">chevron_left</span>
+                        </button>
+                        <button
+                            class="w-12 h-12 rounded-full border border-surface-tint/30 flex items-center justify-center hover:bg-surface-tint/10 transition-colors">
+                            <span class="material-symbols-outlined text-surface-tint"
+                                data-icon="chevron_right">chevron_right</span>
+                        </button>
+                    </div>
+                </div>
+                <!-- Active Battle Card (Hero Slider Item) -->
+                <div class="relative w-full h-[500px] rounded-xl overflow-hidden glass-card kinetic-glow">
+                    <div class="absolute top-0 left-0 w-full h-full">
+                        <img class="w-full h-full object-cover opacity-50"
+                            data-alt="A wide panoramic shot of a neon-lit futuristic city marathon circuit at night. Runners are blurred streaks of electric blue light against dark asphalt, framed by holographic mission markers and floating tactical data modules. The atmosphere is charged with high-stakes competitive energy and cybernetic aesthetics."
+                            src="https://lh3.googleusercontent.com/aida-public/AB6AXuCUMnFOP6W2qyb0kbDeFKyvN5AnFghr5ND2K314BJTIuJyqS86TocoMYf_T77jfGengcfws8Stpo9rhJEswxhoJGWGmIc_O_cpuABru1mew7Q3UZw_UEIOlofAZMGfKT_6050I07K_2bSs9HhO1t_ys6zbSiz7ycbqMXFFHkQzV9DuadI6anAf7ks09mMhGlcry7DG5kLW-gbOLXR1_xHdB68nik1t47fgw0NK_HqknGZSevk73SqIY4y5Z033cxOnvgofVw0YLLhs4" />
+                    </div>
+                    <div class="absolute inset-0 bg-gradient-to-t from-surface-dim via-transparent to-transparent">
+                    </div>
+                    <div class="absolute top-8 left-8 flex gap-4">
+                        <div
+                            class="bg-surface-tint text-surface-dim px-4 py-1 rounded-sm font-label text-xs font-black uppercase">
+                            Operation: Neon Sprint</div>
+                        <div
+                            class="bg-surface-container-high backdrop-blur-md px-4 py-1 border border-white/10 rounded-sm font-label text-xs font-bold uppercase text-white">
+                            Tier: Elite Squad</div>
+                    </div>
+                    <div
+                        class="absolute bottom-8 left-8 right-8 flex flex-col md:flex-row justify-between items-end gap-8">
+                        <div class="flex flex-col">
+                            <div class="flex items-center gap-2 text-surface-tint mb-2">
+                                <span class="material-symbols-outlined text-sm"
+                                    data-icon="location_on">location_on</span>
+                                <span class="font-label text-sm uppercase tracking-widest font-bold">Neo-Tokyo Sector
+                                    07</span>
+                            </div>
+                            <h2 class="font-headline text-4xl font-extrabold uppercase tracking-tighter">Midnight
+                                Circuit Overdrive</h2>
+                        </div>
+                        <div class="flex flex-col items-end">
+                            <span class="font-label text-xs uppercase text-on-surface-variant mb-2">Deployment Commences
+                                In:</span>
+                            <div class="flex gap-4">
+                                <div class="flex flex-col items-center">
+                                    <span class="font-headline text-3xl font-black text-surface-tint">04</span>
+                                    <span class="font-label text-[10px] uppercase text-on-surface-variant">Days</span>
+                                </div>
+                                <div class="font-headline text-3xl font-black text-surface-tint">:</div>
+                                <div class="flex flex-col items-center">
+                                    <span class="font-headline text-3xl font-black text-surface-tint">18</span>
+                                    <span class="font-label text-[10px] uppercase text-on-surface-variant">Hrs</span>
+                                </div>
+                                <div class="font-headline text-3xl font-black text-surface-tint">:</div>
+                                <div class="flex flex-col items-center">
+                                    <span class="font-headline text-3xl font-black text-surface-tint">42</span>
+                                    <span class="font-label text-[10px] uppercase text-on-surface-variant">Min</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- Scanline effect -->
+                    <div class="scanline"></div>
+                </div>
+            </div>
+        </section>
+        <!-- Features: Tactical Insights Bento -->
+        <section class="py-16 px-8 bg-surface-container-low">
+            <div class="max-w-7xl mx-auto">
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+                    <!-- Feature 1 -->
+                    <div class="p-8 glass-card rounded-xl relative group overflow-hidden">
+                        <div
+                            class="absolute top-0 right-0 w-12 h-12 border-t border-r border-surface-tint/30 rounded-tr-xl transition-all group-hover:w-full group-hover:h-full">
+                        </div>
+                        <span class="material-symbols-outlined text-surface-tint text-4xl mb-6 block"
+                            data-icon="shield">shield</span>
+                        <h3 class="font-headline text-xl font-bold uppercase mb-4 tracking-tight">Exclusive Tactical
+                            Gear</h3>
+                        <p class="font-body text-sm text-on-surface-variant leading-relaxed">Access classified
+                            performance wearables designed for high-intensity battle conditions. Engineered for maximum
+                            kinetic feedback.</p>
+                    </div>
+                    <!-- Feature 2 -->
+                    <div class="p-8 glass-card rounded-xl relative group overflow-hidden">
+                        <div
+                            class="absolute top-0 right-0 w-12 h-12 border-t border-r border-surface-tint/30 rounded-tr-xl transition-all group-hover:w-full group-hover:h-full">
+                        </div>
+                        <span class="material-symbols-outlined text-secondary-fixed-dim text-4xl mb-6 block"
+                            data-icon="map">map</span>
+                        <h3 class="font-headline text-xl font-bold uppercase mb-4 tracking-tight">Priority Map Access
+                        </h3>
+                        <p class="font-body text-sm text-on-surface-variant leading-relaxed">Be the first to infiltrate
+                            new urban sectors. Real-time pathing updates and terrain analysis protocols provided
+                            pre-deployment.</p>
+                    </div>
+                    <!-- Feature 3 -->
+                    <div class="p-8 glass-card rounded-xl relative group overflow-hidden">
+                        <div
+                            class="absolute top-0 right-0 w-12 h-12 border-t border-r border-surface-tint/30 rounded-tr-xl transition-all group-hover:w-full group-hover:h-full">
+                        </div>
+                        <span class="material-symbols-outlined text-primary-fixed-dim text-4xl mb-6 block"
+                            data-icon="psychology">psychology</span>
+                        <h3 class="font-headline text-xl font-bold uppercase mb-4 tracking-tight">Advanced AI Insights
+                        </h3>
+                        <p class="font-body text-sm text-on-surface-variant leading-relaxed">Neural-linked metrics and
+                            predictive performance modeling. Optimize your biological engine through deep-data
+                            deep-dives.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+        <!-- Pricing: Subscription Plans -->
+        <section class="py-24 px-8 relative">
+            <div class="max-w-7xl mx-auto">
+                <div class="text-center mb-16">
+                    <h2 class="font-headline text-4xl md:text-5xl font-black uppercase tracking-tighter mb-4">Select
+                        Your Payload</h2>
+                    <p class="font-body text-on-surface-variant max-w-xl mx-auto">Standard subscription tokens for elite
+                        performance monitoring and global battle registration.</p>
+                </div>
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+                    <!-- Free Plan -->
+                    <div class="glass-card p-10 rounded-xl flex flex-col border border-white/5">
+                        <div class="mb-8">
+                            <span
+                                class="font-label text-xs font-black uppercase text-on-surface-variant tracking-widest">Base
+                                Layer</span>
+                            <h3 class="font-headline text-3xl font-bold uppercase mt-1">Free</h3>
+                        </div>
+                        <div class="flex items-baseline gap-1 mb-8">
+                            <span class="font-headline text-5xl font-black text-white">$0</span>
+                            <span class="font-label text-sm text-on-surface-variant">/Mo</span>
+                        </div>
+                        <ul class="space-y-4 mb-12 flex-grow">
+                            <li class="flex items-center gap-3 text-sm font-body">
+                                <span class="material-symbols-outlined text-surface-tint text-lg"
+                                    data-icon="check_circle">check_circle</span>
+                                Global Pulse Tracking
+                            </li>
+                            <li class="flex items-center gap-3 text-sm font-body">
+                                <span class="material-symbols-outlined text-surface-tint text-lg"
+                                    data-icon="check_circle">check_circle</span>
+                                Entry-Level Leaderboards
+                            </li>
+                            <li class="flex items-center gap-3 text-sm font-body text-on-surface-variant/50">
+                                <span class="material-symbols-outlined text-lg" data-icon="lock">lock</span>
+                                Tactical Gear Store Access
+                            </li>
+                        </ul>
+                        <button
+                            class="w-full py-4 border border-white/10 rounded-sm font-label text-sm font-bold uppercase hover:bg-white/5 transition-all">Initialize</button>
+                    </div>
+                    <!-- Premium Plan (Standard) -->
+                    <div class="glass-card p-10 rounded-xl flex flex-col border border-white/5">
+                        <div class="mb-8">
+                            <span
+                                class="font-label text-xs font-black uppercase text-secondary-fixed-dim tracking-widest">Active
+                                Operative</span>
+                            <h3 class="font-headline text-3xl font-bold uppercase mt-1">Standard</h3>
+                        </div>
+                        <div class="flex items-baseline gap-1 mb-8">
+                            <span class="font-headline text-5xl font-black text-white">$24</span>
+                            <span class="font-label text-sm text-on-surface-variant">/Mo</span>
+                        </div>
+                        <ul class="space-y-4 mb-12 flex-grow">
+                            <li class="flex items-center gap-3 text-sm font-body">
+                                <span class="material-symbols-outlined text-secondary-fixed-dim text-lg"
+                                    data-icon="check_circle">check_circle</span>
+                                All Base Layer Features
+                            </li>
+                            <li class="flex items-center gap-3 text-sm font-body">
+                                <span class="material-symbols-outlined text-secondary-fixed-dim text-lg"
+                                    data-icon="check_circle">check_circle</span>
+                                Full Battle Registration
+                            </li>
+                            <li class="flex items-center gap-3 text-sm font-body">
+                                <span class="material-symbols-outlined text-secondary-fixed-dim text-lg"
+                                    data-icon="check_circle">check_circle</span>
+                                Squad Recruitment Tools
+                            </li>
+                        </ul>
+                        <button
+                            class="w-full py-4 border border-secondary-fixed-dim text-secondary-fixed-dim rounded-sm font-label text-sm font-bold uppercase hover:bg-secondary-fixed-dim/10 transition-all">Select
+                            Tier</button>
+                    </div>
+                    <!-- Ultimate Plan (Premium) -->
+                    <div class="glass-card p-10 rounded-xl flex flex-col kinetic-glow relative overflow-hidden">
+                        <div
+                            class="absolute top-4 right-4 bg-surface-tint text-surface-dim px-3 py-1 text-[10px] font-black uppercase transform rotate-2">
+                            Priority</div>
+                        <div class="mb-8">
+                            <span
+                                class="font-label text-xs font-black uppercase text-surface-tint tracking-widest">Elite
+                                Vanguard</span>
+                            <h3 class="font-headline text-3xl font-bold uppercase mt-1 text-surface-tint">Premium</h3>
+                        </div>
+                        <div class="flex items-baseline gap-1 mb-8">
+                            <span class="font-headline text-5xl font-black text-white">$59</span>
+                            <span class="font-label text-sm text-on-surface-variant">/Mo</span>
+                        </div>
+                        <ul class="space-y-4 mb-12 flex-grow">
+                            <li class="flex items-center gap-3 text-sm font-body">
+                                <span class="material-symbols-outlined text-surface-tint text-lg"
+                                    data-icon="bolt">bolt</span>
+                                All Standard Features
+                            </li>
+                            <li class="flex items-center gap-3 text-sm font-body font-bold text-surface-tint">
+                                <span class="material-symbols-outlined text-lg" data-icon="terminal">terminal</span>
+                                Advanced AI Insights Module
+                            </li>
+                            <li class="flex items-center gap-3 text-sm font-body font-bold text-surface-tint">
+                                <span class="material-symbols-outlined text-lg" data-icon="diamond">diamond</span>
+                                Exclusive Tactical Gear Early Access
+                            </li>
+                            <li class="flex items-center gap-3 text-sm font-body">
+                                <span class="material-symbols-outlined text-surface-tint text-lg"
+                                    data-icon="map">map</span>
+                                Map Access: Classified Sectors
+                            </li>
+                        </ul>
+                        <button
+                            class="w-full py-4 bg-surface-tint text-surface-dim rounded-sm font-label text-sm font-black uppercase hover:scale-[1.02] transition-all shadow-[0_0_20px_rgba(171,214,0,0.4)]">Activate
+                            Kinetic Flow</button>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+    <!-- Footer -->
+    <footer class="bg-surface-container-lowest w-full py-12 px-8 bg-surface-container-low border-t border-white/5">
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-8 items-center max-w-7xl mx-auto">
+            <div>
+                <div class="font-headline text-xl text-on-surface uppercase font-black tracking-tighter mb-4">TRENING
+                    AURA</div>
+                <p class="font-label text-sm uppercase tracking-widest text-on-tertiary-fixed-variant max-w-md">© 2024
+                    TRENING AURA. LIMITLESS KINETIC ENERGY. NEURAL SYNCHRONIZATION ESTABLISHED.</p>
+            </div>
+            <div class="grid grid-cols-2 gap-4">
+                <a class="font-label text-sm uppercase tracking-widest text-on-tertiary-fixed-variant hover:text-secondary-fixed transition-colors duration-200 cursor-pointer"
+                    href="#">Global Leaderboard</a>
+                <a class="font-label text-sm uppercase tracking-widest text-on-tertiary-fixed-variant hover:text-secondary-fixed transition-colors duration-200 cursor-pointer"
+                    href="#">Team Recruitment</a>
+                <a class="font-label text-sm uppercase tracking-widest text-on-tertiary-fixed-variant hover:text-secondary-fixed transition-colors duration-200 cursor-pointer"
+                    href="#">Discord Pulse</a>
+                <a class="font-label text-sm uppercase tracking-widest text-on-tertiary-fixed-variant hover:text-secondary-fixed transition-colors duration-200 cursor-pointer"
+                    href="#">Neural Privacy</a>
+            </div>
+        </div>
+    </footer>
+    <!-- BottomNavBar (Mobile Only) -->
+    <nav
+        class="md:hidden fixed bottom-0 w-full z-50 rounded-t-xl bg-surface-dim/90 backdrop-blur-2xl bg-surface-container-high shadow-[0_-8px_30px_rgba(0,227,253,0.15)] flex justify-around items-center h-16 px-4">
+        <div
+            class="flex flex-col items-center justify-center text-on-surface-variant font-label text-[10px] font-bold uppercase active:scale-90 transition-all duration-200 hover:text-secondary-dim">
+            <span class="material-symbols-outlined" data-icon="bolt">bolt</span>
+            <span>Pulse</span>
+        </div>
+        <div
+            class="flex flex-col items-center justify-center text-primary-dim scale-110 font-label text-[10px] font-bold uppercase active:scale-90 transition-all duration-200">
+            <span class="material-symbols-outlined" data-icon="swords">swords</span>
+            <span>Battle</span>
+        </div>
+        <div
+            class="flex flex-col items-center justify-center text-on-surface-variant font-label text-[10px] font-bold uppercase active:scale-90 transition-all duration-200 hover:text-secondary-dim">
+            <span class="material-symbols-outlined" data-icon="qr_code_scanner">qr_code_scanner</span>
+            <span>Scan</span>
+        </div>
+        <div
+            class="flex flex-col items-center justify-center text-on-surface-variant font-label text-[10px] font-bold uppercase active:scale-90 transition-all duration-200 hover:text-secondary-dim">
+            <span class="material-symbols-outlined" data-icon="military_tech">military_tech</span>
+            <span>Ranks</span>
+        </div>
+        <div
+            class="flex flex-col items-center justify-center text-on-surface-variant font-label text-[10px] font-bold uppercase active:scale-90 transition-all duration-200 hover:text-secondary-dim">
+            <span class="material-symbols-outlined" data-icon="person">person</span>
+            <span>Profile</span>
+        </div>
+    </nav>
+</body>
+
+</html>
