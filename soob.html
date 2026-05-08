@@ -329,9 +329,15 @@
 
     let currentUser = null;
     let allPosts = [];
+    let db = null; // Will be set after Firebase initialization
 
-    // Ensure 'db' is not redeclared
-    const db = secondaryDb; // Use the secondary Firebase database
+    // Wait for Firebase to initialize, then set db
+    const checkDbInit = setInterval(() => {
+        if (typeof secondaryDb !== 'undefined') {
+            db = secondaryDb;
+            clearInterval(checkDbInit);
+        }
+    }, 100);
 
     function timeAgo(ts) {
         const diff = Date.now() - ts;
@@ -443,22 +449,44 @@
     }
 
     async function submitPost() {
+        console.log('submitPost called');
         if (!currentUser) {
+            console.error('User not logged in');
             alert('You must be logged in to post.');
             return;
         }
+
         const ta = document.getElementById('post-text');
         const errEl = document.getElementById('post-error');
         const btn = document.getElementById('post-btn');
-        const text = ta.value.trim();
+        const text = ta ? ta.value.trim() : '';
+
+        console.log('Post text:', text);
+
+        if (!ta) {
+            console.error('Textarea with ID post-text not found');
+            return;
+        }
+
+        if (!errEl) {
+            console.error('Error element with ID post-error not found');
+            return;
+        }
+
+        if (!btn) {
+            console.error('Button with ID post-btn not found');
+            return;
+        }
 
         errEl.classList.add('hidden');
         if (!text) {
+            console.warn('Post text is empty');
             errEl.textContent = 'Post cannot be empty.';
             errEl.classList.remove('hidden');
             return;
         }
         if (text.length > 1000) {
+            console.warn('Post text exceeds 1000 characters');
             errEl.textContent = 'Post is too long (max 1000 characters).';
             errEl.classList.remove('hidden');
             return;
@@ -476,6 +504,7 @@
                 createdAt: Date.now(),
                 likes: {}
             };
+            console.log('New post object:', newPost);
             await db.ref('community_posts').push(newPost);
             ta.value = '';
             alert('Post submitted successfully!');
@@ -546,14 +575,49 @@
     }
 
     function renderFeed(posts) {
-        const feedContainer = document.getElementById('feed-container');
+        const feedContainer = document.getElementById('feed-posts');
         if (!feedContainer) return;
-        feedContainer.innerHTML = posts.map(post => renderPost(post.id, post)).join('');
+        if (posts.length === 0) {
+            feedContainer.innerHTML = '';
+            const emptyEl = document.getElementById('feed-empty');
+            if (emptyEl) emptyEl.classList.remove('hidden');
+        } else {
+            const emptyEl = document.getElementById('feed-empty');
+            if (emptyEl) emptyEl.classList.add('hidden');
+            feedContainer.innerHTML = posts.map(post => renderPost(post.id, post)).join('');
+        }
     }
 
     document.addEventListener('DOMContentLoaded', function () {
         AuraAuth.init();
         currentUser = AuraAuth.getCurrentUser();
+        
+        // Update UI based on auth state
+        const postCreator = document.getElementById('post-creator');
+        const loginNotice = document.getElementById('login-notice');
+        const feedLoading = document.getElementById('feed-loading');
+        
+        if (!currentUser) {
+            if (postCreator) postCreator.style.display = 'none';
+            if (loginNotice) loginNotice.style.display = 'block';
+            if (feedLoading) feedLoading.style.display = 'none';
+        } else {
+            if (postCreator) postCreator.style.display = 'block';
+            if (loginNotice) loginNotice.style.display = 'none';
+            
+            // Update user info in sidebar and creator
+            const initials = getInitials(currentUser.name);
+            const sidebarAvatar = document.getElementById('sidebar-avatar');
+            const creatorAvatar = document.getElementById('creator-avatar');
+            const sidebarName = document.getElementById('sidebar-user-name');
+            const sidebarGoal = document.getElementById('sidebar-goal-short');
+            
+            if (sidebarAvatar) sidebarAvatar.textContent = initials;
+            if (creatorAvatar) creatorAvatar.textContent = initials;
+            if (sidebarName) sidebarName.textContent = currentUser.name || 'User';
+            if (sidebarGoal) sidebarGoal.textContent = currentUser.goal || '—';
+        }
+        
         listenFeed();
     });
     </script>
