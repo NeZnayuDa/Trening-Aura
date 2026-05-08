@@ -12,7 +12,21 @@ const firebaseConfig = {
     measurementId: "G-DXZQG97TV1"
 };
 
-// firebase-config.js
+const firebaseConfigSecondary = {
+    apiKey: "AIzaSyDSf3wSUxxjZMp4-AvcxKBoWpKMBZWCtZc",
+    authDomain: "trening-aura-2d26f.firebaseapp.com",
+    projectId: "trening-aura-2d26f",
+    storageBucket: "trening-aura-2d26f.firebasestorage.app",
+    messagingSenderId: "210768590346",
+    appId: "1:210768590346:web:cf42d547da4683f2fb51f3",
+    measurementId: "G-KQ804781SZ"
+};
+
+// Initialize the default Firebase app
 firebase.initializeApp(firebaseConfig);
 const db = firebase.database();
+
+// Initialize the secondary Firebase app
+const secondaryApp = firebase.initializeApp(firebaseConfigSecondary, "secondary");
+const secondaryDb = secondaryApp.database();
 
