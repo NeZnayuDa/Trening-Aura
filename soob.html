@@ -328,8 +328,10 @@
     // ============================================================
 
     let currentUser = null;
-    let db = secondaryDb; // Use the secondary Firebase database
     let allPosts = [];
+
+    // Ensure 'db' is not redeclared
+    const db = secondaryDb; // Use the secondary Firebase database
 
     function timeAgo(ts) {
         const diff = Date.now() - ts;
