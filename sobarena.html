@@ -1,453 +1,468 @@
 <!DOCTYPE html>
-
 <html class="dark" lang="en">
-
 <head>
     <meta charset="utf-8" />
     <meta content="width=device-width, initial-scale=1.0" name="viewport" />
     <title>TRENING AURA | Tactical Command</title>
     <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
-    <link
-        href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&amp;family=Manrope:wght@300;400;500;600;700;800&amp;display=swap"
-        rel="stylesheet" />
-    <link
-        href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap"
-        rel="stylesheet" />
-    <link
-        href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap"
-        rel="stylesheet" />
+    <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&family=Manrope:wght@300;400;500;600;700;800&display=swap" rel="stylesheet" />
+    <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet" />
     <style>
-        .material-symbols-outlined {
-            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
-        }
-
+        .material-symbols-outlined { font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24; }
         .tactical-grid {
-            background-image: linear-gradient(rgba(203, 255, 0, 0.05) 1px, transparent 1px),
-                linear-gradient(90deg, rgba(203, 255, 0, 0.05) 1px, transparent 1px);
+            background-image: linear-gradient(rgba(203,255,0,0.05) 1px,transparent 1px), linear-gradient(90deg,rgba(203,255,0,0.05) 1px,transparent 1px);
             background-size: 40px 40px;
         }
-
-        .scanline {
-            width: 100%;
-            height: 2px;
-            background: linear-gradient(to right, transparent, #c3f400, transparent);
-            position: absolute;
-            top: 0;
-            left: 0;
-            z-index: 10;
-        }
-
-        .glass-panel {
-            backdrop-filter: blur(12px);
-            background: rgba(19, 19, 19, 0.7);
-            border: 1px solid rgba(255, 255, 255, 0.1);
-        }
-
-        .bracket-tl::before {
-            content: '';
-            position: absolute;
-            top: -1px;
-            left: -1px;
-            width: 10px;
-            height: 10px;
-            border-top: 2px solid #c3f400;
-            border-left: 2px solid #c3f400;
-        }
-
-        .bracket-br::after {
-            content: '';
-            position: absolute;
-            bottom: -1px;
-            right: -1px;
-            width: 10px;
-            height: 10px;
-            border-bottom: 2px solid #c3f400;
-            border-right: 2px solid #c3f400;
-        }
+        .scanline { width:100%;height:2px;background:linear-gradient(to right,transparent,#c3f400,transparent);position:absolute;top:0;left:0;z-index:10; }
+        .glass-panel { backdrop-filter:blur(12px);background:rgba(19,19,19,0.7);border:1px solid rgba(255,255,255,0.1); }
+        .bracket-tl::before { content:'';position:absolute;top:-1px;left:-1px;width:10px;height:10px;border-top:2px solid #c3f400;border-left:2px solid #c3f400; }
+        .bracket-br::after { content:'';position:absolute;bottom:-1px;right:-1px;width:10px;height:10px;border-bottom:2px solid #c3f400;border-right:2px solid #c3f400; }
+        .nav-avatar { width:40px;height:40px;border-radius:9999px;border:2px solid #abd600;background:#1a1a1a;display:flex;align-items:center;justify-content:center;font-family:'Space Grotesk',sans-serif;font-weight:900;color:#abd600;font-size:14px;cursor:pointer;transition:box-shadow .2s; }
+        .nav-avatar:hover { box-shadow:0 0 15px rgba(171,214,0,0.4); }
+        /* Notification bell pulse */
+        .notif-dot { width:8px;height:8px;background:#ff4444;border-radius:50%;position:absolute;top:4px;right:4px;animation:pulse 2s infinite; }
+        @keyframes pulse { 0%,100%{opacity:1;transform:scale(1)} 50%{opacity:.6;transform:scale(1.3)} }
+        /* Toast */
+        #toast { position:fixed;bottom:24px;left:50%;transform:translateX(-50%);background:#1a1a1a;border:1px solid #abd600;color:#e2e2e2;padding:12px 24px;border-radius:8px;font-family:'Space Grotesk',sans-serif;font-size:13px;z-index:9999;opacity:0;transition:opacity .3s;pointer-events:none; }
+        #toast.show { opacity:1; }
     </style>
     <script id="tailwind-config">
         tailwind.config = {
-            darkMode: "class",
-            theme: {
-                extend: {
-                    "colors": {
-                        "on-surface-variant": "#c4c9ac",
-                        "surface-tint": "#abd600",
-                        "surface-container-highest": "#353535",
-                        "error": "#ffb4ab",
-                        "on-tertiary-fixed": "#1c1b1b",
-                        "on-error-container": "#ffdad6",
-                        "secondary": "#bef4ff",
-                        "on-secondary-container": "#00616d",
-                        "tertiary-fixed": "#e5e2e1",
-                        "primary-fixed": "#c3f400",
-                        "outline-variant": "#444933",
-                        "primary-fixed-dim": "#abd600",
-                        "inverse-primary": "#506600",
-                        "on-tertiary": "#313030",
-                        "surface-dim": "#131313",
-                        "inverse-surface": "#e2e2e2",
-                        "surface": "#131313",
-                        "surface-variant": "#353535",
-                        "surface-container-lowest": "#0e0e0e",
-                        "outline": "#8e9379",
-                        "on-error": "#690005",
-                        "on-tertiary-fixed-variant": "#474646",
-                        "tertiary-container": "#e5e2e1",
-                        "on-secondary-fixed": "#001f24",
-                        "tertiary-fixed-dim": "#c8c6c5",
-                        "primary-container": "#c3f400",
-                        "secondary-fixed-dim": "#00daf3",
-                        "on-primary-container": "#556d00",
-                        "surface-container": "#1f1f1f",
-                        "on-tertiary-container": "#656464",
-                        "error-container": "#93000a",
-                        "surface-bright": "#393939",
-                        "on-secondary-fixed-variant": "#004f58",
-                        "on-secondary": "#00363d",
-                        "on-primary-fixed": "#161e00",
-                        "surface-container-low": "#1b1b1b",
-                        "inverse-on-surface": "#303030",
-                        "on-primary": "#283500",
-                        "tertiary": "#ffffff",
-                        "on-primary-fixed-variant": "#3c4d00",
-                        "background": "#131313",
-                        "surface-container-high": "#2a2a2a",
-                        "secondary-container": "#01e3fd",
-                        "on-surface": "#e2e2e2",
-                        "on-background": "#e2e2e2",
-                        "secondary-fixed": "#9cefff",
-                        "primary": "#ffffff"
-                    },
-                    "borderRadius": {
-                        "DEFAULT": "0.25rem",
-                        "lg": "0.5rem",
-                        "xl": "0.75rem",
-                        "full": "9999px"
-                    },
-                    "spacing": {
-                        "lg": "32px",
-                        "base": "4px",
-                        "grid_gutter": "16px",
-                        "grid_columns": "12",
-                        "xl": "48px",
-                        "sm": "12px",
-                        "grid_margin": "24px",
-                        "md": "20px",
-                        "xs": "8px"
-                    },
-                    "fontFamily": {
-                        "headline": ["Space Grotesk"],
-                        "body": ["Manrope"],
-                        "headline-md": ["Space Grotesk"],
-                        "body-md": ["Manrope"],
-                        "display-xl": ["Space Grotesk"],
-                        "body-lg": ["Manrope"],
-                        "headline-lg": ["Space Grotesk"],
-                        "label-caps": ["Manrope"],
-                        "stats-num": ["Space Grotesk"]
-                    },
-                    "fontSize": {
-                        "headline-md": ["24px", { "lineHeight": "1.2", "fontWeight": "600" }],
-                        "body-md": ["16px", { "lineHeight": "1.5", "fontWeight": "400" }],
-                        "display-xl": ["48px", { "lineHeight": "1.1", "letterSpacing": "-0.02em", "fontWeight": "700" }],
-                        "body-lg": ["18px", { "lineHeight": "1.6", "fontWeight": "400" }],
-                        "headline-lg": ["32px", { "lineHeight": "1.2", "letterSpacing": "-0.01em", "fontWeight": "700" }],
-                        "label-caps": ["12px", { "lineHeight": "1.0", "letterSpacing": "0.1em", "fontWeight": "800" }],
-                        "stats-num": ["20px", { "lineHeight": "1.0", "fontWeight": "700" }]
-                    }
-                },
-            },
+            darkMode:"class",
+            theme:{ extend:{
+                colors:{"on-surface-variant":"#c4c9ac","surface-tint":"#abd600","surface-container-highest":"#353535","error":"#ffb4ab","primary-fixed":"#c3f400","outline-variant":"#444933","primary-fixed-dim":"#abd600","surface-dim":"#131313","surface":"#131313","surface-container-lowest":"#0e0e0e","outline":"#8e9379","on-error":"#690005","primary-container":"#c3f400","secondary-fixed-dim":"#00daf3","surface-container":"#1f1f1f","error-container":"#93000a","surface-bright":"#393939","on-primary-fixed":"#161e00","surface-container-low":"#1b1b1b","on-primary":"#283500","on-primary-fixed-variant":"#3c4d00","background":"#131313","surface-container-high":"#2a2a2a","on-surface":"#e2e2e2","on-background":"#e2e2e2","secondary-fixed":"#9cefff","primary":"#ffffff"},
+                fontFamily:{headline:["Space Grotesk"],body:["Manrope"],"label-caps":["Manrope"],"stats-num":["Space Grotesk"]}
+            }}
         }
     </script>
+    <!-- Firebase -->
+    <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-database-compat.js"></script>
+    <script>
+        const firebaseConfig = { apiKey:"AIzaSyB_TO3XD2Uj_p62UroAvA57igN-XD4wVrU",authDomain:"trening-aura.firebaseapp.com",databaseURL:"https://trening-aura-default-rtdb.firebaseio.com",projectId:"trening-aura",storageBucket:"trening-aura.appspot.com",messagingSenderId:"237244099863",appId:"1:237244099863:web:3ffbcd47132da71b469b52" };
+        if (!firebase.apps.length) firebase.initializeApp(firebaseConfig);
+        const primaryDb = firebase.database();
+    </script>
+    <script src="./auth.js"></script>
 </head>
-
 <body class="bg-surface text-on-surface font-body tactical-grid min-h-screen pb-20 md:pb-0 pt-20">
-    <!-- TopNavBar -->
-    <header
-        class="fixed top-0 w-full z-50 bg-surface-dim/80 backdrop-blur-xl bg-gradient-to-b from-surface-container-high to-transparent shadow-[0_10px_40px_-15px_rgba(190,238,0,0.2)]">
-        <div class="flex justify-between items-center px-8 h-20 w-full max-w-full">
-            <div class="font-headline text-2xl font-bold tracking-tighter text-primary-dim">TRENING AURA</div>
-            <nav class="hidden md:flex items-center space-x-8">
-                <a class="text-primary-dim border-b-2 border-primary-dim pb-1 font-label-caps text-label-caps"
-                    href="./sobarena.html">Arena</a>
-                <a class="text-on-surface-variant font-label-caps text-label-caps hover:text-on-surface transition-colors"
-                    href="./sobbuttlesolo.html">Battles</a>
-                <a class="text-on-surface-variant font-label-caps text-label-caps hover:text-on-surface transition-colors"
-                    href="./sobteambuttel.html">Squads</a>
-                <a class="text-on-surface-variant font-label-caps text-label-caps hover:text-on-surface transition-colors"
-                    href="./sobshop.html">Market</a>
-            </nav>
-            <div class="flex items-center space-x-6">
-                <div class="flex items-center space-x-4">
-                    <button
-                        class="hover:bg-surface-container-highest/50 transition-all duration-300 p-2 rounded active:scale-95">
-                        <span class="material-symbols-outlined text-primary-dim">notifications_active</span>
-                    </button>
-                    <button
-                        class="hover:bg-surface-container-highest/50 transition-all duration-300 p-2 rounded active:scale-95">
-                        <span class="material-symbols-outlined text-primary-dim">sports_kabaddi</span>
-                    </button>
-                </div>
-                <div
-                    class="w-10 h-10 rounded-full border-2 border-primary-fixed-dim overflow-hidden shadow-[0_0_15px_rgba(190,238,0,0.3)]">
-                    <img alt="Athlete Profile" class="w-full h-full object-cover"
-                        data-alt="A close-up, high-contrast portrait of a determined professional runner with sweat glistening on their skin, illuminated by harsh neon lime and electric blue lighting. The runner wears high-tech carbon fiber eyewear that reflects a digital tactical interface. The background is a dark, out-of-focus urban environment with subtle bokeh from neon signs, creating an aggressive and hyper-modern athletic aesthetic."
-                        src="https://lh3.googleusercontent.com/aida-public/AB6AXuAz9IDWADA1qh6nuwPMr8kEYGKpkI4yTHfBV7aJkh6bSbtnAbRaEEyvvO1ZpWVTOYJctSn2HSeOHtgBJn0LrtuDWo9YlX-vTM5GzsLlGjRKglHXSYXEAfiV-64Ue5jLJJJ6H7vTv84IZcmXd0SWbtgXz81qz7h2903RRGgTiUqJJnWo9WdxWOi9X2g3MPXCxi6WL9xHgLwPVjOoT_azpmqumMMtMwnekFT_biqjJrIUf5__aW7bnyjEQ86nZzrDQL6-zkvtia7_06yL" />
-                </div>
-            </div>
-        </div>
-    </header>
-    <main class="max-w-[1920px] mx-auto px-8 py-8 grid grid-cols-12 gap-6 h-[calc(100vh-120px)] overflow-hidden">
-        <!-- Left Panel: User Stats & Leaderboard -->
-        <aside class="col-span-12 md:col-span-3 flex flex-col gap-6 overflow-y-auto pr-2 custom-scrollbar">
-            <!-- Profile Card -->
-            <div class="glass-panel p-6 relative bracket-tl bracket-br">
-                <div class="flex items-center justify-between mb-4">
-                    <h2 class="font-headline-md text-headline-md text-primary-fixed-dim uppercase tracking-tight">
-                        Operator Profile</h2>
-                    <span
-                        class="text-label-caps font-label-caps px-2 py-1 bg-primary-fixed-dim text-on-primary-fixed rounded">ACTIVE</span>
-                </div>
-                <div class="space-y-4">
-                    <div class="flex justify-between items-end">
-                        <div>
-                            <p class="text-label-caps font-label-caps text-on-surface-variant mb-1">XP Level 24</p>
-                            <p class="font-stats-num text-stats-num text-on-surface">34,500 / 40,000</p>
-                        </div>
-                        <span class="font-stats-num text-stats-num text-primary-fixed-dim">Rank #12</span>
-                    </div>
-                    <div class="h-2 w-full bg-surface-container-highest rounded-full overflow-hidden">
-                        <div class="h-full bg-primary-fixed-dim shadow-[0_0_10px_#c3f400]" style="width: 75%;"></div>
-                    </div>
-                    <div class="grid grid-cols-2 gap-4 pt-2 border-t border-outline-variant">
-                        <div>
-                            <p class="text-label-caps font-label-caps text-on-surface-variant">Captured</p>
-                            <p class="font-stats-num text-stats-num text-on-surface">15 Areas</p>
-                        </div>
-                        <div>
-                            <p class="text-label-caps font-label-caps text-on-surface-variant">Dominance</p>
-                            <p class="font-stats-num text-stats-num text-on-surface">62%</p>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <!-- Live Leaderboard -->
-            <div class="glass-panel flex-grow p-6 relative bracket-tl">
-                <h2
-                    class="font-headline-md text-headline-md text-on-surface mb-6 uppercase tracking-tight flex items-center gap-2">
-                    <span class="material-symbols-outlined text-primary-fixed-dim">military_tech</span>
-                    Global Pulse
-                </h2>
-                <div class="space-y-3">
-                    <div
-                        class="flex items-center justify-between p-3 bg-primary-fixed-dim/10 border border-primary-fixed-dim/20">
-                        <div class="flex items-center gap-3">
-                            <span class="font-stats-num text-stats-num text-primary-fixed-dim">01</span>
-                            <span class="font-body-md text-body-md text-on-surface">V_SPECTER</span>
-                        </div>
-                        <span class="text-label-caps font-label-caps text-primary-fixed-dim">98.2 KM</span>
-                    </div>
-                    <div
-                        class="flex items-center justify-between p-3 bg-surface-container-low border border-outline-variant">
-                        <div class="flex items-center gap-3">
-                            <span class="font-stats-num text-stats-num text-on-surface-variant">02</span>
-                            <span class="font-body-md text-body-md text-on-surface">KINETIC_X</span>
-                        </div>
-                        <span class="text-label-caps font-label-caps text-on-surface-variant">94.1 KM</span>
-                    </div>
-                    <div
-                        class="flex items-center justify-between p-3 bg-surface-container-low border border-outline-variant">
-                        <div class="flex items-center gap-3">
-                            <span class="font-stats-num text-stats-num text-on-surface-variant">03</span>
-                            <span class="font-body-md text-body-md text-on-surface">DRIFT_KING</span>
-                        </div>
-                        <span class="text-label-caps font-label-caps text-on-surface-variant">89.5 KM</span>
-                    </div>
-                    <div
-                        class="flex items-center justify-between p-3 bg-surface-container-low border border-outline-variant">
-                        <div class="flex items-center gap-3">
-                            <span class="font-stats-num text-stats-num text-on-surface-variant">04</span>
-                            <span class="font-body-md text-body-md text-on-surface">AURA_MASTER</span>
-                        </div>
-                        <span class="text-label-caps font-label-caps text-on-surface-variant">88.2 KM</span>
-                    </div>
-                </div>
-            </div>
-        </aside>
-        <!-- Center Panel: Interactive Map UI -->
-        <section
-            class="col-span-12 md:col-span-6 relative overflow-hidden glass-panel border-primary-fixed-dim/30 shadow-[0_0_50px_rgba(195,244,0,0.1)]">
-            <div class="scanline"></div>
-            <div class="absolute inset-0 z-0">
-                <img class="w-full h-full object-cover opacity-60 grayscale brightness-50"
-                    data-alt="A top-down, high-tech satellite map of a sprawling urban city at night, reimagined as a tactical dashboard interface. Large geometric territories are highlighted in glowing neon lime to represent captured zones, while others remain in deep charcoal gray with thin blue outlines for contested areas. The map is overlaid with a subtle 5% opacity tactical grid, pulsing data points, and glowing orange route markers, creating a futuristic cyberpunk-glassmorphism aesthetic."
-                    data-location="Tashkent"
-                    src="https://lh3.googleusercontent.com/aida-public/AB6AXuC_kjjAhRbyI0tEsVbtlQOtWXWEHeq0rVzg9OfVRM1vetiEYGcWn4e3P1gaeMRGsSL8bWNMod-MAz9cy_Uh80Jam8GA_k-MZXT6MNo2jb1bnXYkdJFgb3fXZbXQ0DI-5bfWAa1Gnjzykii-en2-JuxJNVoKLxzTcuR0eTsvGK1XaGsGtcLTPDttncA7hwXR5RTuhoonJpafG_8m-i2fdp1vHtL_OD5hbTD_yjzAAXt3vZG09mNWq7Oi1eudt4P426bJCjs89DjA-Jf0" />
-                <!-- Tactical Overlays (Simulated SVG/Elements) -->
-                <svg class="absolute inset-0 w-full h-full pointer-events-none" preserveaspectratio="none"
-                    viewbox="0 0 100 100">
-                    <path d="M20 20 L40 20 L45 35 L30 50 Z" fill="rgba(195, 244, 0, 0.4)" stroke="#c3f400"
-                        stroke-width="0.5"></path>
-                    <path d="M60 10 L85 15 L80 40 L55 35 Z" fill="rgba(195, 244, 0, 0.2)" stroke="#c3f400"
-                        stroke-width="0.5"></path>
-                    <circle cx="50" cy="50" fill="#c3f400" r="1">
-                        <animate attributename="r" dur="2s" repeatcount="indefinite" values="1;3;1"></animate>
-                        <animate attributename="opacity" dur="2s" repeatcount="indefinite" values="1;0;1"></animate>
-                    </circle>
-                </svg>
-            </div>
-            <!-- HUD Elements -->
-            <div class="absolute top-6 left-6 right-6 flex justify-between pointer-events-none">
-                <div class="bg-surface-dim/80 backdrop-blur-md p-4 border border-primary-fixed-dim/50 bracket-tl">
-                    <p class="text-label-caps font-label-caps text-primary-fixed-dim mb-1">Sector Status</p>
-                    <p class="font-headline-md text-headline-md text-on-surface">SHIBUYA DISTRICT [CAPTURED]</p>
-                </div>
-                <div class="bg-surface-dim/80 backdrop-blur-md p-4 border border-secondary-fixed-dim/50 text-right">
-                    <p class="text-label-caps font-label-caps text-secondary-fixed-dim mb-1">Combatants</p>
-                    <p class="font-headline-md text-headline-md text-on-surface">1,242 ACTIVE</p>
-                </div>
-            </div>
-            <div class="absolute bottom-6 left-6 right-6 flex items-center justify-center pointer-events-none">
-                <div class="bg-surface-dim/90 backdrop-blur-xl p-2 px-8 border-x-2 border-primary-fixed-dim">
-                    <div class="flex gap-12">
-                        <div class="text-center">
-                            <p class="text-label-caps font-label-caps text-on-surface-variant">Global Area Captured</p>
-                            <p class="font-stats-num text-stats-num text-primary-fixed-dim">12,492 km²</p>
-                        </div>
-                        <div class="text-center">
-                            <p class="text-label-caps font-label-caps text-on-surface-variant">Team Aura Control</p>
-                            <p class="font-stats-num text-stats-num text-secondary-fixed-dim">44.8%</p>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </section>
-        <!-- Right Panel: Analytics & Feed -->
-        <aside class="col-span-12 md:col-span-3 flex flex-col gap-6 overflow-y-auto pl-2 custom-scrollbar">
-            <!-- AI Run Analytics -->
-            <div class="glass-panel p-6 relative bracket-br">
-                <h2
-                    class="font-headline-md text-headline-md text-secondary-fixed-dim mb-6 uppercase tracking-tight flex items-center gap-2">
-                    <span class="material-symbols-outlined text-secondary-fixed-dim">insights</span>
-                    AI Run Analytics
-                </h2>
-                <div class="space-y-6">
-                    <div class="flex items-center gap-4">
-                        <div
-                            class="w-12 h-12 rounded-full border-2 border-primary-fixed-dim flex items-center justify-center">
-                            <span class="material-symbols-outlined text-primary-fixed-dim">speed</span>
-                        </div>
-                        <div>
-                            <p class="text-label-caps font-label-caps text-on-surface-variant">Current Pace</p>
-                            <p class="font-stats-num text-stats-num text-on-surface">4'20" /km</p>
-                        </div>
-                    </div>
-                    <div class="flex items-center gap-4">
-                        <div
-                            class="w-12 h-12 rounded-full border-2 border-secondary-fixed-dim flex items-center justify-center">
-                            <span
-                                class="material-symbols-outlined text-secondary-fixed-dim">local_fire_department</span>
-                        </div>
-                        <div>
-                            <p class="text-label-caps font-label-caps text-on-surface-variant">Energy Output</p>
-                            <p class="font-stats-num text-stats-num text-on-surface">450 Kcal</p>
-                        </div>
-                    </div>
-                    <div class="pt-4 border-t border-outline-variant">
-                        <div class="flex justify-between items-center mb-2">
-                            <p class="text-label-caps font-label-caps text-on-surface-variant uppercase">Route Opt Score
-                            </p>
-                            <span class="font-stats-num text-stats-num text-primary-fixed-dim">94%</span>
-                        </div>
-                        <div class="h-1 w-full bg-surface-container-highest">
-                            <div class="h-full bg-secondary-fixed-dim shadow-[0_0_8px_#00daf3]" style="width: 94%;">
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <!-- Player Movement Ticker -->
-            <div class="glass-panel flex-grow p-6 relative">
-                <h2 class="font-headline-md text-headline-md text-on-surface mb-6 uppercase tracking-tight">Signal Feed
-                </h2>
-                <div class="space-y-4 font-mono text-[11px]">
-                    <div class="flex gap-3 opacity-80 border-l-2 border-primary-fixed-dim pl-3">
-                        <span class="text-primary-fixed-dim">[12:45:02]</span>
-                        <span class="text-on-surface">PLAYER_092 CAPTURED 'NEO-MINATO' DISTRICT</span>
-                    </div>
-                    <div class="flex gap-3 opacity-80 border-l-2 border-secondary-fixed-dim pl-3">
-                        <span class="text-secondary-fixed-dim">[12:44:58]</span>
-                        <span class="text-on-surface">SQUAD_EPSILON DEPLOYED SPEED_BOOST BUFF</span>
-                    </div>
-                    <div class="flex gap-3 opacity-80 border-l-2 border-error pl-3">
-                        <span class="text-error">[12:44:12]</span>
-                        <span class="text-on-surface">WARNING: SECTOR 45 ENCOUNTERING HEAVY CONTEST</span>
-                    </div>
-                    <div class="flex gap-3 opacity-80 border-l-2 border-primary-fixed-dim pl-3">
-                        <span class="text-primary-fixed-dim">[12:43:55]</span>
-                        <span class="text-on-surface">V_SPECTER REACHED NEW MAX SPEED: 21.4 KM/H</span>
-                    </div>
-                    <div class="flex gap-3 opacity-60 border-l-2 border-outline pl-3">
-                        <span class="text-on-surface-variant">[12:42:10]</span>
-                        <span class="text-on-surface-variant">SYSTEM SYNC COMPLETE. HEART RATE STABLE.</span>
-                    </div>
-                </div>
-            </div>
-            <button
-                class="bg-primary-fixed-dim text-on-primary-fixed font-headline font-bold py-4 uppercase tracking-widest flex items-center justify-center gap-2 shadow-[0_0_20px_rgba(195,244,0,0.4)] hover:brightness-110 active:scale-95 transition-all">
-                <span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">bolt</span>
-                Deploy Aura Pulse
-            </button>
-        </aside>
-    </main>
-    <!-- BottomNavBar (Mobile Only) -->
-    <nav
-        class="md:hidden fixed bottom-0 w-full z-50 bg-surface-dim/90 backdrop-blur-2xl bg-surface-container-high shadow-[0_-8px_30px_rgba(0,227,253,0.15)] rounded-t-xl">
-        <div class="flex justify-around items-center h-16 px-4">
-            <div class="flex flex-col items-center justify-center text-primary-dim scale-110">
-                <span class="material-symbols-outlined" data-weight="fill">bolt</span>
-                <span class="font-label-caps text-[10px] font-bold uppercase">Pulse</span>
-            </div>
-            <div class="flex flex-col items-center justify-center text-on-surface-variant">
-                <span class="material-symbols-outlined">swords</span>
-                <span class="font-label-caps text-[10px] font-bold uppercase">Battle</span>
-            </div>
-            <div
-                class="flex flex-col items-center justify-center text-on-surface-variant bg-primary-fixed-dim/20 rounded-full w-12 h-12 -mt-8 border-2 border-primary-fixed-dim">
-                <span class="material-symbols-outlined text-primary-fixed-dim">qr_code_scanner</span>
-            </div>
-            <div class="flex flex-col items-center justify-center text-on-surface-variant">
-                <span class="material-symbols-outlined">military_tech</span>
-                <span class="font-label-caps text-[10px] font-bold uppercase">Ranks</span>
-            </div>
-            <div class="flex flex-col items-center justify-center text-on-surface-variant">
-                <span class="material-symbols-outlined">person</span>
-                <span class="font-label-caps text-[10px] font-bold uppercase">Profile</span>
-            </div>
-        </div>
-    </nav>
-    <!-- Footer (Web Only) -->
-    <footer
-        class="hidden md:block bg-surface-container-lowest w-full py-12 px-8 bg-surface-container-low border-t border-outline-variant/30">
-        <div class="grid grid-cols-1 md:grid-cols-2 gap-8 items-center max-w-7xl mx-auto">
-            <div>
-                <p class="font-headline text-xl text-on-surface mb-2">TRENING AURA</p>
-                <p class="font-label-caps text-sm uppercase tracking-widest text-secondary-dim">© 2024 TRENING AURA.
-                    LIMITLESS KINETIC ENERGY.</p>
-            </div>
-            <div class="flex flex-wrap gap-6 justify-end">
-                <a class="font-label-caps text-sm uppercase tracking-widest text-on-tertiary-fixed-variant hover:text-secondary-fixed transition-colors duration-200"
-                    href="#">Global Leaderboard</a>
-                <a class="font-label-caps text-sm uppercase tracking-widest text-on-tertiary-fixed-variant hover:text-secondary-fixed transition-colors duration-200"
-                    href="#">Team Recruitment</a>
-                <a class="font-label-caps text-sm uppercase tracking-widest text-on-tertiary-fixed-variant hover:text-secondary-fixed transition-colors duration-200"
-                    href="#">Discord Pulse</a>
-                <a class="font-label-caps text-sm uppercase tracking-widest text-on-tertiary-fixed-variant hover:text-secondary-fixed transition-colors duration-200"
-                    href="#">Neural Privacy</a>
-            </div>
-        </div>
-    </footer>
-</body>
 
+<!-- Toast -->
+<div id="toast"></div>
+
+<!-- TopNavBar -->
+<header class="fixed top-0 w-full z-50 bg-surface-dim/80 backdrop-blur-xl shadow-[0_10px_40px_-15px_rgba(190,238,0,0.2)]">
+    <div class="flex justify-between items-center px-8 h-20 w-full max-w-full">
+        <div class="font-headline text-2xl font-bold tracking-tighter text-primary-fixed-dim">TRENING AURA</div>
+        <nav class="hidden md:flex items-center space-x-8">
+            <a class="text-primary-fixed-dim border-b-2 border-primary-fixed-dim pb-1 font-label-caps text-xs uppercase tracking-widest" href="./sobarena.html">Arena</a>
+            <a class="text-on-surface-variant font-label-caps text-xs uppercase tracking-widest hover:text-on-surface transition-colors" href="./sobbuttlesolo.html">Battles</a>
+            <a class="text-on-surface-variant font-label-caps text-xs uppercase tracking-widest hover:text-on-surface transition-colors" href="./sobteambuttel.html">Squads</a>
+            <a class="text-on-surface-variant font-label-caps text-xs uppercase tracking-widest hover:text-on-surface transition-colors" href="./sobshop.html">Market</a>
+        </nav>
+        <div class="flex items-center space-x-4">
+            <!-- Notifications -->
+            <button onclick="toggleNotifications()" class="relative hover:bg-surface-container-highest/50 transition-all p-2 rounded active:scale-95">
+                <span class="material-symbols-outlined text-primary-fixed-dim">notifications_active</span>
+                <span class="notif-dot" id="notif-dot"></span>
+            </button>
+            <!-- Notifications Dropdown -->
+            <div id="notif-panel" class="hidden absolute top-16 right-32 w-72 glass-panel rounded-xl p-4 z-50 shadow-2xl">
+                <p class="font-headline text-xs uppercase tracking-widest text-primary-fixed-dim mb-3">Notifications</p>
+                <div class="space-y-2 text-xs text-on-surface-variant font-body">
+                    <div class="border-l-2 border-primary-fixed-dim pl-3 py-1">V_SPECTER captured your zone!</div>
+                    <div class="border-l-2 border-secondary-fixed-dim pl-3 py-1">New squad battle started nearby</div>
+                    <div class="border-l-2 border-outline pl-3 py-1">Weekly leaderboard reset in 2h</div>
+                </div>
+            </div>
+            <!-- Challenge -->
+            <button onclick="showToast('⚔️ Challenge sent to nearby runners!')" class="hover:bg-surface-container-highest/50 transition-all p-2 rounded active:scale-95">
+                <span class="material-symbols-outlined text-primary-fixed-dim">sports_kabaddi</span>
+            </button>
+            <!-- Avatar -->
+            <a href="./profil.html">
+                <div class="nav-avatar" id="nav-avatar-circle" data-profile-initials>?</div>
+            </a>
+        </div>
+    </div>
+</header>
+
+<main class="max-w-[1920px] mx-auto px-8 py-8 grid grid-cols-12 gap-6 h-[calc(100vh-120px)] overflow-hidden">
+    <!-- Left Panel -->
+    <aside class="col-span-12 md:col-span-3 flex flex-col gap-6 overflow-y-auto pr-2">
+        <!-- Profile Card -->
+        <div class="glass-panel p-6 relative bracket-tl bracket-br">
+            <div class="flex items-center justify-between mb-4">
+                <h2 class="font-headline text-lg text-primary-fixed-dim uppercase tracking-tight">Operator Profile</h2>
+                <span class="text-xs font-bold px-2 py-1 bg-primary-fixed-dim text-on-primary-fixed rounded uppercase">ACTIVE</span>
+            </div>
+            <div class="flex items-center gap-3 mb-4">
+                <div class="w-12 h-12 rounded-full border-2 border-primary-fixed-dim flex items-center justify-center bg-surface-container-high font-headline font-black text-primary-fixed-dim text-lg" data-profile-initials>?</div>
+                <div>
+                    <p class="font-headline font-bold text-on-surface" data-profile-name>Loading...</p>
+                    <p class="text-xs text-on-surface-variant" data-profile-goal>—</p>
+                </div>
+            </div>
+            <div class="space-y-4">
+                <div class="flex justify-between items-end">
+                    <div>
+                        <p class="text-xs font-bold text-on-surface-variant mb-1 uppercase tracking-widest" data-profile-level>XP Level 1</p>
+                        <p class="font-headline font-bold text-on-surface" data-profile-xp>0 / 1,000</p>
+                    </div>
+                    <span class="font-headline font-bold text-primary-fixed-dim" data-profile-rank>Rank #—</span>
+                </div>
+                <div class="h-2 w-full bg-surface-container-highest rounded-full overflow-hidden">
+                    <div class="h-full bg-primary-fixed-dim shadow-[0_0_10px_#c3f400] transition-all duration-1000" data-profile-xp-bar style="width:0%"></div>
+                </div>
+                <div class="grid grid-cols-2 gap-4 pt-2 border-t border-outline-variant">
+                    <div>
+                        <p class="text-xs text-on-surface-variant uppercase tracking-widest">Captured</p>
+                        <p class="font-headline font-bold text-on-surface" id="stat-areas">—</p>
+                    </div>
+                    <div>
+                        <p class="text-xs text-on-surface-variant uppercase tracking-widest">Dominance</p>
+                        <p class="font-headline font-bold text-on-surface" id="stat-dominance">—</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- Live Leaderboard -->
+        <div class="glass-panel flex-grow p-6 relative bracket-tl">
+            <h2 class="font-headline text-base text-on-surface mb-4 uppercase tracking-tight flex items-center gap-2">
+                <span class="material-symbols-outlined text-primary-fixed-dim">military_tech</span>
+                Global Pulse
+            </h2>
+            <div id="leaderboard-list" class="space-y-3">
+                <div class="text-xs text-on-surface-variant font-body animate-pulse">Loading leaderboard...</div>
+            </div>
+        </div>
+    </aside>
+
+    <!-- Center: Map -->
+    <section class="col-span-12 md:col-span-6 relative overflow-hidden glass-panel border-primary-fixed-dim/30 shadow-[0_0_50px_rgba(195,244,0,0.1)]">
+        <div class="scanline"></div>
+        <div class="absolute inset-0 z-0">
+            <img class="w-full h-full object-cover opacity-60 grayscale brightness-50" src="https://lh3.googleusercontent.com/aida-public/AB6AXuC_kjjAhRbyI0tEsVbtlQOtWXWEHeq0rVzg9OfVRM1vetiEYGcWn4e3P1gaeMRGsSL8bWNMod-MAz9cy_Uh80Jam8GA_k-MZXT6MNo2jb1bnXYkdJFgb3fXZbXQ0DI-5bfWAa1Gnjzykii-en2-JuxJNVoKLxzTcuR0eTsvGK1XaGsGtcLTPDttncA7hwXR5RTuhoonJpafG_8m-i2fdp1vHtL_OD5hbTD_yjzAAXt3vZG09mNWq7Oi1eudt4P426bJCjs89DjA-Jf0" alt="Tactical Map" />
+            <svg class="absolute inset-0 w-full h-full pointer-events-none" viewBox="0 0 100 100" preserveAspectRatio="none">
+                <path d="M20 20 L40 20 L45 35 L30 50 Z" fill="rgba(195,244,0,0.4)" stroke="#c3f400" stroke-width="0.5"/>
+                <path d="M60 10 L85 15 L80 40 L55 35 Z" fill="rgba(195,244,0,0.2)" stroke="#c3f400" stroke-width="0.5"/>
+                <circle cx="50" cy="50" fill="#c3f400" r="1">
+                    <animate attributeName="r" values="1;3;1" dur="2s" repeatCount="indefinite"/>
+                    <animate attributeName="opacity" values="1;0;1" dur="2s" repeatCount="indefinite"/>
+                </circle>
+            </svg>
+        </div>
+        <!-- HUD -->
+        <div class="absolute top-6 left-6 right-6 flex justify-between pointer-events-none">
+            <div class="bg-surface-dim/80 backdrop-blur-md p-4 border border-primary-fixed-dim/50 bracket-tl">
+                <p class="text-xs font-bold text-primary-fixed-dim mb-1 uppercase tracking-widest">Sector Status</p>
+                <p class="font-headline text-lg text-on-surface">TASHKENT [CONTESTED]</p>
+            </div>
+            <div class="bg-surface-dim/80 backdrop-blur-md p-4 border border-secondary-fixed-dim/50 text-right">
+                <p class="text-xs font-bold text-secondary-fixed-dim mb-1 uppercase tracking-widest">Combatants</p>
+                <p class="font-headline text-lg text-on-surface" id="live-count">—</p>
+            </div>
+        </div>
+        <div class="absolute bottom-6 left-6 right-6 flex items-center justify-center pointer-events-none">
+            <div class="bg-surface-dim/90 backdrop-blur-xl p-2 px-8 border-x-2 border-primary-fixed-dim">
+                <div class="flex gap-12">
+                    <div class="text-center">
+                        <p class="text-xs text-on-surface-variant uppercase tracking-widest">Global Area Captured</p>
+                        <p class="font-headline font-bold text-primary-fixed-dim" id="global-km">—</p>
+                    </div>
+                    <div class="text-center">
+                        <p class="text-xs text-on-surface-variant uppercase tracking-widest">Team Aura Control</p>
+                        <p class="font-headline font-bold text-secondary-fixed-dim" id="team-control">—</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Right Panel -->
+    <aside class="col-span-12 md:col-span-3 flex flex-col gap-6 overflow-y-auto pl-2">
+        <!-- Analytics -->
+        <div class="glass-panel p-6 relative bracket-br">
+            <h2 class="font-headline text-base text-secondary-fixed-dim mb-6 uppercase tracking-tight flex items-center gap-2">
+                <span class="material-symbols-outlined text-secondary-fixed-dim">insights</span>
+                AI Run Analytics
+            </h2>
+            <div class="space-y-6">
+                <div class="flex items-center gap-4">
+                    <div class="w-12 h-12 rounded-full border-2 border-primary-fixed-dim flex items-center justify-center">
+                        <span class="material-symbols-outlined text-primary-fixed-dim">speed</span>
+                    </div>
+                    <div>
+                        <p class="text-xs text-on-surface-variant uppercase tracking-widest">Current Pace</p>
+                        <p class="font-headline font-bold text-on-surface" id="pace-stat">— /km</p>
+                    </div>
+                </div>
+                <div class="flex items-center gap-4">
+                    <div class="w-12 h-12 rounded-full border-2 border-secondary-fixed-dim flex items-center justify-center">
+                        <span class="material-symbols-outlined text-secondary-fixed-dim">local_fire_department</span>
+                    </div>
+                    <div>
+                        <p class="text-xs text-on-surface-variant uppercase tracking-widest">Energy Output</p>
+                        <p class="font-headline font-bold text-on-surface" id="energy-stat">— Kcal</p>
+                    </div>
+                </div>
+                <div class="pt-4 border-t border-outline-variant">
+                    <div class="flex justify-between items-center mb-2">
+                        <p class="text-xs text-on-surface-variant uppercase tracking-widest">Route Opt Score</p>
+                        <span class="font-headline font-bold text-primary-fixed-dim" id="route-score">—%</span>
+                    </div>
+                    <div class="h-1 w-full bg-surface-container-highest">
+                        <div class="h-full bg-secondary-fixed-dim shadow-[0_0_8px_#00daf3] transition-all duration-1000" id="route-bar" style="width:0%"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- Signal Feed -->
+        <div class="glass-panel flex-grow p-6 relative">
+            <h2 class="font-headline text-base text-on-surface mb-4 uppercase tracking-tight">Signal Feed</h2>
+            <div id="signal-feed" class="space-y-3 font-mono text-[11px]">
+                <div class="text-on-surface-variant animate-pulse">Connecting to feed...</div>
+            </div>
+        </div>
+        <!-- Deploy Button -->
+        <button onclick="deployAuraPulse()"
+            class="bg-primary-fixed-dim text-on-primary-fixed font-headline font-bold py-4 uppercase tracking-widest flex items-center justify-center gap-2 shadow-[0_0_20px_rgba(195,244,0,0.4)] hover:brightness-110 active:scale-95 transition-all rounded">
+            <span class="material-symbols-outlined" style="font-variation-settings:'FILL' 1;">bolt</span>
+            Deploy Aura Pulse
+        </button>
+    </aside>
+</main>
+
+<!-- Mobile Bottom Nav -->
+<nav class="md:hidden fixed bottom-0 w-full z-50 bg-surface-dim/90 backdrop-blur-2xl border-t border-surface-container-high shadow-[0_-8px_30px_rgba(0,227,253,0.15)] rounded-t-xl">
+    <div class="flex justify-around items-center h-16 px-4">
+        <a href="./sobarena.html" class="flex flex-col items-center justify-center text-primary-fixed-dim scale-110">
+            <span class="material-symbols-outlined">bolt</span>
+            <span class="font-body text-[10px] font-bold uppercase">Pulse</span>
+        </a>
+        <a href="./sobbuttlesolo.html" class="flex flex-col items-center justify-center text-on-surface-variant">
+            <span class="material-symbols-outlined">swords</span>
+            <span class="font-body text-[10px] font-bold uppercase">Battle</span>
+        </a>
+        <a href="./profil.html" class="flex flex-col items-center justify-center text-on-surface-variant bg-primary-fixed-dim/20 rounded-full w-12 h-12 -mt-8 border-2 border-primary-fixed-dim">
+            <span class="material-symbols-outlined text-primary-fixed-dim">qr_code_scanner</span>
+        </a>
+        <a href="./sobteambuttel.html" class="flex flex-col items-center justify-center text-on-surface-variant">
+            <span class="material-symbols-outlined">military_tech</span>
+            <span class="font-body text-[10px] font-bold uppercase">Ranks</span>
+        </a>
+        <a href="./profil.html" class="flex flex-col items-center justify-center text-on-surface-variant">
+            <span class="material-symbols-outlined">person</span>
+            <span class="font-body text-[10px] font-bold uppercase">Profile</span>
+        </a>
+    </div>
+</nav>
+
+<script>
+// ─── Toast ───────────────────────────────────────────────────
+function showToast(msg, duration = 3000) {
+    const t = document.getElementById('toast');
+    t.textContent = msg;
+    t.classList.add('show');
+    setTimeout(() => t.classList.remove('show'), duration);
+}
+
+// ─── Notifications Panel ─────────────────────────────────────
+let notifOpen = false;
+function toggleNotifications() {
+    const panel = document.getElementById('notif-panel');
+    const dot = document.getElementById('notif-dot');
+    notifOpen = !notifOpen;
+    panel.classList.toggle('hidden', !notifOpen);
+    if (notifOpen) dot.style.display = 'none';
+}
+document.addEventListener('click', e => {
+    if (!e.target.closest('#notif-panel') && !e.target.closest('button')) {
+        document.getElementById('notif-panel')?.classList.add('hidden');
+        notifOpen = false;
+    }
+});
+
+// ─── Deploy Aura Pulse ────────────────────────────────────────
+let pulseActive = false;
+function deployAuraPulse() {
+    const btn = document.querySelector('button[onclick="deployAuraPulse()"]');
+    if (pulseActive) {
+        pulseActive = false;
+        btn.textContent = '';
+        btn.innerHTML = '<span class="material-symbols-outlined" style="font-variation-settings:\'FILL\' 1;">bolt</span> Deploy Aura Pulse';
+        btn.classList.remove('bg-red-500/80');
+        btn.classList.add('bg-primary-fixed-dim');
+        showToast('🔴 Aura Pulse deactivated');
+        return;
+    }
+    pulseActive = true;
+    btn.innerHTML = '<span class="material-symbols-outlined animate-spin">refresh</span> PULSE ACTIVE — TAP TO STOP';
+    btn.classList.remove('bg-primary-fixed-dim');
+    btn.classList.add('bg-red-500/80');
+    showToast('⚡ Aura Pulse deployed! Your zone is expanding.');
+
+    // Add signal feed entry
+    addSignalEntry('primary', `${new Date().toLocaleTimeString()} — YOUR AURA PULSE DEPLOYED`);
+
+    // Simulate stats update
+    document.getElementById('pace-stat').textContent = "4'12\" /km";
+    document.getElementById('energy-stat').textContent = '512 Kcal';
+    document.getElementById('route-score').textContent = '97%';
+    document.getElementById('route-bar').style.width = '97%';
+}
+
+// ─── Signal Feed ─────────────────────────────────────────────
+const feedMessages = [
+    ['primary', 'PLAYER_092 CAPTURED NEO-MINATO DISTRICT'],
+    ['secondary', 'SQUAD_EPSILON DEPLOYED SPEED_BOOST BUFF'],
+    ['error', 'WARNING: SECTOR 45 HEAVY CONTEST'],
+    ['primary', 'V_SPECTER REACHED NEW MAX SPEED: 21.4 KM/H'],
+    ['outline', 'SYSTEM SYNC COMPLETE. HEART RATE STABLE.'],
+    ['primary', 'NEW TERRITORY AVAILABLE: TASHKENT NORTH'],
+    ['secondary', 'BONUS XP EVENT STARTED — 2X FOR 30 MIN'],
+];
+let feedIdx = 0;
+
+function addSignalEntry(type, msg) {
+    const feed = document.getElementById('signal-feed');
+    const colors = { primary:'#c3f400', secondary:'#00daf3', error:'#ffb4ab', outline:'#8e9379' };
+    const color = colors[type] || colors.outline;
+    const time = new Date().toLocaleTimeString('en', { hour12:false });
+    const el = document.createElement('div');
+    el.className = 'flex gap-3 opacity-80 pl-3';
+    el.style.borderLeft = `2px solid ${color}`;
+    el.innerHTML = `<span style="color:${color}">[${time}]</span><span class="text-on-surface">${msg}</span>`;
+    feed.insertBefore(el, feed.firstChild);
+    if (feed.children.length > 8) feed.removeChild(feed.lastChild);
+}
+
+function startSignalFeed() {
+    document.getElementById('signal-feed').innerHTML = '';
+    // Show a few initial entries
+    for (let i = 3; i >= 0; i--) {
+        const m = feedMessages[i];
+        addSignalEntry(m[0], m[1]);
+    }
+    feedIdx = 4;
+    setInterval(() => {
+        const m = feedMessages[feedIdx % feedMessages.length];
+        addSignalEntry(m[0], m[1]);
+        feedIdx++;
+    }, 5000);
+}
+
+// ─── Live Stats (simulated with Firebase flavor) ─────────────
+function loadArenaStats() {
+    // Simulated live stats — in real app these come from Firebase
+    document.getElementById('live-count').textContent = Math.floor(900 + Math.random() * 400) + ' ACTIVE';
+    document.getElementById('global-km').textContent = (12000 + Math.floor(Math.random() * 500)).toLocaleString() + ' km²';
+    document.getElementById('team-control').textContent = (40 + Math.floor(Math.random() * 10)) + '%';
+    document.getElementById('stat-areas').textContent = '15 Areas';
+    document.getElementById('stat-dominance').textContent = '62%';
+    document.getElementById('pace-stat').textContent = "4'20\" /km";
+    document.getElementById('energy-stat').textContent = '450 Kcal';
+    document.getElementById('route-score').textContent = '94%';
+    document.getElementById('route-bar').style.width = '94%';
+}
+
+// ─── Leaderboard from Firebase ────────────────────────────────
+async function loadLeaderboard() {
+    const container = document.getElementById('leaderboard-list');
+    try {
+        // Try to get real community posts authors as leaderboard
+        const communityApp = firebase.apps.find(a => a.name === 'secondary') ||
+            firebase.initializeApp({
+                apiKey:"AIzaSyDSf3wSUxxjZMp4-AvcxKBoWpKMBZWCtZc",
+                databaseURL:"https://trening-aura-2d26f-default-rtdb.firebaseio.com",
+                projectId:"trening-aura-2d26f"
+            }, 'secondary_arena');
+        const snap = await communityApp.database().ref('community_posts').orderByChild('createdAt').limitToLast(20).once('value');
+        const posts = [];
+        snap.forEach(c => posts.push(c.val()));
+
+        // Count posts per user as "score"
+        const userMap = {};
+        posts.forEach(p => {
+            if (!userMap[p.authorId]) userMap[p.authorId] = { name: p.authorName, score: 0 };
+            userMap[p.authorId].score++;
+        });
+        const sorted = Object.values(userMap).sort((a,b) => b.score - a.score).slice(0, 5);
+
+        if (sorted.length === 0) throw new Error('empty');
+
+        container.innerHTML = sorted.map((u, i) => {
+            const isFirst = i === 0;
+            return `<div class="flex items-center justify-between p-3 ${isFirst ? 'bg-primary-fixed-dim/10 border border-primary-fixed-dim/20' : 'bg-surface-container-low border border-outline-variant'}">
+                <div class="flex items-center gap-3">
+                    <span class="font-headline font-bold ${isFirst ? 'text-primary-fixed-dim' : 'text-on-surface-variant'}">0${i+1}</span>
+                    <span class="font-body text-sm text-on-surface">${u.name.split(' ')[0].toUpperCase()}_${(u.name.split(' ')[1]||'')[0]||'X'}</span>
+                </div>
+                <span class="text-xs font-bold ${isFirst ? 'text-primary-fixed-dim' : 'text-on-surface-variant'}">${u.score} POSTS</span>
+            </div>`;
+        }).join('');
+    } catch(e) {
+        // Fallback static leaderboard
+        container.innerHTML = [
+            ['V_SPECTER','98.2 KM',true],
+            ['KINETIC_X','94.1 KM',false],
+            ['DRIFT_KING','89.5 KM',false],
+            ['AURA_MASTER','88.2 KM',false],
+        ].map(([name, score, first], i) => `
+            <div class="flex items-center justify-between p-3 ${first ? 'bg-primary-fixed-dim/10 border border-primary-fixed-dim/20' : 'bg-surface-container-low border border-outline-variant'}">
+                <div class="flex items-center gap-3">
+                    <span class="font-headline font-bold ${first ? 'text-primary-fixed-dim' : 'text-on-surface-variant'}">0${i+1}</span>
+                    <span class="font-body text-sm text-on-surface">${name}</span>
+                </div>
+                <span class="text-xs font-bold ${first ? 'text-primary-fixed-dim' : 'text-on-surface-variant'}">${score}</span>
+            </div>`).join('');
+    }
+}
+
+// ─── User Init ────────────────────────────────────────────────
+function initUser() {
+    let user = null;
+    if (typeof AuraAuth !== 'undefined') {
+        try { AuraAuth.init(); user = AuraAuth.getCurrentUser(); } catch(e) {}
+    }
+    if (!user) {
+        try { const r = localStorage.getItem('aura_user'); if (r) user = JSON.parse(r); } catch(e) {}
+    }
+
+    const initials = user ? getInitials(user.name || user.displayName) : '?';
+    const name = user ? (user.name || user.displayName || 'OPERATOR') : 'GUEST';
+    const goal = user ? (user.goal || 'Max Performance') : '—';
+    const level = user?.level || 1;
+    const xp = user?.xp || 0;
+    const xpNeeded = level * 1000;
+    const xpPct = Math.min(100, Math.round((xp / xpNeeded) * 100));
+
+    document.querySelectorAll('[data-profile-initials]').forEach(el => el.textContent = initials);
+    document.querySelectorAll('[data-profile-name]').forEach(el => el.textContent = name);
+    document.querySelectorAll('[data-profile-goal]').forEach(el => el.textContent = goal);
+    document.querySelectorAll('[data-profile-level]').forEach(el => el.textContent = 'XP Level ' + level);
+    document.querySelectorAll('[data-profile-xp]').forEach(el => el.textContent = xp.toLocaleString() + ' / ' + xpNeeded.toLocaleString());
+    document.querySelectorAll('[data-profile-xp-bar]').forEach(el => el.style.width = xpPct + '%');
+    document.querySelectorAll('[data-profile-rank]').forEach(el => el.textContent = 'Rank #' + (user?.rank || '—'));
+}
+
+function getInitials(name) {
+    if (!name) return '?';
+    const p = name.trim().split(' ');
+    return p.length >= 2 ? (p[0][0]+p[1][0]).toUpperCase() : p[0].slice(0,2).toUpperCase();
+}
+
+// ─── Boot ─────────────────────────────────────────────────────
+document.addEventListener('DOMContentLoaded', () => {
+    initUser();
+    loadArenaStats();
+    loadLeaderboard();
+    startSignalFeed();
+    // Refresh live count every 30s
+    setInterval(() => {
+        document.getElementById('live-count').textContent = Math.floor(900 + Math.random() * 400) + ' ACTIVE';
+    }, 30000);
+});
+</script>
+</body>
 </html>

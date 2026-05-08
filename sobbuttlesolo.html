@@ -1,472 +1,429 @@
 <!DOCTYPE html>
-
 <html class="dark" lang="en">
-
 <head>
     <meta charset="utf-8" />
     <meta content="width=device-width, initial-scale=1.0" name="viewport" />
+    <title>TRENING AURA | Battles</title>
     <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
-    <link
-        href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&amp;family=Manrope:wght@300;400;500;600;700;800&amp;display=swap"
-        rel="stylesheet" />
-    <link
-        href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap"
-        rel="stylesheet" />
-    <link
-        href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap"
-        rel="stylesheet" />
+    <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&family=Manrope:wght@300;400;500;600;700;800&display=swap" rel="stylesheet" />
+    <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet" />
     <style>
-        body {
-            background-color: #000000;
-            background-image:
-                linear-gradient(rgba(204, 255, 0, 0.05) 1px, transparent 1px),
-                linear-gradient(90deg, rgba(204, 255, 0, 0.05) 1px, transparent 1px);
-            background-size: 40px 40px;
-        }
-
-        .glass-panel {
-            background: rgba(18, 18, 18, 0.7);
-            backdrop-filter: blur(12px);
-            border: 1px solid rgba(255, 255, 255, 0.1);
-        }
-
-        .neon-border-lime {
-            border: 1px solid #c3f400;
-            box-shadow: 0 0 10px rgba(195, 244, 0, 0.2);
-        }
-
-        .neon-border-blue {
-            border: 1px solid #00daf3;
-            box-shadow: 0 0 10px rgba(0, 218, 243, 0.2);
-        }
-
-        .scanline {
-            width: 100%;
-            height: 2px;
-            background: linear-gradient(to right, transparent, #c3f400, transparent);
-            position: absolute;
-            top: 0;
-            animation: scan 3s linear infinite;
-        }
-
-        @keyframes scan {
-            0% {
-                top: 0;
-            }
-
-            100% {
-                top: 100%;
-            }
-        }
-
-        .bracket-tl::before {
-            content: '';
-            position: absolute;
-            top: -1px;
-            left: -1px;
-            width: 10px;
-            height: 10px;
-            border-top: 2px solid #c3f400;
-            border-left: 2px solid #c3f400;
-        }
-
-        .bracket-br::after {
-            content: '';
-            position: absolute;
-            bottom: -1px;
-            right: -1px;
-            width: 10px;
-            height: 10px;
-            border-bottom: 2px solid #c3f400;
-            border-right: 2px solid #c3f400;
-        }
+        .material-symbols-outlined { font-variation-settings:'FILL' 0,'wght' 400,'GRAD' 0,'opsz' 24; }
+        body { background-color:#000;background-image:linear-gradient(rgba(204,255,0,0.05) 1px,transparent 1px),linear-gradient(90deg,rgba(204,255,0,0.05) 1px,transparent 1px);background-size:40px 40px; }
+        .glass-panel { background:rgba(18,18,18,0.7);backdrop-filter:blur(12px);border:1px solid rgba(255,255,255,0.1); }
+        .neon-border-lime { border:1px solid #c3f400;box-shadow:0 0 10px rgba(195,244,0,0.2); }
+        .neon-border-blue { border:1px solid #00daf3;box-shadow:0 0 10px rgba(0,218,243,0.2); }
+        .scanline { width:100%;height:2px;background:linear-gradient(to right,transparent,#c3f400,transparent);position:absolute;top:0;animation:scan 3s linear infinite; }
+        @keyframes scan { 0%{top:0} 100%{top:100%} }
+        .bracket-tl::before { content:'';position:absolute;top:-1px;left:-1px;width:10px;height:10px;border-top:2px solid #c3f400;border-left:2px solid #c3f400; }
+        .bracket-br::after { content:'';position:absolute;bottom:-1px;right:-1px;width:10px;height:10px;border-bottom:2px solid #c3f400;border-right:2px solid #c3f400; }
+        .nav-avatar { width:40px;height:40px;border-radius:9999px;border:2px solid #abd600;background:#1a1a1a;display:flex;align-items:center;justify-content:center;font-family:'Space Grotesk',sans-serif;font-weight:900;color:#abd600;font-size:14px;cursor:pointer; }
+        #toast { position:fixed;bottom:24px;left:50%;transform:translateX(-50%);background:#1a1a1a;border:1px solid #abd600;color:#e2e2e2;padding:12px 24px;border-radius:8px;font-family:'Space Grotesk',sans-serif;font-size:13px;z-index:9999;opacity:0;transition:opacity .3s;pointer-events:none; }
+        #toast.show { opacity:1; }
+        /* Matchmaking spinner */
+        @keyframes radarSpin { from{transform:rotate(0deg)} to{transform:rotate(360deg)} }
+        .radar-spin { animation:radarSpin 3s linear infinite; }
+        .radar-spin-rev { animation:radarSpin 6s linear infinite reverse; }
+        /* Battle bar pulse */
+        .pulse-bar { animation:barPulse 2s ease-in-out infinite; }
+        @keyframes barPulse { 0%,100%{opacity:1} 50%{opacity:.6} }
     </style>
     <script id="tailwind-config">
         tailwind.config = {
-            darkMode: "class",
-            theme: {
-                extend: {
-                    "colors": {
-                        "on-surface-variant": "#c4c9ac",
-                        "surface-tint": "#abd600",
-                        "surface-container-highest": "#353535",
-                        "error": "#ffb4ab",
-                        "on-tertiary-fixed": "#1c1b1b",
-                        "on-error-container": "#ffdad6",
-                        "secondary": "#bef4ff",
-                        "on-secondary-container": "#00616d",
-                        "tertiary-fixed": "#e5e2e1",
-                        "primary-fixed": "#c3f400",
-                        "outline-variant": "#444933",
-                        "primary-fixed-dim": "#abd600",
-                        "inverse-primary": "#506600",
-                        "on-tertiary": "#313030",
-                        "surface-dim": "#131313",
-                        "inverse-surface": "#e2e2e2",
-                        "surface": "#131313",
-                        "surface-variant": "#353535",
-                        "surface-container-lowest": "#0e0e0e",
-                        "outline": "#8e9379",
-                        "on-error": "#690005",
-                        "on-tertiary-fixed-variant": "#474646",
-                        "tertiary-container": "#e5e2e1",
-                        "on-secondary-fixed": "#001f24",
-                        "tertiary-fixed-dim": "#c8c6c5",
-                        "primary-container": "#c3f400",
-                        "secondary-fixed-dim": "#00daf3",
-                        "on-primary-container": "#556d00",
-                        "surface-container": "#1f1f1f",
-                        "on-tertiary-container": "#656464",
-                        "error-container": "#93000a",
-                        "surface-bright": "#393939",
-                        "on-secondary-fixed-variant": "#004f58",
-                        "on-secondary": "#00363d",
-                        "on-primary-fixed": "#161e00",
-                        "surface-container-low": "#1b1b1b",
-                        "inverse-on-surface": "#303030",
-                        "on-primary": "#283500",
-                        "tertiary": "#ffffff",
-                        "on-primary-fixed-variant": "#3c4d00",
-                        "background": "#131313",
-                        "surface-container-high": "#2a2a2a",
-                        "secondary-container": "#01e3fd",
-                        "on-surface": "#e2e2e2",
-                        "on-background": "#e2e2e2",
-                        "secondary-fixed": "#9cefff",
-                        "primary": "#ffffff"
-                    },
-                    "borderRadius": {
-                        "DEFAULT": "0.25rem",
-                        "lg": "0.5rem",
-                        "xl": "0.75rem",
-                        "full": "9999px"
-                    },
-                    "spacing": {
-                        "lg": "32px",
-                        "base": "4px",
-                        "grid_gutter": "16px",
-                        "grid_columns": "12",
-                        "xl": "48px",
-                        "sm": "12px",
-                        "grid_margin": "24px",
-                        "md": "20px",
-                        "xs": "8px"
-                    },
-                    "fontFamily": {
-                        "headline": ["Space Grotesk"],
-                        "body": ["Manrope"],
-                        "headline-md": ["Space Grotesk"],
-                        "body-md": ["Manrope"],
-                        "display-xl": ["Space Grotesk"],
-                        "body-lg": ["Manrope"],
-                        "headline-lg": ["Space Grotesk"],
-                        "label-caps": ["Manrope"],
-                        "stats-num": ["Space Grotesk"]
-                    },
-                    "fontSize": {
-                        "headline-md": ["24px", { "lineHeight": "1.2", "fontWeight": "600" }],
-                        "body-md": ["16px", { "lineHeight": "1.5", "fontWeight": "400" }],
-                        "display-xl": ["48px", { "lineHeight": "1.1", "letterSpacing": "-0.02em", "fontWeight": "700" }],
-                        "body-lg": ["18px", { "lineHeight": "1.6", "fontWeight": "400" }],
-                        "headline-lg": ["32px", { "lineHeight": "1.2", "letterSpacing": "-0.01em", "fontWeight": "700" }],
-                        "label-caps": ["12px", { "lineHeight": "1.0", "letterSpacing": "0.1em", "fontWeight": "800" }],
-                        "stats-num": ["20px", { "lineHeight": "1.0", "fontWeight": "700" }]
-                    }
-                },
-            },
+            darkMode:"class",
+            theme:{ extend:{
+                colors:{"on-surface-variant":"#c4c9ac","primary-fixed":"#c3f400","outline-variant":"#444933","primary-fixed-dim":"#abd600","surface-dim":"#131313","surface":"#131313","surface-container-lowest":"#0e0e0e","secondary-fixed-dim":"#00daf3","surface-container":"#1f1f1f","error-container":"#93000a","error":"#ffb4ab","surface-container-low":"#1b1b1b","on-primary-fixed":"#161e00","on-primary":"#283500","background":"#131313","surface-container-high":"#2a2a2a","on-surface":"#e2e2e2","secondary-fixed":"#9cefff","on-tertiary-fixed-variant":"#474646","primary":"#ffffff"},
+                fontFamily:{headline:["Space Grotesk"],body:["Manrope"]}
+            }}
         }
     </script>
+    <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-database-compat.js"></script>
+    <script>
+        const firebaseConfig = { apiKey:"AIzaSyB_TO3XD2Uj_p62UroAvA57igN-XD4wVrU",authDomain:"trening-aura.firebaseapp.com",databaseURL:"https://trening-aura-default-rtdb.firebaseio.com",projectId:"trening-aura",storageBucket:"trening-aura.appspot.com",messagingSenderId:"237244099863",appId:"1:237244099863:web:3ffbcd47132da71b469b52" };
+        if (!firebase.apps.length) firebase.initializeApp(firebaseConfig);
+    </script>
+    <script src="./auth.js"></script>
 </head>
+<body class="text-on-surface font-body">
 
-<body class="bg-background text-on-surface selection:bg-primary-container selection:text-on-primary-container">
-    <!-- TopNavBar -->
-    <nav
-        class="fixed top-0 w-full z-50 bg-surface-dim/80 backdrop-blur-xl bg-gradient-to-b from-surface-container-high to-transparent shadow-[0_10px_40px_-15px_rgba(190,238,0,0.2)]">
-        <div class="flex justify-between items-center px-8 h-20 w-full max-w-full">
-            <div class="font-headline text-2xl font-bold tracking-tighter text-primary-dim">TRENING AURA</div>
-            <div class="hidden md:flex items-center gap-8">
-                <a class="text-on-surface-variant font-label hover:text-on-surface transition-colors" href="./sobarena.html">Arena</a>
-                <a class="text-primary-dim border-b-2 border-primary-dim pb-1" href="./sobbuttlesolo.html">Battles</a>
-                <a class="text-on-surface-variant font-label hover:text-on-surface transition-colors"
-                    href="./sobteambuttel.html">Squads</a>
-                <a class="text-on-surface-variant font-label hover:text-on-surface transition-colors"
-                    href="./sobshop.html">Market</a>
-            </div>
-            <div class="flex items-center gap-4">
-                <span
-                    class="material-symbols-outlined text-primary-dim cursor-pointer hover:bg-surface-container-highest/50 p-2 rounded-full transition-all duration-300">notifications_active</span>
-                <span
-                    class="material-symbols-outlined text-primary-dim cursor-pointer hover:bg-surface-container-highest/50 p-2 rounded-full transition-all duration-300">sports_kabaddi</span>
-                <img alt="Athlete Profile"
-                    class="w-10 h-10 rounded-full border border-primary-dim active:scale-95 transition-transform"
-                    data-alt="A futuristic athletic profile avatar of a high-performance runner wearing sleek holographic visors and tactical gear. The art style is hyper-modern digital illustration with sharp neon lime lighting against a deep charcoal background. The character has an intense, focused expression, embodying a mission-critical cyberpunk sports aesthetic."
-                    src="https://lh3.googleusercontent.com/aida-public/AB6AXuCBRvD9bcToY8ymFSmxf895YpT_V5ZbKJp-AlwT528w_9so2HUyGyvPXpbxxICLJk2IkzJnuOQAv8vQagZ8jH3LZzcCY2VZgyMfVRhfDbqTBEp8-oxhZ_qxhle0tlvEuXRUuYP87lQDH5uFbHDl5jWP5EgXYgbOpl0jcPPAQT0Y9G7Slozw0htHvWL2_rbWBV2qXRhxlIqULnhFqhqKX394Lv3aTTdwMao54l_5yCXou4Jdy1myr__ewLfycUrLnIzTLuULs2qONYED" />
-            </div>
+<div id="toast"></div>
+function showToast(msg) { const t=document.getElementById('toast');t.textContent=msg;t.classList.add('show');setTimeout(()=>t.classList.remove('show'),3000); }
+
+<!-- TopNavBar -->
+<nav class="fixed top-0 w-full z-50 bg-surface-dim/80 backdrop-blur-xl shadow-[0_10px_40px_-15px_rgba(190,238,0,0.2)]">
+    <div class="flex justify-between items-center px-8 h-20 w-full max-w-full">
+        <div class="font-headline text-2xl font-bold tracking-tighter text-primary-fixed-dim">TRENING AURA</div>
+        <div class="hidden md:flex items-center gap-8">
+            <a class="text-on-surface-variant hover:text-on-surface transition-colors text-sm uppercase tracking-widest" href="./sobarena.html">Arena</a>
+            <a class="text-primary-fixed-dim border-b-2 border-primary-fixed-dim pb-1 text-sm uppercase tracking-widest" href="./sobbuttlesolo.html">Battles</a>
+            <a class="text-on-surface-variant hover:text-on-surface transition-colors text-sm uppercase tracking-widest" href="./sobteambuttel.html">Squads</a>
+            <a class="text-on-surface-variant hover:text-on-surface transition-colors text-sm uppercase tracking-widest" href="./sobshop.html">Market</a>
         </div>
-    </nav>
-    <main class="pt-28 pb-24 px-8 max-w-7xl mx-auto space-y-12">
-        <!-- Hero: Live Battle -->
-        <section class="grid grid-cols-1 lg:grid-cols-12 gap-8">
-            <div class="lg:col-span-8">
-                <div
-                    class="glass-panel p-8 relative overflow-hidden rounded-xl bracket-tl bracket-br border-primary-fixed/20 shadow-2xl">
-                    <div class="scanline"></div>
-                    <div class="flex justify-between items-center mb-10">
-                        <div class="flex flex-col">
-                            <span
-                                class="text-secondary-fixed-dim font-label-caps tracking-widest text-xs uppercase mb-2">Active
-                                Engagement</span>
-                            <h2 class="font-headline-lg text-headline-lg uppercase italic text-primary-fixed">Tier-1
-                                Battle: District 09</h2>
-                        </div>
-                        <div
-                            class="px-4 py-1 bg-error-container text-error font-label-caps text-[10px] rounded animate-pulse">
-                            LIVE FEED</div>
+        <div class="flex items-center gap-4">
+            <button onclick="showToast('🔔 No new notifications')" class="p-2 rounded hover:bg-white/5 transition-colors">
+                <span class="material-symbols-outlined text-primary-fixed-dim">notifications_active</span>
+            </button>
+            <button onclick="showToast('⚔️ Looking for challengers...')" class="p-2 rounded hover:bg-white/5 transition-colors">
+                <span class="material-symbols-outlined text-primary-fixed-dim">sports_kabaddi</span>
+            </button>
+            <a href="./profil.html">
+                <div class="nav-avatar" id="nav-avatar-circle" data-profile-initials>?</div>
+            </a>
+        </div>
+    </div>
+</nav>
+
+<main class="pt-28 pb-24 px-8 max-w-7xl mx-auto space-y-12">
+    <!-- Hero: Live Battle -->
+    <section class="grid grid-cols-1 lg:grid-cols-12 gap-8">
+        <div class="lg:col-span-8">
+            <div class="glass-panel p-8 relative overflow-hidden rounded-xl bracket-tl bracket-br border-primary-fixed/20 shadow-2xl">
+                <div class="scanline"></div>
+                <div class="flex justify-between items-center mb-10">
+                    <div>
+                        <span class="text-secondary-fixed-dim text-xs uppercase tracking-widest font-bold mb-2 block">Active Engagement</span>
+                        <h2 class="font-headline text-2xl uppercase italic text-primary-fixed">Tier-1 Battle: District 09</h2>
                     </div>
-                    <div class="flex flex-col md:flex-row justify-between items-center gap-8 relative">
-                        <!-- Aura Squad -->
-                        <div class="text-center group">
-                            <div class="relative mb-4">
-                                <div
-                                    class="absolute -inset-2 bg-primary-fixed/20 blur-xl rounded-full opacity-0 group-hover:opacity-100 transition-opacity">
-                                </div>
-                                <img class="w-24 h-24 relative z-10 filter drop-shadow-[0_0_15px_rgba(195,244,0,0.5)]"
-                                    data-alt="A holographic robot avatar representing a high-tech running squad, designed with neon lime circuits and sleek carbon fiber plating. The avatar glows with a persistent green energy field in a dark, tactical environment. The style is aggressive cyber-punk digital art with high-contrast lighting."
-                                    src="https://lh3.googleusercontent.com/aida-public/AB6AXuB_q2X3vOa1ZoL78d77apvu4m6Dnj352K_E-uuAxC7w3WvyIt40XCsJnh1jcGmqGlmDRmXBY7rUfHqf0rE0WJAYa__KFLeg0_P5HchoHWBLGTJdlo1ptTa_u3mxkz6UxNReklZzUcFL6NQ0uw3T8OcR-6JfxE2EAOKctteg78Mdh9P5dB1_5taUQozdpAhodry_4HChYJU6xenQbBZbEc8fMqeZM3txprmiP-vMiG6f2L13WJSJT_WbvwQj_t1fi2l39Q_07KCr_q0V" />
-                            </div>
-                            <h3
-                                class="font-headline-md text-headline-md text-primary-fixed uppercase tracking-tighter mb-1">
-                                Aura Squad</h3>
-                            <p class="font-label-caps text-xs text-on-surface-variant">Rank #04</p>
-                        </div>
-                        <!-- VS & Scorebar -->
-                        <div class="flex-1 w-full max-w-md px-4 flex flex-col items-center">
-                            <div class="font-display-xl text-display-xl italic mb-6 text-on-surface/50">VS</div>
-                            <div
-                                class="w-full h-4 bg-surface-container-highest rounded-full overflow-hidden flex neon-border-lime">
-                                <div class="h-full bg-primary-fixed shadow-[0_0_15px_#c3f400]" style="width: 62%"></div>
-                                <div class="h-full bg-secondary-fixed-dim shadow-[0_0_15px_#00daf3]" style="width: 38%">
-                                </div>
-                            </div>
-                            <div class="w-full flex justify-between mt-3 font-stats-num text-stats-num">
-                                <span class="text-primary-fixed">14.2K km</span>
-                                <span class="text-secondary-fixed-dim">11.8K km</span>
+                    <div class="px-4 py-1 bg-error-container text-error font-bold text-[10px] rounded animate-pulse">LIVE FEED</div>
+                </div>
+                <div class="flex flex-col md:flex-row justify-between items-center gap-8 relative">
+                    <!-- YOUR TEAM -->
+                    <div class="text-center group">
+                        <div class="relative mb-4">
+                            <div class="absolute -inset-2 bg-primary-fixed/20 blur-xl rounded-full opacity-0 group-hover:opacity-100 transition-opacity"></div>
+                            <div class="w-24 h-24 rounded-full border-2 border-primary-fixed flex items-center justify-center bg-surface-container-high relative z-10">
+                                <span id="battle-my-initials" class="font-headline font-black text-primary-fixed text-3xl">?</span>
                             </div>
                         </div>
-                        <!-- Kinetic Titans -->
-                        <div class="text-center group">
-                            <div class="relative mb-4">
-                                <div
-                                    class="absolute -inset-2 bg-secondary-fixed-dim/20 blur-xl rounded-full opacity-0 group-hover:opacity-100 transition-opacity">
-                                </div>
-                                <img class="w-24 h-24 relative z-10 filter drop-shadow-[0_0_15px_rgba(0,218,243,0.5)]"
-                                    data-alt="A robotic holographic icon for an elite athletic team, featuring electric blue neon highlights and geometric armored plating. The character emits a cool cyan glow against a backdrop of deep shadows and tactical grid lines. The aesthetic is futuristic, sharp, and highly competitive."
-                                    src="https://lh3.googleusercontent.com/aida-public/AB6AXuBdrGWPhLixCnFBUrXfMNVVn15KW9rimFxAG5HGIviWffWWpU0Jv4uNm9eUL9s_QRZi9OplobkR_l2Q0WkJGKFGxj36rsQQV2paNA8SL-F4EixkwNqHxHxdo-1knDgLQ3KWLXattVF5ts6NyK4d9CLS9PIpeJMoVr14-o7aY--dnLvK_-3oiR6utIX34lPHbUy11ag3HmX739PptVkN3GgedbdAJO0psl2I-XDMUoAd5G_TEfmp-5aCZgNBiuo1qHAj11U51fa9-xEf" />
+                        <h3 class="font-headline text-lg text-primary-fixed uppercase tracking-tighter mb-1" id="battle-my-name">YOU</h3>
+                        <p class="text-xs text-on-surface-variant">Your Squad</p>
+                    </div>
+                    <!-- VS & Score -->
+                    <div class="flex-1 w-full max-w-md px-4 flex flex-col items-center">
+                        <div class="font-headline text-4xl italic mb-6 text-on-surface/50">VS</div>
+                        <div class="w-full h-4 bg-surface-container-highest rounded-full overflow-hidden flex neon-border-lime">
+                            <div id="my-bar" class="h-full bg-primary-fixed shadow-[0_0_15px_#c3f400] transition-all duration-1000 pulse-bar" style="width:62%"></div>
+                            <div id="enemy-bar" class="h-full bg-secondary-fixed-dim shadow-[0_0_15px_#00daf3] transition-all duration-1000" style="width:38%"></div>
+                        </div>
+                        <div class="w-full flex justify-between mt-3 font-headline font-bold">
+                            <span id="my-km" class="text-primary-fixed">14.2K km</span>
+                            <span id="enemy-km" class="text-secondary-fixed-dim">11.8K km</span>
+                        </div>
+                        <!-- Battle Actions -->
+                        <div class="flex gap-3 mt-4">
+                            <button onclick="useBoost()" class="px-4 py-2 bg-primary-fixed/10 border border-primary-fixed text-primary-fixed text-xs font-bold uppercase rounded hover:bg-primary-fixed hover:text-black transition-all active:scale-95">
+                                ⚡ Boost
+                            </button>
+                            <button onclick="useTrap()" class="px-4 py-2 bg-error/10 border border-error text-error text-xs font-bold uppercase rounded hover:bg-error hover:text-black transition-all active:scale-95">
+                                🔺 Trap
+                            </button>
+                        </div>
+                    </div>
+                    <!-- ENEMY -->
+                    <div class="text-center group">
+                        <div class="relative mb-4">
+                            <div class="absolute -inset-2 bg-secondary-fixed-dim/20 blur-xl rounded-full opacity-0 group-hover:opacity-100 transition-opacity"></div>
+                            <div class="w-24 h-24 rounded-full border-2 border-secondary-fixed-dim flex items-center justify-center bg-surface-container-high relative z-10">
+                                <span class="font-headline font-black text-secondary-fixed-dim text-3xl">KT</span>
                             </div>
-                            <h3
-                                class="font-headline-md text-headline-md text-secondary-fixed-dim uppercase tracking-tighter mb-1">
-                                Kinetic Titans</h3>
-                            <p class="font-label-caps text-xs text-on-surface-variant">Rank #02</p>
                         </div>
+                        <h3 class="font-headline text-lg text-secondary-fixed-dim uppercase tracking-tighter mb-1">Kinetic Titans</h3>
+                        <p class="text-xs text-on-surface-variant">Rank #02</p>
                     </div>
                 </div>
             </div>
-            <!-- Matchmaking Block -->
-            <div class="lg:col-span-4 h-full">
-                <div
-                    class="glass-panel h-full p-8 flex flex-col justify-center items-center text-center relative border-secondary-fixed-dim/20 rounded-xl">
-                    <div class="scanline"></div>
-                    <div class="mb-8 relative">
-                        <div
-                            class="w-32 h-32 rounded-full border-2 border-secondary-fixed-dim border-dashed animate-[spin_10s_linear_infinite] absolute -inset-2">
-                        </div>
-                        <div
-                            class="w-28 h-28 rounded-full border-2 border-primary-fixed border-dashed animate-[spin_6s_linear_infinite_reverse] absolute -inset-0">
-                        </div>
-                        <div
-                            class="w-24 h-24 rounded-full bg-surface-container-high flex items-center justify-center relative">
-                            <span
-                                class="material-symbols-outlined text-4xl text-primary-fixed animate-pulse">radar</span>
-                        </div>
-                    </div>
-                    <h3 class="font-headline-md text-headline-md text-on-surface uppercase mb-4">Finding Match...</h3>
-                    <div class="space-y-3 w-full">
-                        <div class="flex justify-between text-[10px] font-label-caps text-on-surface-variant">
-                            <span>Scanning Latency</span>
-                            <span class="text-primary-fixed">14ms</span>
-                        </div>
-                        <div class="w-full h-1 bg-surface-container-highest rounded-full overflow-hidden">
-                            <div class="h-full bg-primary-fixed w-2/3"></div>
-                        </div>
-                        <p class="text-xs text-on-tertiary-fixed-variant font-body mt-4">Searching for squads with aura
-                            compatibility &gt; 85% in your regional zone.</p>
-                    </div>
-                    <button
-                        class="mt-8 w-full py-4 bg-surface-container-highest text-primary-fixed border border-primary-fixed/20 font-label-caps hover:bg-primary-fixed hover:text-black transition-all duration-300 active:scale-95 uppercase tracking-widest">Cancel
-                        Link</button>
-                </div>
-            </div>
-        </section>
-        <!-- Leaderboard & Rewards Bento -->
-        <section class="grid grid-cols-1 md:grid-cols-12 gap-8">
-            <!-- Leaderboard -->
-            <div class="md:col-span-5 glass-panel p-8 rounded-xl border-outline-variant/30">
-                <h3
-                    class="font-headline-md text-headline-md uppercase text-on-surface mb-8 border-l-4 border-primary-fixed pl-4">
-                    Global Ranks</h3>
-                <div class="space-y-4">
-                    <!-- Rank 1 -->
-                    <div
-                        class="flex items-center gap-4 p-4 bg-primary-fixed/5 border border-primary-fixed/40 rounded-lg shadow-[0_0_20px_rgba(195,244,0,0.1)]">
-                        <span class="font-stats-num text-2xl text-primary-fixed">01</span>
-                        <img class="w-10 h-10 rounded-full border border-primary-fixed"
-                            data-alt="Profile photo of a professional athlete runner with a focused gaze and high-tech athletic wear. The background is a blurred cityscape of a futuristic metropolis at night. The lighting is dominated by neon lime and cool blue glows, creating an elite cybernetic aesthetic."
-                            src="https://lh3.googleusercontent.com/aida-public/AB6AXuCVzmtcBiQsMgBOqgcw-XmlPjv-JrLBgCZbFOfUJxpahz3Qu6INZiNxm-h3pfo_ehec9-Tzc3Paw1wH-PUPyj93SPbosy4ZsuDtlmYwZYBUUe9yBj3PPu7HED6SpEy8c-RHzLIJ2j7I_Ey1Xyh8a3iI6K1Q123bto_VmmGRWrNUJ7WTL3jObwjXVqIxJHwEoTXFaAheBEYj0IikYt2oCF6bP9rgKpwHTNAvvU3a4IeFOXxsrhui-57f95KjQ-KSw0Kt865aEN32mdwm" />
-                        <div class="flex-1">
-                            <div class="font-body-md font-bold uppercase text-on-surface">Neon_Specter</div>
-                            <div class="text-[10px] font-label-caps text-primary-fixed">98.4 Aura Rating</div>
-                        </div>
-                        <span class="material-symbols-outlined text-primary-fixed"
-                            style="font-variation-settings: 'FILL' 1;">military_tech</span>
-                    </div>
-                    <!-- Rank 2 -->
-                    <div
-                        class="flex items-center gap-4 p-4 bg-secondary-fixed-dim/5 border border-secondary-fixed-dim/30 rounded-lg">
-                        <span class="font-stats-num text-2xl text-secondary-fixed-dim">02</span>
-                        <img class="w-10 h-10 rounded-full border border-secondary-fixed-dim"
-                            data-alt="Avatar of a top-tier running competitor with holographic glasses reflecting performance data. The scene is lit with vibrant cyan and electric blue highlights. The visual style is high-contrast, professional, and aggressive, emphasizing extreme human performance."
-                            src="https://lh3.googleusercontent.com/aida-public/AB6AXuC0WETmx8P6QiKO3Tj_ORYhADajzWa0asSOD6uPb0tOgajCzUfeoKPD9zmBdfW9U86jRIdcK4BViMnFxkA7QSLRsuRw6IWdualkNLqpA_AVYnq2U6m3xAP6OkQeY5SfwDRw3lDEOgKTN1MlOiTTYdVBCnrqxTxLfpkCGpsV6HCPmdXZzAo4YOjhME8-WQ_YS3ZTpcv_57hw60ID8_Pfl8VJaCEWN2sSii7z3BIngSXJtrWKNhzVHnnsDew1t7OvIa0GWdT1L4M7OF58" />
-                        <div class="flex-1">
-                            <div class="font-body-md font-bold uppercase text-on-surface">Zero_G_Bolt</div>
-                            <div class="text-[10px] font-label-caps text-secondary-fixed-dim">94.1 Aura Rating</div>
-                        </div>
-                    </div>
-                    <!-- Rank 3 -->
-                    <div
-                        class="flex items-center gap-4 p-4 bg-surface-container-low border border-outline-variant/30 rounded-lg">
-                        <span class="font-stats-num text-2xl text-on-surface-variant">03</span>
-                        <img class="w-10 h-10 rounded-full"
-                            data-alt="Cyberpunk runner portrait showing a character in a high-tech tactical windbreaker with glowing fiber-optic threads. The lighting is dim with sharp neon accents of lime and white. The mood is intense and mission-ready, set in a futuristic urban environment."
-                            src="https://lh3.googleusercontent.com/aida-public/AB6AXuAqJAbC7SwfkqDMP9A-uxWpJAeAChCZHL-LJjvQ5bOWtJhj04az_bRwx8rgrJhVarWltdlwC6UA0qmAERQ_TIh-qqFjBmT3S_eGWSSkxUgxvAK5mWNh1JfnDtmOKyMDrdv7CfrR9sr8us8DuDWPo9VbNk7dEPuWDQIS379FICFAHlmcYXnnXahyEwBrcgZ0xaEeThxZ2lkZguwBJrnKlpwce6miAACee_1_0H7xUOdcWLNm33pMUEEtshGwHOPEw7cT-gJmkjvPT-yv" />
-                        <div class="flex-1">
-                            <div class="font-body-md font-bold uppercase text-on-surface">Static_Runner</div>
-                            <div class="text-[10px] font-label-caps text-on-surface-variant">91.8 Aura Rating</div>
-                        </div>
+        </div>
+        <!-- Matchmaking -->
+        <div class="lg:col-span-4 h-full">
+            <div class="glass-panel h-full p-8 flex flex-col justify-center items-center text-center relative border-secondary-fixed-dim/20 rounded-xl">
+                <div class="scanline"></div>
+                <div class="mb-8 relative">
+                    <div id="mm-outer" class="w-32 h-32 rounded-full border-2 border-secondary-fixed-dim border-dashed radar-spin absolute -inset-2"></div>
+                    <div id="mm-inner" class="w-28 h-28 rounded-full border-2 border-primary-fixed border-dashed radar-spin-rev absolute -inset-0"></div>
+                    <div class="w-24 h-24 rounded-full bg-surface-container-high flex items-center justify-center relative">
+                        <span class="material-symbols-outlined text-4xl text-primary-fixed animate-pulse" id="mm-icon">radar</span>
                     </div>
                 </div>
-                <button
-                    class="w-full mt-6 py-3 font-label-caps text-xs text-on-surface-variant hover:text-primary-fixed transition-colors">View
-                    All Deployments</button>
-            </div>
-            <!-- Rewards Grid -->
-            <div class="md:col-span-7 glass-panel p-8 rounded-xl border-outline-variant/30">
-                <div class="flex justify-between items-center mb-8">
-                    <h3
-                        class="font-headline-md text-headline-md uppercase text-on-surface border-l-4 border-secondary-fixed-dim pl-4">
-                        Tactical Rewards</h3>
-                    <div class="text-right">
-                        <div class="text-[10px] font-label-caps text-on-surface-variant mb-1">XP POOL</div>
-                        <div class="font-stats-num text-primary-fixed">12,450 / 15,000</div>
+                <h3 class="font-headline text-lg text-on-surface uppercase mb-4" id="mm-status">Finding Match...</h3>
+                <div class="space-y-3 w-full">
+                    <div class="flex justify-between text-[10px] font-bold text-on-surface-variant uppercase">
+                        <span>Scanning Latency</span>
+                        <span class="text-primary-fixed" id="mm-latency">14ms</span>
                     </div>
+                    <div class="w-full h-1 bg-surface-container-highest rounded-full overflow-hidden">
+                        <div class="h-full bg-primary-fixed transition-all duration-500" id="mm-progress" style="width:30%"></div>
+                    </div>
+                    <p class="text-xs text-on-surface-variant mt-4" id="mm-desc">Searching for squads with aura compatibility &gt; 85% in your regional zone.</p>
                 </div>
-                <div class="grid grid-cols-2 lg:grid-cols-3 gap-4">
-                    <!-- Reward 1 -->
-                    <div
-                        class="bg-surface-container-low border border-outline-variant/20 p-4 rounded-lg relative group cursor-pointer hover:border-primary-fixed/50 transition-all">
-                        <div
-                            class="aspect-square bg-surface-container-high rounded mb-4 flex items-center justify-center overflow-hidden">
-                            <span
-                                class="material-symbols-outlined text-4xl text-on-surface-variant group-hover:text-primary-fixed transition-colors">verified_user</span>
-                        </div>
-                        <h4 class="font-label-caps text-[10px] text-on-surface uppercase mb-1">Shield Matrix</h4>
-                        <div class="w-full h-1 bg-surface-container-highest rounded-full">
-                            <div class="h-full bg-primary-fixed w-full"></div>
-                        </div>
-                        <div class="text-[8px] font-label-caps text-primary-fixed mt-2">UNLOCKED</div>
-                    </div>
-                    <!-- Reward 2 -->
-                    <div
-                        class="bg-surface-container-low border border-outline-variant/20 p-4 rounded-lg relative group cursor-pointer hover:border-primary-fixed/50 transition-all">
-                        <div
-                            class="aspect-square bg-surface-container-high rounded mb-4 flex items-center justify-center overflow-hidden">
-                            <span
-                                class="material-symbols-outlined text-4xl text-on-surface-variant group-hover:text-secondary-fixed-dim transition-colors">palette</span>
-                        </div>
-                        <h4 class="font-label-caps text-[10px] text-on-surface uppercase mb-1">Neon Skin v2</h4>
-                        <div class="w-full h-1 bg-surface-container-highest rounded-full">
-                            <div class="h-full bg-secondary-fixed-dim w-[75%]"></div>
-                        </div>
-                        <div class="text-[8px] font-label-caps text-on-surface-variant mt-2">75% COMPLETE</div>
-                    </div>
-                    <!-- Reward 3 -->
-                    <div
-                        class="bg-surface-container-low border border-outline-variant/20 p-4 rounded-lg relative group cursor-pointer hover:border-primary-fixed/50 transition-all">
-                        <div
-                            class="aspect-square bg-surface-container-high rounded mb-4 flex items-center justify-center overflow-hidden">
-                            <span
-                                class="material-symbols-outlined text-4xl text-on-surface-variant group-hover:text-error transition-colors">lock</span>
-                        </div>
-                        <h4 class="font-label-caps text-[10px] text-on-surface-variant uppercase mb-1">Titan Badge</h4>
-                        <div class="w-full h-1 bg-surface-container-highest rounded-full">
-                            <div class="h-full bg-error w-[15%]"></div>
-                        </div>
-                        <div class="text-[8px] font-label-caps text-on-surface-variant mt-2">30,000 XP REQ</div>
-                    </div>
+                <button id="mm-btn" onclick="toggleMatchmaking()"
+                    class="mt-8 w-full py-4 bg-surface-container-highest text-primary-fixed border border-primary-fixed/20 font-bold hover:bg-primary-fixed hover:text-black transition-all active:scale-95 uppercase tracking-widest text-xs rounded">
+                    Cancel Link
+                </button>
+            </div>
+        </div>
+    </section>
+
+    <!-- Leaderboard & Rewards -->
+    <section class="grid grid-cols-1 md:grid-cols-12 gap-8">
+        <!-- Leaderboard -->
+        <div class="md:col-span-5 glass-panel p-8 rounded-xl">
+            <h3 class="font-headline text-xl uppercase text-on-surface mb-8 border-l-4 border-primary-fixed pl-4">Global Ranks</h3>
+            <div id="leaderboard-container" class="space-y-4">
+                <div class="text-xs text-on-surface-variant animate-pulse">Loading...</div>
+            </div>
+            <button onclick="showToast('📊 Full leaderboard — coming soon!')" class="w-full mt-6 py-3 text-xs text-on-surface-variant hover:text-primary-fixed transition-colors font-bold uppercase tracking-widest">
+                View All Deployments →
+            </button>
+        </div>
+        <!-- Rewards -->
+        <div class="md:col-span-7 glass-panel p-8 rounded-xl">
+            <div class="flex justify-between items-center mb-8">
+                <h3 class="font-headline text-xl uppercase text-on-surface border-l-4 border-secondary-fixed-dim pl-4">Tactical Rewards</h3>
+                <div class="text-right">
+                    <div class="text-[10px] font-bold text-on-surface-variant mb-1">XP POOL</div>
+                    <div class="font-headline font-bold text-primary-fixed" id="xp-display">— / —</div>
                 </div>
             </div>
-        </section>
-    </main>
-    <!-- Footer -->
-    <footer class="bg-surface-container-lowest w-full py-12 px-8 border-t border-surface-container-low">
-        <div class="grid grid-cols-1 md:grid-cols-2 gap-8 items-center max-w-7xl mx-auto">
-            <div>
-                <div class="font-headline text-xl text-on-surface mb-2">TRENING AURA</div>
-                <p class="font-label text-sm uppercase tracking-widest text-on-tertiary-fixed-variant">© 2024 TRENING
-                    AURA. LIMITLESS KINETIC ENERGY.</p>
+            <div class="grid grid-cols-2 lg:grid-cols-3 gap-4">
+                <div onclick="claimReward(this, 'Shield Matrix')" class="bg-surface-container-low border border-outline-variant/20 p-4 rounded-lg group cursor-pointer hover:border-primary-fixed/50 transition-all">
+                    <div class="aspect-square bg-surface-container-high rounded mb-4 flex items-center justify-center">
+                        <span class="material-symbols-outlined text-4xl text-on-surface-variant group-hover:text-primary-fixed transition-colors">verified_user</span>
+                    </div>
+                    <h4 class="text-[10px] font-bold text-on-surface uppercase mb-1">Shield Matrix</h4>
+                    <div class="w-full h-1 bg-surface-container-highest rounded-full"><div class="h-full bg-primary-fixed w-full"></div></div>
+                    <div class="text-[8px] font-bold text-primary-fixed mt-2">CLAIM REWARD</div>
+                </div>
+                <div onclick="claimReward(this, 'Neon Skin v2')" class="bg-surface-container-low border border-outline-variant/20 p-4 rounded-lg group cursor-pointer hover:border-primary-fixed/50 transition-all">
+                    <div class="aspect-square bg-surface-container-high rounded mb-4 flex items-center justify-center">
+                        <span class="material-symbols-outlined text-4xl text-on-surface-variant group-hover:text-secondary-fixed-dim transition-colors">palette</span>
+                    </div>
+                    <h4 class="text-[10px] font-bold text-on-surface uppercase mb-1">Neon Skin v2</h4>
+                    <div class="w-full h-1 bg-surface-container-highest rounded-full"><div class="h-full bg-secondary-fixed-dim w-[75%]"></div></div>
+                    <div class="text-[8px] font-bold text-on-surface-variant mt-2">75% COMPLETE</div>
+                </div>
+                <div class="bg-surface-container-low border border-outline-variant/20 p-4 rounded-lg group cursor-pointer opacity-50">
+                    <div class="aspect-square bg-surface-container-high rounded mb-4 flex items-center justify-center">
+                        <span class="material-symbols-outlined text-4xl text-on-surface-variant">lock</span>
+                    </div>
+                    <h4 class="text-[10px] font-bold text-on-surface-variant uppercase mb-1">Titan Badge</h4>
+                    <div class="w-full h-1 bg-surface-container-highest rounded-full"><div class="h-full bg-error w-[15%]"></div></div>
+                    <div class="text-[8px] font-bold text-on-surface-variant mt-2">30,000 XP REQ</div>
+                </div>
             </div>
-            <div class="flex flex-wrap gap-x-8 gap-y-4 md:justify-end">
-                <a class="text-on-tertiary-fixed-variant font-label text-sm uppercase tracking-widest hover:text-secondary-fixed transition-colors duration-200 cursor-pointer"
-                    href="#">Global Leaderboard</a>
-                <a class="text-on-tertiary-fixed-variant font-label text-sm uppercase tracking-widest hover:text-secondary-fixed transition-colors duration-200 cursor-pointer"
-                    href="#">Team Recruitment</a>
-                <a class="text-on-tertiary-fixed-variant font-label text-sm uppercase tracking-widest hover:text-secondary-fixed transition-colors duration-200 cursor-pointer"
-                    href="#">Discord Pulse</a>
-                <a class="text-on-tertiary-fixed-variant font-label text-sm uppercase tracking-widest hover:text-secondary-fixed transition-colors duration-200 cursor-pointer"
-                    href="#">Neural Privacy</a>
+        </div>
+    </section>
+</main>
+
+<!-- Mobile Bottom Nav -->
+<nav class="md:hidden fixed bottom-0 w-full z-50 bg-surface-dim/90 backdrop-blur-2xl rounded-t-xl border-t border-surface-container-high h-16 flex justify-around items-center px-4">
+    <a href="./sobarena.html" class="flex flex-col items-center justify-center text-on-surface-variant"><span class="material-symbols-outlined text-xl">bolt</span><span class="text-[10px] font-bold uppercase">Pulse</span></a>
+    <a href="./sobbuttlesolo.html" class="flex flex-col items-center justify-center text-primary-fixed-dim"><span class="material-symbols-outlined text-xl" style="font-variation-settings:'FILL' 1;">swords</span><span class="text-[10px] font-bold uppercase">Battle</span></a>
+    <a href="./profil.html" class="flex flex-col items-center justify-center text-on-surface-variant"><div class="bg-primary-fixed text-black p-2 rounded-full -mt-8 border-4 border-black"><span class="material-symbols-outlined text-2xl">qr_code_scanner</span></div><span class="text-[10px] font-bold uppercase mt-1">Scan</span></a>
+    <a href="./sobteambuttel.html" class="flex flex-col items-center justify-center text-on-surface-variant"><span class="material-symbols-outlined text-xl">military_tech</span><span class="text-[10px] font-bold uppercase">Ranks</span></a>
+    <a href="./profil.html" class="flex flex-col items-center justify-center text-on-surface-variant"><span class="material-symbols-outlined text-xl">person</span><span class="text-[10px] font-bold uppercase">Profile</span></a>
+</nav>
+
+<script>
+function showToast(msg) {
+    const t = document.getElementById('toast');
+    t.textContent = msg;
+    t.classList.add('show');
+    setTimeout(() => t.classList.remove('show'), 3000);
+}
+
+// ─── User Init ────────────────────────────────────────────────
+function getInitials(name) {
+    if (!name) return '?';
+    const p = name.trim().split(' ');
+    return p.length >= 2 ? (p[0][0]+p[1][0]).toUpperCase() : p[0].slice(0,2).toUpperCase();
+}
+
+function initUser() {
+    let user = null;
+    if (typeof AuraAuth !== 'undefined') {
+        try { AuraAuth.init(); user = AuraAuth.getCurrentUser(); } catch(e) {}
+    }
+    if (!user) {
+        try { const r = localStorage.getItem('aura_user'); if (r) user = JSON.parse(r); } catch(e) {}
+    }
+
+    const name = user ? (user.name || user.displayName || 'OPERATOR') : 'GUEST';
+    const initials = getInitials(name);
+    const xp = user?.xp || 0;
+    const level = user?.level || 1;
+    const xpNeeded = level * 1000;
+
+    document.querySelectorAll('[data-profile-initials]').forEach(el => el.textContent = initials);
+    document.getElementById('battle-my-initials').textContent = initials;
+    document.getElementById('battle-my-name').textContent = name.split(' ')[0].toUpperCase();
+    document.getElementById('xp-display').textContent = xp.toLocaleString() + ' / ' + xpNeeded.toLocaleString();
+}
+
+// ─── Matchmaking ──────────────────────────────────────────────
+let mmActive = true;
+let mmInterval = null;
+let mmProgress = 30;
+
+function toggleMatchmaking() {
+    const btn = document.getElementById('mm-btn');
+    const status = document.getElementById('mm-status');
+    const icon = document.getElementById('mm-icon');
+    const desc = document.getElementById('mm-desc');
+    const outer = document.getElementById('mm-outer');
+    const inner = document.getElementById('mm-inner');
+
+    if (mmActive) {
+        // Cancel
+        mmActive = false;
+        clearInterval(mmInterval);
+        btn.textContent = 'Find New Match';
+        status.textContent = 'Search Cancelled';
+        icon.textContent = 'cancel';
+        desc.textContent = 'Matchmaking paused. Tap to restart search.';
+        outer.style.animationPlayState = 'paused';
+        inner.style.animationPlayState = 'paused';
+        document.getElementById('mm-progress').style.width = '0%';
+        showToast('❌ Matchmaking cancelled');
+    } else {
+        // Restart
+        mmActive = true;
+        mmProgress = 0;
+        btn.textContent = 'Cancel Link';
+        status.textContent = 'Finding Match...';
+        icon.textContent = 'radar';
+        desc.textContent = 'Searching for squads with aura compatibility > 85% in your regional zone.';
+        outer.style.animationPlayState = 'running';
+        inner.style.animationPlayState = 'running';
+        startMatchmakingProgress();
+        showToast('🔍 Searching for opponents...');
+    }
+}
+
+function startMatchmakingProgress() {
+    clearInterval(mmInterval);
+    mmInterval = setInterval(() => {
+        mmProgress += Math.random() * 8;
+        if (mmProgress >= 100) {
+            mmProgress = 100;
+            clearInterval(mmInterval);
+            matchFound();
+        }
+        document.getElementById('mm-progress').style.width = mmProgress + '%';
+        document.getElementById('mm-latency').textContent = Math.floor(8 + Math.random() * 20) + 'ms';
+    }, 800);
+}
+
+function matchFound() {
+    document.getElementById('mm-status').textContent = 'MATCH FOUND!';
+    document.getElementById('mm-icon').textContent = 'swords';
+    document.getElementById('mm-desc').textContent = 'Opponent located. Battle starting in 3 seconds...';
+    document.getElementById('mm-btn').textContent = 'Battle Starting...';
+    document.getElementById('mm-btn').disabled = true;
+    showToast('⚔️ Match found! Prepare for battle!');
+    setTimeout(() => {
+        document.getElementById('mm-btn').disabled = false;
+        document.getElementById('mm-btn').textContent = 'Find New Match';
+        document.getElementById('mm-status').textContent = 'Battle Complete';
+        document.getElementById('mm-icon').textContent = 'emoji_events';
+        mmActive = false;
+    }, 3000);
+}
+
+// ─── Battle Actions ───────────────────────────────────────────
+function useBoost() {
+    const myBar = document.getElementById('my-bar');
+    const enemyBar = document.getElementById('enemy-bar');
+    const myKm = document.getElementById('my-km');
+    let cur = parseFloat(myBar.style.width);
+    if (cur >= 80) { showToast('⚠️ Already at max boost!'); return; }
+    cur = Math.min(80, cur + 8);
+    const enemyCur = 100 - cur;
+    myBar.style.width = cur + '%';
+    enemyBar.style.width = enemyCur + '%';
+    myKm.textContent = (10 + cur * 0.1).toFixed(1) + 'K km';
+    showToast('⚡ Speed Boost activated! +8% territory!');
+}
+
+function useTrap() {
+    const myBar = document.getElementById('my-bar');
+    const enemyBar = document.getElementById('enemy-bar');
+    const enemyKm = document.getElementById('enemy-km');
+    let cur = parseFloat(myBar.style.width);
+    if (cur >= 80) { showToast('⚠️ Opponent already losing!'); return; }
+    cur = Math.min(80, cur + 5);
+    const enemyCur = 100 - cur;
+    myBar.style.width = cur + '%';
+    enemyBar.style.width = enemyCur + '%';
+    enemyKm.textContent = (5 + enemyCur * 0.1).toFixed(1) + 'K km';
+    showToast('🔺 Trap deployed! Enemy slowed!');
+}
+
+// ─── Claim Reward ─────────────────────────────────────────────
+function claimReward(el, name) {
+    if (el.dataset.claimed) return;
+    el.dataset.claimed = '1';
+    el.style.opacity = '0.5';
+    el.style.pointerEvents = 'none';
+    el.querySelector('div:last-child').textContent = '✅ CLAIMED';
+    el.querySelector('div:last-child').style.color = '#abd600';
+    showToast(`🏆 ${name} claimed! Check your inventory.`);
+}
+
+// ─── Leaderboard ─────────────────────────────────────────────
+function renderLeaderboard(players) {
+    const container = document.getElementById('leaderboard-container');
+    container.innerHTML = players.map((p, i) => `
+        <div class="flex items-center gap-4 p-4 ${i===0?'bg-primary-fixed/5 border border-primary-fixed/40':'bg-surface-container-low border border-white/5'} rounded-lg">
+            <span class="font-headline text-2xl font-bold ${i===0?'text-primary-fixed':'text-on-surface-variant'}">0${i+1}</span>
+            <div class="w-10 h-10 rounded-full border ${i===0?'border-primary-fixed':'border-secondary-fixed-dim'} flex items-center justify-center bg-surface-container-high font-headline font-black ${i===0?'text-primary-fixed':'text-secondary-fixed-dim'} text-sm">
+                ${p.initials}
             </div>
-        </div>
-    </footer>
-    <!-- BottomNavBar (Mobile Only) -->
-    <nav
-        class="md:hidden fixed bottom-0 w-full z-50 bg-surface-dim/90 backdrop-blur-2xl rounded-t-xl border-t border-surface-container-high shadow-[0_-8px_30px_rgba(0,227,253,0.15)] h-16 flex justify-around items-center px-4">
-        <div
-            class="flex flex-col items-center justify-center text-on-surface-variant active:scale-90 transition-all duration-200">
-            <span class="material-symbols-outlined text-xl">bolt</span>
-            <span class="font-label text-[10px] font-bold uppercase">Pulse</span>
-        </div>
-        <div
-            class="flex flex-col items-center justify-center text-primary-dim scale-110 active:scale-90 transition-all duration-200">
-            <span class="material-symbols-outlined text-xl" style="font-variation-settings: 'FILL' 1;">swords</span>
-            <span class="font-label text-[10px] font-bold uppercase">Battle</span>
-        </div>
-        <div
-            class="flex flex-col items-center justify-center text-on-surface-variant active:scale-90 transition-all duration-200">
-            <div class="bg-primary-fixed text-black p-2 rounded-full -mt-8 shadow-lg border-4 border-background">
-                <span class="material-symbols-outlined text-2xl">qr_code_scanner</span>
+            <div class="flex-1">
+                <div class="font-body font-bold uppercase text-on-surface text-sm">${p.name}</div>
+                <div class="text-[10px] font-bold ${i===0?'text-primary-fixed':'text-on-surface-variant'}">${p.score}</div>
             </div>
-            <span class="font-label text-[10px] font-bold uppercase mt-1">Scan</span>
-        </div>
-        <div
-            class="flex flex-col items-center justify-center text-on-surface-variant active:scale-90 transition-all duration-200">
-            <span class="material-symbols-outlined text-xl">military_tech</span>
-            <span class="font-label text-[10px] font-bold uppercase">Ranks</span>
-        </div>
-        <div
-            class="flex flex-col items-center justify-center text-on-surface-variant active:scale-90 transition-all duration-200">
-            <span class="material-symbols-outlined text-xl">person</span>
-            <span class="font-label text-[10px] font-bold uppercase">Profile</span>
-        </div>
-    </nav>
+            ${i===0?'<span class="material-symbols-outlined text-primary-fixed" style="font-variation-settings:\'FILL\' 1;">military_tech</span>':''}
+        </div>`).join('');
+}
+
+async function loadLeaderboard() {
+    const staticPlayers = [
+        { name:'Neon Specter', initials:'NS', score:'98.4 Aura Rating' },
+        { name:'Zero G Bolt', initials:'ZB', score:'94.1 Aura Rating' },
+        { name:'Static Runner', initials:'SR', score:'91.8 Aura Rating' },
+    ];
+    try {
+        let secondaryApp;
+        try { secondaryApp = firebase.app('secondary'); }
+        catch(e) { secondaryApp = firebase.initializeApp({apiKey:"AIzaSyDSf3wSUxxjZMp4-AvcxKBoWpKMBZWCtZc",databaseURL:"https://trening-aura-2d26f-default-rtdb.firebaseio.com",projectId:"trening-aura-2d26f"},'secondary'); }
+        const snap = await secondaryApp.database().ref('community_posts').limitToLast(30).once('value');
+        const users = {};
+        snap.forEach(c => {
+            const p = c.val();
+            if (!users[p.authorId]) {
+                const parts = (p.authorName||'?').trim().split(' ');
+                users[p.authorId] = {
+                    name: p.authorName || 'Unknown',
+                    initials: parts.length>=2?(parts[0][0]+parts[1][0]).toUpperCase():parts[0].slice(0,2).toUpperCase(),
+                    score: 0
+                };
+            }
+            users[p.authorId].score++;
+        });
+        const sorted = Object.values(users).sort((a,b)=>b.score-a.score).slice(0,3);
+        sorted.forEach(u => u.score = u.score + ' posts');
+        renderLeaderboard(sorted.length > 0 ? sorted : staticPlayers);
+    } catch(e) {
+        renderLeaderboard(staticPlayers);
+    }
+}
+
+document.addEventListener('DOMContentLoaded', () => {
+    initUser();
+    loadLeaderboard();
+    startMatchmakingProgress();
+});
+</script>
 </body>
-
 </html>
