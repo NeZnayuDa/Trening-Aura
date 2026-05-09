@@ -1,1295 +1,1001 @@
 <!DOCTYPE html>
-
 <html class="dark" lang="ru">
-
 <head>
     <meta charset="utf-8" />
     <meta content="width=device-width, initial-scale=1.0" name="viewport" />
-     <link rel="icon" type="image/jpeg" href="./photo_2026-04-09_20-40-50.jpg">
-    <link
-        href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&amp;family=Manrope:wght@300;400;500;600;700;800&amp;display=swap"
-        rel="stylesheet" />
-    <link
-        href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap"
-        rel="stylesheet" />
-    <link
-        href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap"
-        rel="stylesheet" />
+    <link rel="icon" type="image/jpeg" href="./photo_2026-04-09_20-40-50.jpg">
+    <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&family=Manrope:wght@300;400;500;600;700;800&display=swap" rel="stylesheet" />
+    <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet" />
     <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
     <script id="tailwind-config">
         tailwind.config = {
             darkMode: "class",
             theme: {
                 extend: {
-                    "colors": {
-                        "tertiary-container": "#ebebeb",
-                        "surface-container-highest": "#262626",
-                        "on-tertiary": "#5e5f60",
+                    colors: {
                         "surface-container": "#1a1a1a",
                         "surface-container-low": "#131313",
-                        "tertiary-dim": "#ebebeb",
-                        "on-error": "#450900",
-                        "primary-dim": "#beee00",
-                        "secondary-container": "#006875",
-                        "tertiary-fixed-dim": "#f0f1f1",
-                        "on-surface": "#ffffff",
-                        "on-tertiary-fixed-variant": "#6c6d6e",
-                        "on-background": "#ffffff",
-                        "error-dim": "#d53d18",
-                        "tertiary": "#f9f9f9",
-                        "surface": "#0e0e0e",
-                        "on-secondary-container": "#e8fbff",
-                        "primary-container": "#cafd00",
-                        "on-primary": "#516700",
-                        "secondary-dim": "#00d4ec",
-                        "primary": "#f3ffca",
-                        "surface-variant": "#262626",
-                        "outline": "#767575",
-                        "on-error-container": "#ffd2c8",
-                        "primary-fixed-dim": "#beee00",
-                        "inverse-on-surface": "#565555",
-                        "surface-container-lowest": "#000000",
-                        "secondary-fixed": "#26e6ff",
-                        "outline-variant": "#484847",
-                        "surface-bright": "#2c2c2c",
-                        "on-primary-container": "#4a5e00",
-                        "surface-tint": "#f3ffca",
-                        "secondary-fixed-dim": "#00d7f0",
-                        "on-tertiary-container": "#555757",
-                        "secondary": "#00e3fd",
-                        "inverse-primary": "#516700",
-                        "on-secondary-fixed": "#003a42",
-                        "on-tertiary-fixed": "#4f5051",
-                        "on-primary-fixed": "#3a4a00",
-                        "on-secondary": "#004d57",
-                        "on-surface-variant": "#adaaaa",
                         "surface-container-high": "#20201f",
-                        "primary-fixed": "#cafd00",
-                        "on-secondary-fixed-variant": "#005964",
-                        "error": "#ff7351",
-                        "error-container": "#b92902",
-                        "tertiary-fixed": "#ffffff",
-                        "surface-dim": "#0e0e0e",
-                        "inverse-surface": "#fcf9f8",
+                        "surface-container-highest": "#262626",
+                        "on-surface": "#ffffff",
+                        "on-surface-variant": "#adaaaa",
+                        "surface": "#0e0e0e",
                         "background": "#0e0e0e",
-                        "on-primary-fixed-variant": "#526900"
+                        "primary-container": "#cafd00",
+                        "secondary": "#00e3fd",
+                        "error": "#ff7351",
+                        "outline-variant": "#484847"
                     },
-                    "borderRadius": {
-                        "DEFAULT": "0.25rem",
-                        "lg": "0.5rem",
-                        "xl": "0.75rem",
-                        "full": "9999px"
-                    },
-                    "fontFamily": {
-                        "headline": ["Space Grotesk"],
-                        "body": ["Manrope"],
-                        "label": ["Manrope"]
-                    }
-                },
-            },
+                    fontFamily: { headline: ["Space Grotesk"], body: ["Manrope"], label: ["Manrope"] }
+                }
+            }
         }
     </script>
     <style>
-        html, body {
-            height: 100%;
-            overflow: hidden;
-        }
+        html, body { height: 100%; overflow: hidden; }
+        .material-symbols-outlined { font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24; }
+        .kinetic-blur { backdrop-filter: blur(20px); }
 
-        .material-symbols-outlined {
-            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
-        }
+        /* Sidebar nav item */
+        .nav-item { display:flex;align-items:center;padding:16px 24px;color:#71717a;font-family:'Space Grotesk',sans-serif;text-transform:uppercase;font-size:13px;letter-spacing:0.1em;font-weight:600;cursor:pointer;transition:all .2s;border-right:2px solid transparent;text-decoration:none; }
+        .nav-item:hover { background:rgba(255,255,255,0.04);color:#e4e4e7; }
+        .nav-item.active { color:#CCFF00;border-right-color:#CCFF00;background:linear-gradient(to right,rgba(204,255,0,0.08),transparent); }
+        .nav-item .material-symbols-outlined { margin-right:16px;font-size:20px; }
 
-        .kinetic-blur {
-            backdrop-filter: blur(20px);
-        }
+        /* Panels */
+        .panel { display:none; }
+        .panel.active { display:flex;flex-direction:column;height:100%; }
 
-        .tonal-transition {
-            background: linear-gradient(180deg, #1a1a1a 0%, #0e0e0e 100%);
-        }
+        /* History item hover */
+        .history-item { cursor:pointer;padding:12px;border-radius:12px;background:#131313;border:1px solid transparent;transition:all .2s; }
+        .history-item:hover { background:#1a1a1a;border-color:rgba(204,255,0,0.2); }
+        .history-item img { filter:grayscale(1);transition:filter .3s; }
+        .history-item:hover img { filter:grayscale(0); }
+
+        /* Scan history in right sidebar */
+        .scan-card { animation: slideIn .3s ease; }
+        @keyframes slideIn { from{opacity:0;transform:translateY(-10px)} to{opacity:1;transform:translateY(0)} }
+
+        /* Toast */
+        #toast { position:fixed;bottom:32px;left:50%;transform:translateX(-50%);background:#1a1a1a;border:1px solid #CCFF00;color:#e4e4e7;padding:12px 24px;border-radius:12px;font-family:'Space Grotesk',sans-serif;font-size:13px;z-index:9999;opacity:0;transition:opacity .3s;pointer-events:none;white-space:nowrap; }
+        #toast.show { opacity:1; }
+
+        /* Scrollbar */
+        ::-webkit-scrollbar { width:4px; }
+        ::-webkit-scrollbar-track { background:transparent; }
+        ::-webkit-scrollbar-thumb { background:#333;border-radius:4px; }
+        ::-webkit-scrollbar-thumb:hover { background:#555; }
+
+        /* History panel overlay */
+        #history-overlay { display:none;position:fixed;inset:0;background:rgba(0,0,0,0.5);z-index:45;backdrop-filter:blur(4px); }
+        #history-overlay.show { display:block; }
+        #history-panel { position:fixed;top:0;right:-400px;height:100%;width:360px;background:#0a0a0a;border-left:1px solid rgba(255,255,255,0.08);z-index:46;padding-top:64px;transition:right .3s ease;overflow-y:auto; }
+        #history-panel.open { right:0; }
+
+        /* Metrics charts */
+        .metric-bar { height:6px;background:#262626;border-radius:999px;overflow:hidden;margin-top:6px; }
+        .metric-bar-fill { height:100%;border-radius:999px;transition:width 1s ease; }
+
+        /* Upgrade modal */
+        #upgrade-modal { display:none;position:fixed;inset:0;z-index:50;align-items:center;justify-content:center;background:rgba(0,0,0,0.6);backdrop-filter:blur(8px); }
+        #upgrade-modal.show { display:flex; }
     </style>
+
     <!-- Firebase SDKs -->
     <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-database-compat.js"></script>
     <script src="./firebase-config.js"></script>
     <script src="./auth.js"></script>
-    <script src="./aura-user.js"></script>
 </head>
 
-<body class="bg-surface text-on-surface font-body selection:bg-primary-container selection:text-on-primary-container">
-    <!-- TopAppBar -->
-    <header
-        class="fixed top-0 w-full z-50 bg-zinc-950/80 backdrop-blur-xl flex justify-between items-center px-6 h-16 w-full shadow-[0_0_20px_rgba(204,255,0,0.1)]">
-        <div class="flex items-center gap-4">
-            <span class="text-2xl font-bold tracking-tighter text-[#CCFF00] italic font-headline">PULSE_AI</span>
+<body class="bg-surface text-on-surface font-body selection:bg-primary-container selection:text-zinc-950">
+
+<!-- Toast -->
+<div id="toast"></div>
+
+<!-- ═══════════════════════════════════════════════
+     TOP NAV BAR
+═══════════════════════════════════════════════ -->
+<header class="fixed top-0 w-full z-50 bg-zinc-950/80 backdrop-blur-xl flex justify-between items-center px-6 h-16 shadow-[0_0_20px_rgba(204,255,0,0.08)] border-b border-white/5">
+    <div class="flex items-center gap-4">
+        <!-- Mobile menu toggle -->
+        <button id="mobile-menu-btn" class="lg:hidden text-[#CCFF00] p-1">
+            <span class="material-symbols-outlined">menu</span>
+        </button>
+        <span class="text-2xl font-bold tracking-tighter text-[#CCFF00] italic font-headline">PULSE_AI</span>
+    </div>
+    <div class="flex items-center gap-6">
+        <div class="hidden md:flex items-center gap-8 text-zinc-500 font-headline">
+            <button onclick="switchPanel('nutrition')" class="hover:text-[#CCFF00] transition-colors text-sm uppercase tracking-widest font-bold" id="topnav-nutrition">Nutrition_Bot</button>
+            <button onclick="switchPanel('workout')" class="hover:text-[#CCFF00] transition-colors text-sm uppercase tracking-widest" id="topnav-workout">Workout_Plan</button>
+            <a class="hover:text-[#CCFF00] transition-colors text-sm uppercase tracking-widest" href="https://t.me/+Shhn1BGA34RiMzMy" target="_blank">Get API</a>
         </div>
-        <div class="flex items-center gap-6">
-            <div class="hidden md:flex items-center gap-8 text-zinc-500 font-headline">
-                <a class="text-[#CCFF00] font-bold hover:text-[#CCFF00] transition-colors" href="#">Nutrition_Bot</a>
-                <a class="hover:text-[#CCFF00] transition-colors" href="#">Workout_Plan</a>
-                <a class="hover:text-[#CCFF00] transition-colors" href="https://t.me/+Shhn1BGA34RiMzMy">Get api</a>
-            </div>
-            <div class="flex items-center gap-4">
-                <span
-                    class="material-symbols-outlined text-[#CCFF00] cursor-pointer active:scale-95 duration-200">history</span>
-                <span id="settingsBtn"
-                    class="material-symbols-outlined text-[#CCFF00] cursor-pointer active:scale-95 duration-200">settings</span>
-                <img alt="User profile" class="w-8 h-8 rounded-full border border-[#CCFF00]/20"
-                    data-alt="Close up portrait of a determined professional athlete with sweat on forehead in a dark gym environment with neon lighting"
-                    src="https://lh3.googleusercontent.com/aida-public/AB6AXuCUhKqwCdFPs-dJH9mrVZI7fnFROC9J_KjuMNCi3-UsAiGG3FlxKZf3LP7Endh6IIMPxion-Xxl9uHZwEBy6t7KwXAPE0tQh2fpWVqTpgmgoXAP977zwPNwOrXF4Btrs7mlOrXJ7-WTNWNyTxa3RyjGRbBBD0iQNnfbbUCwF5AE50PCl1Xue-nGYtdXfk-rHSKz-ElxwvuRLqDFxtxesvvuLQ2IgafJnaYCRIOSnour3F7t4xHAfBiEBlYle7t-41d6mQF8bUVqLXPw" />
-            </div>
-        </div>
-    </header>
-    <!-- SideNavBar -->
-    <aside
-        class="hidden lg:flex flex-col h-screen fixed left-0 top-0 h-full w-64 border-r border-white/5 bg-zinc-950 z-40 pt-20 pb-10">
-        <div class="px-6 mb-8">
-            <h2 class="text-[#CCFF00] font-black font-headline tracking-widest text-sm uppercase">Kinetic Pulse</h2>
-            <p class="text-zinc-500 text-[10px] tracking-[0.2em] uppercase">Elite Tier</p>
-        </div>
-        <nav class="flex-1 space-y-1">
-            <a class="flex items-center px-6 py-4 text-zinc-400 font-headline uppercase text-sm tracking-widest hover:bg-white/5 transition-all"
-                href="#">
-                <span class="material-symbols-outlined mr-4">dashboard</span>
-                Dashboard
-            </a>
-            <a class="flex items-center px-6 py-4 text-[#CCFF00] border-r-2 border-[#CCFF00] bg-gradient-to-r from-[#CCFF00]/10 to-transparent font-headline uppercase text-sm tracking-widest ease-out duration-300"
-                href="#">
-                <span class="material-symbols-outlined mr-4">smart_toy</span>
-                Nutrition_Bot
-            </a>
-            <a class="flex items-center px-6 py-4 text-zinc-400 font-headline uppercase text-sm tracking-widest hover:bg-white/5 transition-all"
-                href="#">
-                <span class="material-symbols-outlined mr-4">fitness_center</span>
-                Workout_Plan
-            </a>
-            <a class="flex items-center px-6 py-4 text-zinc-400 font-headline uppercase text-sm tracking-widest hover:bg-white/5 transition-all"
-                href="#">
-                <span class="material-symbols-outlined mr-4">query_stats</span>
-                Metrics
-            </a>
-        </nav>
-        <div class="px-6 mt-auto">
-            <div class="p-4 rounded-xl bg-surface-container-high border border-[#CCFF00]/10">
-                <p class="text-[10px] text-zinc-500 mb-2 font-headline tracking-widest uppercase">Weekly Goal</p>
-                <div class="h-1 bg-zinc-800 rounded-full overflow-hidden">
-                    <div class="h-full bg-[#CCFF00] w-3/4"></div>
-                </div>
-                <p class="text-[12px] text-[#CCFF00] mt-2 font-bold italic">75% Achieved</p>
-            </div>
-            <button
-                class="w-full mt-4 py-3 bg-[#CCFF00] text-zinc-950 font-bold rounded-lg hover:scale-[1.02] active:scale-95 transition-all duration-200 uppercase text-xs tracking-widest">
-                Upgrade to Pro
+        <div class="flex items-center gap-3">
+            <!-- History button -->
+            <button id="historyBtn" onclick="toggleHistory()" class="relative p-2 rounded-lg hover:bg-white/5 transition-colors" title="История">
+                <span class="material-symbols-outlined text-[#CCFF00]">history</span>
+                <span id="history-badge" class="hidden absolute -top-1 -right-1 w-4 h-4 bg-[#CCFF00] text-zinc-950 text-[9px] font-black rounded-full flex items-center justify-center">0</span>
             </button>
+            <!-- Settings button -->
+            <button id="settingsBtn" onclick="openSettings()" class="p-2 rounded-lg hover:bg-white/5 transition-colors" title="Настройки">
+                <span class="material-symbols-outlined text-[#CCFF00]">settings</span>
+            </button>
+            <!-- User avatar -->
+            <div id="user-avatar-nav" class="w-8 h-8 rounded-full border border-[#CCFF00]/30 bg-zinc-900 flex items-center justify-center font-headline font-black text-[#CCFF00] text-xs cursor-pointer hover:border-[#CCFF00] transition-colors" title="Профиль">?</div>
+        </div>
+    </div>
+</header>
+
+<!-- ═══════════════════════════════════════════════
+     HISTORY PANEL (slide-in right)
+═══════════════════════════════════════════════ -->
+<div id="history-overlay" onclick="toggleHistory()"></div>
+<div id="history-panel">
+    <div class="px-6 py-4 border-b border-white/5 flex items-center justify-between">
+        <h2 class="font-headline font-bold text-sm uppercase tracking-widest text-[#CCFF00]">История сканирований</h2>
+        <button onclick="toggleHistory()" class="text-zinc-500 hover:text-white transition-colors">
+            <span class="material-symbols-outlined">close</span>
+        </button>
+    </div>
+    <div id="history-panel-list" class="p-4 space-y-3">
+        <p class="text-zinc-600 text-xs font-body text-center py-8">Нет истории сканирований.<br>Загрузите фото блюда!</p>
+    </div>
+</div>
+
+<!-- ═══════════════════════════════════════════════
+     LEFT SIDEBAR (fixed desktop)
+═══════════════════════════════════════════════ -->
+<aside id="left-sidebar" class="hidden lg:flex flex-col h-screen fixed left-0 top-0 w-64 border-r border-white/5 bg-zinc-950 z-40 pt-20 pb-10">
+    <div class="px-6 mb-6">
+        <h2 class="text-[#CCFF00] font-black font-headline tracking-widest text-sm uppercase">Kinetic Pulse</h2>
+        <p class="text-zinc-600 text-[10px] tracking-[0.2em] uppercase mt-0.5">Elite Nutrition AI</p>
+    </div>
+
+    <!-- Nav Items -->
+    <nav class="flex-1 space-y-0.5" id="sidebar-nav">
+        <a class="nav-item active" data-panel="nutrition" onclick="switchPanel('nutrition')">
+            <span class="material-symbols-outlined">smart_toy</span>Nutrition_Bot
+        </a>
+        <a class="nav-item" data-panel="workout" onclick="switchPanel('workout')">
+            <span class="material-symbols-outlined">fitness_center</span>Workout_Plan
+        </a>
+        <a class="nav-item" data-panel="metrics" onclick="switchPanel('metrics')">
+            <span class="material-symbols-outlined">query_stats</span>Metrics
+        </a>
+        <a class="nav-item" data-panel="dashboard" onclick="switchPanel('dashboard')">
+            <span class="material-symbols-outlined">dashboard</span>Dashboard
+        </a>
+    </nav>
+
+    <!-- Weekly goal + upgrade -->
+    <div class="px-6 mt-auto">
+        <div class="p-4 rounded-xl bg-surface-container-high border border-[#CCFF00]/10 mb-3">
+            <div class="flex justify-between items-center mb-2">
+                <p class="text-[10px] text-zinc-500 font-headline tracking-widest uppercase">Weekly Goal</p>
+                <span class="text-[10px] text-[#CCFF00] font-bold" id="goal-pct-label">75%</span>
+            </div>
+            <div class="h-1.5 bg-zinc-800 rounded-full overflow-hidden">
+                <div id="goal-bar" class="h-full bg-[#CCFF00] rounded-full transition-all duration-1000" style="width:75%"></div>
+            </div>
+            <p class="text-[11px] text-[#CCFF00] mt-2 font-bold italic" id="goal-text">75% Achieved</p>
+        </div>
+        <button onclick="openUpgrade()" class="w-full py-3 bg-[#CCFF00] text-zinc-950 font-bold rounded-lg hover:scale-[1.02] active:scale-95 transition-all duration-200 uppercase text-xs tracking-widest font-headline">
+            Upgrade to Pro
+        </button>
+    </div>
+</aside>
+
+<!-- ═══════════════════════════════════════════════
+     MAIN CONTENT
+═══════════════════════════════════════════════ -->
+<main class="lg:ml-64 flex flex-col md:flex-row" style="height:100vh;padding-top:4rem;">
+
+    <!-- ── Recent Scans Sidebar (right of content, left of chat) ── -->
+    <aside class="hidden xl:flex flex-col w-80 p-5 border-r border-white/5 space-y-4 overflow-y-auto">
+        <div class="flex items-center justify-between">
+            <h3 class="font-headline text-xs font-bold tracking-widest uppercase text-zinc-400">Recent Analyses</h3>
+            <button onclick="clearHistory()" class="text-[10px] text-zinc-600 hover:text-red-400 transition-colors font-body uppercase tracking-widest">Clear</button>
+        </div>
+        <div id="recent-analyses-list" class="space-y-3 flex-1">
+            <!-- Populated dynamically -->
+            <div class="text-center py-8 text-zinc-700">
+                <span class="material-symbols-outlined text-3xl mb-2 block">photo_camera</span>
+                <p class="text-xs font-body">Загрузите фото блюда —<br>анализ появится здесь</p>
+            </div>
         </div>
     </aside>
-    <!-- Main Content Area -->
-    <main class="lg:ml-64 flex flex-col md:flex-row" style="height: 100vh; padding-top: 4rem;">
-        <!-- Recent Analyses Sidebar (In-page) -->
-        <aside class="hidden xl:flex flex-col w-80 p-6 border-r border-white/5 space-y-6">
-            <h3 class="font-headline text-sm font-bold tracking-widest uppercase text-zinc-400">Recent Analyses</h3>
-            <div class="space-y-4">
-                <!-- History Item 1 -->
-                <div
-                    class="group cursor-pointer p-3 rounded-xl bg-surface-container-low hover:bg-surface-container transition-all border border-transparent hover:border-[#CCFF00]/20">
-                    <div class="flex gap-3">
-                        <img alt="Salad Bowl"
-                            class="w-14 h-14 rounded-lg object-cover grayscale group-hover:grayscale-0 transition-all"
-                            data-alt="Top down view of a vibrant Mediterranean salad bowl with grilled chicken, avocado, and chickpeas on a dark background"
-                            src="https://lh3.googleusercontent.com/aida-public/AB6AXuCOkG0XwBdzRGyV7Vji1jBMwnuiA-CgvAM_etREq9z15AG1kgw8b1N33Y3b1maEfhwKXLHkd3jos4XwzYGVlIErVaUpY4Tt93fGxOwY8bIf8dKrawd6-Bcj2_Zru93LZCPD_zXgB1PY8jm-7z_yr18DMgBqVVOYnV79iEuLt9hMycqmXjV3PZneV6nNWU9bWH7qiBMXPWpXqk7Ps3gdEA9m2JPVlntvsox5UbNd_JmZFMWhYBFzocIwNT0U1XICnbD_LG9yh8BvG0rp" />
-                        <div>
-                            <p class="text-xs font-bold text-on-surface">Protein Harvest Bowl</p>
-                            <p class="text-[10px] text-secondary font-bold">540 kcal</p>
-                            <p class="text-[9px] text-zinc-500 uppercase tracking-tighter mt-1">2 hours ago</p>
-                        </div>
-                    </div>
-                </div>
-                <!-- History Item 2 -->
-                <div
-                    class="group cursor-pointer p-3 rounded-xl bg-surface-container-low hover:bg-surface-container transition-all border border-transparent hover:border-[#CCFF00]/20">
-                    <div class="flex gap-3">
-                        <img alt="Vegetable Dish"
-                            class="w-14 h-14 rounded-lg object-cover grayscale group-hover:grayscale-0 transition-all"
-                            data-alt="Overhead shot of a colorful roasted vegetable platter with balsamic glaze on a dark slate surface"
-                            src="https://lh3.googleusercontent.com/aida-public/AB6AXuDX4fej1BxNjppkPMzPxFfkF83AZoCZibaDVUjBRyOfUWrNh2R4gdXPRlcYAJzwc4AMhq8NSS_MOVtntGOAMKoH27SY1R8oQBE16nWTVigGTAbDMw-7N8_FVLZN1i35rIZM1gxZSl-1DUUitlYccIsOm1oIBXDcTVNX5Er8dV--VLfaRWa_8gFHjm1PR_FVYByroNwz1XPbun6Bfwn9M-aRzPMYlssK2LyEIsrsHii-SwODWDImRZmfeXbbGwDNQ-fyi13EPKTozys6" />
-                        <div>
-                            <p class="text-xs font-bold text-on-surface">Roasted Roots Mix</p>
-                            <p class="text-[10px] text-secondary font-bold">320 kcal</p>
-                            <p class="text-[9px] text-zinc-500 uppercase tracking-tighter mt-1">Yesterday</p>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </aside>
-        <!-- Chat Canvas -->
-        <section class="flex-1 flex flex-col" style="height: calc(100vh - 5rem); overflow: hidden;">
-            <!-- Messages Container -->
-            <div class="flex-1 p-6 md:p-10 space-y-12 overflow-y-auto max-w-4xl mx-auto w-full" style="overflow-y: auto;">
-                <!-- System Greeting -->
+
+    <!-- ════════════════════════════════════
+         PANELS
+    ════════════════════════════════════ -->
+    <section class="flex-1 flex flex-col overflow-hidden">
+
+        <!-- ── PANEL: Nutrition Bot (chat) ── -->
+        <div id="panel-nutrition" class="panel active">
+            <!-- Messages -->
+            <div id="chat-messages" class="flex-1 p-6 md:p-10 space-y-8 overflow-y-auto max-w-3xl mx-auto w-full">
+                <!-- Greeting -->
                 <div class="flex flex-col items-center justify-center py-10 opacity-40">
-                    <span class="material-symbols-outlined text-6xl text-[#CCFF00]"
-                        style="font-variation-settings: 'FILL' 1;">smart_toy</span>
-                    <p class="mt-4 font-headline uppercase tracking-[0.3em] text-sm text-[#CCFF00]">Vision Analysis
-                        Active</p>
+                    <span class="material-symbols-outlined text-6xl text-[#CCFF00]" style="font-variation-settings:'FILL' 1;">smart_toy</span>
+                    <p class="mt-4 font-headline uppercase tracking-[0.3em] text-sm text-[#CCFF00]">Vision Analysis Active</p>
+                    <p class="text-zinc-600 text-xs mt-2 font-body">Задайте вопрос или загрузите фото блюда</p>
                 </div>
             </div>
-            <!-- Sleek Input Field Area -->
-            <div class="w-full p-6 md:p-10 bg-gradient-to-t from-surface via-surface/95 to-transparent flex-shrink-0">
-                <div class="max-w-4xl mx-auto">
-                    <div
-                        class="flex items-center gap-3 p-2 bg-surface-container border border-white/5 rounded-2xl shadow-2xl kinetic-blur">
-                        <button id="cameraBtn"
-                            class="p-4 rounded-xl bg-surface-container-highest text-[#CCFF00] hover:bg-[#CCFF00] hover:text-zinc-950 transition-all group active:scale-95 duration-200">
-                            <span
-                                class="material-symbols-outlined group-hover:scale-110 transition-transform">photo_camera</span>
+            <!-- Input -->
+            <div class="w-full p-4 md:p-6 bg-gradient-to-t from-surface via-surface/95 to-transparent flex-shrink-0">
+                <div class="max-w-3xl mx-auto">
+                    <div class="flex items-center gap-2 p-2 bg-surface-container border border-white/5 rounded-2xl shadow-2xl kinetic-blur">
+                        <button id="cameraBtn" onclick="document.getElementById('fileInput').click()" class="p-3 rounded-xl bg-surface-container-highest text-[#CCFF00] hover:bg-[#CCFF00] hover:text-zinc-950 transition-all active:scale-95" title="Загрузить фото">
+                            <span class="material-symbols-outlined">photo_camera</span>
                         </button>
                         <input id="fileInput" type="file" accept="image/*" class="hidden" />
-                        <input id="messageInput"
-                            class="flex-1 bg-transparent border-none focus:ring-0 text-sm placeholder:text-zinc-600 px-4 font-body"
-                            placeholder="Спросите о калориях, БЖУ или загрузите фото блюда..." type="text" />
-                        <button id="sendBtn"
-                            class="p-4 rounded-xl bg-[#CCFF00] text-zinc-950 font-bold hover:shadow-[0_0_20px_#CCFF00] transition-all active:scale-95 duration-200">
+                        <input id="messageInput" class="flex-1 bg-transparent border-none focus:ring-0 text-sm placeholder:text-zinc-600 px-3 font-body" placeholder="Спросите о калориях, БЖУ или загрузите фото блюда..." type="text" />
+                        <button id="sendBtn" onclick="handleSend()" class="p-3 rounded-xl bg-[#CCFF00] text-zinc-950 font-bold hover:shadow-[0_0_20px_#CCFF00] transition-all active:scale-95">
                             <span class="material-symbols-outlined">send</span>
                         </button>
                     </div>
-                    <p class="text-center text-[10px] text-zinc-600 mt-3 uppercase tracking-widest font-headline">
-                        Powered by Pulse Vision Engine v4.0</p>
-                </div>
-            </div>
-        </section>
-    </main>
-    <!-- BottomNavBar (Mobile Only) -->
-    <nav
-        class="md:hidden fixed bottom-0 left-0 w-full z-50 flex justify-around items-center px-4 pb-6 pt-3 bg-zinc-950/90 backdrop-blur-2xl rounded-t-3xl shadow-[0_-10px_30px_rgba(0,229,255,0.05)]">
-        <a class="flex flex-col items-center justify-center text-[#CCFF00] bg-[#CCFF00]/10 rounded-xl px-4 py-1 scale-110 duration-500 ease-in-out"
-            href="#">
-            <span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">chat_bubble</span>
-            <span class="font-['Manrope'] text-[10px] font-bold tracking-tight">Chat</span>
-        </a>
-        <a class="flex flex-col items-center justify-center text-zinc-500" href="#">
-            <span class="material-symbols-outlined">add_box</span>
-            <span class="font-['Manrope'] text-[10px] font-bold tracking-tight">Log</span>
-        </a>
-        <a class="flex flex-col items-center justify-center text-zinc-500" href="#">
-            <span class="material-symbols-outlined">photo_camera</span>
-            <span class="font-['Manrope'] text-[10px] font-bold tracking-tight">Scanner</span>
-        </a>
-        <a class="flex flex-col items-center justify-center text-zinc-500" href="#">
-            <span class="material-symbols-outlined">person</span>
-            <span class="font-['Manrope'] text-[10px] font-bold tracking-tight">Profile</span>
-        </a>
-    </nav>
-    
-    <!-- API Key Settings Modal -->
-    <div id="settingsModal" class="hidden fixed inset-0 z-50 flex items-center justify-center bg-black/50 backdrop-blur-sm">
-        <div class="bg-surface-container border border-white/5 rounded-3xl p-8 max-w-md w-full mx-4 shadow-2xl">
-            <div class="flex items-center justify-between mb-6">
-                <h2 class="text-xl font-bold text-on-surface font-headline">API Configuration</h2>
-                <button id="closeModal" class="text-zinc-500 hover:text-white transition-colors">
-                    <span class="material-symbols-outlined">close</span>
-                </button>
-            </div>
-            
-            <div class="space-y-4">
-                <!-- API Provider Selection -->
-                <div>
-                    <label class="block text-xs font-bold text-zinc-400 uppercase tracking-widest mb-2">AI Provider</label>
-                    <div class="flex gap-2">
-                        <button id="geminiProviderBtn" class="flex-1 py-3 px-4 rounded-xl border-2 border-[#CCFF00] bg-[#CCFF00]/10 text-[#CCFF00] font-bold text-sm transition-all hover:bg-[#CCFF00]/20">
-                            Google Gemini
-                        </button>
-                        <button id="openaiProviderBtn" class="flex-1 py-3 px-4 rounded-xl border-2 border-white/10 bg-transparent text-zinc-400 font-bold text-sm transition-all hover:border-white/30 hover:text-white">
-                            OpenAI
-                        </button>
-                    </div>
-                </div>
-                
-                <!-- Gemini API Key Input -->
-                <div id="geminiKeySection">
-                    <label class="block text-xs font-bold text-zinc-400 uppercase tracking-widest mb-2">Gemini API Key</label>
-                    <input id="geminiApiKeyInput" type="password" placeholder="Paste your Google Gemini API key here"
-                        class="w-full bg-surface-container-low border border-white/10 rounded-xl px-4 py-3 text-sm text-on-surface placeholder:text-zinc-600 focus:outline-none focus:border-[#CCFF00] transition-colors" />
-                    <p class="text-[10px] text-zinc-500 mt-2">Get your key from: <a href="https://ai.google.dev" target="_blank" class="text-[#CCFF00] hover:underline">ai.google.dev</a></p>
-                </div>
-                
-                <!-- OpenAI API Key Input -->
-                <div id="openaiKeySection" class="hidden">
-                    <label class="block text-xs font-bold text-zinc-400 uppercase tracking-widest mb-2">OpenAI API Key</label>
-                    <input id="openaiApiKeyInput" type="password" placeholder="Paste your OpenAI API key here"
-                        class="w-full bg-surface-container-low border border-white/10 rounded-xl px-4 py-3 text-sm text-on-surface placeholder:text-zinc-600 focus:outline-none focus:border-[#00e3fd] transition-colors" />
-                    <p class="text-[10px] text-zinc-500 mt-2">Get your key from: <a href="https://platform.openai.com/api-keys" target="_blank" class="text-[#00e3fd] hover:underline">platform.openai.com</a></p>
-                </div>
-                
-                <!-- Model Selection -->
-                <div>
-                    <label class="block text-xs font-bold text-zinc-400 uppercase tracking-widest mb-2">Model</label>
-                    <select id="modelSelect" class="w-full bg-surface-container-low border border-white/10 rounded-xl px-4 py-3 text-sm text-on-surface focus:outline-none focus:border-[#CCFF00] transition-colors">
-                        <option value="gemini-2.5-flash">Gemini 2.5 Flash</option>
-                        <option value="gemini-2.5-pro">Gemini 2.5 Pro</option>
-                        <option value="gpt-4o">GPT-4o</option>
-                        <option value="gpt-4-turbo">GPT-4 Turbo</option>
-                        <option value="gpt-3.5-turbo">GPT-3.5 Turbo</option>
-                    </select>
-                </div>
-                
-                <button id="saveApiKey" class="w-full bg-[#CCFF00] text-zinc-950 font-bold py-3 rounded-xl hover:shadow-[0_0_20px_#CCFF00] transition-all active:scale-95 uppercase text-xs tracking-widest">
-                    Save Configuration
-                </button>
-                
-                <div class="bg-yellow-500/10 border border-yellow-500/30 rounded-xl p-3 mt-4">
-                    <p class="text-[10px] text-yellow-400">⚠️ Your keys are stored locally in browser. Never share them publicly.</p>
+                    <p class="text-center text-[10px] text-zinc-700 mt-3 uppercase tracking-widest font-headline">Powered by Pulse Vision Engine v4.0</p>
                 </div>
             </div>
         </div>
-    </div>
-</body>
 
-</html>
-<script>
-    // API Configuration
-    let selectedProvider = localStorage.getItem('selected_provider') || 'gemini';
-    let GEMINI_API_KEY = localStorage.getItem('gemini_api_key') || '';
-    let OPENAI_API_KEY = localStorage.getItem('openai_api_key') || '';
-    let selectedModel = localStorage.getItem('selected_model') || 'gemini-2.5-flash';
-    
-    const API_TIMEOUT = 60000; // 60 seconds timeout
+        <!-- ── PANEL: Workout Plan ── -->
+        <div id="panel-workout" class="panel overflow-y-auto">
+            <div class="max-w-2xl mx-auto p-8 space-y-6">
+                <div class="border-l-2 border-[#CCFF00] pl-6 mb-8">
+                    <h2 class="font-headline text-2xl font-black uppercase tracking-tight text-[#CCFF00]">Workout Plan</h2>
+                    <p class="text-zinc-500 text-sm mt-1 font-body">Персональная программа тренировок</p>
+                </div>
 
-    // Gemini API endpoints
-    const GEMINI_API_URL = 'https://generativelanguage.googleapis.com/v1beta/models';
-    
-    // OpenAI API endpoint
-    const OPENAI_API_URL = 'https://api.openai.com/v1/chat/completions';
+                <!-- Plan Cards -->
+                <div class="grid grid-cols-1 gap-4">
+                    <div class="bg-surface-container-high border border-white/5 rounded-2xl p-6 hover:border-[#CCFF00]/30 transition-all cursor-pointer group" onclick="startWorkout('Силовая тренировка A')">
+                        <div class="flex items-center justify-between mb-4">
+                            <div class="flex items-center gap-3">
+                                <div class="w-10 h-10 rounded-xl bg-[#CCFF00]/10 flex items-center justify-center"><span class="material-symbols-outlined text-[#CCFF00]">fitness_center</span></div>
+                                <div>
+                                    <p class="font-headline font-bold text-sm uppercase tracking-wide">Силовая А</p>
+                                    <p class="text-zinc-500 text-xs">Грудь + Трицепс + Плечи</p>
+                                </div>
+                            </div>
+                            <span class="text-xs text-[#CCFF00] font-bold bg-[#CCFF00]/10 px-3 py-1 rounded-full">Сегодня</span>
+                        </div>
+                        <div class="space-y-2 text-xs text-zinc-400 font-body">
+                            <div class="flex justify-between"><span>Жим лёжа</span><span>4×8 / 80кг</span></div>
+                            <div class="flex justify-between"><span>Жим гантелей на наклонной</span><span>3×10</span></div>
+                            <div class="flex justify-between"><span>Брусья</span><span>3×до отказа</span></div>
+                            <div class="flex justify-between text-zinc-600"><span>+ ещё 4 упражнения</span><span>~60 мин</span></div>
+                        </div>
+                        <button class="mt-4 w-full py-2.5 bg-[#CCFF00] text-zinc-950 text-xs font-black uppercase tracking-widest rounded-xl opacity-0 group-hover:opacity-100 transition-all">Начать тренировку →</button>
+                    </div>
 
-    // Chat history for context
-    let chatHistory = [
-        {
-            role: 'system',
-            content: `Ты - PULSE_AI, профессиональный AI-ассистент по питанию и фитнесу с глубокими знаниями в диетологии, спортивной нутрициологии и тренировочном процессе.
+                    <div class="bg-surface-container-high border border-white/5 rounded-2xl p-6 hover:border-[#00e3fd]/30 transition-all cursor-pointer group" onclick="startWorkout('Кардио сессия')">
+                        <div class="flex items-center justify-between mb-4">
+                            <div class="flex items-center gap-3">
+                                <div class="w-10 h-10 rounded-xl bg-[#00e3fd]/10 flex items-center justify-center"><span class="material-symbols-outlined text-[#00e3fd]">directions_run</span></div>
+                                <div>
+                                    <p class="font-headline font-bold text-sm uppercase tracking-wide">Кардио HIIT</p>
+                                    <p class="text-zinc-500 text-xs">Интервальный бег</p>
+                                </div>
+                            </div>
+                            <span class="text-xs text-zinc-500 font-bold bg-zinc-800 px-3 py-1 rounded-full">Завтра</span>
+                        </div>
+                        <div class="space-y-2 text-xs text-zinc-400 font-body">
+                            <div class="flex justify-between"><span>Разминка</span><span>5 мин / лёгкий темп</span></div>
+                            <div class="flex justify-between"><span>Интервалы ×8</span><span>30с спринт / 60с ходьба</span></div>
+                            <div class="flex justify-between"><span>Заминка</span><span>5 мин</span></div>
+                        </div>
+                    </div>
 
-ТВОИ ОСНОВНЫЕ КОМПЕТЕНЦИИ:
-• Анализ состава продуктов и блюд (белки, жиры, углеводы, калории, микроэлементы)
-• Расчет суточных норм калорий и макронутриентов
-• Составление планов питания для разных целей (похудение, набор массы, поддержание)
-• Рекомендации по спортивному питанию и добавкам
-• Анализ тренировочного процесса и восстановления
-• Советы по оптимизации метаболизма и здоровья
-
-ПРАВИЛА ОТВЕТОВ:
-• Отвечай ТОЛЬКО на русском языке
-• Будь конкретным и давай практические рекомендации
-• Используй научный подход, но объясняй простым языком
-• Учитывай индивидуальные особенности (возраст, пол, активность, цели)
-• Приводи примеры продуктов и блюд
-• Давай реалистичные и выполнимые советы
-• Всегда указывай примерные граммовки и пропорции
-• Предупреждай о возможных противопоказаниях
-
-СТИЛЬ ОБЩЕНИЯ:
-• Профессиональный, но дружелюбный
-• Поддерживающий и мотивирующий
-• Без излишней академичности
-• С использованием эмодзи для наглядности (🍎💪🏋️‍♂️)
-
-ВАЖНО: Ты не заменяешь врача или диетолога. При серьезных проблемах со здоровьем рекомендуй консультацию специалиста.`
-        }
-    ];
-
-    // DOM Elements
-    const cameraBtn = document.getElementById('cameraBtn');
-    const fileInput = document.getElementById('fileInput');
-    const messagesContainer = document.querySelector('.overflow-y-auto');
-    const sendBtn = document.getElementById('sendBtn');
-    const messageInput = document.getElementById('messageInput');
-    const settingsBtn = document.getElementById('settingsBtn');
-    const settingsModal = document.getElementById('settingsModal');
-    const closeModal = document.getElementById('closeModal');
-    const geminiProviderBtn = document.getElementById('geminiProviderBtn');
-    const openaiProviderBtn = document.getElementById('openaiProviderBtn');
-    const geminiKeySection = document.getElementById('geminiKeySection');
-    const openaiKeySection = document.getElementById('openaiKeySection');
-    const geminiApiKeyInput = document.getElementById('geminiApiKeyInput');
-    const openaiApiKeyInput = document.getElementById('openaiApiKeyInput');
-    const modelSelect = document.getElementById('modelSelect');
-    const saveApiKeyBtn = document.getElementById('saveApiKey');
-
-    // Initialize UI based on saved preferences
-    function initializeSettingsUI() {
-        // Set provider buttons
-        if (selectedProvider === 'gemini') {
-            geminiProviderBtn.classList.add('border-[#CCFF00]', 'bg-[#CCFF00]/10', 'text-[#CCFF00]');
-            geminiProviderBtn.classList.remove('border-white/10', 'bg-transparent', 'text-zinc-400');
-            openaiProviderBtn.classList.add('border-white/10', 'bg-transparent', 'text-zinc-400');
-            openaiProviderBtn.classList.remove('border-[#00e3fd]', 'bg-[#00e3fd]/10', 'text-[#00e3fd]');
-            geminiKeySection.classList.remove('hidden');
-            openaiKeySection.classList.add('hidden');
-        } else {
-            openaiProviderBtn.classList.add('border-[#00e3fd]', 'bg-[#00e3fd]/10', 'text-[#00e3fd]');
-            openaiProviderBtn.classList.remove('border-white/10', 'bg-transparent', 'text-zinc-400');
-            geminiProviderBtn.classList.add('border-white/10', 'bg-transparent', 'text-zinc-400');
-            geminiProviderBtn.classList.remove('border-[#CCFF00]', 'bg-[#CCFF00]/10', 'text-[#CCFF00]');
-            openaiKeySection.classList.remove('hidden');
-            geminiKeySection.classList.add('hidden');
-        }
-        
-        // Set input values
-        geminiApiKeyInput.value = GEMINI_API_KEY;
-        openaiApiKeyInput.value = OPENAI_API_KEY;
-        
-        // Set model
-        modelSelect.value = selectedModel;
-        
-        // Update status indicator
-        updateConnectionStatus();
-    }
-
-    // Update connection status
-    function updateConnectionStatus() {
-        const hasKey = selectedProvider === 'gemini' ? GEMINI_API_KEY : OPENAI_API_KEY;
-        showConnectionStatus(hasKey ? 'connected' : 'disconnected');
-    }
-
-    // Check online status
-    window.addEventListener('online', () => updateConnectionStatus());
-    window.addEventListener('offline', () => updateConnectionStatus());
-
-    // Show connection status indicator
-    function showConnectionStatus(status) {
-        // Remove existing status indicator if any
-        const existingStatus = document.querySelector('.connection-status');
-        if (existingStatus) existingStatus.remove();
-
-        const statusDiv = document.createElement('div');
-        statusDiv.className = 'connection-status fixed top-20 right-6 z-40 px-3 py-1 rounded-full text-xs font-bold uppercase tracking-widest flex items-center gap-2';
-        
-        const providerName = selectedProvider === 'gemini' ? 'Gemini' : 'OpenAI';
-        
-        if (status === 'connected') {
-            statusDiv.className += ' bg-green-500/20 text-green-400 border border-green-500/30';
-            statusDiv.innerHTML = `<span class="w-2 h-2 bg-green-400 rounded-full animate-pulse"></span>${providerName} Ready`;
-        } else if (!navigator.onLine) {
-            statusDiv.className += ' bg-red-500/20 text-red-400 border border-red-500/30';
-            statusDiv.innerHTML = '<span class="w-2 h-2 bg-red-400 rounded-full"></span>Offline';
-        } else {
-            statusDiv.className += ' bg-yellow-500/20 text-yellow-400 border border-yellow-500/30';
-            statusDiv.innerHTML = `<span class="w-2 h-2 bg-yellow-400 rounded-full"></span>No ${providerName} Key`;
-        }
-        
-        document.body.appendChild(statusDiv);
-    }
-
-    // Provider selection handlers
-    geminiProviderBtn.addEventListener('click', function() {
-        selectedProvider = 'gemini';
-        localStorage.setItem('selected_provider', 'gemini');
-        initializeSettingsUI();
-    });
-
-    openaiProviderBtn.addEventListener('click', function() {
-        selectedProvider = 'openai';
-        localStorage.setItem('selected_provider', 'openai');
-        initializeSettingsUI();
-    });
-
-    // Model selection handler
-    modelSelect.addEventListener('change', function() {
-        selectedModel = this.value;
-        localStorage.setItem('selected_model', this.value);
-    });
-
-    // Settings modal handlers
-    settingsBtn.addEventListener('click', function() {
-        initializeSettingsUI();
-        settingsModal.classList.remove('hidden');
-    });
-
-    closeModal.addEventListener('click', function() {
-        settingsModal.classList.add('hidden');
-    });
-
-    // Save API configuration
-    saveApiKeyBtn.addEventListener('click', function() {
-        if (selectedProvider === 'gemini') {
-            const key = geminiApiKeyInput.value.trim();
-            if (key) {
-                GEMINI_API_KEY = key;
-                localStorage.setItem('gemini_api_key', key);
-                settingsModal.classList.add('hidden');
-                updateConnectionStatus();
-                alert('✅ Gemini API ключ сохранен! Чат готов к использованию.');
-            } else {
-                alert('⚠️ Пожалуйста, введите корректный API ключ.');
-            }
-        } else {
-            const key = openaiApiKeyInput.value.trim();
-            if (key) {
-                OPENAI_API_KEY = key;
-                localStorage.setItem('openai_api_key', key);
-                settingsModal.classList.add('hidden');
-                updateConnectionStatus();
-                alert('✅ OpenAI API ключ сохранен! Чат готов к использованию.');
-            } else {
-                alert('⚠️ Пожалуйста, введите корректный API ключ.');
-            }
-        }
-    });
-
-    // Close modal when clicking outside
-    settingsModal.addEventListener('click', function(e) {
-        if (e.target === settingsModal) {
-            settingsModal.classList.add('hidden');
-        }
-    });
-
-    // Initialize on load
-    initializeSettingsUI();
-
-    // Open file picker when camera button is clicked
-    cameraBtn.addEventListener('click', function() {
-        fileInput.click();
-    });
-
-    // Handle file selection
-    fileInput.addEventListener('change', function(e) {
-        const file = e.target.files[0];
-        if (file && file.type.startsWith('image/')) {
-            const reader = new FileReader();
-            reader.onload = function(event) {
-                const imageData = event.target.result;
-                
-                // Create a new message element with the uploaded image
-                const userMessageDiv = document.createElement('div');
-                userMessageDiv.className = 'flex justify-end';
-                userMessageDiv.innerHTML = `
-                    <div class="max-w-md w-full">
-                        <div class="relative rounded-2xl overflow-hidden border-2 border-[#CCFF00]/40 shadow-[0_0_30px_rgba(204,255,0,0.15)] group">
-                            <img src="${imageData}" alt="Uploaded meal" class="w-full h-64 object-cover" />
-                            <div class="absolute inset-0 bg-gradient-to-b from-transparent via-[#CCFF00]/10 to-transparent pointer-events-none opacity-50"></div>
-                            <div class="absolute top-0 left-0 w-full h-1 bg-[#CCFF00] shadow-[0_0_15px_#CCFF00] translate-y-32"></div>
-                            <div class="absolute bottom-4 left-4 flex gap-2">
-                                <span class="bg-zinc-950/80 backdrop-blur-md px-3 py-1 rounded-full text-[10px] font-bold text-[#CCFF00] uppercase tracking-widest flex items-center gap-1 border border-[#CCFF00]/20">
-                                    <span class="material-symbols-outlined text-[12px]" style="font-variation-settings: 'FILL' 1;">check_circle</span>
-                                    Captured
-                                </span>
+                    <div class="bg-surface-container-high border border-white/5 rounded-2xl p-6 opacity-50">
+                        <div class="flex items-center gap-3">
+                            <div class="w-10 h-10 rounded-xl bg-zinc-800 flex items-center justify-center"><span class="material-symbols-outlined text-zinc-500">bed</span></div>
+                            <div>
+                                <p class="font-headline font-bold text-sm uppercase tracking-wide text-zinc-500">День отдыха</p>
+                                <p class="text-zinc-600 text-xs">Среда — восстановление</p>
                             </div>
                         </div>
                     </div>
-                `;
-                messagesContainer.appendChild(userMessageDiv);
-                messagesContainer.scrollTop = messagesContainer.scrollHeight;
-
-                // Send image to AI for analysis
-                sendImageToAI(imageData);
-            };
-            reader.readAsDataURL(file);
-            fileInput.value = '';
-        }
-    });
-
-    // Send image to AI (supports both Gemini and OpenAI)
-    async function sendImageToAI(imageData) {
-        if (selectedProvider === 'gemini') {
-            await sendImageToGemini(imageData);
-        } else if (selectedProvider === 'openai') {
-            await sendImageToOpenAI(imageData);
-        }
-    }
-
-    // Send image to Gemini API with vision
-    async function sendImageToGemini(imageData) {
-        if (!GEMINI_API_KEY) {
-            displayError('⚠️ Пожалуйста, настройте Gemini API ключ! Нажмите значок настроек (⚙️).');
-            return;
-        }
-        
-        showLoadingIndicator();
-        
-        try {
-            // Extract base64 data without the data:image prefix
-            const base64Data = imageData.split(',')[1];
-            
-            // Create abort controller for timeout
-            const controller = new AbortController();
-            const timeout = setTimeout(() => controller.abort(), API_TIMEOUT);
-            
-            const response = await fetch(`${GEMINI_API_URL}/${selectedModel}:generateContent?key=${GEMINI_API_KEY}`, {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json'
-                },
-                signal: controller.signal,
-                body: JSON.stringify({
-                    contents: [
-                        {
-                            role: 'user',
-                            parts: [
-                                {
-                                    text: 'Ты - TRENING AURA AI, профессиональный AI-ассистент по питанию и фитнесу. Проанализируй изображение еды и дай подробный разбор: оцени калорийность, содержание белков, жиров, углеводов, клетчатки, витаминов и минералов. Дай практические рекомендации по улучшению блюда, укажи примерные граммовки ингредиентов. Отвечай на русском языке, используй эмодзи для наглядности.'
-                                },
-                                {
-                                    inlineData: {
-                                        mimeType: 'image/jpeg',
-                                        data: base64Data
-                                    }
-                                }
-                            ]
-                        }
-                    ]
-                })
-            });
-            
-            clearTimeout(timeout);
-
-            if (!response.ok) {
-                const errorData = await response.json();
-                console.error('API Error:', errorData);
-                const errorMsg = errorData.error?.message || 'API request failed';
-                
-                if (errorMsg.includes('API_KEY_INVALID') || errorMsg.includes('PERMISSION_DENIED')) {
-                    throw new Error('Неверный API ключ! Пожалуйста, проверьте ключ в настройках (⚙️).');
-                } else if (errorMsg.includes('QUOTA_EXCEEDED') || errorMsg.includes('resource_exhausted')) {
-                    // Проверяем, какая модель используется
-                    const isProModel = selectedModel.includes('pro');
-                    if (isProModel) {
-                        throw new Error('Превышен бесплатный лимит Gemini Pro! Попробуйте:\n1. Переключиться на Gemini 2.5 Flash (больше бесплатных запросов)\n2. Добавить биллинг аккаунт Google\n3. Подождать ~50 секунд для сброса лимита');
-                    } else {
-                        throw new Error('Превышен лимит запросов Gemini! Подождите ~1 минуту или переключитесь на другую модель.');
-                    }
-                } else {
-                    throw new Error(errorMsg);
-                }
-            }
-
-            const data = await response.json();
-            
-            if (!data.candidates || !data.candidates[0] || !data.candidates[0].content || !data.candidates[0].content.parts || !data.candidates[0].content.parts[0]) {
-                throw new Error('Пустой ответ от API. Попробуйте еще раз.');
-            }
-            
-            const aiMessage = data.candidates[0].content.parts[0].text;
-            
-            // Display AI response
-            displayAIResponse(aiMessage);
-        } catch (error) {
-            console.error('Error analyzing image:', error);
-            
-            let errorMessage = '❌ Ошибка при анализе изображения. ';
-            if (error.name === 'AbortError') {
-                errorMessage += 'Превышено время ожидания ответа. Проверьте интернет-соединение.';
-            } else if (!navigator.onLine) {
-                errorMessage += 'Нет подключения к интернету.';
-            } else if (error.message) {
-                errorMessage += error.message;
-            } else {
-                errorMessage += 'Проверьте API ключ и интернет-соединение.';
-            }
-            displayError(errorMessage);
-        }
-    }
-
-    // Send image to OpenAI API with vision (GPT-4 Vision)
-    async function sendImageToOpenAI(imageData) {
-        if (!OPENAI_API_KEY) {
-            displayError('⚠️ Пожалуйста, настройте OpenAI API ключ! Нажмите значок настроек (⚙️).');
-            return;
-        }
-        
-        showLoadingIndicator();
-        
-        try {
-            const controller = new AbortController();
-            const timeout = setTimeout(() => controller.abort(), API_TIMEOUT);
-            
-            const response = await fetch(OPENAI_API_URL, {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                    'Authorization': `Bearer ${OPENAI_API_KEY}`
-                },
-                signal: controller.signal,
-                body: JSON.stringify({
-                    model: selectedModel || 'gpt-4o',
-                    messages: [
-                        {
-                            role: 'system',
-                            content: 'Ты - TRENING AURA AI, профессиональный AI-ассистент по питанию и фитнесу. Отвечай ТОЛЬКО на русском языке. Давай подробные, практические рекомендации по питанию, тренировкам, расчету калорий и макронутриентов.'
-                        },
-                        {
-                            role: 'user',
-                            content: [
-                                {
-                                    type: 'text',
-                                    text: 'Проанализируй изображение еды и дай подробный разбор: оцени калорийность, содержание белков, жиров, углеводов, клетчатки, витаминов и минералов. Дай практические рекомендации по улучшению блюда, укажи примерные граммовки ингредиентов. Отвечай на русском языке, используй эмодзи для наглядности.'
-                                },
-                                {
-                                    type: 'image_url',
-                                    image_url: {
-                                        url: imageData
-                                    }
-                                }
-                            ]
-                        }
-                    ],
-                    max_tokens: 2048,
-                    temperature: 0.7
-                })
-            });
-            
-            clearTimeout(timeout);
-
-            if (!response.ok) {
-                const errorData = await response.json();
-                console.error('API Error:', errorData);
-                const errorMsg = errorData.error?.message || 'API request failed';
-                const errorCode = errorData.error?.code;
-                
-                if (errorMsg.includes('invalid_api_key') || errorMsg.includes('incorrect_api_key')) {
-                    throw new Error('Неверный OpenAI API ключ! Пожалуйста, проверьте ключ в настройках (⚙️).');
-                } else if (errorMsg.includes('insufficient_quota') || errorCode === 'insufficient_quota') {
-                    throw new Error('Превышен лимит кредитов OpenAI! Проверьте ваш план и биллинг на platform.openai.com/account/billing/overview');
-                } else if (errorMsg.includes('rate_limit_exceeded') || errorCode === 'rate_limit_exceeded') {
-                    throw new Error('Превышен лимит запросов API. Попробуйте позже (через 1-2 минуты).');
-                } else {
-                    throw new Error(errorMsg);
-                }
-            }
-
-            const data = await response.json();
-            
-            if (!data.choices || !data.choices[0] || !data.choices[0].message || !data.choices[0].message.content) {
-                throw new Error('Пустой ответ от API. Попробуйте еще раз.');
-            }
-            
-            const aiMessage = data.choices[0].message.content;
-            
-            // Add to chat history
-            chatHistory.push({
-                role: 'user',
-                content: '[Image Analysis Request]'
-            });
-            chatHistory.push({
-                role: 'assistant',
-                content: aiMessage
-            });
-            
-            // Display AI response
-            displayAIResponse(aiMessage);
-        } catch (error) {
-            console.error('Error analyzing image:', error);
-            
-            let errorMessage = '❌ Ошибка при анализе изображения. ';
-            if (error.name === 'AbortError') {
-                errorMessage += 'Превышено время ожидания ответа. Проверьте интернет-соединение.';
-            } else if (!navigator.onLine) {
-                errorMessage += 'Нет подключения к интернету.';
-            } else if (error.message) {
-                errorMessage += error.message;
-            } else {
-                errorMessage += 'Проверьте API ключ и интернет-соединение.';
-            }
-            displayError(errorMessage);
-        }
-    }
-
-    // Генерирует демо-анализ блюда с рандомными данными
-    function generateDemoAnalysis() {
-        const meals = [
-            { name: 'Протеиновая боула', calories: 450 + Math.random() * 200, protein: 35 + Math.random() * 25, carbs: 40 + Math.random() * 30, fat: 12 + Math.random() * 15 },
-            { name: 'Салат с курицей', calories: 380 + Math.random() * 150, protein: 40 + Math.random() * 20, carbs: 25 + Math.random() * 20, fat: 10 + Math.random() * 12 },
-            { name: 'Стейк с киноа', calories: 550 + Math.random() * 200, protein: 45 + Math.random() * 25, carbs: 50 + Math.random() * 30, fat: 20 + Math.random() * 18 },
-            { name: 'Овощной микс', calories: 280 + Math.random() * 120, protein: 15 + Math.random() * 15, carbs: 35 + Math.random() * 25, fat: 8 + Math.random() * 10 },
-            { name: 'Паста Примавера', calories: 480 + Math.random() * 180, protein: 18 + Math.random() * 15, carbs: 60 + Math.random() * 35, fat: 15 + Math.random() * 15 }
-        ];
-        
-        const meal = meals[Math.floor(Math.random() * meals.length)];
-        
-        return `🍽️ **${meal.name}**
-
-**Пищевая ценность:**
-• **Калории:** ${Math.round(meal.calories)} ккал (+${Math.round(Math.random() * 20)}% от дневной нормы)
-• **Белки:** ${Math.round(meal.protein)}г (высокое содержание белка 💪)
-• **Углеводы:** ${Math.round(meal.carbs)}г (сложные углеводы)
-• **Жиры:** ${Math.round(meal.fat)}г (полезные жиры)
-
-**Рекомендации по здоровью:**
-✓ Отличный прием пищи после тренировки
-✓ Сбалансированный состав макронутриентов
-✓ Богато микроэлементами и витаминами
-✓ Поддерживает восстановление мышц
-✓ Способствует достижению фитнес-целей`;
-    }
-
-    // Send message button functionality
-    sendBtn.addEventListener('click', function() {
-        const message = messageInput.value.trim();
-        if (message) {
-            sendMessage(message);
-        }
-    });
-
-    // Send message on Enter key
-    messageInput.addEventListener('keypress', function(e) {
-        if (e.key === 'Enter' && !e.shiftKey) {
-            e.preventDefault();
-            sendBtn.click();
-        }
-    });
-
-    // Send text message (supports both Gemini and OpenAI)
-    async function sendMessage(message) {
-        if (selectedProvider === 'gemini') {
-            await sendTextToGemini(message);
-        } else if (selectedProvider === 'openai') {
-            await sendTextToOpenAI(message);
-        }
-    }
-
-    // Send text message to Gemini API
-    async function sendTextToGemini(message) {
-        if (!GEMINI_API_KEY) {
-            displayError('⚠️ Пожалуйста, настройте Gemini API ключ! Нажмите значок настроек (⚙️).');
-            return;
-        }
-        
-        // Create user message element
-        const userMessageDiv = document.createElement('div');
-        userMessageDiv.className = 'flex justify-end';
-        userMessageDiv.innerHTML = `
-            <div class="max-w-xl w-full bg-[#CCFF00]/10 p-4 rounded-2xl border border-[#CCFF00]/30">
-                <p class="text-on-surface">${escapeHtml(message)}</p>
+                </div>
             </div>
-        `;
-        messagesContainer.appendChild(userMessageDiv);
-        messageInput.value = '';
-        messagesContainer.scrollTop = messagesContainer.scrollHeight;
+        </div>
 
-        // Show loading indicator
-        showLoadingIndicator();
+        <!-- ── PANEL: Metrics ── -->
+        <div id="panel-metrics" class="panel overflow-y-auto">
+            <div class="max-w-2xl mx-auto p-8 space-y-6">
+                <div class="border-l-2 border-[#00e3fd] pl-6 mb-8">
+                    <h2 class="font-headline text-2xl font-black uppercase tracking-tight text-[#00e3fd]">Metrics</h2>
+                    <p class="text-zinc-500 text-sm mt-1 font-body">Ваши показатели за последние 7 дней</p>
+                </div>
 
-        try {
-            // Build contents in Gemini format
-            const contents = [];
-            
-            // Add system prompt as first user message
-            contents.push({
-                role: 'user',
-                parts: [{ text: 'Ты - TRENING AURA AI, профессиональный AI-ассистент по питанию и фитнесу. Отвечай ТОЛЬКО на русском языке. Давай подробные, практические рекомендации по питанию, тренировкам, расчету калорий и макронутриентов.' }]
-            });
-            
-            // Add previous messages
-            chatHistory
-                .filter(msg => msg.role !== 'system')
-                .forEach(msg => {
-                    contents.push({
-                        role: msg.role === 'assistant' ? 'model' : 'user',
-                        parts: [{ text: msg.content }]
-                    });
-                });
-            
-            // Add current message
-            contents.push({
-                role: 'user',
-                parts: [{ text: message }]
-            });
-
-            // Create abort controller for timeout
-            const controller = new AbortController();
-            const timeout = setTimeout(() => controller.abort(), API_TIMEOUT);
-
-            const response = await fetch(`${GEMINI_API_URL}/${selectedModel}:generateContent?key=${GEMINI_API_KEY}`, {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json'
-                },
-                signal: controller.signal,
-                body: JSON.stringify({
-                    contents: contents,
-                    generationConfig: {
-                        temperature: 0.7,
-                        maxOutputTokens: 2048
-                    }
-                })
-            });
-            
-            clearTimeout(timeout);
-
-            if (!response.ok) {
-                const errorData = await response.json();
-                console.error('API Error:', errorData);
-                const errorMsg = errorData.error?.message || 'API request failed';
-                if (errorMsg.includes('API_KEY_INVALID') || errorMsg.includes('PERMISSION_DENIED')) {
-                    throw new Error('Неверный API ключ! Пожалуйста, проверьте ключ в настройках (⚙️).');
-                } else if (errorMsg.includes('QUOTA_EXCEEDED')) {
-                    throw new Error('Превышен лимит запросов API. Попробуйте позже.');
-                } else {
-                    throw new Error(errorMsg);
-                }
-            }
-
-            const data = await response.json();
-            
-            if (!data.candidates || !data.candidates[0] || !data.candidates[0].content || !data.candidates[0].content.parts || !data.candidates[0].content.parts[0]) {
-                throw new Error('Пустой ответ от API. Попробуйте еще раз.');
-            }
-            
-            const aiMessage = data.candidates[0].content.parts[0].text;
-            
-            // Add to chat history
-            chatHistory.push({
-                role: 'user',
-                content: message
-            });
-            chatHistory.push({
-                role: 'assistant',
-                content: aiMessage
-            });
-
-            // Display AI response
-            displayAIResponse(aiMessage);
-        } catch (error) {
-            console.error('Error sending message:', error);
-            
-            let errorMessage = '❌ Ошибка при отправке сообщения. ';
-            if (error.name === 'AbortError') {
-                errorMessage += 'Превышено время ожидания ответа. Проверьте интернет-соединение.';
-            } else if (!navigator.onLine) {
-                errorMessage += 'Нет подключения к интернету.';
-            } else if (error.message) {
-                errorMessage += error.message;
-            } else {
-                errorMessage += 'Проверьте API ключ и интернет-соединение.';
-            }
-            displayError(errorMessage);
-        }
-    }
-
-    // Send text message to OpenAI API
-    async function sendTextToOpenAI(message) {
-        if (!OPENAI_API_KEY) {
-            displayError('⚠️ Пожалуйста, настройте OpenAI API ключ! Нажмите значок настроек (⚙️).');
-            return;
-        }
-        
-        // Create user message element
-        const userMessageDiv = document.createElement('div');
-        userMessageDiv.className = 'flex justify-end';
-        userMessageDiv.innerHTML = `
-            <div class="max-w-xl w-full bg-[#00e3fd]/10 p-4 rounded-2xl border border-[#00e3fd]/30">
-                <p class="text-on-surface">${escapeHtml(message)}</p>
-            </div>
-        `;
-        messagesContainer.appendChild(userMessageDiv);
-        messageInput.value = '';
-        messagesContainer.scrollTop = messagesContainer.scrollHeight;
-
-        // Show loading indicator
-        showLoadingIndicator();
-
-        try {
-            // Build messages for OpenAI format
-            const messages = [];
-            
-            // Add system prompt
-            messages.push({
-                role: 'system',
-                content: 'Ты - TRENING AURA AI, профессиональный AI-ассистент по питанию и фитнесу. Отвечай ТОЛЬКО на русском языке. Давай подробные, практические рекомендации по питанию, тренировкам, расчету калорий и макронутриентов.'
-            });
-            
-            // Add previous messages
-            chatHistory
-                .filter(msg => msg.role !== 'system')
-                .forEach(msg => {
-                    messages.push({
-                        role: msg.role,
-                        content: msg.content
-                    });
-                });
-            
-            // Add current message
-            messages.push({
-                role: 'user',
-                content: message
-            });
-
-            // Create abort controller for timeout
-            const controller = new AbortController();
-            const timeout = setTimeout(() => controller.abort(), API_TIMEOUT);
-
-            const response = await fetch(OPENAI_API_URL, {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                    'Authorization': `Bearer ${OPENAI_API_KEY}`
-                },
-                signal: controller.signal,
-                body: JSON.stringify({
-                    model: selectedModel || 'gpt-4o',
-                    messages: messages,
-                    max_tokens: 2048,
-                    temperature: 0.7
-                })
-            });
-            
-            clearTimeout(timeout);
-
-            if (!response.ok) {
-                const errorData = await response.json();
-                console.error('API Error:', errorData);
-                const errorMsg = errorData.error?.message || 'API request failed';
-                const errorCode = errorData.error?.code;
-                
-                if (errorMsg.includes('invalid_api_key') || errorMsg.includes('incorrect_api_key')) {
-                    throw new Error('Неверный OpenAI API ключ! Пожалуйста, проверьте ключ в настройках (⚙️).');
-                } else if (errorMsg.includes('insufficient_quota') || errorCode === 'insufficient_quota') {
-                    throw new Error('Превышен лимит кредитов OpenAI! Проверьте ваш план и биллинг на platform.openai.com/account/billing/overview');
-                } else if (errorMsg.includes('rate_limit_exceeded') || errorCode === 'rate_limit_exceeded') {
-                    throw new Error('Превышен лимит запросов API. Попробуйте позже (через 1-2 минуты).');
-                } else {
-                    throw new Error(errorMsg);
-                }
-            }
-
-            const data = await response.json();
-            
-            if (!data.choices || !data.choices[0] || !data.choices[0].message || !data.choices[0].message.content) {
-                throw new Error('Пустой ответ от API. Попробуйте еще раз.');
-            }
-            
-            const aiMessage = data.choices[0].message.content;
-            
-            // Add to chat history
-            chatHistory.push({
-                role: 'user',
-                content: message
-            });
-            chatHistory.push({
-                role: 'assistant',
-                content: aiMessage
-            });
-
-            // Display AI response
-            displayAIResponse(aiMessage);
-        } catch (error) {
-            console.error('Error sending message:', error);
-            
-            let errorMessage = '❌ Ошибка при отправке сообщения. ';
-            if (error.name === 'AbortError') {
-                errorMessage += 'Превышено время ожидания ответа. Проверьте интернет-соединение.';
-            } else if (!navigator.onLine) {
-                errorMessage += 'Нет подключения к интернету.';
-            } else if (error.message) {
-                errorMessage += error.message;
-            } else {
-                errorMessage += 'Проверьте API ключ и интернет-соединение.';
-            }
-            displayError(errorMessage);
-        }
-    }
-
-    // Генерирует демо-ответ в зависимости от вопроса
-    function generateDemoResponse(message) {
-        const lower = message.toLowerCase();
-        
-        if (lower.includes('калор') || lower.includes('calor')) {
-            const targetCalories = lower.includes('набат') || lower.includes('набор') || lower.includes('gain') 
-                ? '2800-3000 ккал' 
-                : '1800-2000 ккал';
-            const goal = lower.includes('набат') || lower.includes('набор') || lower.includes('gain')
-                ? 'набор массы'
-                : 'похудение';
-            return `📊 **Расчет калорийности на основе ваших данных:**
-
-**Суточная норма калорий:** ~${2200 + Math.round(Math.random() * 600)} ккал
-
-**Ваша цель:** ${goal}
-**Целевая калорийность:** ${targetCalories}
-
-**Рекомендации:**
-• Взвешивайтесь 2-3 раза в неделю утром натощак
-• Корректируйте калорийность каждые 2 недели
-• При застое уменьшите/увеличьте на 200 ккал
-• Пейте достаточно воды (30-40 мл на 1 кг веса)`;
-        }
-        
-        if (lower.includes('белк') || lower.includes('protein')) {
-            const weight = 70 + Math.random() * 30;
-            const proteinTarget = Math.round(1.6 * weight);
-            return `💪 **Рекомендации по белку:**
-
-**Суточная норма:** ${proteinTarget}г (1.6г на 1 кг веса тела)
-**На один прием пищи:** 25-35г
-
-**Лучшие источники белка:**
-🍗 Куриная грудка (23г белка на 100г)
-🐟 Рыба (20-25г белка на 100г)
-🥚 Яйца (6г белка в 1 яйце)
-🥛 Греческий йогурт (10г белка на 100г)
-🧀 Творог (16г белка на 100г)
-🫘 Бобовые (8-10г белка на 100г)
-
-**Время приема:** Равномерно распределяйте в течение дня (каждые 3-4 часа)`;
-        }
-        
-        if (lower.includes('тренир') || lower.includes('workout') || lower.includes('спорт')) {
-            return `🏋️ **Питание вокруг тренировки:**
-
-**До тренировки (за 1-2 часа):**
-• Углеводы: 30-40г (овсянка, банан, рис)
-• Белок: 15-20г (курица, протеиновый коктейль)
-• Минимум жиров и клетчатки
-
-**После тренировки (в течение 1-2 часов):**
-• Белок: 30-40г (для восстановления мышц)
-• Углеводы: 40-60г (для восполнения гликогена)
-
-**Примеры:**
-🍌 Банан + протеиновый коктейль
-🍚 Рис + куриная грудка
-🥪 Тост с арахисовой пастой и яйцом
-
-**Важно:** Пейте воду до, во время и после тренировки!`;
-        }
-        
-        if (lower.includes('вес') || lower.includes('weight') || lower.includes('похуд')) {
-            const currentWeight = 70 + Math.round(Math.random() * 30);
-            const targetWeight = lower.includes('набат') || lower.includes('набор') || lower.includes('gain') ? 85 : 65;
-            const timeline = lower.includes('набат') || lower.includes('набор') || lower.includes('gain') ? '4-6 месяцев' : '3-4 месяца';
-            const rate = lower.includes('набат') || lower.includes('набор') || lower.includes('gain') ? '+0.5 кг/неделю' : '-0.5 кг/неделю';
-            
-            return `⚖️ **План управления весом:**
-
-**Текущий вес:** ${currentWeight} кг
-**Целевой вес:** ${targetWeight} кг
-
-**Ожидаемые сроки:** ${timeline}
-**Темп:** ${rate}
-
-**Рекомендации:**
-• Взвешивайтесь 2-3 раза в неделю
-• Замеряйте объемы (талия, бедра, грудь)
-• Делайте фото прогресса каждые 2 недели
-• При застое измените тренировочную программу
-• Убедитесь, что спите 7-8 часов в сутки`;
-        }
-        
-        if (lower.includes('углевод') || lower.includes('carbs')) {
-            return `🍞 **Рекомендации по углеводам:**
-
-**Суточная норма:** ${Math.round(3 * (70 + Math.random() * 30))}г (3-5г на 1 кг веса)
-
-**Типы углеводов:**
-✅ **Сложные (основа рациона):**
-• Овсянка, гречка, киноа, бурый рис
-• Цельнозерновой хлеб, макароны из твердых сортов
-• Овощи, картофель
-
-⚠️ **Простые (ограничить):**
-• Сахар, конфеты, выпечка
-• Сладкие напитки, соки
-
-**Время приема:**
-• Утром и до тренировки - можно больше
-• Вечером - уменьшите порцию`;
-        }
-        
-        // Default response
-        return `🤖 **Я - TRENING AURA AI, ваш персональный помощник по питанию и фитнесу!**
-
-**Чем я могу помочь:**
-✅ Анализ пищевой ценности блюд
-✅ Расчет суточной калорийности и макронутриентов
-✅ Планы питания для разных целей
-✅ Рекомендации по спортивному питанию
-✅ Советы по тренировкам и восстановлению
-✅ Помощь в управлении весом
-
-**Задайте мне вопрос о:**
-• Калориях и макронутриентах
-• Планах питания
-• Тренировочном процессе
-• Спортивных добавках
-• Здоровом образе жизни
-
-**Примеры вопросов:**
-"Сколько калорий мне нужно в день?"
-"Как набрать мышечную массу?"
-"Что есть до и после тренировки?"
-"Как рассчитать БЖУ?"`;
-    }
-
-    // Display AI response in chat
-    function displayAIResponse(message) {
-        // Remove loading indicator
-        const loader = document.querySelector('.loader-container');
-        if (loader) loader.remove();
-
-        const aiMessageDiv = document.createElement('div');
-        aiMessageDiv.className = 'flex justify-start';
-        aiMessageDiv.innerHTML = `
-            <div class="max-w-xl w-full space-y-6">
-                <div class="flex items-center gap-3 mb-2">
-                    <div class="w-8 h-8 rounded-full bg-[#CCFF00] flex items-center justify-center text-zinc-950">
-                        <span class="material-symbols-outlined text-sm" style="font-variation-settings: 'FILL' 1;">smart_toy</span>
+                <!-- Stats grid -->
+                <div class="grid grid-cols-2 gap-4">
+                    <div class="bg-surface-container-high rounded-2xl p-5 border border-white/5">
+                        <p class="text-xs text-zinc-500 uppercase tracking-widest font-headline mb-1">Ккал сегодня</p>
+                        <p class="text-3xl font-black font-headline text-[#CCFF00]" id="metric-kcal">1,840</p>
+                        <p class="text-xs text-zinc-600 mt-1">/ 2,200 цель</p>
+                        <div class="metric-bar mt-3"><div class="metric-bar-fill bg-[#CCFF00]" style="width:84%"></div></div>
                     </div>
-                    <span class="font-headline font-bold text-xs tracking-widest text-[#CCFF00] uppercase">Pulse Analysis Engine</span>
+                    <div class="bg-surface-container-high rounded-2xl p-5 border border-white/5">
+                        <p class="text-xs text-zinc-500 uppercase tracking-widest font-headline mb-1">Белок</p>
+                        <p class="text-3xl font-black font-headline text-[#00e3fd]" id="metric-protein">128г</p>
+                        <p class="text-xs text-zinc-600 mt-1">/ 160г цель</p>
+                        <div class="metric-bar mt-3"><div class="metric-bar-fill bg-[#00e3fd]" style="width:80%"></div></div>
+                    </div>
+                    <div class="bg-surface-container-high rounded-2xl p-5 border border-white/5">
+                        <p class="text-xs text-zinc-500 uppercase tracking-widest font-headline mb-1">Углеводы</p>
+                        <p class="text-3xl font-black font-headline text-amber-400" id="metric-carbs">210г</p>
+                        <p class="text-xs text-zinc-600 mt-1">/ 250г цель</p>
+                        <div class="metric-bar mt-3"><div class="metric-bar-fill bg-amber-400" style="width:84%"></div></div>
+                    </div>
+                    <div class="bg-surface-container-high rounded-2xl p-5 border border-white/5">
+                        <p class="text-xs text-zinc-500 uppercase tracking-widest font-headline mb-1">Жиры</p>
+                        <p class="text-3xl font-black font-headline text-rose-400" id="metric-fat">58г</p>
+                        <p class="text-xs text-zinc-600 mt-1">/ 70г цель</p>
+                        <div class="metric-bar mt-3"><div class="metric-bar-fill bg-rose-400" style="width:83%"></div></div>
+                    </div>
                 </div>
-                <div class="bg-surface-container p-6 rounded-2xl border border-white/5 relative overflow-hidden group">
-                    <div class="absolute -top-24 -right-24 w-48 h-48 bg-[#CCFF00]/5 rounded-full blur-3xl group-hover:bg-[#CCFF00]/10 transition-all duration-700"></div>
-                    <p class="text-zinc-300 text-sm leading-relaxed relative z-10">${escapeHtml(message).replace(/\n/g, '<br>')}</p>
-                </div>
-            </div>
-        `;
-        messagesContainer.appendChild(aiMessageDiv);
-        messagesContainer.scrollTop = messagesContainer.scrollHeight;
-    }
 
-    // Show loading indicator
-    function showLoadingIndicator() {
-        const loaderDiv = document.createElement('div');
-        loaderDiv.className = 'loader-container flex justify-start';
-        loaderDiv.innerHTML = `
-            <div class="flex items-center gap-3">
-                <div class="w-8 h-8 rounded-full bg-[#CCFF00] flex items-center justify-center text-zinc-950 animate-pulse">
-                    <span class="material-symbols-outlined text-sm" style="font-variation-settings: 'FILL' 1;">smart_toy</span>
-                </div>
-                <div class="bg-surface-container p-4 rounded-2xl border border-white/5">
-                    <div class="flex gap-2">
-                        <div class="w-2 h-2 bg-[#CCFF00] rounded-full animate-bounce"></div>
-                        <div class="w-2 h-2 bg-[#CCFF00] rounded-full animate-bounce" style="animation-delay: 0.1s"></div>
-                        <div class="w-2 h-2 bg-[#CCFF00] rounded-full animate-bounce" style="animation-delay: 0.2s"></div>
+                <!-- Scans count -->
+                <div class="bg-surface-container-high rounded-2xl p-5 border border-white/5">
+                    <p class="text-xs text-zinc-500 uppercase tracking-widest font-headline mb-3">Активность сканирований</p>
+                    <div class="flex items-end gap-1 h-16">
+                        <div id="scan-chart" class="flex items-end gap-1 h-full w-full">
+                            <!-- bars injected by JS -->
+                        </div>
+                    </div>
+                    <div class="flex justify-between text-[10px] text-zinc-600 mt-2 font-body">
+                        <span>Пн</span><span>Вт</span><span>Ср</span><span>Чт</span><span>Пт</span><span>Сб</span><span>Вс</span>
                     </div>
                 </div>
             </div>
-        `;
-        messagesContainer.appendChild(loaderDiv);
-        messagesContainer.scrollTop = messagesContainer.scrollHeight;
-    }
+        </div>
 
-    // Display error message
-    function displayError(errorMessage) {
-        const loader = document.querySelector('.loader-container');
-        if (loader) loader.remove();
+        <!-- ── PANEL: Dashboard ── -->
+        <div id="panel-dashboard" class="panel overflow-y-auto">
+            <div class="max-w-2xl mx-auto p-8 space-y-6">
+                <div class="border-l-2 border-[#CCFF00] pl-6 mb-8">
+                    <h2 class="font-headline text-2xl font-black uppercase tracking-tight">Dashboard</h2>
+                    <p class="text-zinc-500 text-sm mt-1 font-body">Сводка за сегодня</p>
+                </div>
 
-        const errorDiv = document.createElement('div');
-        errorDiv.className = 'flex justify-start';
-        errorDiv.innerHTML = `
-            <div class="max-w-xl w-full">
-                <div class="bg-error/10 p-4 rounded-2xl border border-error/30">
-                    <p class="text-error text-sm">${escapeHtml(errorMessage)}</p>
+                <!-- User card -->
+                <div class="bg-surface-container-high rounded-2xl p-6 border border-white/5 flex items-center gap-5">
+                    <div id="dash-avatar" class="w-16 h-16 rounded-full border-2 border-[#CCFF00] flex items-center justify-center bg-zinc-900 font-headline font-black text-[#CCFF00] text-2xl">?</div>
+                    <div>
+                        <p class="font-headline font-bold text-lg" id="dash-name">—</p>
+                        <p class="text-zinc-500 text-sm font-body" id="dash-goal">—</p>
+                        <div class="flex gap-4 mt-2">
+                            <span class="text-[10px] text-[#CCFF00] bg-[#CCFF00]/10 px-2 py-0.5 rounded font-bold uppercase">Elite Tier</span>
+                            <span class="text-[10px] text-zinc-400 font-body" id="dash-scans">0 сканирований</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Quick actions -->
+                <div class="grid grid-cols-2 gap-3">
+                    <button onclick="switchPanel('nutrition'); showToast('🤖 Открыт Nutrition Bot')" class="p-5 bg-surface-container-high border border-white/5 rounded-2xl hover:border-[#CCFF00]/30 transition-all text-left group">
+                        <span class="material-symbols-outlined text-[#CCFF00] mb-2 block">smart_toy</span>
+                        <p class="font-headline font-bold text-sm">Nutrition Bot</p>
+                        <p class="text-zinc-600 text-xs font-body mt-1">Анализ еды с AI</p>
+                    </button>
+                    <button onclick="document.getElementById('fileInput').click(); switchPanel('nutrition')" class="p-5 bg-surface-container-high border border-white/5 rounded-2xl hover:border-[#CCFF00]/30 transition-all text-left group">
+                        <span class="material-symbols-outlined text-[#CCFF00] mb-2 block">photo_camera</span>
+                        <p class="font-headline font-bold text-sm">Быстрый скан</p>
+                        <p class="text-zinc-600 text-xs font-body mt-1">Загрузить фото</p>
+                    </button>
+                    <button onclick="switchPanel('metrics'); showToast('📊 Открыты метрики')" class="p-5 bg-surface-container-high border border-white/5 rounded-2xl hover:border-[#00e3fd]/30 transition-all text-left group">
+                        <span class="material-symbols-outlined text-[#00e3fd] mb-2 block">query_stats</span>
+                        <p class="font-headline font-bold text-sm">Метрики</p>
+                        <p class="text-zinc-600 text-xs font-body mt-1">БЖУ и прогресс</p>
+                    </button>
+                    <button onclick="switchPanel('workout'); showToast('💪 Открыт план тренировок')" class="p-5 bg-surface-container-high border border-white/5 rounded-2xl hover:border-amber-400/30 transition-all text-left group">
+                        <span class="material-symbols-outlined text-amber-400 mb-2 block">fitness_center</span>
+                        <p class="font-headline font-bold text-sm">Тренировки</p>
+                        <p class="text-zinc-600 text-xs font-body mt-1">Программа на неделю</p>
+                    </button>
                 </div>
             </div>
-        `;
-        messagesContainer.appendChild(errorDiv);
-        messagesContainer.scrollTop = messagesContainer.scrollHeight;
-    }
+        </div>
 
-    // Escape HTML to prevent XSS
-    function escapeHtml(text) {
-        const map = {
-            '&': '&amp;',
-            '<': '&lt;',
-            '>': '&gt;',
-            '"': '&quot;',
-            "'": '&#039;'
-        };
-        return text.replace(/[&<>"']/g, m => map[m]);
+    </section>
+</main>
+
+<!-- ═══════════════════════════════════════════════
+     SETTINGS MODAL
+═══════════════════════════════════════════════ -->
+<div id="settingsModal" class="hidden fixed inset-0 z-50 flex items-center justify-center bg-black/50 backdrop-blur-sm">
+    <div class="bg-surface-container border border-white/5 rounded-3xl p-8 max-w-md w-full mx-4 shadow-2xl">
+        <div class="flex items-center justify-between mb-6">
+            <h2 class="text-xl font-bold text-on-surface font-headline">API Configuration</h2>
+            <button onclick="closeSettings()" class="text-zinc-500 hover:text-white transition-colors p-1">
+                <span class="material-symbols-outlined">close</span>
+            </button>
+        </div>
+        <div class="space-y-4">
+            <div>
+                <label class="block text-xs font-bold text-zinc-400 uppercase tracking-widest mb-2">AI Provider</label>
+                <div class="flex gap-2">
+                    <button id="geminiProviderBtn" onclick="selectProvider('gemini')" class="flex-1 py-3 px-4 rounded-xl border-2 border-[#CCFF00] bg-[#CCFF00]/10 text-[#CCFF00] font-bold text-sm transition-all hover:bg-[#CCFF00]/20">Google Gemini</button>
+                    <button id="openaiProviderBtn" onclick="selectProvider('openai')" class="flex-1 py-3 px-4 rounded-xl border-2 border-white/10 bg-transparent text-zinc-400 font-bold text-sm transition-all hover:border-white/30 hover:text-white">OpenAI</button>
+                </div>
+            </div>
+            <div id="geminiKeySection">
+                <label class="block text-xs font-bold text-zinc-400 uppercase tracking-widest mb-2">Gemini API Key</label>
+                <input id="geminiApiKeyInput" type="password" placeholder="Вставьте Gemini API ключ..." class="w-full bg-surface-container-low border border-white/10 rounded-xl px-4 py-3 text-sm text-on-surface placeholder:text-zinc-600 focus:outline-none focus:border-[#CCFF00] transition-colors" />
+                <p class="text-[10px] text-zinc-500 mt-2">Получить ключ: <a href="https://ai.google.dev" target="_blank" class="text-[#CCFF00] hover:underline">ai.google.dev</a></p>
+            </div>
+            <div id="openaiKeySection" class="hidden">
+                <label class="block text-xs font-bold text-zinc-400 uppercase tracking-widest mb-2">OpenAI API Key</label>
+                <input id="openaiApiKeyInput" type="password" placeholder="Вставьте OpenAI API ключ..." class="w-full bg-surface-container-low border border-white/10 rounded-xl px-4 py-3 text-sm text-on-surface placeholder:text-zinc-600 focus:outline-none focus:border-[#00e3fd] transition-colors" />
+                <p class="text-[10px] text-zinc-500 mt-2">Получить ключ: <a href="https://platform.openai.com/api-keys" target="_blank" class="text-[#00e3fd] hover:underline">platform.openai.com</a></p>
+            </div>
+            <div>
+                <label class="block text-xs font-bold text-zinc-400 uppercase tracking-widest mb-2">Model</label>
+                <select id="modelSelect" class="w-full bg-surface-container-low border border-white/10 rounded-xl px-4 py-3 text-sm text-on-surface focus:outline-none focus:border-[#CCFF00] transition-colors">
+                    <option value="gemini-2.5-flash">Gemini 2.5 Flash</option>
+                    <option value="gemini-2.5-pro">Gemini 2.5 Pro</option>
+                    <option value="gpt-4o">GPT-4o</option>
+                    <option value="gpt-4-turbo">GPT-4 Turbo</option>
+                    <option value="gpt-3.5-turbo">GPT-3.5 Turbo</option>
+                </select>
+            </div>
+            <button onclick="saveSettings()" class="w-full bg-[#CCFF00] text-zinc-950 font-bold py-3 rounded-xl hover:shadow-[0_0_20px_#CCFF00] transition-all active:scale-95 uppercase text-xs tracking-widest font-headline">
+                Save Configuration
+            </button>
+            <div class="bg-yellow-500/10 border border-yellow-500/30 rounded-xl p-3">
+                <p class="text-[10px] text-yellow-400">⚠️ Ключи хранятся локально в браузере. Не передавайте их третьим лицам.</p>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- ═══════════════════════════════════════════════
+     UPGRADE MODAL
+═══════════════════════════════════════════════ -->
+<div id="upgrade-modal">
+    <div class="bg-surface-container border border-[#CCFF00]/20 rounded-3xl p-8 max-w-sm w-full mx-4 shadow-2xl relative overflow-hidden">
+        <div class="absolute -top-20 -right-20 w-48 h-48 bg-[#CCFF00]/5 rounded-full blur-3xl"></div>
+        <button onclick="closeUpgrade()" class="absolute top-4 right-4 text-zinc-600 hover:text-white transition-colors"><span class="material-symbols-outlined">close</span></button>
+        <div class="text-center mb-6 relative z-10">
+            <span class="material-symbols-outlined text-5xl text-[#CCFF00] mb-3 block" style="font-variation-settings:'FILL' 1;">workspace_premium</span>
+            <h2 class="font-headline text-2xl font-black uppercase text-[#CCFF00]">Pro Plan</h2>
+            <p class="text-zinc-500 text-sm font-body mt-2">Безлимитные сканирования и AI-анализ</p>
+        </div>
+        <div class="space-y-3 mb-6 relative z-10">
+            <div class="flex items-center gap-3 text-sm font-body"><span class="text-[#CCFF00]">✓</span> Безлимитные AI сканирования</div>
+            <div class="flex items-center gap-3 text-sm font-body"><span class="text-[#CCFF00]">✓</span> Приоритетный доступ к GPT-4o</div>
+            <div class="flex items-center gap-3 text-sm font-body"><span class="text-[#CCFF00]">✓</span> История за 90 дней</div>
+            <div class="flex items-center gap-3 text-sm font-body"><span class="text-[#CCFF00]">✓</span> Экспорт данных</div>
+        </div>
+        <div class="flex items-baseline gap-1 mb-6 justify-center relative z-10">
+            <span class="font-headline text-4xl font-black">$12</span>
+            <span class="text-zinc-500 font-body">/мес</span>
+        </div>
+        <button onclick="showToast('🚀 Скоро будет доступно!');closeUpgrade()" class="w-full py-3 bg-[#CCFF00] text-zinc-950 font-black rounded-xl hover:shadow-[0_0_20px_#CCFF00] transition-all active:scale-95 uppercase text-xs tracking-widest font-headline relative z-10">
+            Активировать Pro
+        </button>
+    </div>
+</div>
+
+<!-- ═══════════════════════════════════════════════
+     MOBILE BOTTOM NAV
+═══════════════════════════════════════════════ -->
+<nav class="md:hidden fixed bottom-0 left-0 w-full z-50 flex justify-around items-center px-4 pb-6 pt-3 bg-zinc-950/90 backdrop-blur-2xl rounded-t-3xl">
+    <button onclick="switchPanel('nutrition')" class="flex flex-col items-center justify-center text-[#CCFF00] bg-[#CCFF00]/10 rounded-xl px-4 py-1 scale-110">
+        <span class="material-symbols-outlined" style="font-variation-settings:'FILL' 1;">chat_bubble</span>
+        <span class="font-body text-[10px] font-bold tracking-tight">Chat</span>
+    </button>
+    <button onclick="document.getElementById('fileInput').click();switchPanel('nutrition')" class="flex flex-col items-center justify-center text-zinc-500">
+        <span class="material-symbols-outlined">add_box</span>
+        <span class="font-body text-[10px] font-bold tracking-tight">Log</span>
+    </button>
+    <button onclick="document.getElementById('fileInput').click();switchPanel('nutrition')" class="flex flex-col items-center justify-center text-zinc-500">
+        <span class="material-symbols-outlined">photo_camera</span>
+        <span class="font-body text-[10px] font-bold tracking-tight">Scanner</span>
+    </button>
+    <button onclick="switchPanel('metrics')" class="flex flex-col items-center justify-center text-zinc-500">
+        <span class="material-symbols-outlined">person</span>
+        <span class="font-body text-[10px] font-bold tracking-tight">Profile</span>
+    </button>
+</nav>
+
+<!-- ═══════════════════════════════════════════════
+     JAVASCRIPT
+═══════════════════════════════════════════════ -->
+<script>
+// ─── Config ───────────────────────────────────────────────────
+let selectedProvider = localStorage.getItem('selected_provider') || 'gemini';
+let GEMINI_API_KEY = localStorage.getItem('gemini_api_key') || '';
+let OPENAI_API_KEY = localStorage.getItem('openai_api_key') || '';
+let selectedModel = localStorage.getItem('selected_model') || 'gemini-2.5-flash';
+const GEMINI_API_URL = 'https://generativelanguage.googleapis.com/v1beta/models';
+const OPENAI_API_URL = 'https://api.openai.com/v1/chat/completions';
+const API_TIMEOUT = 60000;
+
+let chatHistory = [];
+let scanHistory = []; // { img, name, kcal, time }
+
+// ─── Toast ───────────────────────────────────────────────────
+function showToast(msg, dur = 3000) {
+    const t = document.getElementById('toast');
+    t.textContent = msg;
+    t.classList.add('show');
+    setTimeout(() => t.classList.remove('show'), dur);
+}
+
+// ─── Panel switching ─────────────────────────────────────────
+function switchPanel(name) {
+    // Deactivate all panels
+    document.querySelectorAll('.panel').forEach(p => p.classList.remove('active'));
+    document.querySelectorAll('.nav-item').forEach(n => n.classList.remove('active'));
+    document.querySelectorAll('[id^="topnav-"]').forEach(b => b.classList.remove('text-[#CCFF00]', 'font-bold'));
+
+    // Activate target
+    const panel = document.getElementById('panel-' + name);
+    if (panel) panel.classList.add('active');
+
+    const navItem = document.querySelector(`[data-panel="${name}"]`);
+    if (navItem) navItem.classList.add('active');
+
+    const topBtn = document.getElementById('topnav-' + name);
+    if (topBtn) topBtn.classList.add('text-[#CCFF00]', 'font-bold');
+
+    // Panel-specific init
+    if (name === 'metrics') renderScanChart();
+    if (name === 'dashboard') updateDashboard();
+}
+
+// ─── Settings modal ──────────────────────────────────────────
+function openSettings() {
+    document.getElementById('geminiApiKeyInput').value = GEMINI_API_KEY;
+    document.getElementById('openaiApiKeyInput').value = OPENAI_API_KEY;
+    document.getElementById('modelSelect').value = selectedModel;
+    updateProviderUI();
+    document.getElementById('settingsModal').classList.remove('hidden');
+}
+function closeSettings() { document.getElementById('settingsModal').classList.add('hidden'); }
+
+function selectProvider(p) {
+    selectedProvider = p;
+    localStorage.setItem('selected_provider', p);
+    updateProviderUI();
+}
+
+function updateProviderUI() {
+    const isGemini = selectedProvider === 'gemini';
+    document.getElementById('geminiProviderBtn').className = 'flex-1 py-3 px-4 rounded-xl border-2 font-bold text-sm transition-all ' +
+        (isGemini ? 'border-[#CCFF00] bg-[#CCFF00]/10 text-[#CCFF00]' : 'border-white/10 bg-transparent text-zinc-400 hover:border-white/30');
+    document.getElementById('openaiProviderBtn').className = 'flex-1 py-3 px-4 rounded-xl border-2 font-bold text-sm transition-all ' +
+        (!isGemini ? 'border-[#00e3fd] bg-[#00e3fd]/10 text-[#00e3fd]' : 'border-white/10 bg-transparent text-zinc-400 hover:border-white/30');
+    document.getElementById('geminiKeySection').classList.toggle('hidden', !isGemini);
+    document.getElementById('openaiKeySection').classList.toggle('hidden', isGemini);
+}
+
+function saveSettings() {
+    selectedModel = document.getElementById('modelSelect').value;
+    localStorage.setItem('selected_model', selectedModel);
+    if (selectedProvider === 'gemini') {
+        const k = document.getElementById('geminiApiKeyInput').value.trim();
+        if (!k) { showToast('⚠️ Введите API ключ'); return; }
+        GEMINI_API_KEY = k;
+        localStorage.setItem('gemini_api_key', k);
+    } else {
+        const k = document.getElementById('openaiApiKeyInput').value.trim();
+        if (!k) { showToast('⚠️ Введите API ключ'); return; }
+        OPENAI_API_KEY = k;
+        localStorage.setItem('openai_api_key', k);
     }
+    closeSettings();
+    showToast('✅ Настройки сохранены!');
+    updateConnectionStatus();
+}
+
+// ─── Connection status ────────────────────────────────────────
+function updateConnectionStatus() {
+    const existing = document.querySelector('.conn-status');
+    if (existing) existing.remove();
+    const hasKey = selectedProvider === 'gemini' ? GEMINI_API_KEY : OPENAI_API_KEY;
+    if (!hasKey) {
+        const d = document.createElement('div');
+        d.className = 'conn-status fixed top-20 right-6 z-40 px-3 py-1 rounded-full text-xs font-bold uppercase flex items-center gap-2 bg-yellow-500/20 text-yellow-400 border border-yellow-500/30';
+        d.innerHTML = '<span class="w-2 h-2 bg-yellow-400 rounded-full"></span>Нет API ключа';
+        document.body.appendChild(d);
+        setTimeout(() => d.remove(), 5000);
+    }
+}
+
+// ─── History panel ────────────────────────────────────────────
+let historyOpen = false;
+function toggleHistory() {
+    historyOpen = !historyOpen;
+    document.getElementById('history-panel').classList.toggle('open', historyOpen);
+    document.getElementById('history-overlay').classList.toggle('show', historyOpen);
+    if (historyOpen) renderHistoryPanel();
+}
+
+function renderHistoryPanel() {
+    const list = document.getElementById('history-panel-list');
+    if (scanHistory.length === 0) {
+        list.innerHTML = '<p class="text-zinc-600 text-xs font-body text-center py-8">Нет истории.<br>Загрузите фото блюда!</p>';
+        return;
+    }
+    list.innerHTML = scanHistory.slice().reverse().map((item, i) => `
+        <div class="scan-card flex gap-3 p-3 rounded-xl bg-surface-container-high border border-white/5 hover:border-[#CCFF00]/20 transition-all cursor-pointer" onclick="viewScanDetail(${scanHistory.length - 1 - i})">
+            <img src="${item.img}" class="w-16 h-16 rounded-lg object-cover flex-shrink-0" alt="${item.name}" />
+            <div class="flex-1 min-w-0">
+                <p class="text-sm font-bold text-on-surface font-headline truncate">${item.name}</p>
+                <p class="text-[#CCFF00] text-xs font-bold mt-0.5">${item.kcal} ккал</p>
+                <p class="text-zinc-600 text-[10px] uppercase tracking-widest mt-1 font-body">${item.time}</p>
+            </div>
+        </div>`).join('');
+}
+
+function viewScanDetail(idx) {
+    const item = scanHistory[idx];
+    toggleHistory();
+    switchPanel('nutrition');
+    // Scroll chat to that scan's message (just show a toast for now)
+    showToast(`📋 ${item.name} — ${item.kcal} ккал`);
+}
+
+// ─── Recent analyses sidebar (left of chat) ───────────────────
+function addToRecentAnalyses(item) {
+    scanHistory.push(item);
+
+    // Update history badge
+    const badge = document.getElementById('history-badge');
+    badge.textContent = scanHistory.length;
+    badge.classList.remove('hidden');
+
+    // Update goal bar (simulate progress)
+    const pct = Math.min(100, 50 + scanHistory.length * 8);
+    document.getElementById('goal-bar').style.width = pct + '%';
+    document.getElementById('goal-pct-label').textContent = pct + '%';
+    document.getElementById('goal-text').textContent = pct + '% Achieved';
+
+    // Render in left sidebar
+    const container = document.getElementById('recent-analyses-list');
+    const placeholder = container.querySelector('div.text-center');
+    if (placeholder) placeholder.remove();
+
+    const card = document.createElement('div');
+    card.className = 'history-item scan-card';
+    card.innerHTML = `
+        <div class="flex gap-3">
+            <img src="${item.img}" alt="${item.name}" class="w-14 h-14 rounded-lg object-cover flex-shrink-0" />
+            <div class="flex-1 min-w-0">
+                <p class="text-xs font-bold text-on-surface font-headline truncate">${item.name}</p>
+                <p class="text-[10px] text-[#00e3fd] font-bold mt-0.5">${item.kcal} ккал</p>
+                <p class="text-[9px] text-zinc-600 uppercase tracking-tight mt-1 font-body">${item.time}</p>
+            </div>
+        </div>`;
+    // Insert at top
+    container.insertBefore(card, container.firstChild);
+
+    // Keep max 5 in sidebar
+    const cards = container.querySelectorAll('.history-item');
+    if (cards.length > 5) cards[cards.length - 1].remove();
+}
+
+function clearHistory() {
+    scanHistory = [];
+    document.getElementById('recent-analyses-list').innerHTML = `
+        <div class="text-center py-8 text-zinc-700">
+            <span class="material-symbols-outlined text-3xl mb-2 block">photo_camera</span>
+            <p class="text-xs font-body">Загрузите фото блюда —<br>анализ появится здесь</p>
+        </div>`;
+    document.getElementById('history-badge').classList.add('hidden');
+    showToast('🗑️ История очищена');
+}
+
+// ─── Scan chart (metrics panel) ──────────────────────────────
+function renderScanChart() {
+    const days = [1,3,2,5,4,scanHistory.length,0];
+    const max = Math.max(...days, 1);
+    document.getElementById('scan-chart').innerHTML = days.map((v, i) => `
+        <div class="flex-1 flex flex-col items-center justify-end h-full">
+            <div class="w-full rounded-t-sm transition-all duration-700 ${i===5?'bg-[#CCFF00]':'bg-zinc-700'}"
+                 style="height:${(v/max)*100}%"></div>
+        </div>`).join('');
+}
+
+// ─── Dashboard ────────────────────────────────────────────────
+function updateDashboard() {
+    let user = null;
+    try { if (typeof AuraAuth!=='undefined'){AuraAuth.init();user=AuraAuth.getCurrentUser();} } catch(e){}
+    if (!user) { try{const r=localStorage.getItem('aura_user');if(r)user=JSON.parse(r);}catch(e){} }
+    const name = user ? (user.name||user.displayName||'OPERATOR') : 'GUEST';
+    const goal = user ? (user.goal||'Достичь результата') : '—';
+    const initials = name === 'GUEST' ? '?' : name.split(' ').map(p=>p[0]).join('').slice(0,2).toUpperCase();
+    document.getElementById('dash-name').textContent = name;
+    document.getElementById('dash-goal').textContent = goal;
+    document.getElementById('dash-avatar').textContent = initials;
+    document.getElementById('dash-scans').textContent = scanHistory.length + ' сканирований';
+}
+
+// ─── User in navbar ───────────────────────────────────────────
+function initUser() {
+    let user = null;
+    try { if (typeof AuraAuth!=='undefined'){AuraAuth.init();user=AuraAuth.getCurrentUser();} } catch(e){}
+    if (!user) { try{const r=localStorage.getItem('aura_user');if(r)user=JSON.parse(r);}catch(e){} }
+    if (user) {
+        const name = user.name||user.displayName||'?';
+        const initials = name.split(' ').map(p=>p[0]).join('').slice(0,2).toUpperCase();
+        document.getElementById('user-avatar-nav').textContent = initials;
+        document.getElementById('user-avatar-nav').title = name;
+    }
+}
+
+// ─── Upgrade modal ────────────────────────────────────────────
+function openUpgrade() { document.getElementById('upgrade-modal').classList.add('show'); }
+function closeUpgrade() { document.getElementById('upgrade-modal').classList.remove('show'); }
+
+// ─── Chat: send ───────────────────────────────────────────────
+function handleSend() {
+    const input = document.getElementById('messageInput');
+    const msg = input.value.trim();
+    if (!msg) return;
+    input.value = '';
+    appendUserMsg(msg);
+    if (selectedProvider === 'gemini') sendTextToGemini(msg);
+    else sendTextToOpenAI(msg);
+}
+
+document.addEventListener('keydown', e => {
+    if (e.key === 'Enter' && document.activeElement.id === 'messageInput') handleSend();
+});
+
+// ─── Chat: file upload ───────────────────────────────────────
+document.getElementById('fileInput').addEventListener('change', function(e) {
+    const file = e.target.files[0];
+    if (!file || !file.type.startsWith('image/')) return;
+    const reader = new FileReader();
+    reader.onload = ev => {
+        const imageData = ev.target.result;
+        appendImageMsg(imageData);
+        if (selectedProvider === 'gemini') sendImageToGemini(imageData);
+        else sendImageToOpenAI(imageData);
+    };
+    reader.readAsDataURL(file);
+    this.value = '';
+});
+
+// ─── Chat helpers ─────────────────────────────────────────────
+const chatEl = () => document.getElementById('chat-messages');
+
+function appendUserMsg(text) {
+    const el = document.createElement('div');
+    el.className = 'flex justify-end';
+    el.innerHTML = `<div class="max-w-xl bg-[#CCFF00]/10 border border-[#CCFF00]/20 p-4 rounded-2xl rounded-tr-sm">
+        <p class="text-sm text-on-surface font-body">${escapeHtml(text)}</p></div>`;
+    chatEl().appendChild(el);
+    chatEl().scrollTop = chatEl().scrollHeight;
+}
+
+function appendImageMsg(src) {
+    const el = document.createElement('div');
+    el.className = 'flex justify-end';
+    el.innerHTML = `<div class="max-w-sm">
+        <div class="relative rounded-2xl overflow-hidden border-2 border-[#CCFF00]/40 shadow-[0_0_20px_rgba(204,255,0,0.1)]">
+            <img src="${src}" class="w-full h-48 object-cover" />
+            <div class="absolute bottom-3 left-3">
+                <span class="bg-zinc-950/80 backdrop-blur px-3 py-1 rounded-full text-[10px] font-bold text-[#CCFF00] uppercase">📸 Загружено</span>
+            </div>
+        </div></div>`;
+    chatEl().appendChild(el);
+    chatEl().scrollTop = chatEl().scrollHeight;
+}
+
+function showLoader() {
+    const el = document.createElement('div');
+    el.className = 'flex justify-start loader-container';
+    el.innerHTML = `<div class="flex items-center gap-3">
+        <div class="w-8 h-8 rounded-full bg-[#CCFF00] flex items-center justify-center text-zinc-950 animate-pulse">
+            <span class="material-symbols-outlined text-sm" style="font-variation-settings:'FILL' 1;">smart_toy</span>
+        </div>
+        <div class="bg-surface-container p-4 rounded-2xl border border-white/5">
+            <div class="flex gap-2">
+                <div class="w-2 h-2 bg-[#CCFF00] rounded-full animate-bounce"></div>
+                <div class="w-2 h-2 bg-[#CCFF00] rounded-full animate-bounce" style="animation-delay:.1s"></div>
+                <div class="w-2 h-2 bg-[#CCFF00] rounded-full animate-bounce" style="animation-delay:.2s"></div>
+            </div>
+        </div></div>`;
+    chatEl().appendChild(el);
+    chatEl().scrollTop = chatEl().scrollHeight;
+}
+
+function removeLoader() { document.querySelector('.loader-container')?.remove(); }
+
+function appendAIMsg(text, scanData) {
+    removeLoader();
+    const el = document.createElement('div');
+    el.className = 'flex justify-start';
+    el.innerHTML = `<div class="max-w-xl w-full space-y-3">
+        <div class="flex items-center gap-2">
+            <div class="w-8 h-8 rounded-full bg-[#CCFF00] flex items-center justify-center text-zinc-950">
+                <span class="material-symbols-outlined text-sm" style="font-variation-settings:'FILL' 1;">smart_toy</span>
+            </div>
+            <span class="font-headline font-bold text-xs tracking-widest text-[#CCFF00] uppercase">Pulse AI</span>
+        </div>
+        <div class="bg-surface-container p-5 rounded-2xl border border-white/5">
+            <p class="text-zinc-300 text-sm leading-relaxed font-body">${escapeHtml(text).replace(/\n/g,'<br>').replace(/\*\*(.*?)\*\*/g,'<strong class="text-white">$1</strong>')}</p>
+        </div></div>`;
+    chatEl().appendChild(el);
+    chatEl().scrollTop = chatEl().scrollHeight;
+
+    // If this was an image scan, add to recent analyses
+    if (scanData) {
+        // Extract calorie estimate from response
+        const kcalMatch = text.match(/(\d{2,4})\s*(?:ккал|калор|kcal|cal)/i);
+        const kcal = kcalMatch ? kcalMatch[1] : '~400';
+        const now = new Date();
+        const timeStr = now.getHours() + ':' + String(now.getMinutes()).padStart(2,'0');
+        addToRecentAnalyses({
+            img: scanData,
+            name: extractMealName(text),
+            kcal,
+            time: timeStr
+        });
+    }
+}
+
+function extractMealName(text) {
+    // Try to find bold meal name at start of response
+    const match = text.match(/\*\*([^*]{3,40})\*\*/);
+    if (match) return match[1].replace(/^[🍽️🥗🍗🥩🍱]+\s*/, '');
+    // Fallback
+    return 'Блюдо ' + (scanHistory.length + 1);
+}
+
+function appendError(msg) {
+    removeLoader();
+    const el = document.createElement('div');
+    el.className = 'flex justify-start';
+    el.innerHTML = `<div class="max-w-xl bg-red-500/10 border border-red-500/30 p-4 rounded-2xl">
+        <p class="text-red-400 text-sm font-body">${escapeHtml(msg)}</p></div>`;
+    chatEl().appendChild(el);
+    chatEl().scrollTop = chatEl().scrollHeight;
+}
+
+function escapeHtml(t) {
+    return String(t).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
+}
+
+// ─── Gemini text ──────────────────────────────────────────────
+async function sendTextToGemini(msg) {
+    if (!GEMINI_API_KEY) { appendError('⚠️ Настройте Gemini API ключ (значок ⚙️ вверху)'); return; }
+    showLoader();
+    const contents = [];
+    contents.push({ role:'user', parts:[{text:'Ты - PULSE_AI, профессиональный ассистент по питанию. Отвечай ТОЛЬКО на русском языке. Используй эмодзи.'}] });
+    chatHistory.filter(m=>m.role!=='system').forEach(m => {
+        contents.push({ role: m.role==='assistant'?'model':'user', parts:[{text:m.content}] });
+    });
+    contents.push({ role:'user', parts:[{text:msg}] });
+    try {
+        const ctrl = new AbortController();
+        const t = setTimeout(()=>ctrl.abort(), API_TIMEOUT);
+        const res = await fetch(`${GEMINI_API_URL}/${selectedModel}:generateContent?key=${GEMINI_API_KEY}`, {
+            method:'POST', headers:{'Content-Type':'application/json'}, signal:ctrl.signal,
+            body: JSON.stringify({ contents, generationConfig:{ temperature:.7, maxOutputTokens:2048 } })
+        });
+        clearTimeout(t);
+        if (!res.ok) { const e=await res.json(); throw new Error(e.error?.message||'API error'); }
+        const data = await res.json();
+        const reply = data.candidates?.[0]?.content?.parts?.[0]?.text;
+        if (!reply) throw new Error('Пустой ответ от API');
+        chatHistory.push({role:'user',content:msg},{role:'assistant',content:reply});
+        appendAIMsg(reply, null);
+    } catch(e) {
+        appendError('❌ ' + (e.name==='AbortError'?'Таймаут':e.message||'Ошибка API'));
+    }
+}
+
+// ─── Gemini image ─────────────────────────────────────────────
+async function sendImageToGemini(imageData) {
+    if (!GEMINI_API_KEY) { appendError('⚠️ Настройте Gemini API ключ (значок ⚙️ вверху)'); return; }
+    showLoader();
+    const b64 = imageData.split(',')[1];
+    try {
+        const ctrl = new AbortController();
+        const t = setTimeout(()=>ctrl.abort(), API_TIMEOUT);
+        const res = await fetch(`${GEMINI_API_URL}/${selectedModel}:generateContent?key=${GEMINI_API_KEY}`, {
+            method:'POST', headers:{'Content-Type':'application/json'}, signal:ctrl.signal,
+            body: JSON.stringify({ contents:[{ role:'user', parts:[
+                { text:'Ты - PULSE_AI. Проанализируй изображение еды. Дай подробный разбор: название блюда, калорийность, БЖУ, витамины, рекомендации. Отвечай на русском, используй эмодзи. Начни с **Название блюда**.' },
+                { inlineData:{ mimeType:'image/jpeg', data:b64 } }
+            ]}]})
+        });
+        clearTimeout(t);
+        if (!res.ok) { const e=await res.json(); throw new Error(e.error?.message||'API error'); }
+        const data = await res.json();
+        const reply = data.candidates?.[0]?.content?.parts?.[0]?.text;
+        if (!reply) throw new Error('Пустой ответ от API');
+        appendAIMsg(reply, imageData); // pass imageData to add to history
+    } catch(e) {
+        appendError('❌ ' + (e.name==='AbortError'?'Таймаут':e.message||'Ошибка API'));
+    }
+}
+
+// ─── OpenAI text ──────────────────────────────────────────────
+async function sendTextToOpenAI(msg) {
+    if (!OPENAI_API_KEY) { appendError('⚠️ Настройте OpenAI API ключ (значок ⚙️ вверху)'); return; }
+    showLoader();
+    const messages = [
+        {role:'system',content:'Ты - PULSE_AI, профессиональный ассистент по питанию и фитнесу. Отвечай ТОЛЬКО на русском языке. Используй эмодзи.'},
+        ...chatHistory.filter(m=>m.role!=='system'),
+        {role:'user',content:msg}
+    ];
+    try {
+        const ctrl = new AbortController();
+        const t = setTimeout(()=>ctrl.abort(), API_TIMEOUT);
+        const res = await fetch(OPENAI_API_URL, {
+            method:'POST', headers:{'Content-Type':'application/json','Authorization':`Bearer ${OPENAI_API_KEY}`}, signal:ctrl.signal,
+            body: JSON.stringify({ model:selectedModel||'gpt-4o', messages, max_tokens:2048, temperature:.7 })
+        });
+        clearTimeout(t);
+        if (!res.ok) { const e=await res.json(); throw new Error(e.error?.message||'API error'); }
+        const data = await res.json();
+        const reply = data.choices?.[0]?.message?.content;
+        if (!reply) throw new Error('Пустой ответ от API');
+        chatHistory.push({role:'user',content:msg},{role:'assistant',content:reply});
+        appendAIMsg(reply, null);
+    } catch(e) {
+        appendError('❌ ' + (e.name==='AbortError'?'Таймаут':e.message||'Ошибка API'));
+    }
+}
+
+// ─── OpenAI image ─────────────────────────────────────────────
+async function sendImageToOpenAI(imageData) {
+    if (!OPENAI_API_KEY) { appendError('⚠️ Настройте OpenAI API ключ (значок ⚙️ вверху)'); return; }
+    showLoader();
+    try {
+        const ctrl = new AbortController();
+        const t = setTimeout(()=>ctrl.abort(), API_TIMEOUT);
+        const res = await fetch(OPENAI_API_URL, {
+            method:'POST', headers:{'Content-Type':'application/json','Authorization':`Bearer ${OPENAI_API_KEY}`}, signal:ctrl.signal,
+            body: JSON.stringify({ model:selectedModel||'gpt-4o', max_tokens:2048, temperature:.7,
+                messages:[
+                    {role:'system',content:'Ты - PULSE_AI. Отвечай ТОЛЬКО на русском. Начни с **Название блюда**.'},
+                    {role:'user',content:[
+                        {type:'text',text:'Проанализируй изображение еды. Дай подробный разбор: название, калорийность, БЖУ, рекомендации. Используй эмодзи.'},
+                        {type:'image_url',image_url:{url:imageData}}
+                    ]}
+                ]})
+        });
+        clearTimeout(t);
+        if (!res.ok) { const e=await res.json(); throw new Error(e.error?.message||'API error'); }
+        const data = await res.json();
+        const reply = data.choices?.[0]?.message?.content;
+        if (!reply) throw new Error('Пустой ответ от API');
+        appendAIMsg(reply, imageData);
+    } catch(e) {
+        appendError('❌ ' + (e.name==='AbortError'?'Таймаут':e.message||'Ошибка API'));
+    }
+}
+
+// ─── Workout action ───────────────────────────────────────────
+function startWorkout(name) {
+    showToast('💪 ' + name + ' — начинаем!');
+    switchPanel('nutrition');
+    setTimeout(() => {
+        appendUserMsg('Начинаю ' + name + '. Что мне есть до тренировки?');
+        if (selectedProvider === 'gemini') sendTextToGemini('Начинаю ' + name + '. Что мне есть до тренировки?');
+        else sendTextToOpenAI('Начинаю ' + name + '. Что мне есть до тренировки?');
+    }, 300);
+}
+
+// ─── Boot ─────────────────────────────────────────────────────
+document.addEventListener('DOMContentLoaded', () => {
+    initUser();
+    updateConnectionStatus();
+    switchPanel('nutrition');
+
+    // Close settings modal on outside click
+    document.getElementById('settingsModal').addEventListener('click', e => {
+        if (e.target === document.getElementById('settingsModal')) closeSettings();
+    });
+});
 </script>
+</body>
+</html>
