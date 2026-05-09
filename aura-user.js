@@ -1,27 +1,44 @@
 // ============================================================
 // AURA USER MODULE — Shared across all arena pages
-// Reads user from localStorage (set by auth.js / AuraAuth)
+// Reads user from Firebase/localStorage (set by auth.js / AuraAuth)
 // ============================================================
 
 const AuraUser = (() => {
     let _user = null;
+    let _initialized = false;
 
     function load() {
-        // Try AuraAuth first, then fallback to localStorage
+        // Try AuraAuth first to get from localStorage (which was populated from Firebase)
         if (typeof AuraAuth !== 'undefined') {
-            try { AuraAuth.init(); } catch(e) {}
-            _user = AuraAuth.getCurrentUser();
+            try { 
+                AuraAuth.init(); 
+                _user = AuraAuth.getCurrentUser();
+                if (_user) return _user;
+            } catch(e) { 
+                console.error('AuraAuth error:', e);
+            }
         }
+        
+        // Fallback to localStorage by uid
         if (!_user) {
             try {
-                const raw = localStorage.getItem('aura_user');
-                if (raw) _user = JSON.parse(raw);
-            } catch(e) {}
+                const uid = localStorage.getItem('aura_current_uid');
+                if (uid) {
+                    const raw = localStorage.getItem('aura_user_' + uid);
+                    if (raw) _user = JSON.parse(raw);
+                }
+            } catch(e) { 
+                console.error('localStorage error:', e);
+            }
         }
+        
         return _user;
     }
 
-    function get() { return _user; }
+    function get() { 
+        if (!_user) load();
+        return _user; 
+    }
 
     function getInitials(name) {
         if (!name) return '?';
@@ -39,9 +56,11 @@ const AuraUser = (() => {
 
     // Inject user info into navbar avatar + name
     function injectNavbar() {
-        const u = _user;
-        const initials = getInitials(u ? (u.name || u.displayName) : null);
-        const name = u ? (u.name || u.displayName || 'OPERATOR') : 'GUEST';
+        const u = get();
+        if (!u) return; // If not logged in, skip injection
+        
+        const initials = getInitials(u.name || u.displayName);
+        const name = u.name || u.displayName || 'OPERATOR';
 
         // Avatar containers
         document.querySelectorAll('[data-nav-avatar]').forEach(el => {
@@ -54,7 +73,9 @@ const AuraUser = (() => {
         document.querySelectorAll('[data-nav-avatar-img]').forEach(el => {
             // Replace img with initials div
             const parent = el.parentElement;
-            parent.innerHTML = `<span style="font-family:'Space Grotesk',sans-serif;font-weight:900;font-size:14px;color:#abd600;">${initials}</span>`;
+            if (parent) {
+                parent.innerHTML = `<span style="font-family:'Space Grotesk',sans-serif;font-weight:900;font-size:14px;color:#cafd00;">${initials}</span>`;
+            }
         });
 
         // If logged in → show user section, hide guest
@@ -92,6 +113,9 @@ const AuraUser = (() => {
     }
 
     function init() {
+        if (_initialized) return;
+        _initialized = true;
+        
         load();
         injectNavbar();
         injectProfile();

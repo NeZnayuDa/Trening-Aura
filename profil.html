@@ -557,20 +557,50 @@
 </body>
 
 </html>
+    <!-- Firebase SDKs -->
+    <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-database-compat.js"></script>
+    <script src="./firebase-config.js"></script>
     <script src="./auth.js"></script>
+    <script src="./aura-user.js"></script>
     <script>
         // Load user profile data
         document.addEventListener('DOMContentLoaded', function() {
+            // Initialize auth first
+            if (typeof AuraAuth !== 'undefined') {
+                AuraAuth.init();
+            }
+            
             const user = AuraAuth.getCurrentUser();
             if (!user) {
                 window.location.href = './login.html';
                 return;
             }
-            document.getElementById('profileName').textContent = user.name.toUpperCase();
-            document.getElementById('profileAvatarInitials').textContent = user.name.charAt(0).toUpperCase();
-            document.getElementById('profileJoinDate').textContent = 'Since ' + user.joinDate;
-            document.getElementById('profileEmail').textContent = user.email;
-            if (user.bio) document.getElementById('profileBio').textContent = user.bio;
+            
+            // Update profile elements
+            const nameDisplay = user.name || user.displayName || 'OPERATOR';
+            const initials = nameDisplay.charAt(0).toUpperCase();
+            
+            if (document.getElementById('profileName')) {
+                document.getElementById('profileName').textContent = nameDisplay.toUpperCase();
+            }
+            if (document.getElementById('profileAvatarInitials')) {
+                document.getElementById('profileAvatarInitials').textContent = initials;
+            }
+            if (document.getElementById('profileJoinDate')) {
+                document.getElementById('profileJoinDate').textContent = 'Since ' + (user.joinDate || new Date().toLocaleDateString('ru-RU'));
+            }
+            if (document.getElementById('profileEmail')) {
+                document.getElementById('profileEmail').textContent = user.email || '';
+            }
+            if (user.bio && document.getElementById('profileBio')) {
+                document.getElementById('profileBio').textContent = user.bio;
+            }
+            
+            // Initialize AuraUser module for navbar/profile data injection
+            if (typeof AuraUser !== 'undefined') {
+                AuraUser.init();
+            }
         });
 
         function doLogout() {

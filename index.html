@@ -478,10 +478,20 @@
             class="absolute right-20 bg-surface-container-highest px-4 py-2 rounded-xl text-white text-xs font-bold opacity-0 group-hover:opacity-100 transition-opacity pointer-events-none whitespace-nowrap uppercase tracking-widest">Quick
             Log</span>
     </button>
+<!-- Firebase SDKs -->
+<script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-database-compat.js"></script>
+<script src="./firebase-config.js"></script>
 <script src="./auth.js"></script>
+<script src="./aura-user.js"></script>
 <script>
 // Auth-aware nav update
 document.addEventListener('DOMContentLoaded', function() {
+    // Initialize Firebase and Auth
+    if (typeof AuraAuth !== 'undefined') {
+        AuraAuth.init();
+    }
+    
     const user = AuraAuth.getCurrentUser();
     const loginBtn = document.getElementById('nav-login-btn');
     const profileBtn = document.getElementById('nav-profile-btn');
@@ -495,12 +505,15 @@ document.addEventListener('DOMContentLoaded', function() {
         if (nameEl) nameEl.textContent = user.name.split(' ')[0];
         if (initialsEl) initialsEl.textContent = user.name.charAt(0).toUpperCase();
         // Show badge if friend requests pending
-        const reqs = AuraAuth.getFriendRequests();
-        if (badge && reqs.length > 0) {
-            badge.classList.remove('hidden');
-            badge.classList.add('flex');
-            badge.textContent = reqs.length;
-        }
+        try {
+            AuraAuth.getFriendRequests().then(reqs => {
+                if (badge && reqs.length > 0) {
+                    badge.classList.remove('hidden');
+                    badge.classList.add('flex');
+                    badge.textContent = reqs.length;
+                }
+            });
+        } catch(e) { console.error('Friend requests error:', e); }
     } else {
         if (loginBtn) loginBtn.style.display = '';
         if (profileBtn) profileBtn.style.display = 'none';

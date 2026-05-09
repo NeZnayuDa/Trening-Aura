@@ -22,11 +22,26 @@ const firebaseConfigSecondary = {
     measurementId: "G-KQ804781SZ"
 };
 
+// Check if Firebase is loaded
+if (typeof firebase === 'undefined') {
+    console.error('Firebase SDK not loaded. Make sure firebase-app-compat.js and firebase-database-compat.js are included.');
+}
+
 // Initialize the default Firebase app
-firebase.initializeApp(firebaseConfig);
+if (!firebase.apps || firebase.apps.length === 0) {
+    firebase.initializeApp(firebaseConfig);
+}
 const db = firebase.database();
 
-// Initialize the secondary Firebase app
-const secondaryApp = firebase.initializeApp(firebaseConfigSecondary, "secondary");
+// Initialize the secondary Firebase app (for community posts)
+let secondaryApp = null;
+try {
+    secondaryApp = firebase.app("secondary");
+} catch(e) {
+    secondaryApp = firebase.initializeApp(firebaseConfigSecondary, "secondary");
+}
 const secondaryDb = secondaryApp.database();
+
+// Alias for community DB
+const communityDb = secondaryDb;
 

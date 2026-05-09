@@ -7,15 +7,28 @@
 
 const AuraAuth = {
     db: null,
+    initialized: false,
 
     // Initialize Firebase connection
     init() {
-        if (this.db) return;
+        if (this.initialized) return;
         try {
-            if (!firebase.apps.length) {
-                firebase.initializeApp(firebaseConfig);
+            // Check if firebase is loaded
+            if (typeof firebase === 'undefined') {
+                console.error('Firebase SDK not loaded');
+                return;
             }
+            
+            // Initialize only if not already initialized
+            if (!firebase.apps || firebase.apps.length === 0) {
+                if (typeof firebaseConfig !== 'undefined') {
+                    firebase.initializeApp(firebaseConfig);
+                }
+            }
+            
             this.db = firebase.database();
+            this.initialized = true;
+            console.log('Firebase initialized successfully');
         } catch(e) {
             console.error('Firebase init error:', e);
         }
