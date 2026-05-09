@@ -102,7 +102,7 @@
         <button id="mobile-menu-btn" class="lg:hidden text-[#CCFF00] p-1">
             <span class="material-symbols-outlined">menu</span>
         </button>
-        <span class="text-2xl font-bold tracking-tighter text-[#CCFF00] italic font-headline">PULSE_AI</span>
+        <span class="text-2xl font-bold tracking-tighter text-[#CCFF00] italic font-headline">TRENING AURA</span>
     </div>
     <div class="flex items-center gap-6">
         <div class="hidden md:flex items-center gap-8 text-zinc-500 font-headline">
@@ -147,8 +147,8 @@
 ═══════════════════════════════════════════════ -->
 <aside id="left-sidebar" class="hidden lg:flex flex-col h-screen fixed left-0 top-0 w-64 border-r border-white/5 bg-zinc-950 z-40 pt-20 pb-10">
     <div class="px-6 mb-6">
-        <h2 class="text-[#CCFF00] font-black font-headline tracking-widest text-sm uppercase">Kinetic Pulse</h2>
-        <p class="text-zinc-600 text-[10px] tracking-[0.2em] uppercase mt-0.5">Elite Nutrition AI</p>
+        <h2 class="text-[#CCFF00] font-black font-headline tracking-widest text-sm uppercase">TRENING AURA</h2>
+        <p class="text-zinc-600 text-[10px] tracking-[0.2em] uppercase mt-0.5">AI Nutrition Assistant</p>
     </div>
 
     <!-- Nav Items -->
@@ -217,7 +217,7 @@
                 <!-- Greeting -->
                 <div class="flex flex-col items-center justify-center py-10 opacity-40">
                     <span class="material-symbols-outlined text-6xl text-[#CCFF00]" style="font-variation-settings:'FILL' 1;">smart_toy</span>
-                    <p class="mt-4 font-headline uppercase tracking-[0.3em] text-sm text-[#CCFF00]">Vision Analysis Active</p>
+                    <p class="mt-4 font-headline uppercase tracking-[0.3em] text-sm text-[#CCFF00]">TRENING AURA AI</p>
                     <p class="text-zinc-600 text-xs mt-2 font-body">Задайте вопрос или загрузите фото блюда</p>
                 </div>
             </div>
@@ -234,7 +234,7 @@
                             <span class="material-symbols-outlined">send</span>
                         </button>
                     </div>
-                    <p class="text-center text-[10px] text-zinc-700 mt-3 uppercase tracking-widest font-headline">Powered by Pulse Vision Engine v4.0</p>
+                    <p class="text-center text-[10px] text-zinc-700 mt-3 uppercase tracking-widest font-headline">Powered by TRENING AURA AI v4.0</p>
                 </div>
             </div>
         </div>
@@ -504,6 +504,77 @@
      JAVASCRIPT
 ═══════════════════════════════════════════════ -->
 <script>
+// ╔══════════════════════════════════════════════════════════════╗
+// ║        🤖 AI CONFIGURATION — НАСТРОЙ БОТА ЗДЕСЬ             ║
+// ╚══════════════════════════════════════════════════════════════╝
+
+const AI_CONFIG = {
+
+    // ── Имя бота (отображается в чате и интерфейсе) ────────────
+    BOT_NAME: "TRENING AURA AI",
+    BOT_SHORT_NAME: "Trening Aura AI",
+
+    // ── ГЛАВНЫЙ СИСТЕМНЫЙ ПРОМПТ ────────────────────────────────
+    // Это правила поведения бота. Меняй текст чтобы изменить
+    // как он отвечает, что разрешено, его личность и стиль.
+    SYSTEM_PROMPT: `Ты - TRENING AURA AI, профессиональный AI-ассистент по питанию и фитнесу платформы TRENING AURA.
+
+ЛИЧНОСТЬ:
+• Ты называешь себя ТОЛЬКО "TRENING AURA AI" — никогда Gemini, ChatGPT или другими именами
+• Ты часть платформы TRENING AURA для бегунов и спортсменов
+• Ты мотивирующий, энергичный, профессиональный
+
+КОМПЕТЕНЦИИ:
+• Анализ состава продуктов и блюд (белки, жиры, углеводы, калории)
+• Расчет суточных норм калорий и макронутриентов
+• Составление планов питания (похудение, набор массы, поддержание)
+• Рекомендации по спортивному питанию и добавкам
+• Советы по бегу, кардио и силовым тренировкам
+• Анализ тренировочного процесса и восстановления
+
+ПРАВИЛА ОТВЕТОВ:
+• Отвечай ТОЛЬКО на русском языке
+• Всегда давай конкретные цифры (граммы, калории, проценты)
+• Используй эмодзи для наглядности 🏃‍♂️💪🔥
+• Структурируй ответы — используй **жирный текст** для заголовков
+• Будь лаконичным но информативным
+• Заканчивай ответ мотивирующей фразой
+
+ЗАПРЕЩЕНО:
+• Называть себя другими именами кроме TRENING AURA AI
+• Отвечать на темы не связанные со спортом, питанием и здоровьем
+• Ставить медицинские диагнозы — только рекомендовать врача
+• Раскрывать какая AI-модель используется под капотом`,
+
+    // ── ПРОМПТ ДЛЯ АНАЛИЗА ФОТО ────────────────────────────────
+    // Используется когда пользователь загружает фото еды.
+    // Измени если хочешь другой формат анализа.
+    IMAGE_PROMPT: `Ты - TRENING AURA AI. Проанализируй изображение еды как профессиональный нутрициолог.
+
+ОБЯЗАТЕЛЬНЫЙ ФОРМАТ:
+**🍽️ [Название блюда]**
+
+**Пищевая ценность (на порцию):**
+• Калории: ~X ккал
+• Белки: Xг | Жиры: Xг | Углеводы: Xг
+
+**Состав:**
+[основные ингредиенты с примерными граммовками]
+
+**Для спортсмена:**
+[подходит ли до/после тренировки и почему]
+
+**Рекомендация:**
+[как улучшить блюдо для лучших результатов]
+
+Отвечай на русском языке, используй эмодзи. 💪`,
+
+    // ── СТАРТОВОЕ ПРИВЕТСТВИЕ ───────────────────────────────────
+    // Сообщение при первом открытии. Оставь "" чтобы не показывать.
+    GREETING: "",
+};
+
+// ═══════════════════════════════════════════════════════════════
 // ─── Config ───────────────────────────────────────────────────
 let selectedProvider = localStorage.getItem('selected_provider') || 'gemini';
 let GEMINI_API_KEY = localStorage.getItem('gemini_api_key') || '';
@@ -816,7 +887,7 @@ function appendAIMsg(text, scanData) {
             <div class="w-8 h-8 rounded-full bg-[#CCFF00] flex items-center justify-center text-zinc-950">
                 <span class="material-symbols-outlined text-sm" style="font-variation-settings:'FILL' 1;">smart_toy</span>
             </div>
-            <span class="font-headline font-bold text-xs tracking-widest text-[#CCFF00] uppercase">Pulse AI</span>
+            <span class="font-headline font-bold text-xs tracking-widest text-[#CCFF00] uppercase">${AI_CONFIG.BOT_SHORT_NAME}</span>
         </div>
         <div class="bg-surface-container p-5 rounded-2xl border border-white/5">
             <p class="text-zinc-300 text-sm leading-relaxed font-body">${escapeHtml(text).replace(/\n/g,'<br>').replace(/\*\*(.*?)\*\*/g,'<strong class="text-white">$1</strong>')}</p>
@@ -867,7 +938,7 @@ async function sendTextToGemini(msg) {
     if (!GEMINI_API_KEY) { appendError('⚠️ Настройте Gemini API ключ (значок ⚙️ вверху)'); return; }
     showLoader();
     const contents = [];
-    contents.push({ role:'user', parts:[{text:'Ты - PULSE_AI, профессиональный ассистент по питанию. Отвечай ТОЛЬКО на русском языке. Используй эмодзи.'}] });
+    contents.push({ role:'user', parts:[{text: AI_CONFIG.SYSTEM_PROMPT }] });
     chatHistory.filter(m=>m.role!=='system').forEach(m => {
         contents.push({ role: m.role==='assistant'?'model':'user', parts:[{text:m.content}] });
     });
@@ -902,7 +973,7 @@ async function sendImageToGemini(imageData) {
         const res = await fetch(`${GEMINI_API_URL}/${selectedModel}:generateContent?key=${GEMINI_API_KEY}`, {
             method:'POST', headers:{'Content-Type':'application/json'}, signal:ctrl.signal,
             body: JSON.stringify({ contents:[{ role:'user', parts:[
-                { text:'Ты - PULSE_AI. Проанализируй изображение еды. Дай подробный разбор: название блюда, калорийность, БЖУ, витамины, рекомендации. Отвечай на русском, используй эмодзи. Начни с **Название блюда**.' },
+                { text: AI_CONFIG.IMAGE_PROMPT },
                 { inlineData:{ mimeType:'image/jpeg', data:b64 } }
             ]}]})
         });
@@ -922,7 +993,7 @@ async function sendTextToOpenAI(msg) {
     if (!OPENAI_API_KEY) { appendError('⚠️ Настройте OpenAI API ключ (значок ⚙️ вверху)'); return; }
     showLoader();
     const messages = [
-        {role:'system',content:'Ты - PULSE_AI, профессиональный ассистент по питанию и фитнесу. Отвечай ТОЛЬКО на русском языке. Используй эмодзи.'},
+        {role:'system',content: AI_CONFIG.SYSTEM_PROMPT },
         ...chatHistory.filter(m=>m.role!=='system'),
         {role:'user',content:msg}
     ];
@@ -956,7 +1027,7 @@ async function sendImageToOpenAI(imageData) {
             method:'POST', headers:{'Content-Type':'application/json','Authorization':`Bearer ${OPENAI_API_KEY}`}, signal:ctrl.signal,
             body: JSON.stringify({ model:selectedModel||'gpt-4o', max_tokens:2048, temperature:.7,
                 messages:[
-                    {role:'system',content:'Ты - PULSE_AI. Отвечай ТОЛЬКО на русском. Начни с **Название блюда**.'},
+                    {role:'system',content: AI_CONFIG.IMAGE_PROMPT },
                     {role:'user',content:[
                         {type:'text',text:'Проанализируй изображение еды. Дай подробный разбор: название, калорийность, БЖУ, рекомендации. Используй эмодзи.'},
                         {type:'image_url',image_url:{url:imageData}}
