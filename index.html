@@ -1,18 +1,28 @@
 <!DOCTYPE html>
+
 <html class="dark" lang="en">
+
 <head>
     <meta charset="utf-8" />
     <meta content="width=device-width, initial-scale=1.0" name="viewport" />
     <title>TRENING AURA - High Octane Fitness</title>
+    <link rel="icon" type="image/jpeg" href="./photo_2026-04-09_20-40-50.jpg">
     <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
-    <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&family=Manrope:wght@300;400;500;600;700;800&display=swap" rel="stylesheet"/>
-    <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet"/>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&amp;family=Manrope:wght@300;400;500;600;700;800&amp;display=swap"
+        rel="stylesheet" />
+    <link
+        href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap"
+        rel="stylesheet" />
+    <link
+        href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap"
+        rel="stylesheet" />
     <script id="tailwind-config">
         tailwind.config = {
             darkMode: "class",
             theme: {
                 extend: {
-                    colors: {
+                    "colors": {
                         "outline": "#767575",
                         "on-primary-fixed": "#3a4a00",
                         "surface-container-high": "#20201f",
@@ -23,6 +33,7 @@
                         "background": "#0e0e0e",
                         "on-surface": "#ffffff",
                         "on-secondary": "#004d57",
+                        "on-primary-fixed-variant": "#526900",
                         "outline-variant": "#484847",
                         "surface": "#0e0e0e",
                         "primary": "#f3ffca",
@@ -31,36 +42,47 @@
                         "on-surface-variant": "#adaaaa",
                         "surface-container-low": "#131313",
                         "on-error": "#450900",
+                        "tertiary-dim": "#ebebeb",
+                        "on-tertiary-fixed-variant": "#6c6d6e",
                         "on-error-container": "#ffd2c8",
+                        "on-tertiary-container": "#555757",
+                        "on-tertiary": "#5e5f60",
+                        "on-tertiary-fixed": "#4f5051",
                         "surface-dim": "#0e0e0e",
                         "primary-dim": "#beee00",
                         "surface-container-lowest": "#000000",
                         "inverse-surface": "#fcf9f8",
+                        "tertiary-fixed": "#ffffff",
+                        "secondary-fixed-dim": "#00d7f0",
                         "inverse-on-surface": "#565555",
                         "surface-container": "#1a1a1a",
                         "primary-container": "#cafd00",
                         "surface-container-highest": "#262626",
+                        "on-secondary-fixed-variant": "#005964",
                         "on-secondary-container": "#e8fbff",
                         "primary-fixed": "#cafd00",
                         "on-primary": "#516700",
                         "surface-bright": "#2c2c2c",
                         "error-container": "#b92902",
+                        "tertiary-fixed-dim": "#f0f1f1",
                         "secondary-dim": "#00d4ec",
                         "surface-variant": "#262626",
                         "on-primary-container": "#4a5e00",
+                        "on-secondary-fixed": "#003a42",
                         "primary-fixed-dim": "#beee00",
                         "secondary-container": "#006875",
                         "surface-tint": "#f3ffca",
                         "secondary-fixed": "#26e6ff",
                         "tertiary": "#f9f9f9"
                     },
-                    borderRadius: {
+                    "borderRadius": {
                         "DEFAULT": "0.25rem",
                         "lg": "0.5rem",
                         "xl": "0.75rem",
                         "full": "9999px"
                     },
-                    fontFamily: {
+                    "fontFamily": {
+
                         "headline": ["Space Grotesk"],
                         "body": ["Manrope"],
                         "label": ["Manrope"]
@@ -70,1232 +92,623 @@
         }
     </script>
     <style>
-        * { box-sizing: border-box; }
-        
         .material-symbols-outlined {
             font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
         }
-        .fill-icon { font-variation-settings: 'FILL' 1, 'wght' 400, 'GRAD' 0, 'opsz' 24; }
 
         .kinetic-gradient {
-            background: linear-gradient(180deg, rgba(0,0,0,0.7) 0%, rgba(0,0,0,0) 40%, rgba(0,0,0,0.95) 100%);
-        }
-        .aura-glow { text-shadow: 0 0 40px rgba(202,253,0,0.35); }
-        .secondary-glow { text-shadow: 0 0 30px rgba(0,227,253,0.4); }
-
-        ::-webkit-scrollbar { width: 6px; }
-        ::-webkit-scrollbar-track { background: #000; }
-        ::-webkit-scrollbar-thumb { background: #262626; border-radius: 10px; }
-
-        /* Animated hero text */
-        @keyframes fadeUp {
-            from { opacity:0; transform:translateY(40px); }
-            to   { opacity:1; transform:translateY(0); }
-        }
-        @keyframes fadeIn {
-            from { opacity:0; }
-            to   { opacity:1; }
-        }
-        @keyframes slideRight {
-            from { opacity:0; transform:translateX(-30px); }
-            to   { opacity:1; transform:translateX(0); }
-        }
-        @keyframes pulse-ring {
-            0%   { box-shadow: 0 0 0 0 rgba(202,253,0,0.4); }
-            70%  { box-shadow: 0 0 0 15px rgba(202,253,0,0); }
-            100% { box-shadow: 0 0 0 0 rgba(202,253,0,0); }
-        }
-        @keyframes float {
-            0%,100% { transform: translateY(0px); }
-            50%      { transform: translateY(-8px); }
-        }
-        @keyframes shimmer {
-            0%   { background-position: -200% center; }
-            100% { background-position: 200% center; }
-        }
-        @keyframes countUp {
-            from { opacity: 0; transform: translateY(20px); }
-            to   { opacity: 1; transform: translateY(0); }
+            background: linear-gradient(180deg, rgba(0, 0, 0, 0.8) 0%, rgba(0, 0, 0, 0) 50%, rgba(0, 0, 0, 0.9) 100%);
         }
 
-        .hero-title  { animation: fadeUp 0.8s ease both; }
-        .hero-sub    { animation: fadeUp 0.8s 0.2s ease both; }
-        .hero-search { animation: fadeUp 0.8s 0.35s ease both; }
-        .hero-chips  { animation: fadeUp 0.8s 0.5s ease both; }
-
-        .fab-pulse { animation: pulse-ring 2s infinite; }
-        .float-card { animation: float 4s ease-in-out infinite; }
-
-        .shimmer-btn {
-            background: linear-gradient(90deg, #cafd00 0%, #f3ffca 40%, #cafd00 60%, #beee00 100%);
-            background-size: 200% auto;
-            animation: shimmer 2.5s linear infinite;
+        .aura-glow {
+            text-shadow: 0 0 20px rgba(202, 253, 0, 0.4);
         }
 
-        /* Scroll reveal */
-        .reveal { opacity:0; transform:translateY(30px); transition: opacity 0.7s ease, transform 0.7s ease; }
-        .reveal.visible { opacity:1; transform:translateY(0); }
-
-        /* Mobile nav */
-        #mobile-menu {
-            transform: translateX(100%);
-            transition: transform 0.35s cubic-bezier(0.4,0,0.2,1);
-        }
-        #mobile-menu.open { transform: translateX(0); }
-
-        /* Tooltip */
-        .tooltip-wrap:hover .tooltip { opacity:1; pointer-events:auto; transform:translateY(0); }
-        .tooltip { opacity:0; transform:translateY(4px); transition:all 0.2s; pointer-events:none; }
-
-        /* Card hover glow */
-        .gym-card:hover { box-shadow: 0 0 30px rgba(202,253,0,0.08); }
-        .gym-card:hover .book-btn { background:#cafd00; color:#3a4a00; border-color:#cafd00; }
-
-        /* Search focus */
-        #search-input:focus { outline:none; }
-        .search-wrap:focus-within { border-color: rgba(202,253,0,0.4); box-shadow:0 0 0 3px rgba(202,253,0,0.08); }
-
-        /* Stats counter */
-        .stat-num { font-variant-numeric: tabular-nums; }
-
-        /* Notification toast */
-        #toast {
-            transition: all 0.4s cubic-bezier(0.4,0,0.2,1);
-            transform: translateY(100px);
-            opacity: 0;
-        }
-        #toast.show { transform: translateY(0); opacity:1; }
-
-        /* Progress bar */
-        @keyframes progress {
-            from { width: 0%; }
-            to   { width: var(--target); }
-        }
-        .progress-bar { animation: progress 1.5s ease both; }
-
-        /* Modal */
-        #modal-overlay {
-            opacity:0; pointer-events:none; transition: opacity 0.3s ease;
-        }
-        #modal-overlay.open { opacity:1; pointer-events:auto; }
-        #modal-box {
-            transform: scale(0.9) translateY(20px);
-            transition: transform 0.3s cubic-bezier(0.4,0,0.2,1);
-        }
-        #modal-overlay.open #modal-box { transform: scale(1) translateY(0); }
-
-        /* Quick log panel */
-        #log-panel {
-            transform: translateX(100%);
-            transition: transform 0.4s cubic-bezier(0.4,0,0.2,1);
-        }
-        #log-panel.open { transform: translateX(0); }
-
-        /* Cookie banner */
-        #cookie-banner {
-            transform: translateY(100%);
-            transition: transform 0.5s cubic-bezier(0.4,0,0.2,1);
-        }
-        #cookie-banner.show { transform: translateY(0); }
-
-        /* Water Ripple on click */
-        .ripple {
-            position: absolute;
-            border-radius: 50%;
-            background: rgba(202,253,0,0.3);
-            transform: scale(0);
-            animation: rippleAnim 0.6s linear;
-            pointer-events: none;
-        }
-        @keyframes rippleAnim {
-            to { transform: scale(4); opacity:0; }
+        ::-webkit-scrollbar {
+            width: 8px;
         }
 
-        /* Dark overlay for mobile menu */
-        #menu-overlay {
-            opacity:0; pointer-events:none; transition: opacity 0.35s;
-        }
-        #menu-overlay.open { opacity:1; pointer-events:auto; }
-
-        /* Scroll progress indicator */
-        #scroll-progress {
-            position:fixed; top:0; left:0; height:3px; background:#cafd00; z-index:999; transition:width 0.1s;
+        ::-webkit-scrollbar-track {
+            background: #000;
         }
 
-        /* Sticky CTA bar on mobile */
-        @media(max-width:768px) {
-            .sticky-cta { display:flex; }
+        ::-webkit-scrollbar-thumb {
+            background: #262626;
+            border-radius: 10px;
         }
-
-        /* Active nav link underline animation */
-        .nav-link-animated {
-            position:relative;
-        }
-        .nav-link-animated::after {
-            content:''; position:absolute; bottom:-4px; left:0; width:0; height:2px;
-            background:#cafd00; transition:width 0.3s ease;
-        }
-        .nav-link-animated:hover::after { width:100%; }
-
-        /* Gradient border card */
-        .gradient-border {
-            position:relative;
-            background: linear-gradient(#1a1a1a,#1a1a1a) padding-box,
-                        linear-gradient(135deg,#cafd00,#00e3fd) border-box;
-            border:1px solid transparent;
-        }
-
-        /* Ticker tape */
-        @keyframes ticker {
-            from { transform: translateX(0); }
-            to   { transform: translateX(-50%); }
-        }
-        .ticker-inner { animation: ticker 20s linear infinite; display:flex; width:max-content; }
-        .ticker-inner:hover { animation-play-state:paused; }
     </style>
 </head>
-<body class="bg-background text-on-surface font-body overflow-x-hidden">
 
-<!-- Scroll progress bar -->
-<div id="scroll-progress" style="width:0%"></div>
-
-<!-- Toast notification -->
-<div id="toast" class="fixed bottom-28 right-6 z-[200] bg-surface-container-highest border border-white/10 rounded-2xl px-5 py-4 flex items-center gap-3 shadow-2xl max-w-xs">
-    <span id="toast-icon" class="material-symbols-outlined text-primary text-xl">check_circle</span>
-    <span id="toast-msg" class="text-sm font-bold text-white"></span>
-</div>
-
-<!-- Cookie banner -->
-<div id="cookie-banner" class="fixed bottom-0 left-0 right-0 z-[150] bg-surface-container-highest border-t border-white/10 px-6 py-4 flex flex-col sm:flex-row items-center gap-4 justify-between">
-    <p class="text-sm text-on-surface-variant text-center sm:text-left">🍪 We use cookies to improve your experience on <span class="text-primary font-bold">Trening Aura</span>.</p>
-    <div class="flex gap-3">
-        <button onclick="acceptCookies()" class="bg-primary-fixed text-on-primary-fixed px-5 py-2 rounded-xl text-sm font-bold hover:scale-105 transition-transform">Accept</button>
-        <button onclick="declineCookies()" class="border border-outline-variant text-white px-5 py-2 rounded-xl text-sm font-bold hover:bg-surface-container transition-colors">Decline</button>
-    </div>
-</div>
-
-<!-- Modal overlay -->
-<div id="modal-overlay" class="fixed inset-0 z-[300] bg-black/80 backdrop-blur-sm flex items-center justify-center p-4">
-    <div id="modal-box" class="bg-surface-container-highest rounded-3xl w-full max-w-md border border-white/10 overflow-hidden">
-        <div id="modal-header" class="bg-primary-fixed p-6">
-            <h3 id="modal-title" class="font-headline text-2xl font-bold text-on-primary-fixed"></h3>
-            <p id="modal-subtitle" class="text-on-primary-fixed/70 text-sm mt-1"></p>
-        </div>
-        <div class="p-6" id="modal-body"></div>
-        <div class="px-6 pb-6 flex gap-3">
-            <button id="modal-confirm" onclick="confirmModal()" class="flex-1 bg-primary-fixed text-on-primary-fixed py-3 rounded-xl font-bold hover:scale-105 transition-transform"></button>
-            <button onclick="closeModal()" class="flex-1 border border-outline-variant text-white py-3 rounded-xl font-bold hover:bg-surface-container transition-colors">Cancel</button>
-        </div>
-    </div>
-</div>
-
-<!-- Quick Log Side Panel -->
-<div id="log-panel" class="fixed right-0 top-0 h-full w-full max-w-sm bg-surface-container-lowest border-l border-white/10 z-[250] flex flex-col shadow-2xl">
-    <div class="flex items-center justify-between p-6 border-b border-white/10">
-        <h3 class="font-headline text-xl font-bold">Quick Log</h3>
-        <button onclick="closeLogPanel()" class="w-10 h-10 rounded-full bg-surface-container flex items-center justify-center hover:bg-surface-container-high transition-colors">
-            <span class="material-symbols-outlined">close</span>
-        </button>
-    </div>
-    <div class="flex-1 overflow-y-auto p-6 space-y-6">
-        <!-- Today Stats -->
-        <div class="gradient-border rounded-2xl p-4">
-            <p class="text-xs text-on-surface-variant uppercase tracking-widest mb-3">Today's Progress</p>
-            <div class="space-y-3">
-                <div>
-                    <div class="flex justify-between text-sm mb-1">
-                        <span class="font-bold">Calories</span>
-                        <span class="text-primary font-bold" id="cal-display">0 / 2400</span>
-                    </div>
-                    <div class="h-2 bg-surface-container-high rounded-full overflow-hidden">
-                        <div id="cal-bar" class="progress-bar h-full bg-primary rounded-full" style="--target:0%; width:0%"></div>
+<body class="bg-background text-on-surface font-body selection:bg-primary-container selection:text-on-primary-fixed">
+    <!-- TopNavBar -->
+    <nav class="fixed top-0 w-full z-50 bg-surface-container-lowest/60 backdrop-blur-xl dark:bg-black/60">
+        <div class="flex justify-between items-center px-8 py-4 max-w-[1920px] mx-auto">
+            <div class="text-2xl font-black italic text-[#cafd00] tracking-tighter font-headline">TRENING AURA</div>
+            <div class="hidden md:flex gap-8 items-center">
+                <a data-lang="home" class="font-headline tracking-tight font-bold uppercase text-[#cafd00] border-b-2 border-[#cafd00] pb-1"
+                    href="#">Home</a>
+                <a data-lang="gyms" class="font-headline tracking-tight font-bold uppercase text-[#adaaaa] hover:text-white transition-colors"
+                    href="./gym.html">Gyms</a>
+                <a data-lang="protein_shop" class="font-headline tracking-tight font-bold uppercase text-[#adaaaa] hover:text-white transition-colors"
+                    href="./shop.html">Protein Shop</a>
+                <a data-lang="tracker" class="font-headline tracking-tight font-bold uppercase text-[#adaaaa] hover:text-white transition-colors"
+                    href="./treker.html">Tracker</a>
+                <a data-lang="rewards" class="font-headline tracking-tight font-bold uppercase text-[#adaaaa] hover:text-white transition-colors"
+                    href="./rewerds.html">Rewards</a>
+                                <a data-lang="Survey" class="font-headline tracking-tight font-bold uppercase text-[#adaaaa] hover:text-white transition-colors"
+                    href="./oprosnik.html">Survey</a>
+                                                    <a data-lang="AI CHAT" class="font-headline tracking-tight font-bold uppercase text-[#adaaaa] hover:text-white transition-colors"
+                    href="./chat.html">AI CHAT</a>
+                      <a data-lang="bottl" class="font-headline tracking-tight font-bold uppercase text-[#adaaaa] hover:text-white transition-colors"
+                    href="./sobteambuttel.html">Event</a>
+            </div>
+            <div class="flex items-center gap-6">
+                <!-- Language Switcher -->
+                <div
+                    class="bg-surface-bright/40 backdrop-blur-md px-4 py-2 rounded-full flex gap-4 text-sm font-bold items-center border border-white/5">
+                    <span class="lang-btn text-[#adaaaa] hover:text-white cursor-pointer transition-colors" data-lang-code="ru">RU</span>
+                    <span class="lang-btn text-[#adaaaa] hover:text-white cursor-pointer transition-colors" data-lang-code="uz">UZ</span>
+                    <div class="lang-btn relative text-[#cafd00]" data-lang-code="en">
+                        <span>EN</span>
+                        <div class="lang-indicator absolute -bottom-1 left-1/2 -translate-x-1/2 w-1 h-1 bg-[#cafd00] rounded-full">
+                        </div>
                     </div>
                 </div>
-                <div>
-                    <div class="flex justify-between text-sm mb-1">
-                        <span class="font-bold">Water (ml)</span>
-                        <span class="text-secondary font-bold" id="water-display">0 / 2500</span>
-                    </div>
-                    <div class="h-2 bg-surface-container-high rounded-full overflow-hidden">
-                        <div id="water-bar" class="h-full bg-secondary rounded-full transition-all duration-500" style="width:0%"></div>
-                    </div>
+
+                <!-- Login button (shown when NOT logged in) -->
+                <a id="nav-login-btn" href="./login.html">
+                    <button data-lang="login"
+                        class="bg-[#cafd00] text-[#3a4a00] px-6 py-2 rounded-xl font-bold uppercase tracking-wider scale-95 hover:scale-100 transition-transform duration-200">
+                        Log In
+                    </button>
+                </a>
+
+                <!-- User profile button (shown when logged in) -->
+                <div id="nav-profile-btn" class="hidden items-center gap-3">
+                    <a href="./chatpeople.html" class="relative">
+                        <span class="material-symbols-outlined text-[#adaaaa] hover:text-[#cafd00] cursor-pointer transition-colors">chat</span>
+                        <span id="nav-friend-req-badge" class="hidden absolute -top-1 -right-1 w-4 h-4 bg-[#cafd00] text-[#3a4a00] text-[9px] font-black rounded-full flex items-center justify-center">!</span>
+                    </a>
+                    <a href="./profil.html" class="flex items-center gap-2 bg-surface-bright/40 px-3 py-1.5 rounded-full border border-white/10 hover:border-[#cafd00]/40 transition-colors">
+                        <div class="w-6 h-6 rounded-full bg-[#cafd00] flex items-center justify-center text-[#3a4a00] font-black text-xs" id="nav-avatar-initials">?</div>
+                        <span id="nav-user-name" class="text-sm font-bold text-white"></span>
+                    </a>
+                    <button onclick="doLogout()" class="text-[#adaaaa] hover:text-[#ff7351] transition-colors" title="Logout">
+                        <span class="material-symbols-outlined text-xl">logout</span>
+                    </button>
                 </div>
-                <div>
-                    <div class="flex justify-between text-sm mb-1">
-                        <span class="font-bold">Steps</span>
-                        <span class="text-error font-bold" id="steps-display">0 / 10000</span>
-                    </div>
-                    <div class="h-2 bg-surface-container-high rounded-full overflow-hidden">
-                        <div id="steps-bar" class="h-full bg-error rounded-full transition-all duration-500" style="width:0%"></div>
-                    </div>
-                </div>
+
+                <a href="./profil.html"><img src="./Border.png" alt="img"></a>
             </div>
         </div>
-
-        <!-- Log Calories -->
-        <div>
-            <p class="text-xs text-on-surface-variant uppercase tracking-widest mb-3">Log Calories</p>
-            <div class="flex gap-2">
-                <input id="cal-input" type="number" placeholder="e.g. 450" class="flex-1 bg-surface-container-high border border-white/10 rounded-xl px-4 py-3 text-white placeholder:text-on-surface-variant/50 focus:outline-none focus:border-primary/40 transition-colors"/>
-                <button onclick="logCalories()" class="bg-primary text-on-primary-fixed px-4 py-3 rounded-xl font-bold hover:scale-105 transition-transform">
-                    <span class="material-symbols-outlined">add</span>
-                </button>
-            </div>
-            <!-- Quick presets -->
-            <div class="flex gap-2 mt-2 flex-wrap">
-                <button onclick="quickLog('cal',100)" class="text-xs bg-surface-container-high px-3 py-1.5 rounded-full text-on-surface-variant hover:text-primary transition-colors">+100</button>
-                <button onclick="quickLog('cal',300)" class="text-xs bg-surface-container-high px-3 py-1.5 rounded-full text-on-surface-variant hover:text-primary transition-colors">+300</button>
-                <button onclick="quickLog('cal',500)" class="text-xs bg-surface-container-high px-3 py-1.5 rounded-full text-on-surface-variant hover:text-primary transition-colors">+500</button>
-            </div>
-        </div>
-
-        <!-- Log Water -->
-        <div>
-            <p class="text-xs text-on-surface-variant uppercase tracking-widest mb-3">Log Water</p>
-            <div class="flex gap-2">
-                <input id="water-input" type="number" placeholder="ml e.g. 250" class="flex-1 bg-surface-container-high border border-white/10 rounded-xl px-4 py-3 text-white placeholder:text-on-surface-variant/50 focus:outline-none focus:border-secondary/40 transition-colors"/>
-                <button onclick="logWater()" class="bg-secondary text-on-secondary px-4 py-3 rounded-xl font-bold hover:scale-105 transition-transform">
-                    <span class="material-symbols-outlined">add</span>
-                </button>
-            </div>
-            <div class="flex gap-2 mt-2 flex-wrap">
-                <button onclick="quickLog('water',200)" class="text-xs bg-surface-container-high px-3 py-1.5 rounded-full text-on-surface-variant hover:text-secondary transition-colors">Glass 200ml</button>
-                <button onclick="quickLog('water',500)" class="text-xs bg-surface-container-high px-3 py-1.5 rounded-full text-on-surface-variant hover:text-secondary transition-colors">Bottle 500ml</button>
-            </div>
-        </div>
-
-        <!-- Log Steps -->
-        <div>
-            <p class="text-xs text-on-surface-variant uppercase tracking-widest mb-3">Log Steps</p>
-            <div class="flex gap-2">
-                <input id="steps-input" type="number" placeholder="e.g. 2000" class="flex-1 bg-surface-container-high border border-white/10 rounded-xl px-4 py-3 text-white placeholder:text-on-surface-variant/50 focus:outline-none focus:border-error/40 transition-colors"/>
-                <button onclick="logSteps()" class="bg-error text-on-error px-4 py-3 rounded-xl font-bold hover:scale-105 transition-transform">
-                    <span class="material-symbols-outlined">add</span>
-                </button>
-            </div>
-        </div>
-
-        <!-- Reset -->
-        <button onclick="resetLog()" class="w-full border border-outline-variant text-on-surface-variant py-3 rounded-xl text-sm font-bold hover:border-error hover:text-error transition-colors">
-            Reset Today's Data
-        </button>
-    </div>
-</div>
-
-<!-- Mobile menu overlay -->
-<div id="menu-overlay" class="fixed inset-0 bg-black/70 backdrop-blur-sm z-[90]" onclick="closeMobileMenu()"></div>
-
-<!-- Mobile nav drawer -->
-<div id="mobile-menu" class="fixed top-0 right-0 h-full w-72 bg-surface-container-lowest z-[100] flex flex-col border-l border-white/10 shadow-2xl">
-    <div class="flex items-center justify-between p-6 border-b border-white/10">
-        <span class="font-headline text-xl font-black italic text-primary">TRENING AURA</span>
-        <button onclick="closeMobileMenu()" class="w-10 h-10 rounded-full bg-surface-container flex items-center justify-center">
-            <span class="material-symbols-outlined">close</span>
-        </button>
-    </div>
-    <nav class="flex-1 overflow-y-auto p-6 space-y-2">
-        <a href="#" class="flex items-center gap-3 px-4 py-3 rounded-xl bg-surface-container text-primary font-bold font-headline uppercase tracking-tight">
-            <span class="material-symbols-outlined text-sm">home</span> Home
-        </a>
-        <a href="./gym.html" class="flex items-center gap-3 px-4 py-3 rounded-xl hover:bg-surface-container text-on-surface-variant hover:text-white transition-all font-headline uppercase tracking-tight font-bold" onclick="closeMobileMenu()">
-            <span class="material-symbols-outlined text-sm">fitness_center</span> Gyms
-        </a>
-        <a href="./shop.html" class="flex items-center gap-3 px-4 py-3 rounded-xl hover:bg-surface-container text-on-surface-variant hover:text-white transition-all font-headline uppercase tracking-tight font-bold" onclick="closeMobileMenu()">
-            <span class="material-symbols-outlined text-sm">shopping_basket</span> Protein Shop
-        </a>
-        <a href="./treker.html" class="flex items-center gap-3 px-4 py-3 rounded-xl hover:bg-surface-container text-on-surface-variant hover:text-white transition-all font-headline uppercase tracking-tight font-bold" onclick="closeMobileMenu()">
-            <span class="material-symbols-outlined text-sm">monitoring</span> Tracker
-        </a>
-        <a href="./rewerds.html" class="flex items-center gap-3 px-4 py-3 rounded-xl hover:bg-surface-container text-on-surface-variant hover:text-white transition-all font-headline uppercase tracking-tight font-bold" onclick="closeMobileMenu()">
-            <span class="material-symbols-outlined text-sm">emoji_events</span> Rewards
-        </a>
-        <a href="./oprosnik.html" class="flex items-center gap-3 px-4 py-3 rounded-xl hover:bg-surface-container text-on-surface-variant hover:text-white transition-all font-headline uppercase tracking-tight font-bold" onclick="closeMobileMenu()">
-            <span class="material-symbols-outlined text-sm">poll</span> Survey
-        </a>
-        <a href="./chat.html" class="flex items-center gap-3 px-4 py-3 rounded-xl hover:bg-surface-container text-on-surface-variant hover:text-white transition-all font-headline uppercase tracking-tight font-bold" onclick="closeMobileMenu()">
-            <span class="material-symbols-outlined text-sm">smart_toy</span> AI Chat
-        </a>
-        <a href="./sobteambuttel.html" class="flex items-center gap-3 px-4 py-3 rounded-xl hover:bg-surface-container text-on-surface-variant hover:text-white transition-all font-headline uppercase tracking-tight font-bold" onclick="closeMobileMenu()">
-            <span class="material-symbols-outlined text-sm">event</span> Event
-        </a>
     </nav>
-    <div class="p-6 border-t border-white/10">
-        <a href="./login.html" class="block w-full bg-primary-fixed text-on-primary-fixed py-3 rounded-xl font-bold uppercase tracking-widest text-center hover:scale-105 transition-transform font-headline">Log In</a>
-    </div>
-</div>
+    <!-- Hero Section -->
+    <header class="relative h-screen flex items-center justify-start overflow-hidden pt-20">
+        <div class="absolute inset-0 z-0">
+            <img alt="Elite athlete training" class="w-full h-full object-cover grayscale opacity-60"
 
-<!-- TOP NAV -->
-<nav class="fixed top-0 w-full z-50 bg-black/70 backdrop-blur-xl border-b border-white/5">
-    <div class="flex justify-between items-center px-4 sm:px-8 py-4 max-w-[1920px] mx-auto">
-        <!-- Logo -->
-        <div class="text-xl sm:text-2xl font-black italic text-[#cafd00] tracking-tighter font-headline select-none">TRENING AURA</div>
-
-        <!-- Desktop nav links -->
-        <div class="hidden lg:flex gap-6 xl:gap-8 items-center">
-            <a class="nav-link-animated font-headline tracking-tight font-bold uppercase text-[#cafd00] text-sm" href="#">Home</a>
-            <a class="nav-link-animated font-headline tracking-tight font-bold uppercase text-[#adaaaa] hover:text-white transition-colors text-sm" href="./gym.html">Gyms</a>
-            <a class="nav-link-animated font-headline tracking-tight font-bold uppercase text-[#adaaaa] hover:text-white transition-colors text-sm" href="./shop.html">Protein Shop</a>
-            <a class="nav-link-animated font-headline tracking-tight font-bold uppercase text-[#adaaaa] hover:text-white transition-colors text-sm" href="./treker.html">Tracker</a>
-            <a class="nav-link-animated font-headline tracking-tight font-bold uppercase text-[#adaaaa] hover:text-white transition-colors text-sm" href="./rewerds.html">Rewards</a>
-            <a class="nav-link-animated font-headline tracking-tight font-bold uppercase text-[#adaaaa] hover:text-white transition-colors text-sm" href="./oprosnik.html">Survey</a>
-            <a class="nav-link-animated font-headline tracking-tight font-bold uppercase text-[#adaaaa] hover:text-white transition-colors text-sm" href="./chat.html">AI Chat</a>
-            <a class="nav-link-animated font-headline tracking-tight font-bold uppercase text-[#adaaaa] hover:text-white transition-colors text-sm" href="./sobteambuttel.html">Event</a>
+                data-alt="dramatic wide shot of a powerful athlete lifting heavy weights in a dark urban industrial gym with intense chiaroscuro lighting"
+                src="https://lh3.googleusercontent.com/aida-public/AB6AXuAnHFHwSBVKNrrTdyPcgog9lVT-HYCBLptUL9LOBqhKK7r3zL-ruA9JmQtn4TVCtreY1Pb__BNOaz8QZr4ORp6WNxFUdThu95NCCYmRFz_0KcN0o5CidHaWjOkHCPjx3PTYWA9sRW_mAkjht4WFgcrw0bCGUTAI6guOVF15dIQZJqObRhbYPjzer8V_0prJw3n_C9xEigbrIt1sicBhaOyismie3DZiAfVsEbOC9pl-7t1AIgnVOIrNZuR_4FErqgloAo89PP7-Jp3H" />
+            <div class="absolute inset-0 kinetic-gradient"></div>
         </div>
-
-        <!-- Right controls -->
-        <div class="flex items-center gap-2 sm:gap-4">
-            <!-- Lang switcher (hidden on xs) -->
-            <div class="hidden sm:flex bg-surface-bright/40 backdrop-blur-md px-3 py-1.5 rounded-full gap-3 text-xs font-bold items-center border border-white/5">
-                <span class="lang-btn text-[#adaaaa] hover:text-white cursor-pointer transition-colors relative" data-lang-code="ru">RU</span>
-                <span class="lang-btn text-[#adaaaa] hover:text-white cursor-pointer transition-colors relative" data-lang-code="uz">UZ</span>
-                <span class="lang-btn relative text-[#cafd00] cursor-pointer" data-lang-code="en">EN
-                    <span class="lang-indicator absolute -bottom-1 left-1/2 -translate-x-1/2 w-1 h-1 bg-[#cafd00] rounded-full block"></span>
-                </span>
-            </div>
-
-            <!-- Login button -->
-            <a href="./login.html">
-                <button class="hidden sm:block bg-[#cafd00] text-[#3a4a00] px-4 sm:px-6 py-2 rounded-xl font-bold uppercase tracking-wider scale-95 hover:scale-100 transition-transform duration-200 text-sm">Log In</button>
-            </a>
-
-            <!-- Hamburger (mobile) -->
-            <button onclick="openMobileMenu()" class="lg:hidden w-10 h-10 rounded-xl bg-surface-container flex items-center justify-center hover:bg-surface-container-high transition-colors">
-                <span class="material-symbols-outlined">menu</span>
-            </button>
-        </div>
-    </div>
-</nav>
-<!-- HERO SECTION -->
-<header class="relative min-h-screen flex items-center justify-start overflow-hidden pt-28">
-    <div class="absolute inset-0 z-0">
-        <img alt="Elite athlete training" class="w-full h-full object-cover grayscale opacity-50"
-            src="https://lh3.googleusercontent.com/aida-public/AB6AXuAnHFHwSBVKNrrTdyPcgog9lVT-HYCBLptUL9LOBqhKK7r3zL-ruA9JmQtn4TVCtreY1Pb__BNOaz8QZr4ORp6WNxFUdThu95NCCYmRFz_0KcN0o5CidHaWjOkHCPjx3PTYWA9sRW_mAkjht4WFgcrw0bCGUTAI6guOVF15dIQZJqObRhbYPjzer8V_0prJw3n_C9xEigbrIt1sicBhaOyismie3DZiAfVsEbOC9pl-7t1AIgnVOIrNZuR_4FErqgloAo89PP7-Jp3H" />
-        <div class="absolute inset-0 kinetic-gradient"></div>
-        <!-- Neon accent lines -->
-        <div class="absolute bottom-0 left-0 right-0 h-px bg-gradient-to-r from-transparent via-primary/30 to-transparent"></div>
-    </div>
-
-    <!-- Floating stats card -->
-    <div class="absolute top-32 right-6 lg:right-12 z-20 float-card hidden md:block">
-        <div class="bg-surface-container-highest/70 backdrop-blur-xl border border-white/10 rounded-2xl p-4 w-44">
-            <p class="text-xs text-on-surface-variant uppercase tracking-widest mb-2">Active Users</p>
-            <p class="font-headline text-3xl font-black text-primary aura-glow" id="hero-counter">0</p>
-            <p class="text-xs text-on-surface-variant mt-1">Working out now 🔥</p>
-        </div>
-    </div>
-
-    <div class="relative z-10 px-5 sm:px-12 max-w-5xl w-full">
-        <div class="hero-title">
-            <span class="text-xs uppercase tracking-[0.3em] text-primary/80 font-bold mb-4 block">Tashkent's #1 Fitness Platform</span>
-            <h1 class="font-headline text-5xl sm:text-7xl md:text-9xl font-bold leading-[0.9] tracking-tighter uppercase mb-8 aura-glow">
-                Transform<br/>
-                Your <span class="text-primary-fixed">Body</span>
-                <br/>
-                <span class="text-secondary secondary-glow text-4xl sm:text-5xl md:text-7xl">With Trening Aura</span>
+        <div class="relative z-10 px-12 max-w-5xl">
+            <h1
+                class="font-headline text-7xl md:text-9xl font-bold leading-[0.9] tracking-tighter uppercase mb-8 aura-glow">
+                Transform Your <span class="text-primary-fixed">Body</span> <br />With Trening Aura
             </h1>
-        </div>
-
-        <!-- Search bar -->
-        <div class="hero-search mt-8 max-w-2xl search-wrap bg-surface-container-highest/80 backdrop-blur-xl p-2 rounded-2xl flex items-center shadow-2xl border border-white/5 transition-all">
-            <span class="material-symbols-outlined ml-3 sm:ml-4 text-on-surface-variant text-lg">explore</span>
-            <input id="search-input" class="bg-transparent border-none focus:ring-0 w-full px-3 sm:px-4 text-base sm:text-lg text-white placeholder:text-on-surface-variant/50" placeholder="Find gyms near you..." type="text" />
-            <button onclick="handleSearch()" class="shimmer-btn text-on-primary-fixed px-4 sm:px-8 py-2.5 sm:py-3 rounded-xl font-black uppercase tracking-widest flex items-center gap-2 text-sm whitespace-nowrap hover:scale-105 transition-transform">
-                Search <span class="material-symbols-outlined text-sm hidden sm:inline">arrow_forward</span>
-            </button>
-        </div>
-
-        <!-- Quick chips -->
-        <div class="hero-chips flex flex-wrap gap-3 mt-6">
-            <button onclick="scrollToGyms()" class="bg-surface-container-high hover:bg-surface-container-highest border border-white/5 text-white px-4 sm:px-6 py-2.5 sm:py-3 rounded-full flex items-center gap-2 sm:gap-3 transition-all hover:border-primary/30 text-sm group">
-                <span class="material-symbols-outlined text-primary text-base group-hover:scale-125 transition-transform">fitness_center</span>
-                <span class="font-bold">Gyms</span>
-            </button>
-            <button onclick="window.location.href='./shop.html'" class="bg-surface-container-high hover:bg-surface-container-highest border border-white/5 text-white px-4 sm:px-6 py-2.5 sm:py-3 rounded-full flex items-center gap-2 sm:gap-3 transition-all hover:border-secondary/30 text-sm group">
-                <span class="material-symbols-outlined text-secondary text-base group-hover:scale-125 transition-transform">shopping_basket</span>
-                <span class="font-bold">Protein Stores</span>
-            </button>
-            <button onclick="window.location.href='./treker.html'" class="bg-surface-container-high hover:bg-surface-container-highest border border-white/5 text-white px-4 sm:px-6 py-2.5 sm:py-3 rounded-full flex items-center gap-2 sm:gap-3 transition-all hover:border-error/30 text-sm group">
-                <span class="material-symbols-outlined text-error text-base group-hover:scale-125 transition-transform">monitoring</span>
-                <span class="font-bold">Calories Tracker</span>
-            </button>
-            <button onclick="openLogPanel()" class="bg-primary/10 hover:bg-primary/20 border border-primary/20 text-primary px-4 sm:px-6 py-2.5 sm:py-3 rounded-full flex items-center gap-2 sm:gap-3 transition-all text-sm group">
-                <span class="material-symbols-outlined text-base group-hover:scale-125 transition-transform">add_circle</span>
-                <span class="font-bold">Quick Log</span>
-            </button>
-        </div>
-    </div>
-
-    <!-- Scroll hint -->
-    <div class="absolute bottom-8 left-1/2 -translate-x-1/2 z-10 flex flex-col items-center gap-2 opacity-60 hover:opacity-100 transition-opacity cursor-pointer" onclick="scrollToGyms()">
-        <span class="text-xs uppercase tracking-widest text-on-surface-variant font-bold">Scroll</span>
-        <div class="w-px h-8 bg-gradient-to-b from-on-surface-variant to-transparent animate-bounce"></div>
-    </div>
-</header>
-
-<!-- STATS BAR -->
-<section class="bg-surface-container-lowest border-y border-white/5 py-8 px-5 sm:px-12 reveal">
-    <div class="max-w-5xl mx-auto grid grid-cols-2 sm:grid-cols-4 gap-6">
-        <div class="text-center">
-            <p class="font-headline text-3xl sm:text-4xl font-black text-primary stat-num" data-count="47">0</p>
-            <p class="text-xs text-on-surface-variant uppercase tracking-widest mt-1">Gyms Listed</p>
-        </div>
-        <div class="text-center">
-            <p class="font-headline text-3xl sm:text-4xl font-black text-secondary stat-num" data-count="12500">0</p>
-            <p class="text-xs text-on-surface-variant uppercase tracking-widest mt-1">Active Members</p>
-        </div>
-        <div class="text-center">
-            <p class="font-headline text-3xl sm:text-4xl font-black text-error stat-num" data-count="890">0</p>
-            <p class="text-xs text-on-surface-variant uppercase tracking-widest mt-1">Sessions Booked</p>
-        </div>
-        <div class="text-center">
-            <p class="font-headline text-3xl sm:text-4xl font-black text-primary stat-num" data-count="4.9">0</p>
-            <p class="text-xs text-on-surface-variant uppercase tracking-widest mt-1">Avg. Rating ⭐</p>
-        </div>
-    </div>
-</section>
-
-<!-- MAIN CONTENT -->
-<main class="relative z-10 px-5 sm:px-12 py-16 sm:py-24 bg-background">
-
-    <!-- Nearby Gyms Section -->
-    <div id="gyms-section" class="reveal">
-        <div class="flex flex-col sm:flex-row sm:justify-between sm:items-end mb-10 sm:mb-16 gap-4">
-            <div>
-                <h2 class="font-headline text-3xl sm:text-5xl font-bold uppercase tracking-tight">Nearby <span class="text-secondary">Gyms</span></h2>
-                <p class="text-on-surface-variant mt-2 max-w-md text-sm sm:text-base">The most advanced athletic facilities in your area, rated by our community.</p>
+            <!-- Search Bar Component -->
+            <div
+                class="mt-12 max-w-2xl bg-surface-container-highest/80 backdrop-blur-xl p-2 rounded-2xl flex items-center shadow-2xl border border-white/5">
+                <span class="material-symbols-outlined ml-4 text-on-surface-variant" data-icon="explore">explore</span>
+                <input data-lang-placeholder="find_gyms"
+                    class="bg-transparent border-none focus:ring-0 w-full px-4 text-lg text-white placeholder:text-on-surface-variant/50"
+                    placeholder="Find gyms near you" type="text" />
+                <button data-lang="search"
+                    class="bg-primary-fixed text-on-primary-fixed px-8 py-3 rounded-xl font-black uppercase tracking-widest flex items-center gap-2">
+                    Search <span class="material-symbols-outlined text-sm"
+                        data-icon="arrow_forward">arrow_forward</span>
+                </button>
             </div>
-            <a href="./gym.html" class="text-primary uppercase font-bold tracking-widest flex items-center gap-2 hover:gap-4 transition-all text-sm self-start sm:self-auto">
+            <!-- Quick Action Chips -->
+            <div class="flex flex-wrap gap-4 mt-8">
+                <button
+                    class="bg-surface-container-high hover:bg-surface-container-highest border border-white/5 text-white px-6 py-3 rounded-full flex items-center gap-3 transition-all">
+                    <span class="material-symbols-outlined text-primary"
+                        data-icon="fitness_center">fitness_center</span>
+                    <span data-lang="gyms_btn" class="font-bold text-sm">Gyms</span>
+                </button>
+                <button
+                    class="bg-surface-container-high hover:bg-surface-container-highest border border-white/5 text-white px-6 py-3 rounded-full flex items-center gap-3 transition-all">
+                    <span class="material-symbols-outlined text-secondary"
+                        data-icon="shopping_basket">shopping_basket</span>
+                    <span data-lang="protein_stores" class="font-bold text-sm">Protein Stores</span>
+                </button>
+                <button
+                    class="bg-surface-container-high hover:bg-surface-container-highest border border-white/5 text-white px-6 py-3 rounded-full flex items-center gap-3 transition-all">
+                    <span class="material-symbols-outlined text-error" data-icon="monitoring">monitoring</span>
+                    <span data-lang="calories_tracker" class="font-bold text-sm">Calories Tracker</span>
+                </button>
+            </div>
+        </div>
+    </header>
+    <!-- Content Sections (Bento Grid) -->
+    <main class="relative z-10 px-12 py-24 bg-background">
+        <!-- Section Header -->
+        <div class="flex justify-between items-end mb-16">
+            <div>
+                <h2 class="font-headline text-5xl font-bold uppercase tracking-tight">Nearby <span data-lang="gyms"
+                        class="text-secondary">Gyms</span></h2>
+                <p data-lang="nearby_gyms_desc" class="text-on-surface-variant mt-2 max-w-md">The most advanced athletic facilities in your immediate
+                    area, rated by our community.</p>
+            </div>
+
+            <a data-lang="view_all" class="text-primary uppercase font-bold tracking-widest flex items-center gap-2 hover:gap-4 transition-all"
+                href="#">
                 View All <span class="material-symbols-outlined">chevron_right</span>
             </a>
         </div>
-
-        <!-- Filter tabs -->
-        <div class="flex gap-2 mb-8 overflow-x-auto pb-2 -mx-1 px-1">
-            <button onclick="filterGyms('all')" class="gym-filter-btn active-filter flex-shrink-0 bg-primary-fixed text-on-primary-fixed px-4 py-2 rounded-full text-xs font-bold uppercase tracking-wider" data-filter="all">All Gyms</button>
-            <button onclick="filterGyms('powerlifting')" class="gym-filter-btn flex-shrink-0 bg-surface-container-high text-on-surface-variant hover:text-white px-4 py-2 rounded-full text-xs font-bold uppercase tracking-wider transition-colors" data-filter="powerlifting">Powerlifting</button>
-            <button onclick="filterGyms('wellness')" class="gym-filter-btn flex-shrink-0 bg-surface-container-high text-on-surface-variant hover:text-white px-4 py-2 rounded-full text-xs font-bold uppercase tracking-wider transition-colors" data-filter="wellness">Wellness</button>
-            <button onclick="filterGyms('hitech')" class="gym-filter-btn flex-shrink-0 bg-surface-container-high text-on-surface-variant hover:text-white px-4 py-2 rounded-full text-xs font-bold uppercase tracking-wider transition-colors" data-filter="hitech">Hi-Tech</button>
-        </div>
-
-        <!-- Gym Cards -->
-        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 sm:gap-8 mb-24 sm:mb-32">
+        <!-- Gym Cards Grid -->
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-8 mb-32">
             <!-- Card 1 -->
-            <div class="gym-card group bg-surface-container-low rounded-2xl overflow-hidden hover:bg-surface-container-high transition-all duration-500 cursor-pointer" data-category="powerlifting" onclick="openGymModal('Titanium Forge','Specialized in powerlifting and olympic weightlifting with professional coaching staff.','4.9','0.8 km','powerlifting')">
-                <div class="relative h-52 sm:h-64 overflow-hidden">
-                    <img alt="Titanium Forge" class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110"
-                        src="https://lh3.googleusercontent.com/aida-public/AB6AXuAI2Uc5XJt7k9GkeqkmDUNEIMznAsTokIS5_1HhC9zBxrjNpLVuc1Uy_QXFSyWsU6rJ_KhQZqHHlk1nFuCcn4C85Oa4P1qRnwOJtyI3Vbjq85XttoHDn45BOfrsIHPRZKRbp8-BCRoRCrSqt0t1iwSUSXPKkLZCnFJBOiB4JZE8kYctqeFGj4IUpBaVQzmUmcc1ZGLcNZ0NW_gvcF5K2iC8VaXdsx95Q2AnL7OQFSRH94cFdy-SS5r9n0sRKIAFW1WFTJLv-2JdGFUw"/>
-                    <div class="absolute top-3 right-3 bg-black/60 backdrop-blur-md px-3 py-1 rounded-lg flex items-center gap-1 text-sm font-bold text-primary">
-                        <span class="material-symbols-outlined text-sm fill-icon">star</span> 4.9
+            <div
+                class="group bg-surface-container-low rounded-2xl overflow-hidden hover:bg-surface-container-high transition-all duration-500">
+                <div class="relative h-64 overflow-hidden">
+                    <img alt="Power Lift Gym"
+                        class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110"
+                        data-alt="modern brutalist architecture gym interior with neon blue lighting accents and rows of professional cardio equipment"
+                        src="https://lh3.googleusercontent.com/aida-public/AB6AXuAI2Uc5XJt7k9GkeqkmDUNEIMznAsTokIS5_1HhC9zBxrjNpLVuc1Uy_QXFSyWsU6rJ_KhQZqHHlk1nFuCcn4C85Oa4P1qRnwOJtyI3Vbjq85XttoHDn45BOfrsIHPRZKRbp8-BCRoRCrSqt0t1iwSUSXPKkLZCnFJBOiB4JZE8kYctqeFGj4IUpBaVQzmUmcc1ZGLcNZ0NW_gvcF5K2iC8VaXdsx95Q2AnL7OQFSRH94cFdy-SS5r9n0sRKIAFW1WFTJLv-2JdGFUw" />
+                    <div
+                        class="absolute top-4 right-4 bg-black/60 backdrop-blur-md px-3 py-1 rounded-lg flex items-center gap-1 text-sm font-bold text-primary">
+                        <span class="material-symbols-outlined text-sm" data-icon="star" data-weight="fill">star</span>
+                        4.9
                     </div>
-                    <div class="absolute top-3 left-3 bg-primary/20 backdrop-blur-md px-2 py-1 rounded-lg text-xs font-bold text-primary uppercase tracking-wider">Powerlifting</div>
                 </div>
-                <div class="p-5 sm:p-8">
-                    <div class="flex justify-between items-start mb-3">
-                        <h3 class="font-headline text-xl sm:text-2xl font-bold">Titanium Forge</h3>
-                        <span class="text-xs uppercase tracking-tighter bg-secondary/10 text-secondary px-2 py-1 rounded flex-shrink-0 ml-2">0.8 km</span>
+                <div class="p-8">
+                    <div class="flex justify-between items-start mb-4">
+                        <h3 data-lang="titanium_forge" class="font-headline text-2xl font-bold">Titanium Forge</h3>
+                        <span
+                            class="text-xs uppercase tracking-tighter bg-secondary/10 text-secondary px-2 py-1 rounded">0.8
+                            km away</span>
                     </div>
-                    <p class="text-on-surface-variant text-sm mb-5 leading-relaxed">Specialized in powerlifting and olympic weightlifting with professional coaching staff.</p>
-                    <!-- Amenities -->
-                    <div class="flex gap-2 mb-5 flex-wrap">
-                        <span class="text-xs bg-surface-container px-2 py-1 rounded text-on-surface-variant">🏋️ Free Weights</span>
-                        <span class="text-xs bg-surface-container px-2 py-1 rounded text-on-surface-variant">👨‍🏫 Coaching</span>
-                        <span class="text-xs bg-surface-container px-2 py-1 rounded text-on-surface-variant">🚿 Showers</span>
-                    </div>
-                    <button onclick="event.stopPropagation(); openBookModal('Titanium Forge')" class="book-btn w-full py-3 border border-outline-variant rounded-xl text-white font-bold hover:scale-105 transition-all text-sm">
-                        Book Session
-                    </button>
+                    <p data-lang="titanium_desc" class="text-on-surface-variant text-sm mb-6 leading-relaxed">Specialized in powerlifting and
+                        olympic weightlifting with professional coaching staff.</p>
+
+                        <a href="./gym.html"><button data-lang="book_session"
+                            class="w-full py-3 border border-outline-variant rounded-xl text-white font-bold hover:bg-white hover:text-black transition-all">Book
+                            Session</button></a>
                 </div>
             </div>
-
             <!-- Card 2 -->
-            <div class="gym-card group bg-surface-container-low rounded-2xl overflow-hidden hover:bg-surface-container-high transition-all duration-500 cursor-pointer" data-category="wellness" onclick="openGymModal('Aura Zenith','Holistic wellness center featuring cryotherapy, yoga, and high-intensity interval training.','4.7','1.2 km','wellness')">
-                <div class="relative h-52 sm:h-64 overflow-hidden">
-                    <img alt="Aura Zenith" class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110"
-                        src="https://lh3.googleusercontent.com/aida-public/AB6AXuB5GRRhvcIBM51ZAD8qOT9gAxQB125GZnw1jzRFJ_-2majLTl9oNu1TNf4hCRfmuDZRsIECTdunnh2NrBKSEWYp8_jyl-KaGQOjoZSMtJmOxbQvG2HVERqrz79mcv4piPm9T7HgeQutIMKhiHA9lOJGx03xelBQt4zn_xuKmp71spTxzSEbtZRFO-uh7ChjdgM9uuJcjEsQPY3WzhlvTLxA_cjbbWaI-OAZfTMRPvQmrMLKvEUXNINJVuDHY662fu-qlqj9dqDD-T_H"/>
-                    <div class="absolute top-3 right-3 bg-black/60 backdrop-blur-md px-3 py-1 rounded-lg flex items-center gap-1 text-sm font-bold text-primary">
-                        <span class="material-symbols-outlined text-sm fill-icon">star</span> 4.7
+            <div
+                class="group bg-surface-container-low rounded-2xl overflow-hidden hover:bg-surface-container-high transition-all duration-500">
+                <div class="relative h-64 overflow-hidden">
+                    <img alt="Aura Wellness"
+                        class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110"
+                        data-alt="luxury rooftop yoga studio at sunset with panoramic city views and soft orange ambient lighting"
+                        src="https://lh3.googleusercontent.com/aida-public/AB6AXuB5GRRhvcIBM51ZAD8qOT9gAxQB125GZnw1jzRFJ_-2majLTl9oNu1TNf4hCRfmuDZRsIECTdunnh2NrBKSEWYp8_jyl-KaGQOjoZSMtJmOxbQvG2HVERqrz79mcv4piPm9T7HgeQutIMKhiHA9lOJGx03xelBQt4zn_xuKmp71spTxzSEbtZRFO-uh7ChjdgM9uuJcjEsQPY3WzhlvTLxA_cjbbWaI-OAZfTMRPvQmrMLKvEUXNINJVuDHY662fu-qlqj9dqDD-T_H" />
+                    <div
+                        class="absolute top-4 right-4 bg-black/60 backdrop-blur-md px-3 py-1 rounded-lg flex items-center gap-1 text-sm font-bold text-primary">
+                        <span class="material-symbols-outlined text-sm" data-icon="star" data-weight="fill">star</span>
+                        4.7
                     </div>
-                    <div class="absolute top-3 left-3 bg-secondary/20 backdrop-blur-md px-2 py-1 rounded-lg text-xs font-bold text-secondary uppercase tracking-wider">Wellness</div>
                 </div>
-                <div class="p-5 sm:p-8">
-                    <div class="flex justify-between items-start mb-3">
-                        <h3 class="font-headline text-xl sm:text-2xl font-bold">Aura Zenith</h3>
-                        <span class="text-xs uppercase tracking-tighter bg-secondary/10 text-secondary px-2 py-1 rounded flex-shrink-0 ml-2">1.2 km</span>
+                <div class="p-8">
+                    <div class="flex justify-between items-start mb-4">
+
+                        <h3 data-lang="aura_zenith" class="font-headline text-2xl font-bold">Aura Zenith</h3>
+                        <span
+                            class="text-xs uppercase tracking-tighter bg-secondary/10 text-secondary px-2 py-1 rounded">1.2
+                            km away</span>
                     </div>
-                    <p class="text-on-surface-variant text-sm mb-5 leading-relaxed">Holistic wellness center featuring cryotherapy, yoga, and high-intensity interval training.</p>
-                    <div class="flex gap-2 mb-5 flex-wrap">
-                        <span class="text-xs bg-surface-container px-2 py-1 rounded text-on-surface-variant">🧊 Cryo</span>
-                        <span class="text-xs bg-surface-container px-2 py-1 rounded text-on-surface-variant">🧘 Yoga</span>
-                        <span class="text-xs bg-surface-container px-2 py-1 rounded text-on-surface-variant">⚡ HIIT</span>
-                    </div>
-                    <button onclick="event.stopPropagation(); openBookModal('Aura Zenith')" class="book-btn w-full py-3 border border-outline-variant rounded-xl text-white font-bold hover:scale-105 transition-all text-sm">
-                        Book Session
-                    </button>
+                    <p data-lang="aura_desc" class="text-on-surface-variant text-sm mb-6 leading-relaxed">Holistic wellness center featuring
+                        cryotherapy, yoga, and high-intensity interval training.</p>
+                        <a href="./gym.html" class="block w-full mt-4">
+                            <button data-lang="book_session"
+                                class="w-full py-3 border border-outline-variant rounded-xl text-white font-bold hover:bg-white hover:text-black transition-all">Book
+                                Session</button>
+                        </a>
                 </div>
             </div>
-
             <!-- Card 3 -->
-            <div class="gym-card group bg-surface-container-low rounded-2xl overflow-hidden hover:bg-surface-container-high transition-all duration-500 cursor-pointer sm:col-span-2 lg:col-span-1" data-category="hitech" onclick="openGymModal('Pulse Matrix','24/7 access with biometric tracking and state-of-the-art AI-driven equipment.','5.0','2.5 km','hitech')">
-                <div class="relative h-52 sm:h-64 overflow-hidden">
-                    <img alt="Pulse Matrix" class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110"
-                        src="https://lh3.googleusercontent.com/aida-public/AB6AXuCwHnNopweg4Tiy4GQ2xgzqYl3FN-8m2jZeOp7Wt2UBcVmM6TZrMtkfhVNiVCcrUeiT-T5oNV1ej2R34ha5XulxilXlMrFl-CH9ma2AeKQiwhmhm2md8AXISU19dcOJVlrUEWcN7xWT8Z3ZiGk5a0e-HI9--r0RGnnzipMEqCeR7r0qIxxZ6lRRuYxqnEju_LFtib4wUEUeIpiaFIxK40upspSgo6vqwvnO_biUkYZcTXfanwsxuGIzRpsNCoqV2oQLHGNe7UGH2Hxv"/>
-                    <div class="absolute top-3 right-3 bg-black/60 backdrop-blur-md px-3 py-1 rounded-lg flex items-center gap-1 text-sm font-bold text-primary">
-                        <span class="material-symbols-outlined text-sm fill-icon">star</span> 5.0
+            <div
+                class="group bg-surface-container-low rounded-2xl overflow-hidden hover:bg-surface-container-high transition-all duration-500">
+                <div class="relative h-64 overflow-hidden">
+                    <img alt="Kinetic Gym"
+                        class="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110"
+                        data-alt="high-tech dark gym interior with glowing neon green LED strips along the floor and mirrors"
+                        src="https://lh3.googleusercontent.com/aida-public/AB6AXuCwHnNopweg4Tiy4GQ2xgzqYl3FN-8m2jZeOp7Wt2UBcVmM6TZrMtkfhVNiVCcrUeiT-T5oNV1ej2R34ha5XulxilXlMrFl-CH9ma2AeKQiwhmhm2md8AXISU19dcOJVlrUEWcN7xWT8Z3ZiGk5a0e-HI9--r0RGnnzipMEqCeR7r0qIxxZ6lRRuYxqnEju_LFtib4wUEUeIpiaFIxK40upspSgo6vqwvnO_biUkYZcTXfanwsxuGIzRpsNCoqV2oQLHGNe7UGH2Hxv" />
+                    <div
+                        class="absolute top-4 right-4 bg-black/60 backdrop-blur-md px-3 py-1 rounded-lg flex items-center gap-1 text-sm font-bold text-primary">
+                        <span class="material-symbols-outlined text-sm" data-icon="star" data-weight="fill">star</span>
+                        5.0
                     </div>
-                    <div class="absolute top-3 left-3 bg-error/20 backdrop-blur-md px-2 py-1 rounded-lg text-xs font-bold text-error uppercase tracking-wider">Hi-Tech</div>
                 </div>
-                <div class="p-5 sm:p-8">
-                    <div class="flex justify-between items-start mb-3">
-                        <h3 class="font-headline text-xl sm:text-2xl font-bold">Pulse Matrix</h3>
-                        <span class="text-xs uppercase tracking-tighter bg-secondary/10 text-secondary px-2 py-1 rounded flex-shrink-0 ml-2">2.5 km</span>
+                <div class="p-8">
+                    <div class="flex justify-between items-start mb-4">
+                        <h3 data-lang="pulse_matrix" class="font-headline text-2xl font-bold">Pulse Matrix</h3>
+                        <span
+                            class="text-xs uppercase tracking-tighter bg-secondary/10 text-secondary px-2 py-1 rounded">2.5
+                            km away</span>
                     </div>
-                    <p class="text-on-surface-variant text-sm mb-5 leading-relaxed">24/7 access with biometric tracking and state-of-the-art AI-driven equipment.</p>
-                    <div class="flex gap-2 mb-5 flex-wrap">
-                        <span class="text-xs bg-surface-container px-2 py-1 rounded text-on-surface-variant">🤖 AI Coach</span>
-                        <span class="text-xs bg-surface-container px-2 py-1 rounded text-on-surface-variant">⏰ 24/7</span>
-                        <span class="text-xs bg-surface-container px-2 py-1 rounded text-on-surface-variant">📊 Biometric</span>
-                    </div>
-                    <button onclick="event.stopPropagation(); openBookModal('Pulse Matrix')" class="book-btn w-full py-3 border border-outline-variant rounded-xl text-white font-bold hover:scale-105 transition-all text-sm">
-                        Book Session
-                    </button>
+                    <p data-lang="pulse_desc" class="text-on-surface-variant text-sm mb-6 leading-relaxed">24/7 access with biometric tracking
+                        and state-of-the-art AI-driven equipment.</p>
+                        <a href="./gym.html" class="block w-full mt-4">
+                            <button data-lang="book_session"
+                                class="w-full py-3 border border-outline-variant rounded-xl text-white font-bold hover:bg-white hover:text-black transition-all">Book
+                                Session</button>
+                        </a>
                 </div>
             </div>
         </div>
-    </div>
+        <!-- Protein Shop - Asymmetric Layout -->
+        <div class="grid grid-cols-1 lg:grid-cols-12 gap-12 items-center mb-32">
+            <div class="lg:col-span-5 order-2 lg:order-1">
+                <h2 class="font-headline text-5xl font-bold uppercase tracking-tight mb-6">Top <span data-lang="protein"
+                        class="text-primary">Protein</span> Stores</h2>
+                <p data-lang="protein_stores_desc" class="text-on-surface-variant text-lg mb-10">Fuel your recovery with verified supplements. Curated
+                    stores offering the purest whey, plant proteins, and performance stacks.</p>
+                <div class="space-y-4">
+                    <div
+                        class="bg-surface-container-highest p-6 rounded-2xl flex items-center justify-between border-l-4 border-primary">
+                        <div class="flex items-center gap-4">
+                            <div class="w-12 h-12 bg-black rounded-lg flex items-center justify-center">
 
-    <!-- AI Coach Banner — NEW FEATURE -->
-    <div class="reveal mb-24 sm:mb-32">
-        <div class="gradient-border rounded-3xl p-6 sm:p-10 flex flex-col sm:flex-row items-center gap-6 sm:gap-10 bg-surface-container-low overflow-hidden relative">
-            <div class="absolute top-0 right-0 w-64 h-64 bg-secondary/5 blur-3xl rounded-full -mr-20 -mt-20 pointer-events-none"></div>
-            <div class="w-20 h-20 sm:w-24 sm:h-24 rounded-3xl bg-gradient-to-br from-secondary/20 to-primary/20 flex items-center justify-center flex-shrink-0 border border-white/10">
-                <span class="material-symbols-outlined text-4xl sm:text-5xl text-secondary">smart_toy</span>
-            </div>
-            <div class="flex-1 text-center sm:text-left">
-                <span class="text-xs uppercase tracking-[0.3em] text-secondary font-bold mb-2 block">New Feature</span>
-                <h3 class="font-headline text-2xl sm:text-3xl font-bold mb-2">AI Personal Coach</h3>
-                <p class="text-on-surface-variant text-sm sm:text-base">Get a personalized workout plan, nutrition advice, and real-time feedback — powered by Claude AI.</p>
-            </div>
-            <a href="./chat.html">
-                <button class="bg-secondary text-on-secondary px-6 sm:px-8 py-3 sm:py-4 rounded-2xl font-bold uppercase tracking-widest text-sm hover:scale-105 transition-transform flex-shrink-0 hover:shadow-[0_0_30px_rgba(0,227,253,0.3)] transition-all">
-                    Try AI Coach
-                </button>
-            </a>
-        </div>
-    </div>
-
-    <!-- Protein Stores Section -->
-    <div class="grid grid-cols-1 lg:grid-cols-12 gap-8 sm:gap-12 items-center mb-24 sm:mb-32 reveal">
-        <div class="lg:col-span-5 order-2 lg:order-1">
-            <h2 class="font-headline text-3xl sm:text-5xl font-bold uppercase tracking-tight mb-4 sm:mb-6">Top <span class="text-primary">Protein</span> Stores</h2>
-            <p class="text-on-surface-variant text-base sm:text-lg mb-8 sm:mb-10">Fuel your recovery with verified supplements. Curated stores offering the purest whey, plant proteins, and performance stacks.</p>
-            <div class="space-y-3 sm:space-y-4">
-                <button onclick="openStoreModal('Aura Nutrition Hub','Central Plaza')" class="w-full bg-surface-container-highest p-5 sm:p-6 rounded-2xl flex items-center justify-between border-l-4 border-primary hover:scale-[1.01] transition-transform text-left group">
-                    <div class="flex items-center gap-4">
-                        <div class="w-10 sm:w-12 h-10 sm:h-12 bg-black rounded-xl flex items-center justify-center flex-shrink-0">
-                            <span class="material-symbols-outlined text-primary">liquor</span>
+                                <span class="material-symbols-outlined text-primary" data-icon="liquor">liquor</span>
+                            </div>
+                            <div>
+                                <h4 data-lang="aura_nutrition" class="font-bold">Aura Nutrition Hub</h4>
+                                <p data-lang="aura_nutrition_desc" class="text-xs text-on-surface-variant">Central Plaza • Open Now</p>
+                            </div>
                         </div>
-                        <div>
-                            <h4 class="font-bold text-sm sm:text-base">Aura Nutrition Hub</h4>
-                            <p class="text-xs text-on-surface-variant">Central Plaza • Open Now</p>
+                        <span class="material-symbols-outlined text-primary"
+                            data-icon="arrow_outward">arrow_outward</span>
+                    </div>
+                    <div
+                        class="bg-surface-container-low p-6 rounded-2xl flex items-center justify-between opacity-80 hover:opacity-100 transition-opacity">
+                        <div class="flex items-center gap-4">
+                            <div class="w-12 h-12 bg-black rounded-lg flex items-center justify-center">
+                                <span class="material-symbols-outlined text-secondary" data-icon="bolt">bolt</span>
+                            </div>
+                            <div>
+                                <h4 data-lang="kinetic_fuel" class="font-bold">Kinetic Fuel Lab</h4>
+                                <p data-lang="kinetic_fuel_desc" class="text-xs text-on-surface-variant">Westside Annex • 1.4 km</p>
+                            </div>
                         </div>
+                        <span class="material-symbols-outlined" data-icon="arrow_outward">arrow_outward</span>
                     </div>
-                    <span class="material-symbols-outlined text-primary group-hover:translate-x-1 transition-transform">arrow_outward</span>
-                </button>
-                <button onclick="openStoreModal('Kinetic Fuel Lab','Westside Annex')" class="w-full bg-surface-container-low p-5 sm:p-6 rounded-2xl flex items-center justify-between hover:bg-surface-container hover:scale-[1.01] transition-all text-left group">
-                    <div class="flex items-center gap-4">
-                        <div class="w-10 sm:w-12 h-10 sm:h-12 bg-black rounded-xl flex items-center justify-center flex-shrink-0">
-                            <span class="material-symbols-outlined text-secondary">bolt</span>
-                        </div>
-                        <div>
-                            <h4 class="font-bold text-sm sm:text-base">Kinetic Fuel Lab</h4>
-                            <p class="text-xs text-on-surface-variant">Westside Annex • 1.4 km</p>
-                        </div>
+                </div>
+                <div class="mt-12 flex gap-4">
+                    <button data-lang="shop_online"
+                        class="bg-primary text-on-primary-fixed px-8 py-4 rounded-xl font-bold uppercase tracking-widest">Shop
+                        Online</button>
+                    <button data-lang="find_nearest"
+                        class="text-white px-8 py-4 rounded-xl font-bold uppercase tracking-widest border border-outline-variant">Find
+                        Nearest</button>
+                </div>
+            </div>
+            <div class="lg:col-span-7 order-1 lg:order-2">
+                <div class="relative h-[500px] rounded-3xl overflow-hidden group">
+                    <img alt="Protein Supps" class="w-full h-full object-cover"
+                        data-alt="close-up shot of high-end minimalist supplement jars on a textured black concrete surface with a pop of neon green light from the side"
+                        src="https://lh3.googleusercontent.com/aida-public/AB6AXuC3eh0yiYtMhTCWISUqGzDI0Wt0VNhYvihr5rdmT_VwTpFHiPu4BIvrpB_khgz5icCxPUZr_txpBalMRzPJdigqQpy0-f016lU7a1XbWJQ1IP4_GT3ckIGjmGu8zVYb2f2ilyDJY0G697pcXUyq3fbxQumE35Ts1_6Oz8QQ1qzir4hZ94CJZi1iPb2IOBd9Y1l9F2w9D0P_CFybqx9L7bWd_5Df_xitjsHWPC6w923fj5WeXXFd-2OloeYXgwLByffGG_uGWxV5QLmB" />
+                    <div class="absolute inset-0 bg-gradient-to-t from-black/80 to-transparent"></div>
+                    <div
+                        class="absolute bottom-8 left-8 p-6 bg-surface-container-highest/60 backdrop-blur-xl rounded-2xl border border-white/5 max-w-sm">
+                        <span class="text-primary text-xs font-bold uppercase tracking-[0.2em] mb-2 block">Weekly
+                            Deal</span>
+                        <h5 class="text-2xl font-headline font-bold mb-2">Aura Pure Whey Isolate</h5>
+                        <p class="text-on-surface-variant text-sm">30% off for Pro members this week only. Elevate your
+                            gains.</p>
                     </div>
-                    <span class="material-symbols-outlined group-hover:translate-x-1 transition-transform">arrow_outward</span>
-                </button>
-            </div>
-            <div class="mt-8 sm:mt-12 flex flex-col xs:flex-row gap-3 sm:gap-4">
-                <button onclick="window.location.href='./shop.html'" class="bg-primary text-on-primary-fixed px-6 sm:px-8 py-3 sm:py-4 rounded-xl font-bold uppercase tracking-widest hover:scale-105 transition-transform text-sm flex-1">Shop Online</button>
-                <button onclick="findNearest()" class="text-white px-6 sm:px-8 py-3 sm:py-4 rounded-xl font-bold uppercase tracking-widest border border-outline-variant hover:bg-surface-container transition-colors text-sm flex-1">Find Nearest</button>
-            </div>
-        </div>
-        <div class="lg:col-span-7 order-1 lg:order-2">
-            <div class="relative h-72 sm:h-[500px] rounded-3xl overflow-hidden group">
-                <img alt="Protein Supps" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700"
-                    src="https://lh3.googleusercontent.com/aida-public/AB6AXuC3eh0yiYtMhTCWISUqGzDI0Wt0VNhYvihr5rdmT_VwTpFHiPu4BIvrpB_khgz5icCxPUZr_txpBalMRzPJdigqQpy0-f016lU7a1XbWJQ1IP4_GT3ckIGjmGu8zVYb2f2ilyDJY0G697pcXUyq3fbxQumE35Ts1_6Oz8QQ1qzir4hZ94CJZi1iPb2IOBd9Y1l9F2w9D0P_CFybqx9L7bWd_5Df_xitjsHWPC6w923fj5WeXXFd-2OloeYXgwLByffGG_uGWxV5QLmB"/>
-                <div class="absolute inset-0 bg-gradient-to-t from-black/80 to-transparent"></div>
-                <div class="absolute bottom-6 left-6 right-6 p-5 sm:p-6 bg-surface-container-highest/60 backdrop-blur-xl rounded-2xl border border-white/5">
-                    <span class="text-primary text-xs font-bold uppercase tracking-[0.2em] mb-2 block">Weekly Deal</span>
-                    <h5 class="text-xl sm:text-2xl font-headline font-bold mb-2">Aura Pure Whey Isolate</h5>
-                    <p class="text-on-surface-variant text-sm mb-4">30% off for Pro members this week only.</p>
-                    <button onclick="openBookModal('Aura Pure Whey Isolate')" class="bg-primary text-on-primary-fixed px-4 py-2 rounded-xl text-sm font-bold hover:scale-105 transition-transform">Grab Deal →</button>
                 </div>
             </div>
         </div>
-    </div>
+        <!-- Call to Action Banner -->
+        <section
+            class="bg-primary-fixed rounded-[2rem] p-12 md:p-24 flex flex-col items-center text-center relative overflow-hidden">
+            <div class="absolute top-0 right-0 w-64 h-64 bg-white/20 blur-[100px] rounded-full -mr-32 -mt-32"></div>
 
-    <!-- Workout of the Day — NEW FEATURE -->
-    <div class="reveal mb-24 sm:mb-32">
-        <h2 class="font-headline text-3xl sm:text-5xl font-bold uppercase tracking-tight mb-2">Workout <span class="text-error">of the Day</span></h2>
-        <p class="text-on-surface-variant mb-8 text-sm sm:text-base">Today's curated challenge from our coaches. Track your completion.</p>
-        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
-            <div class="bg-surface-container-low rounded-2xl p-5 border border-white/5 hover:border-error/20 transition-colors">
-                <div class="flex items-center justify-between mb-4">
-                    <div class="w-10 h-10 bg-error/10 rounded-xl flex items-center justify-center">
-                        <span class="material-symbols-outlined text-error text-xl">sports_gymnastics</span>
-                    </div>
-                    <span id="ex1-done" class="w-7 h-7 rounded-full border-2 border-outline-variant flex items-center justify-center cursor-pointer hover:border-error transition-colors" onclick="toggleExercise(this, 'ex1')">
-                        <span class="material-symbols-outlined text-sm hidden">check</span>
-                    </span>
-                </div>
-                <h4 class="font-headline font-bold text-base mb-1">Push-Ups</h4>
-                <p class="text-2xl font-black text-error font-headline">4 × 20</p>
-                <p class="text-xs text-on-surface-variant mt-1">Rest 60s between sets</p>
-            </div>
-            <div class="bg-surface-container-low rounded-2xl p-5 border border-white/5 hover:border-primary/20 transition-colors">
-                <div class="flex items-center justify-between mb-4">
-                    <div class="w-10 h-10 bg-primary/10 rounded-xl flex items-center justify-center">
-                        <span class="material-symbols-outlined text-primary text-xl">fitness_center</span>
-                    </div>
-                    <span id="ex2-done" class="w-7 h-7 rounded-full border-2 border-outline-variant flex items-center justify-center cursor-pointer hover:border-primary transition-colors" onclick="toggleExercise(this, 'ex2')">
-                        <span class="material-symbols-outlined text-sm hidden">check</span>
-                    </span>
-                </div>
-                <h4 class="font-headline font-bold text-base mb-1">Deadlift</h4>
-                <p class="text-2xl font-black text-primary font-headline">3 × 8</p>
-                <p class="text-xs text-on-surface-variant mt-1">Rest 90s between sets</p>
-            </div>
-            <div class="bg-surface-container-low rounded-2xl p-5 border border-white/5 hover:border-secondary/20 transition-colors">
-                <div class="flex items-center justify-between mb-4">
-                    <div class="w-10 h-10 bg-secondary/10 rounded-xl flex items-center justify-center">
-                        <span class="material-symbols-outlined text-secondary text-xl">directions_run</span>
-                    </div>
-                    <span id="ex3-done" class="w-7 h-7 rounded-full border-2 border-outline-variant flex items-center justify-center cursor-pointer hover:border-secondary transition-colors" onclick="toggleExercise(this, 'ex3')">
-                        <span class="material-symbols-outlined text-sm hidden">check</span>
-                    </span>
-                </div>
-                <h4 class="font-headline font-bold text-base mb-1">Box Jumps</h4>
-                <p class="text-2xl font-black text-secondary font-headline">5 × 10</p>
-                <p class="text-xs text-on-surface-variant mt-1">Rest 45s between sets</p>
-            </div>
-            <div class="bg-surface-container-low rounded-2xl p-5 border border-white/5 hover:border-white/20 transition-colors">
-                <div class="flex items-center justify-between mb-4">
-                    <div class="w-10 h-10 bg-white/5 rounded-xl flex items-center justify-center">
-                        <span class="material-symbols-outlined text-white text-xl">self_improvement</span>
-                    </div>
-                    <span id="ex4-done" class="w-7 h-7 rounded-full border-2 border-outline-variant flex items-center justify-center cursor-pointer hover:border-white transition-colors" onclick="toggleExercise(this, 'ex4')">
-                        <span class="material-symbols-outlined text-sm hidden">check</span>
-                    </span>
-                </div>
-                <h4 class="font-headline font-bold text-base mb-1">Plank Hold</h4>
-                <p class="text-2xl font-black text-white font-headline">3 × 60s</p>
-                <p class="text-xs text-on-surface-variant mt-1">Rest 30s between sets</p>
-            </div>
-        </div>
-        <div class="mt-4 p-4 bg-surface-container-low rounded-2xl flex items-center justify-between">
-            <span class="text-sm text-on-surface-variant font-bold">Exercises completed: <span id="exercises-done" class="text-white">0/4</span></span>
-            <div class="flex-1 mx-6 h-2 bg-surface-container-high rounded-full overflow-hidden">
-                <div id="workout-progress" class="h-full bg-primary rounded-full transition-all duration-500" style="width:0%"></div>
-            </div>
-            <button onclick="shareWorkout()" class="text-xs text-on-surface-variant hover:text-primary transition-colors font-bold flex items-center gap-1">
-                <span class="material-symbols-outlined text-sm">share</span> Share
-            </button>
-        </div>
-    </div>
+            <div class="absolute bottom-0 left-0 w-64 h-64 bg-black/20 blur-[100px] rounded-full -ml-32 -mb-32"></div>
+            <h2 data-lang="cta_title"
+                class="font-headline text-5xl md:text-7xl font-black text-on-primary-fixed leading-tight uppercase mb-8 max-w-4xl">
+                Ready to unleash your ultimate potential?
+            </h2>
+            <div class="flex flex-col md:flex-row gap-6 w-full max-w-md"><a href="./pokupka.html">                <button data-lang="get_started"
+                    class="flex-1 bg-on-primary-fixed text-primary px-10 py-5 rounded-2xl font-black uppercase tracking-widest text-lg hover:scale-105 transition-transform">Get
+                    Started</button></a>
 
-    <!-- CTA Section -->
-    <section class="reveal bg-primary-fixed rounded-[2rem] p-8 sm:p-12 md:p-24 flex flex-col items-center text-center relative overflow-hidden">
-        <div class="absolute top-0 right-0 w-64 h-64 bg-white/20 blur-[100px] rounded-full -mr-32 -mt-32 pointer-events-none"></div>
-        <div class="absolute bottom-0 left-0 w-64 h-64 bg-black/20 blur-[100px] rounded-full -ml-32 -mb-32 pointer-events-none"></div>
-        <span class="text-xs uppercase tracking-[0.3em] text-on-primary-fixed/60 font-bold mb-4 block">Start Your Journey</span>
-        <h2 class="font-headline text-3xl sm:text-5xl md:text-7xl font-black text-on-primary-fixed leading-tight uppercase mb-6 sm:mb-8 max-w-4xl">
-            Ready to unleash your ultimate potential?
-        </h2>
-        <div class="flex flex-col sm:flex-row gap-4 sm:gap-6 w-full max-w-md">
-            <a href="./pokupka.html" class="flex-1">
-                <button class="w-full bg-on-primary-fixed text-primary px-8 py-4 sm:py-5 rounded-2xl font-black uppercase tracking-widest text-base hover:scale-105 transition-transform shadow-lg">
-                    Get Started
-                </button>
-            </a>
-            <button onclick="openPlanModal()" class="flex-1 border-2 border-on-primary-fixed text-on-primary-fixed px-8 py-4 sm:py-5 rounded-2xl font-black uppercase tracking-widest text-base hover:bg-on-primary-fixed hover:text-primary transition-all">
-                Choose Plan
-            </button>
-        </div>
-    </section>
-</main>
-
-<!-- FOOTER -->
-<footer class="bg-black border-t border-white/5 mt-16">
-    <!-- Social bar -->
-    <div class="border-b border-white/5 px-5 sm:px-12 py-4 flex flex-col sm:flex-row items-center justify-between gap-4">
-        <p class="text-xs text-on-surface-variant uppercase tracking-widest">Follow the journey</p>
-        <div class="flex gap-4">
-            <a href="#" onclick="showToast('Opening Instagram...','open_in_new')" class="w-9 h-9 rounded-full bg-surface-container flex items-center justify-center hover:bg-surface-container-high border border-white/5 hover:border-primary/30 transition-all group">
-                <span class="material-symbols-outlined text-sm group-hover:text-primary">photo_camera</span>
-            </a>
-            <a href="#" onclick="showToast('Opening Telegram...','send')" class="w-9 h-9 rounded-full bg-surface-container flex items-center justify-center hover:bg-surface-container-high border border-white/5 hover:border-secondary/30 transition-all group">
-                <span class="material-symbols-outlined text-sm group-hover:text-secondary">send</span>
-            </a>
-            <a href="#" onclick="showToast('Copied link!','link')" class="w-9 h-9 rounded-full bg-surface-container flex items-center justify-center hover:bg-surface-container-high border border-white/5 hover:border-white/30 transition-all group">
-                <span class="material-symbols-outlined text-sm group-hover:text-white">share</span>
-            </a>
-        </div>
-    </div>
-
-    <div class="grid grid-cols-2 sm:grid-cols-3 gap-8 sm:gap-12 px-5 sm:px-12 py-10 sm:py-16 max-w-[1920px] mx-auto">
-        <div class="col-span-2 sm:col-span-1">
-            <div class="text-xl font-black italic text-[#cafd00] mb-4 font-headline tracking-tighter uppercase">TRENING AURA</div>
-            <p class="text-[#adaaaa] text-sm leading-relaxed max-w-xs">The next generation of athletic excellence. We combine high-tech tracking with high-performance spaces to forge the athletes of tomorrow.</p>
-        </div>
-        <div class="grid grid-cols-2 gap-8 col-span-2 sm:col-span-2">
+                <button data-lang="choose_plan"
+                    class="flex-1 border-2 border-on-primary-fixed text-on-primary-fixed px-10 py-5 rounded-2xl font-black uppercase tracking-widest text-lg hover:bg-on-primary-fixed hover:text-primary transition-all">Choose
+                    Plan</button>
+            </div>
+        </section>
+    </main>
+    <!-- Footer -->
+    <footer class="bg-surface-container-lowest dark:bg-black border-t border-white/5">
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-12 px-12 py-16 w-full max-w-[1920px] mx-auto">
             <div>
-                <h5 class="text-white font-bold mb-4 uppercase text-xs tracking-widest">Navigate</h5>
-                <ul class="space-y-2 text-sm">
-                    <li><a href="./gym.html" class="text-[#adaaaa] hover:text-[#cafd00] transition-colors">Gyms</a></li>
-                    <li><a href="./shop.html" class="text-[#adaaaa] hover:text-[#cafd00] transition-colors">Protein Shop</a></li>
-                    <li><a href="./treker.html" class="text-[#adaaaa] hover:text-[#cafd00] transition-colors">Tracker</a></li>
-                    <li><a href="./rewerds.html" class="text-[#adaaaa] hover:text-[#cafd00] transition-colors">Rewards</a></li>
-                    <li><a href="./chat.html" class="text-[#adaaaa] hover:text-[#cafd00] transition-colors">AI Chat</a></li>
-                    <li><a href="./sobteambuttel.html" class="text-[#adaaaa] hover:text-[#cafd00] transition-colors">Events</a></li>
-                </ul>
+                <div data-lang="trening_aura" class="text-lg font-bold text-white mb-6 font-headline tracking-tighter uppercase">TRENING AURA
+                </div>
+                <p data-lang="footer_desc" class="text-[#adaaaa] text-sm font-['Manrope'] leading-relaxed max-w-xs">
+                    The next generation of athletic excellence. We combine high-tech tracking with high-performance
+                    spaces to forge the athletes of tomorrow.
+                </p>
             </div>
-            <div>
-                <h5 class="text-white font-bold mb-4 uppercase text-xs tracking-widest">Connect</h5>
-                <ul class="space-y-2 text-sm">
-                    <li><a href="#" onclick="showToast('Instagram coming soon!','photo_camera'); return false;" class="text-[#adaaaa] hover:text-[#00e3fd] transition-colors">Instagram</a></li>
-                    <li><a href="#" onclick="showToast('Telegram coming soon!','send'); return false;" class="text-[#adaaaa] hover:text-[#00e3fd] transition-colors">Telegram</a></li>
-                    <li><a href="./login.html" class="text-[#adaaaa] hover:text-[#00e3fd] transition-colors">Log In / Sign Up</a></li>
-                    <li><a href="./oprosnik.html" class="text-[#adaaaa] hover:text-[#00e3fd] transition-colors">Survey</a></li>
-                </ul>
+            <div class="grid grid-cols-2 gap-8">
+                <div>
+                    <h5 data-lang="connect" class="text-white font-bold mb-4 uppercase text-xs tracking-widest">Connect</h5>
+                    <ul class="space-y-3 font-['Manrope'] text-sm">
+                        <li><a data-lang="instagram" class="text-[#adaaaa] hover:text-[#00e3fd] transition-colors" href="#">Instagram</a></li>
+                        <li><a data-lang="telegram" class="text-[#adaaaa] hover:text-[#00e3fd] transition-colors" href="#">Telegram</a></li>
+                        <li><a data-lang="contact" class="text-[#adaaaa] hover:text-[#00e3fd] transition-colors" href="#">Contact</a></li>
+                    </ul>
+                </div>
+                <div>
+                    <h5 data-lang="platform" class="text-white font-bold mb-4 uppercase text-xs tracking-widest">Platform</h5>
+                    <ul class="space-y-3 font-['Manrope'] text-sm">
+                        <li><a data-lang="app_store" class="text-[#adaaaa] hover:text-[#00e3fd] transition-colors" href="#">App Store</a></li>
+                        <li><a data-lang="google_play" class="text-[#adaaaa] hover:text-[#00e3fd] transition-colors" href="#">Google Play</a>
+                        </li>
+                        <li><a data-lang="web_dashboard" class="text-[#adaaaa] hover:text-[#00e3fd] transition-colors" href="#">Web Dashboard</a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+            <div class="flex flex-col items-end justify-between">
+                <div class="flex gap-4">
+                    <div
+                        class="w-10 h-10 rounded-full bg-surface-container flex items-center justify-center border border-white/5 hover:border-primary transition-colors cursor-pointer group">
+                        <span class="material-symbols-outlined text-sm group-hover:text-primary"
+                            data-icon="share">share</span>
+                    </div>
+                </div>
+                <div
+                    class="text-[#adaaaa] text-[10px] font-['Manrope'] tracking-[0.2em] uppercase mt-8 md:mt-0 text-right">
+                    <div data-lang="copyright">© 2026 TRENING AURA. <br />KINETIC ENERGY RESERVED.</div>
+
+                </div>
             </div>
         </div>
-    </div>
-    <div class="border-t border-white/5 px-5 sm:px-12 py-5 flex flex-col sm:flex-row items-center justify-between gap-3">
-        <p class="text-[#adaaaa] text-xs tracking-[0.2em] uppercase">© 2026 TRENING AURA. KINETIC ENERGY RESERVED.</p>
-        <div class="flex gap-4">
-            <span class="lang-btn text-[#adaaaa] hover:text-white cursor-pointer text-xs font-bold transition-colors" data-lang-code="ru">RU</span>
-            <span class="lang-btn text-[#adaaaa] hover:text-white cursor-pointer text-xs font-bold transition-colors" data-lang-code="uz">UZ</span>
-            <span class="lang-btn text-[#cafd00] cursor-pointer text-xs font-bold" data-lang-code="en">EN</span>
-        </div>
-    </div>
-</footer>
-
-<!-- FAB -->
-<button onclick="openLogPanel()" class="fab-pulse fixed bottom-6 right-6 w-14 sm:w-16 h-14 sm:h-16 bg-primary text-on-primary-fixed rounded-full shadow-[0_0_50px_rgba(202,253,0,0.3)] flex items-center justify-center group z-40 hover:scale-110 transition-transform">
-    <span class="material-symbols-outlined text-2xl sm:text-3xl font-bold">add</span>
-    <span class="absolute right-16 sm:right-20 bg-surface-container-highest px-3 sm:px-4 py-2 rounded-xl text-white text-xs font-bold opacity-0 group-hover:opacity-100 transition-opacity pointer-events-none whitespace-nowrap uppercase tracking-widest">Quick Log</span>
-</button>
-
-<!-- Mobile sticky bottom bar -->
-<div class="lg:hidden sticky-cta fixed bottom-0 left-0 right-0 z-30 bg-black/90 backdrop-blur-xl border-t border-white/10 flex items-center justify-around px-4 py-3 gap-2">
-    <a href="#" class="flex flex-col items-center gap-0.5 text-primary">
-        <span class="material-symbols-outlined text-xl">home</span>
-        <span class="text-[10px] font-bold uppercase tracking-wider">Home</span>
-    </a>
-    <a href="./gym.html" class="flex flex-col items-center gap-0.5 text-on-surface-variant hover:text-white transition-colors">
-        <span class="material-symbols-outlined text-xl">fitness_center</span>
-        <span class="text-[10px] font-bold uppercase tracking-wider">Gyms</span>
-    </a>
-    <a href="./treker.html" class="flex flex-col items-center gap-0.5 text-on-surface-variant hover:text-white transition-colors">
-        <span class="material-symbols-outlined text-xl">monitoring</span>
-        <span class="text-[10px] font-bold uppercase tracking-wider">Track</span>
-    </a>
-    <a href="./shop.html" class="flex flex-col items-center gap-0.5 text-on-surface-variant hover:text-white transition-colors">
-        <span class="material-symbols-outlined text-xl">shopping_basket</span>
-        <span class="text-[10px] font-bold uppercase tracking-wider">Shop</span>
-    </a>
-    <button onclick="openLogPanel()" class="flex flex-col items-center gap-0.5 text-on-surface-variant hover:text-primary transition-colors">
-        <span class="material-symbols-outlined text-xl">add_circle</span>
-        <span class="text-[10px] font-bold uppercase tracking-wider">Log</span>
+    </footer>
+    <!-- FAB (Suppressed on Home according to shell visibility check, but user might expect one in a fitness app, keeping as a discrete tracker toggle) -->
+    <button
+        class="fixed bottom-8 right-8 w-16 h-16 bg-primary text-on-primary-fixed rounded-full shadow-[0_0_50px_rgba(202,253,0,0.3)] flex items-center justify-center group z-40">
+        <span class="material-symbols-outlined text-3xl font-bold" data-icon="add">add</span>
+        <span data-lang="quick_log"
+            class="absolute right-20 bg-surface-container-highest px-4 py-2 rounded-xl text-white text-xs font-bold opacity-0 group-hover:opacity-100 transition-opacity pointer-events-none whitespace-nowrap uppercase tracking-widest">Quick
+            Log</span>
     </button>
-</div>
-
+<!-- Firebase SDKs -->
+<script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app-compat.js"></script>
+<script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-database-compat.js"></script>
+<script src="./firebase-config.js"></script>
+<script src="./auth.js"></script>
+<script src="./aura-user.js"></script>
 <script>
-// ===== SCROLL PROGRESS =====
-window.addEventListener('scroll', () => {
-    const el = document.getElementById('scroll-progress');
-    const pct = (window.scrollY / (document.body.scrollHeight - window.innerHeight)) * 100;
-    el.style.width = pct + '%';
-});
-
-// ===== SCROLL REVEAL =====
-const revealObserver = new IntersectionObserver((entries) => {
-    entries.forEach(e => { if(e.isIntersecting) { e.target.classList.add('visible'); } });
-}, { threshold: 0.1 });
-document.querySelectorAll('.reveal').forEach(el => revealObserver.observe(el));
-
-// ===== HERO COUNTER ANIMATION =====
-function animateCounter(el, target, isFloat) {
-    let start = 0; const dur = 2000; const step = 16;
-    const increment = target / (dur / step);
-    const timer = setInterval(() => {
-        start += increment;
-        if (start >= target) { start = target; clearInterval(timer); }
-        el.textContent = isFloat ? start.toFixed(1) : Math.floor(start).toLocaleString();
-    }, step);
-}
-window.addEventListener('DOMContentLoaded', () => {
-    // Animate hero counter
-    setTimeout(() => {
-        const el = document.getElementById('hero-counter');
-        if(el) animateCounter(el, 347, false);
-    }, 800);
-
-    // Animate stats
-    const statNums = document.querySelectorAll('.stat-num[data-count]');
-    const statObserver = new IntersectionObserver((entries) => {
-        entries.forEach(e => {
-            if(e.isIntersecting) {
-                const count = parseFloat(e.target.dataset.count);
-                animateCounter(e.target, count, count < 10);
-                statObserver.unobserve(e.target);
-            }
-        });
-    }, { threshold: 0.5 });
-    statNums.forEach(el => statObserver.observe(el));
-
-    // Cookie banner
-    if(!localStorage.getItem('cookiesAccepted')) {
-        setTimeout(() => document.getElementById('cookie-banner').classList.add('show'), 1500);
+// Auth-aware nav update
+document.addEventListener('DOMContentLoaded', function() {
+    // Initialize Firebase and Auth
+    if (typeof AuraAuth !== 'undefined') {
+        AuraAuth.init();
     }
+    
+    const user = AuraAuth.getCurrentUser();
+    const loginBtn = document.getElementById('nav-login-btn');
+    const profileBtn = document.getElementById('nav-profile-btn');
+    const nameEl = document.getElementById('nav-user-name');
+    const initialsEl = document.getElementById('nav-avatar-initials');
+    const badge = document.getElementById('nav-friend-req-badge');
 
-    // Lang buttons
-    document.querySelectorAll('.lang-btn').forEach(btn => {
-        btn.addEventListener('click', () => setLanguage(btn.dataset.langCode));
-    });
-});
-
-// ===== MOBILE MENU =====
-function openMobileMenu() {
-    document.getElementById('mobile-menu').classList.add('open');
-    document.getElementById('menu-overlay').classList.add('open');
-    document.body.style.overflow = 'hidden';
-}
-function closeMobileMenu() {
-    document.getElementById('mobile-menu').classList.remove('open');
-    document.getElementById('menu-overlay').classList.remove('open');
-    document.body.style.overflow = '';
-}
-
-// ===== TOAST =====
-let toastTimer;
-function showToast(msg, icon='check_circle') {
-    const t = document.getElementById('toast');
-    document.getElementById('toast-msg').textContent = msg;
-    document.getElementById('toast-icon').textContent = icon;
-    t.classList.add('show');
-    clearTimeout(toastTimer);
-    toastTimer = setTimeout(() => t.classList.remove('show'), 3000);
-}
-
-// ===== SEARCH =====
-function handleSearch() {
-    const q = document.getElementById('search-input').value.trim();
-    if(!q) { showToast('Enter a search term!','search'); return; }
-    showToast('Searching for: ' + q, 'search');
-    setTimeout(() => scrollToGyms(), 800);
-}
-document.getElementById('search-input').addEventListener('keydown', e => {
-    if(e.key === 'Enter') handleSearch();
-});
-
-function scrollToGyms() {
-    document.getElementById('gyms-section').scrollIntoView({ behavior:'smooth', block:'start' });
-}
-
-// ===== FILTER GYMS =====
-function filterGyms(cat) {
-    document.querySelectorAll('.gym-filter-btn').forEach(b => {
-        b.classList.remove('bg-primary-fixed','text-on-primary-fixed','active-filter');
-        b.classList.add('bg-surface-container-high','text-on-surface-variant');
-    });
-    const active = document.querySelector(`[data-filter="${cat}"]`);
-    active.classList.add('bg-primary-fixed','text-on-primary-fixed','active-filter');
-    active.classList.remove('bg-surface-container-high','text-on-surface-variant');
-
-    document.querySelectorAll('.gym-card').forEach(card => {
-        if(cat === 'all' || card.dataset.category === cat) {
-            card.style.display = '';
-            card.style.opacity = '0';
-            card.style.transform = 'translateY(20px)';
-            setTimeout(() => { card.style.opacity='1'; card.style.transform='translateY(0)'; card.style.transition='all 0.4s ease'; }, 50);
-        } else {
-            card.style.opacity = '0';
-            card.style.transform = 'translateY(10px)';
-            setTimeout(() => card.style.display = 'none', 400);
-        }
-    });
-}
-
-// ===== MODAL =====
-let modalAction = null;
-function openModal(title, subtitle, body, confirmText, onConfirm) {
-    document.getElementById('modal-title').textContent = title;
-    document.getElementById('modal-subtitle').textContent = subtitle;
-    document.getElementById('modal-body').innerHTML = body;
-    document.getElementById('modal-confirm').textContent = confirmText;
-    modalAction = onConfirm;
-    document.getElementById('modal-overlay').classList.add('open');
-    document.body.style.overflow = 'hidden';
-}
-function closeModal() {
-    document.getElementById('modal-overlay').classList.remove('open');
-    document.body.style.overflow = '';
-}
-function confirmModal() {
-    if(modalAction) modalAction();
-    closeModal();
-}
-
-function openGymModal(name, desc, rating, dist, cat) {
-    const body = `
-        <div class="space-y-4">
-            <div class="flex gap-3 flex-wrap">
-                <span class="text-xs bg-surface-container px-3 py-1 rounded-full text-on-surface-variant font-bold">⭐ ${rating} Rating</span>
-                <span class="text-xs bg-surface-container px-3 py-1 rounded-full text-secondary font-bold">📍 ${dist}</span>
-                <span class="text-xs bg-surface-container px-3 py-1 rounded-full text-primary font-bold uppercase">${cat}</span>
-            </div>
-            <p class="text-on-surface-variant text-sm leading-relaxed">${desc}</p>
-            <div class="bg-surface-container rounded-xl p-4 text-sm">
-                <p class="font-bold text-white mb-2">📅 Available Times Today</p>
-                <div class="grid grid-cols-3 gap-2">
-                    ${['07:00','09:00','11:00','14:00','16:00','18:00'].map(t=>`<button onclick="selectTime(this,'${t}')" class="time-btn border border-outline-variant rounded-lg py-1.5 text-on-surface-variant hover:border-primary hover:text-primary transition-colors text-xs font-bold">${t}</button>`).join('')}
-                </div>
-            </div>
-        </div>`;
-    openModal(name, 'Select a session to book', body, 'Book Now', () => {
-        const sel = document.querySelector('.time-btn.selected-time');
-        const time = sel ? sel.textContent : 'next available';
-        showToast(`Booked ${name} at ${time}!`, 'check_circle');
-    });
-}
-function selectTime(btn, t) {
-    document.querySelectorAll('.time-btn').forEach(b => {
-        b.classList.remove('selected-time','border-primary','text-primary','bg-primary/10');
-        b.classList.add('border-outline-variant','text-on-surface-variant');
-    });
-    btn.classList.add('selected-time','border-primary','text-primary','bg-primary/10');
-}
-
-function openBookModal(name) {
-    const body = `
-        <div class="space-y-4">
-            <p class="text-on-surface-variant text-sm">You're booking a session at <span class="text-white font-bold">${name}</span>.</p>
-            <div>
-                <label class="text-xs text-on-surface-variant uppercase tracking-wider font-bold block mb-2">Your Name</label>
-                <input type="text" placeholder="John Doe" class="w-full bg-surface-container-high border border-white/10 rounded-xl px-4 py-3 text-white placeholder:text-on-surface-variant/50 focus:outline-none focus:border-primary/40 text-sm"/>
-            </div>
-            <div>
-                <label class="text-xs text-on-surface-variant uppercase tracking-wider font-bold block mb-2">Phone Number</label>
-                <input type="tel" placeholder="+998 90 000 00 00" class="w-full bg-surface-container-high border border-white/10 rounded-xl px-4 py-3 text-white placeholder:text-on-surface-variant/50 focus:outline-none focus:border-primary/40 text-sm"/>
-            </div>
-        </div>`;
-    openModal('Book Session', name, body, 'Confirm Booking', () => showToast('Session booked! We\'ll contact you.','check_circle'));
-}
-
-function openStoreModal(name, location) {
-    const body = `
-        <div class="space-y-4">
-            <p class="text-on-surface-variant text-sm">📍 ${location}</p>
-            <div class="grid grid-cols-2 gap-3">
-                <div class="bg-surface-container rounded-xl p-3 text-center">
-                    <p class="text-xs text-on-surface-variant mb-1">Opening</p>
-                    <p class="font-bold text-sm">08:00</p>
-                </div>
-                <div class="bg-surface-container rounded-xl p-3 text-center">
-                    <p class="text-xs text-on-surface-variant mb-1">Closing</p>
-                    <p class="font-bold text-sm">22:00</p>
-                </div>
-            </div>
-            <p class="text-sm text-on-surface-variant">Browse our full catalog online or visit in-store for personalized supplement advice.</p>
-        </div>`;
-    openModal(name, 'Supplement Store', body, 'Visit Online Store', () => window.location.href='./shop.html');
-}
-
-function openPlanModal() {
-    const body = `
-        <div class="space-y-3">
-            ${[
-                {name:'Basic',price:'Free',features:'Access to gym listings, calorie tracker'},
-                {name:'Pro',price:'$9.99/mo',features:'All Basic + AI Coach, rewards, priority booking'},
-                {name:'Elite',price:'$19.99/mo',features:'All Pro + personal trainer, nutrition plan'},
-            ].map(p=>`
-                <button onclick="selectPlan(this,'${p.name}')" class="plan-btn w-full text-left bg-surface-container rounded-xl p-4 border border-outline-variant hover:border-primary/40 transition-all">
-                    <div class="flex justify-between items-start">
-                        <div>
-                            <p class="font-bold font-headline uppercase">${p.name}</p>
-                            <p class="text-xs text-on-surface-variant mt-1">${p.features}</p>
-                        </div>
-                        <span class="text-primary font-black text-sm">${p.price}</span>
-                    </div>
-                </button>`).join('')}
-        </div>`;
-    openModal('Choose Your Plan','Find the perfect plan for you', body,'Get Started', () => {
-        const sel = document.querySelector('.plan-btn.border-primary');
-        const plan = sel ? sel.querySelector('.font-bold').textContent : 'Basic';
-        window.location.href = './pokupka.html';
-    });
-}
-function selectPlan(btn, name) {
-    document.querySelectorAll('.plan-btn').forEach(b => {
-        b.classList.remove('border-primary','bg-primary/10');
-        b.classList.add('border-outline-variant');
-    });
-    btn.classList.add('border-primary','bg-primary/10');
-    btn.classList.remove('border-outline-variant');
-}
-
-// ===== STORE MODAL =====
-function findNearest() {
-    if(navigator.geolocation) {
-        showToast('Finding nearest store...','location_on');
-        navigator.geolocation.getCurrentPosition(
-            () => showToast('Nearest: Aura Nutrition Hub (0.8km)','storefront'),
-            () => showToast('Enable location for this feature','location_off')
-        );
+    if (user) {
+        if (loginBtn) loginBtn.style.display = 'none';
+        if (profileBtn) { profileBtn.style.display = 'flex'; }
+        if (nameEl) nameEl.textContent = user.name.split(' ')[0];
+        if (initialsEl) initialsEl.textContent = user.name.charAt(0).toUpperCase();
+        // Show badge if friend requests pending
+        try {
+            AuraAuth.getFriendRequests().then(reqs => {
+                if (badge && reqs.length > 0) {
+                    badge.classList.remove('hidden');
+                    badge.classList.add('flex');
+                    badge.textContent = reqs.length;
+                }
+            });
+        } catch(e) { console.error('Friend requests error:', e); }
     } else {
-        showToast('Location not supported on this browser','error');
+        if (loginBtn) loginBtn.style.display = '';
+        if (profileBtn) profileBtn.style.display = 'none';
     }
-}
-
-// ===== QUICK LOG PANEL =====
-let logData = JSON.parse(localStorage.getItem('auraLog') || '{"cal":0,"water":0,"steps":0}');
-
-function openLogPanel() {
-    document.getElementById('log-panel').classList.add('open');
-    document.body.style.overflow = 'hidden';
-    updateLogUI();
-}
-function closeLogPanel() {
-    document.getElementById('log-panel').classList.remove('open');
-    document.body.style.overflow = '';
-}
-
-function saveLog() { localStorage.setItem('auraLog', JSON.stringify(logData)); }
-
-function updateLogUI() {
-    const calPct = Math.min((logData.cal/2400)*100,100);
-    const waterPct = Math.min((logData.water/2500)*100,100);
-    const stepsPct = Math.min((logData.steps/10000)*100,100);
-    document.getElementById('cal-display').textContent = `${logData.cal} / 2400`;
-    document.getElementById('cal-bar').style.width = calPct + '%';
-    document.getElementById('water-display').textContent = `${logData.water} / 2500`;
-    document.getElementById('water-bar').style.width = waterPct + '%';
-    document.getElementById('steps-display').textContent = `${logData.steps} / 10000`;
-    document.getElementById('steps-bar').style.width = stepsPct + '%';
-}
-
-function logCalories() {
-    const v = parseInt(document.getElementById('cal-input').value) || 0;
-    if(v <= 0) { showToast('Enter a valid amount','warning'); return; }
-    logData.cal = Math.min(logData.cal + v, 9999);
-    document.getElementById('cal-input').value = '';
-    saveLog(); updateLogUI();
-    showToast(`+${v} calories logged!`,'local_fire_department');
-}
-function logWater() {
-    const v = parseInt(document.getElementById('water-input').value) || 0;
-    if(v <= 0) { showToast('Enter a valid amount','warning'); return; }
-    logData.water = Math.min(logData.water + v, 9999);
-    document.getElementById('water-input').value = '';
-    saveLog(); updateLogUI();
-    showToast(`+${v}ml water logged!`,'water_drop');
-}
-function logSteps() {
-    const v = parseInt(document.getElementById('steps-input').value) || 0;
-    if(v <= 0) { showToast('Enter a valid amount','warning'); return; }
-    logData.steps = Math.min(logData.steps + v, 99999);
-    document.getElementById('steps-input').value = '';
-    saveLog(); updateLogUI();
-    showToast(`+${v} steps logged!`,'directions_walk');
-}
-function quickLog(type, val) {
-    if(type === 'cal') { logData.cal = Math.min(logData.cal + val, 9999); showToast(`+${val} cal logged`,'local_fire_department'); }
-    if(type === 'water') { logData.water = Math.min(logData.water + val, 9999); showToast(`+${val}ml logged`,'water_drop'); }
-    saveLog(); updateLogUI();
-}
-function resetLog() {
-    logData = { cal:0, water:0, steps:0 };
-    saveLog(); updateLogUI();
-    showToast('Today\'s data reset','restart_alt');
-}
-
-// ===== WORKOUT OF THE DAY =====
-let exercisesDone = 0;
-function toggleExercise(el, id) {
-    const icon = el.querySelector('.material-symbols-outlined');
-    if(el.classList.contains('exercise-done')) {
-        el.classList.remove('exercise-done','bg-primary','border-primary');
-        el.classList.add('border-outline-variant');
-        icon.classList.add('hidden');
-        exercisesDone = Math.max(0, exercisesDone - 1);
-    } else {
-        el.classList.add('exercise-done','bg-primary','border-primary');
-        el.classList.remove('border-outline-variant');
-        icon.classList.remove('hidden');
-        icon.style.color = '#3a4a00';
-        exercisesDone++;
-        showToast('Exercise complete! 💪','check_circle');
-    }
-    document.getElementById('exercises-done').textContent = `${exercisesDone}/4`;
-    document.getElementById('workout-progress').style.width = (exercisesDone/4*100) + '%';
-    if(exercisesDone === 4) setTimeout(() => showToast('Workout complete! Amazing! 🏆','emoji_events'), 500);
-}
-
-function shareWorkout() {
-    const text = `I completed ${exercisesDone}/4 exercises today at Trening Aura! 💪 #TreningAura`;
-    if(navigator.share) {
-        navigator.share({ title:'Trening Aura Workout', text });
-    } else {
-        navigator.clipboard?.writeText(text);
-        showToast('Copied to clipboard!','link');
-    }
-}
-
-// ===== COOKIE BANNER =====
-function acceptCookies() {
-    localStorage.setItem('cookiesAccepted','true');
-    document.getElementById('cookie-banner').classList.remove('show');
-    showToast('Cookies accepted!','cookie');
-}
-function declineCookies() {
-    document.getElementById('cookie-banner').classList.remove('show');
-}
-
-// ===== RIPPLE EFFECT =====
-document.addEventListener('click', function(e) {
-    const btn = e.target.closest('button, a');
-    if(!btn) return;
-    const ripple = document.createElement('div');
-    ripple.className = 'ripple';
-    const rect = btn.getBoundingClientRect();
-    const size = Math.max(rect.width, rect.height);
-    ripple.style.cssText = `width:${size}px;height:${size}px;left:${e.clientX-rect.left-size/2}px;top:${e.clientY-rect.top-size/2}px`;
-    btn.style.position = 'relative';
-    btn.style.overflow = 'hidden';
-    btn.appendChild(ripple);
-    setTimeout(() => ripple.remove(), 600);
 });
 
-// ===== LANGUAGE SWITCHER =====
+function doLogout() {
+    AuraAuth.logout();
+    window.location.reload();
+}
+
 const translations = {
-    en: { home:"Home", gyms:"Gyms", protein_shop:"Protein Shop", tracker:"Tracker", rewards:"Rewards", login:"Log In" },
-    ru: { home:"Главная", gyms:"Залы", protein_shop:"Магазин протеина", tracker:"Трекер", rewards:"Награды", login:"Войти" },
-    uz: { home:"Bosh sahifa", gyms:"Zallar", protein_shop:"Protein do'koni", tracker:"Trekker", rewards:"Mukofotlar", login:"Kirish" }
+    en: {
+        home: "Home",
+        gyms: "Gyms",
+        protein_shop: "Protein Shop",
+        tracker: "Tracker",
+        rewards: "Rewards",
+        login: "Log In",
+        find_gyms: "Find gyms near you",
+        search: "Search",
+        gyms_btn: "Gyms",
+        protein_stores: "Protein Stores",
+        calories_tracker: "Calories Tracker",
+        nearby_gyms: "Nearby Gyms",
+        nearby_gyms_desc: "The most advanced athletic facilities in your immediate area, rated by our community.",
+        view_all: "View All",
+        titanium_forge: "Titanium Forge",
+        titanium_desc: "Specialized in powerlifting and olympic weightlifting with professional coaching staff.",
+        aura_zenith: "Aura Zenith",
+        aura_desc: "Holistic wellness center featuring cryotherapy, yoga, and high-intensity interval training.",
+        pulse_matrix: "Pulse Matrix",
+        pulse_desc: "24/7 access with biometric tracking and state-of-the-art AI-driven equipment.",
+        book_session: "Book Session",
+        protein: "Protein",
+        protein_stores_title: "Top Protein Stores",
+        protein_stores_desc: "Fuel your recovery with verified supplements. Curated stores offering the purest whey, plant proteins, and performance stacks.",
+        aura_nutrition: "Aura Nutrition Hub",
+        aura_nutrition_desc: "Central Plaza • Open Now",
+        kinetic_fuel: "Kinetic Fuel Lab",
+        kinetic_fuel_desc: "Westside Annex • 1.4 km",
+        shop_online: "Shop Online",
+        find_nearest: "Find Nearest",
+        cta_title: "Ready to unleash your ultimate potential?",
+        get_started: "Get Started",
+        choose_plan: "Choose Plan",
+        trening_aura: "TRENING AURA",
+        footer_desc: "The next generation of athletic excellence. We combine high-tech tracking with high-performance spaces to forge the athletes of tomorrow.",
+        connect: "Connect",
+        instagram: "Instagram",
+        telegram: "Telegram",
+        contact: "Contact",
+        platform: "Platform",
+        app_store: "App Store",
+        google_play: "Google Play",
+        web_dashboard: "Web Dashboard",
+        copyright: "© 2024 TRENING AURA. KINETIC ENERGY RESERVED.",
+        quick_log: "Quick Log"
+    },
+    ru: {
+        home: "Главная",
+        gyms: "Залы",
+        protein_shop: "Магазин протеина",
+        tracker: "Трекер",
+        rewards: "Награды",
+        login: "Войти",
+        find_gyms: "Найти залы рядом",
+        search: "Поиск",
+        gyms_btn: "Залы",
+        protein_stores: "Магазины протеина",
+        calories_tracker: "Трекер калорий",
+        nearby_gyms: "Ближайшие залы",
+        nearby_gyms_desc: "Самые продвинутые спортивные сооружения в вашем непосредственном районе, оцененные нашим сообществом.",
+        view_all: "Посмотреть все",
+        titanium_forge: "Титановый кузнец",
+        titanium_desc: "Специализируется на пауэрлифтинге и олимпийском тяжелой атлетике с профессиональным тренерским составом.",
+        aura_zenith: "Аура Зенит",
+        aura_desc: "Холистический центр благополучия с криотерапией, йогой и высокоинтенсивным интервальным тренингом.",
+        pulse_matrix: "Пульс Матрикс",
+
+        pulse_desc: "Круглосуточный доступ с биометрическим отслеживанием и передовым оборудованием на базе ИИ.",
+        book_session: "Забронировать сессию",
+        protein: "Протеин",
+        protein_stores_title: "Лучшие магазины протеина",
+        protein_stores_desc: "Заправьте свое восстановление проверенными добавками. Кураторские магазины, предлагающие чистейший сывороточный протеин, растительные протеины и стеки производительности.",
+        aura_nutrition: "Хаб питания Аура",
+        aura_nutrition_desc: "Центральная площадь • Открыто сейчас",
+        kinetic_fuel: "Лаборатория кинетического топлива",
+        kinetic_fuel_desc: "Пристройка Вестсайд • 1.4 км",
+        shop_online: "Купить онлайн",
+        find_nearest: "Найти ближайший",
+        cta_title: "Готовы раскрыть свой ultimate потенциал?",
+        get_started: "Начать",
+        choose_plan: "Выбрать план",
+        trening_aura: "TRENING AURA",
+        footer_desc: "Следующее поколение спортивного совершенства. Мы сочетаем высокотехнологическое отслеживание с высокопроизводительными пространствами, чтобы создать спортсменов завтрашнего дня.",
+        connect: "Связаться",
+        instagram: "Instagram",
+        telegram: "Telegram",
+        contact: "Контакт",
+        platform: "Платформа",
+        app_store: "App Store",
+        google_play: "Google Play",
+        web_dashboard: "Веб дашборд",
+        copyright: "© 2024 TRENING AURA. КИНЕТИЧЕСКАЯ ЭНЕРГИЯ ЗАРЕЗЕРВИРОВАНА.",
+        quick_log: "Быстрый лог"
+    },
+    uz: {
+        home: "Bosh sahifa",
+        gyms: "Zallar",
+        protein_shop: "Protein do'koni",
+        tracker: "Trekker",
+        rewards: "Mukofotlar",
+        login: "Kirish",
+        find_gyms: "Yaqin zallarni toping",
+        search: "Qidirish",
+        gyms_btn: "Zallar",
+        protein_stores: "Protein do'konlari",
+        calories_tracker: "Kaloriya trekkeri",
+        nearby_gyms: "Yaqin zallar",
+        nearby_gyms_desc: "Sizning yaqin hududingizdagi eng ilg'or sport inshootlari, bizning hamjamiyatimiz tomonidan baholangan.",
+        view_all: "Hammasini ko'rish",
+        titanium_forge: "Titan Forge",
+        titanium_desc: "Powerlifting va olimpiya og'ir atletika bo'yicha ixtisoslashgan, professional murabbiylar shtabi bilan.",
+        aura_zenith: "Aura Zenith",
+        aura_desc: "Krioterapiya, yoga va yuqori intensivlikdagi interval treninglarini o'z ichiga olgan holistik farovonlik markazi.",
+        pulse_matrix: "Pulse Matrix",
+        pulse_desc: "Biometrik kuzatuv va zamonaviy AI boshqaruvidagi uskunalar bilan 24/7 kirish.",
+        book_session: "Sessiyani bron qilish",
+        protein: "Protein",
+        protein_stores_title: "Eng yaxshi protein do'konlari",
+        protein_stores_desc: "Tasdiqlangan qo'shimchalar bilan tiklanishingizni quvvatlang. Eng sof whey, o'simlik proteinlari va ishlash steklarini taklif qiluvchi kurator do'konlar.",
+        aura_nutrition: "Aura Nutrition Hub",
+        aura_nutrition_desc: "Markaziy maydon • Hozir ochiq",
+        kinetic_fuel: "Kinetic Fuel Lab",
+        kinetic_fuel_desc: "Westside Annex • 1.4 km",
+        shop_online: "Onlayn xarid",
+        find_nearest: "Eng yaqinini toping",
+        cta_title: "O'z ultimate potentsialingizni ochishga tayyormisiz?",
+        get_started: "Boshlash",
+        choose_plan: "Rejani tanlang",
+        trening_aura: "TRENING AURA",
+        footer_desc: "Sport mukammalligining keyingi avlod. Biz ertangi kun sportchilarini yaratish uchun yuqori texnologik kuzatuvni yuqori ishlash joylari bilan birlashtiramiz.",
+        connect: "Aloqa",
+        instagram: "Instagram",
+        telegram: "Telegram",
+        contact: "Aloqa",
+        platform: "Platforma",
+        app_store: "App Store",
+        google_play: "Google Play",
+        web_dashboard: "Veb boshqaruv paneli",
+        copyright: "© 2024 TRENING AURA. KINETIK ENERGIYA ZAXIRLANGAN.",
+        quick_log: "Tez log"
+    }
 };
 let currentLang = 'en';
 function setLanguage(lang) {
     currentLang = lang;
     document.querySelectorAll('[data-lang]').forEach(el => {
-        if(translations[lang]?.[el.dataset.lang]) el.innerText = translations[lang][el.dataset.lang];
+
+        if (translations[lang][el.dataset.lang]) {  
+            el.innerText = translations[lang][el.dataset.lang];
+        }
     });
+    document.querySelectorAll('[data-lang-placeholder]').forEach(el => {
+        if (translations[lang][el.dataset.langPlaceholder]) {
+            el.placeholder = translations[lang][el.dataset.langPlaceholder];
+        }
+    });
+    // Update indicator
     document.querySelectorAll('.lang-btn').forEach(btn => {
-        const isActive = btn.dataset.langCode === lang;
-        btn.classList.toggle('text-[#cafd00]', isActive);
-        btn.classList.toggle('text-[#adaaaa]', !isActive);
+        btn.classList.remove('text-[#cafd00]');
+        btn.classList.add('text-[#adaaaa]');
+        const indicator = btn.querySelector('.lang-indicator');
+        if (indicator) indicator.remove();
     });
-    showToast(`Language: ${lang.toUpperCase()}`,'language');
+    const activeBtn = document.querySelector(`[data-lang-code="${lang}"]`);
+    if (activeBtn) {
+        activeBtn.classList.remove('text-[#adaaaa]');
+        activeBtn.classList.add('text-[#cafd00]');
+        const indicator = document.createElement('div');
+        indicator.className = 'lang-indicator absolute -bottom-1 left-1/2 -translate-x-1/2 w-1 h-1 bg-[#cafd00] rounded-full';
+        activeBtn.appendChild(indicator);
+    }
 }
+// Add event listeners
+document.addEventListener('DOMContentLoaded', () => {
+    document.querySelectorAll('.lang-btn').forEach(btn => {
+        btn.addEventListener('click', () => {
+            const lang = btn.dataset.langCode;
+            setLanguage(lang);
+        });
+    });
+});
 </script>
 </body>
+
 </html>
