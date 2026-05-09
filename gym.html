@@ -1,27 +1,41 @@
 <!DOCTYPE html>
+
 <html class="dark" lang="en">
+
 <head>
+    <link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css" />
+<script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
     <meta charset="utf-8" />
     <meta content="width=device-width, initial-scale=1.0" name="viewport" />
-    <title>Gyms | TRENING AURA</title>
-    <link rel="stylesheet" href="https://unpkg.com/leaflet/dist/leaflet.css" />
-    <script src="https://unpkg.com/leaflet/dist/leaflet.js"></script>
+    <link rel="icon" type="image/jpeg" href="./photo_2026-04-09_20-40-50.jpg">
+    <link
+        href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&amp;family=Manrope:wght@300;400;500;600;700&amp;display=swap"
+        rel="stylesheet" />
+    <link
+        href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap"
+        rel="stylesheet" />
+    <link
+        href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap"
+        rel="stylesheet" />
     <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
-    <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&family=Manrope:wght@300;400;500;600;700;800&display=swap" rel="stylesheet"/>
-    <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet"/>
     <script id="tailwind-config">
+        
         tailwind.config = {
             darkMode: "class",
             theme: {
                 extend: {
-                    colors: {
+                    "colors": {
                         "outline": "#767575",
                         "on-primary-fixed": "#3a4a00",
                         "surface-container-high": "#20201f",
+                        "tertiary-container": "#ebebeb",
+                        "error-dim": "#d53d18",
+                        "inverse-primary": "#516700",
                         "error": "#ff7351",
                         "background": "#0e0e0e",
                         "on-surface": "#ffffff",
                         "on-secondary": "#004d57",
+                        "on-primary-fixed-variant": "#526900",
                         "outline-variant": "#484847",
                         "surface": "#0e0e0e",
                         "primary": "#f3ffca",
@@ -29,697 +43,458 @@
                         "on-background": "#ffffff",
                         "on-surface-variant": "#adaaaa",
                         "surface-container-low": "#131313",
+                        "on-error": "#450900",
+                        "tertiary-dim": "#ebebeb",
+                        "on-tertiary-fixed-variant": "#6c6d6e",
+                        "on-error-container": "#ffd2c8",
+                        "on-tertiary-container": "#555757",
+                        "on-tertiary": "#5e5f60",
+                        "on-tertiary-fixed": "#4f5051",
+                        "surface-dim": "#0e0e0e",
+                        "primary-dim": "#beee00",
+                        "surface-container-lowest": "#000000",
+                        "inverse-surface": "#fcf9f8",
+                        "tertiary-fixed": "#ffffff",
+                        "secondary-fixed-dim": "#00d7f0",
+                        "inverse-on-surface": "#565555",
                         "surface-container": "#1a1a1a",
                         "primary-container": "#cafd00",
                         "surface-container-highest": "#262626",
+                        "on-secondary-fixed-variant": "#005964",
+                        "on-secondary-container": "#e8fbff",
                         "primary-fixed": "#cafd00",
                         "on-primary": "#516700",
                         "surface-bright": "#2c2c2c",
-                        "secondary-container": "#006875",
+                        "error-container": "#b92902",
+                        "tertiary-fixed-dim": "#f0f1f1",
+                        "secondary-dim": "#00d4ec",
+                        "surface-variant": "#262626",
+                        "on-primary-container": "#4a5e00",
+                        "on-secondary-fixed": "#003a42",
                         "primary-fixed-dim": "#beee00",
-                        "surface-container-lowest": "#000000",
+                        "secondary-container": "#006875",
+                        "surface-tint": "#f3ffca",
+                        "secondary-fixed": "#26e6ff",
+                        "tertiary": "#f9f9f9"
                     },
-                    fontFamily: {
+                    "borderRadius": {
+                        "DEFAULT": "0.25rem",
+                        "lg": "0.5rem",
+                        "xl": "0.75rem",
+                        "full": "9999px"
+                    },
+                    "fontFamily": {
                         "headline": ["Space Grotesk"],
                         "body": ["Manrope"],
+                        "label": ["Manrope"]
                     }
                 },
             },
         }
     </script>
     <style>
-        * { box-sizing: border-box; }
-        .material-symbols-outlined { font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24; }
-        .fill-icon { font-variation-settings: 'FILL' 1, 'wght' 400, 'GRAD' 0, 'opsz' 24; }
-
-        ::-webkit-scrollbar { width: 6px; }
-        ::-webkit-scrollbar-track { background: #000; }
-        ::-webkit-scrollbar-thumb { background: #262626; border-radius: 10px; }
-
-        /* Scroll progress */
-        #scroll-progress { position:fixed; top:0; left:0; height:3px; background:#cafd00; z-index:999; transition:width 0.1s; }
-
-        /* Nav link animated underline */
-        .nav-link-animated { position:relative; }
-        .nav-link-animated::after { content:''; position:absolute; bottom:-4px; left:0; width:0; height:2px; background:#cafd00; transition:width 0.3s ease; }
-        .nav-link-animated:hover::after { width:100%; }
-
-        /* Toast */
-        #toast { transition: all 0.4s cubic-bezier(0.4,0,0.2,1); transform: translateY(100px); opacity:0; }
-        #toast.show { transform: translateY(0); opacity:1; }
-
-        /* Mobile menu */
-        #mobile-menu { transform: translateX(100%); transition: transform 0.35s cubic-bezier(0.4,0,0.2,1); }
-        #mobile-menu.open { transform: translateX(0); }
-        #menu-overlay { opacity:0; pointer-events:none; transition: opacity 0.35s; }
-        #menu-overlay.open { opacity:1; pointer-events:auto; }
-
-        /* Modal */
-        #modal-overlay { opacity:0; pointer-events:none; transition: opacity 0.3s ease; }
-        #modal-overlay.open { opacity:1; pointer-events:auto; }
-        #modal-box { transform: scale(0.9) translateY(20px); transition: transform 0.3s cubic-bezier(0.4,0,0.2,1); }
-        #modal-overlay.open #modal-box { transform: scale(1) translateY(0); }
-
-        /* Reveal */
-        .reveal { opacity:0; transform:translateY(30px); transition: opacity 0.7s ease, transform 0.7s ease; }
-        .reveal.visible { opacity:1; transform:translateY(0); }
-
-        /* Shimmer button */
-        @keyframes shimmer { 0% { background-position: -200% center; } 100% { background-position: 200% center; } }
-        .shimmer-btn {
-            background: linear-gradient(90deg, #cafd00 0%, #f3ffca 40%, #cafd00 60%, #beee00 100%);
-            background-size: 200% auto;
-            animation: shimmer 2.5s linear infinite;
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
         }
 
-        /* Gym card hover */
-        .gym-card:hover { box-shadow: 0 0 30px rgba(202,253,0,0.08); }
-        .gym-card:hover .book-btn { background:#cafd00; color:#3a4a00; border-color:#cafd00; }
-
-        /* Pulse FAB */
-        @keyframes pulse-ring { 0% { box-shadow: 0 0 0 0 rgba(202,253,0,0.4); } 70% { box-shadow: 0 0 0 15px rgba(202,253,0,0); } 100% { box-shadow: 0 0 0 0 rgba(202,253,0,0); } }
-        .fab-pulse { animation: pulse-ring 2s infinite; }
-
-        /* Ripple */
-        .ripple { position:absolute; border-radius:50%; background:rgba(202,253,0,0.3); transform:scale(0); animation:rippleAnim 0.6s linear; pointer-events:none; }
-        @keyframes rippleAnim { to { transform:scale(4); opacity:0; } }
-
-        /* Map container */
-        #map { width:100%; height:100%; }
-        .leaflet-container { background:#0a0a0a; }
-
-        /* Gradient border */
-        .gradient-border {
-            background: linear-gradient(#1a1a1a,#1a1a1a) padding-box,
-                        linear-gradient(135deg,#cafd00,#00e3fd) border-box;
-            border:1px solid transparent;
+        .tonal-transition {
+            background: linear-gradient(to bottom, rgba(0, 0, 0, 0.9) 0%, rgba(0, 0, 0, 0) 100%);
         }
 
-        /* Slide panel */
-        #compare-panel { transform:translateX(100%); transition:transform 0.4s cubic-bezier(0.4,0,0.2,1); }
-        #compare-panel.open { transform:translateX(0); }
+        .map-gradient-overlay {
+            background: radial-gradient(circle at center, transparent 0%, rgba(14, 14, 14, 0.4) 100%);
+        }
 
-        /* Floating badge */
-        @keyframes float { 0%,100% { transform:translateY(0); } 50% { transform:translateY(-6px); } }
-        .float-badge { animation:float 3s ease-in-out infinite; }
+        ::-webkit-scrollbar {
+            width: 6px;
+        }
 
-        /* Active filter */
-        .filter-btn.active { background:#cafd00; color:#3a4a00; }
-        .filter-btn { transition: all 0.2s; }
+        ::-webkit-scrollbar-track {
+            background: #0e0e0e;
+        }
 
-        /* Search focus */
-        .search-wrap:focus-within { border-color:rgba(202,253,0,0.4); box-shadow:0 0 0 3px rgba(202,253,0,0.08); }
+        ::-webkit-scrollbar-thumb {
+            background: #262626;
+            border-radius: 10px;
+        }
+
+        ::-webkit-scrollbar-thumb:hover {
+            background: #484847;
+        }
     </style>
+    <!-- Firebase SDKs -->
+    <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-database-compat.js"></script>
+    <script src="./firebase-config.js"></script>
+    <script src="./auth.js"></script>
+    <script src="./aura-user.js"></script>
 </head>
-<body class="bg-background text-on-surface font-body overflow-x-hidden">
 
-<!-- Scroll progress -->
-<div id="scroll-progress" style="width:0%"></div>
-
-<!-- Toast -->
-<div id="toast" class="fixed bottom-24 right-6 z-[200] bg-surface-container-highest border border-white/10 rounded-2xl px-5 py-4 flex items-center gap-3 shadow-2xl max-w-xs">
-    <span id="toast-icon" class="material-symbols-outlined text-primary text-xl">check_circle</span>
-    <span id="toast-msg" class="text-sm font-bold text-white"></span>
-</div>
-
-<!-- Modal overlay -->
-<div id="modal-overlay" class="fixed inset-0 z-[300] bg-black/80 backdrop-blur-sm flex items-center justify-center p-4">
-    <div id="modal-box" class="bg-surface-container-highest rounded-3xl w-full max-w-md border border-white/10 overflow-hidden">
-        <div id="modal-header" class="bg-primary-fixed p-6">
-            <h3 id="modal-title" class="font-headline text-2xl font-bold text-on-primary-fixed"></h3>
-            <p id="modal-subtitle" class="text-on-primary-fixed/70 text-sm mt-1"></p>
+<body
+    class="bg-background text-on-surface font-body selection:bg-primary selection:text-on-primary-fixed overflow-hidden">
+    <!-- TopNavBar -->
+    <nav
+        class="fixed top-0 w-full z-50 bg-surface-container-lowest/60 backdrop-blur-xl dark:bg-black/60 flex justify-between items-center px-8 py-4 max-w-[1920px] mx-auto">
+        <div class="flex items-center gap-12">
+            <span class="text-2xl font-black italic text-[#cafd00] tracking-tighter font-headline uppercase">TRENING
+                AURA</span>
+            <div class="hidden md:flex items-center gap-8 font-headline tracking-tight font-bold uppercase text-sm">
+                <a class="text-[#adaaaa] hover:text-white transition-colors" href="./index.html">Home</a>
+                <a class="text-[#cafd00] border-b-2 border-[#cafd00] pb-1" href="./gym.html">Gyms</a>
+                <a class="text-[#adaaaa] hover:text-white transition-colors" href="./shop.html">Protein Shop</a>
+                <a class="text-[#adaaaa] hover:text-white transition-colors" href="./treker.html">Tracker</a>
+                <a class="text-[#adaaaa] hover:text-white transition-colors" href="./rewerds.html">Rewards</a>
+                <a class="text-[#adaaaa] hover:text-white transition-colors"
+                    href="https://planner5d.com/editor?key=80c2b7891c3d96bb77c08eed3a8883c3&accessToken=eyJwcm9qZWN0SGFzaCI6IjgwYzJiNzg5MWMzZDk2YmI3N2MwOGVlZDNhODg4M2MzIn0%3D.789d9d1be5c7d79fdebf77abc8320bf2">what
+                    the hall looks like</a>
+            </div>
         </div>
-        <div class="p-6" id="modal-body"></div>
-        <div class="px-6 pb-6 flex gap-3">
-            <button id="modal-confirm" onclick="confirmModal()" class="flex-1 bg-primary-fixed text-on-primary-fixed py-3 rounded-xl font-bold hover:scale-105 transition-transform"></button>
-            <button onclick="closeModal()" class="flex-1 border border-outline-variant text-white py-3 rounded-xl font-bold hover:bg-surface-container transition-colors">Cancel</button>
+        <div class="flex items-center gap-6">
+            <!-- Language Switcher Pill -->
+            <div
+                class="flex bg-surface-bright/40 backdrop-blur-md px-4 py-2 rounded-full items-center gap-4 text-xs font-bold border border-white/5">
+                <span class="text-[#cafd00] relative">EN<span
+                        class="absolute -bottom-1 left-1/2 -translate-x-1/2 w-1 h-1 bg-[#cafd00] rounded-full"></span></span>
+                <span class="text-on-surface-variant cursor-pointer hover:text-white transition-colors">RU</span>
+                <span class="text-on-surface-variant cursor-pointer hover:text-white transition-colors">UZ</span>
+            </div>
+            <div
+                class="flex items-center gap-2 text-on-surface-variant hover:text-primary transition-colors cursor-pointer">
+                <span class="material-symbols-outlined">language</span>
+            </div>
+            <button
+                class="bg-primary-container text-on-primary-fixed px-6 py-2 rounded-full font-headline font-bold uppercase text-sm hover:scale-95 duration-200 transition-transform">
+                Log In
+            </button>
         </div>
-    </div>
-</div>
-
-<!-- Compare panel -->
-<div id="compare-panel" class="fixed right-0 top-0 h-full w-full max-w-sm bg-surface-container-lowest border-l border-white/10 z-[250] flex flex-col shadow-2xl">
-    <div class="flex items-center justify-between p-6 border-b border-white/10">
-        <h3 class="font-headline text-xl font-bold">Compare Gyms</h3>
-        <button onclick="closeCompare()" class="w-10 h-10 rounded-full bg-surface-container flex items-center justify-center hover:bg-surface-container-high transition-colors">
-            <span class="material-symbols-outlined">close</span>
-        </button>
-    </div>
-    <div id="compare-body" class="flex-1 overflow-y-auto p-6 space-y-4"></div>
-</div>
-
-<!-- Mobile overlay -->
-<div id="menu-overlay" class="fixed inset-0 bg-black/70 backdrop-blur-sm z-[90]" onclick="closeMobileMenu()"></div>
-
-<!-- Mobile drawer -->
-<div id="mobile-menu" class="fixed top-0 right-0 h-full w-72 bg-surface-container-lowest z-[100] flex flex-col border-l border-white/10 shadow-2xl">
-    <div class="flex items-center justify-between p-6 border-b border-white/10">
-        <span class="font-headline text-xl font-black italic text-primary">TRENING AURA</span>
-        <button onclick="closeMobileMenu()" class="w-10 h-10 rounded-full bg-surface-container flex items-center justify-center">
-            <span class="material-symbols-outlined">close</span>
-        </button>
-    </div>
-    <nav class="flex-1 overflow-y-auto p-6 space-y-2">
-        <a href="./index.html" class="flex items-center gap-3 px-4 py-3 rounded-xl hover:bg-surface-container text-on-surface-variant hover:text-white transition-all font-headline uppercase tracking-tight font-bold" onclick="closeMobileMenu()">
-            <span class="material-symbols-outlined text-sm">home</span> Home
-        </a>
-        <a href="./gym.html" class="flex items-center gap-3 px-4 py-3 rounded-xl bg-surface-container text-primary font-bold font-headline uppercase tracking-tight">
-            <span class="material-symbols-outlined text-sm">fitness_center</span> Gyms
-        </a>
-        <a href="./shop.html" class="flex items-center gap-3 px-4 py-3 rounded-xl hover:bg-surface-container text-on-surface-variant hover:text-white transition-all font-headline uppercase tracking-tight font-bold" onclick="closeMobileMenu()">
-            <span class="material-symbols-outlined text-sm">shopping_basket</span> Protein Shop
-        </a>
-        <a href="./treker.html" class="flex items-center gap-3 px-4 py-3 rounded-xl hover:bg-surface-container text-on-surface-variant hover:text-white transition-all font-headline uppercase tracking-tight font-bold" onclick="closeMobileMenu()">
-            <span class="material-symbols-outlined text-sm">monitoring</span> Tracker
-        </a>
-        <a href="./rewerds.html" class="flex items-center gap-3 px-4 py-3 rounded-xl hover:bg-surface-container text-on-surface-variant hover:text-white transition-all font-headline uppercase tracking-tight font-bold" onclick="closeMobileMenu()">
-            <span class="material-symbols-outlined text-sm">emoji_events</span> Rewards
-        </a>
-        <a href="./chat.html" class="flex items-center gap-3 px-4 py-3 rounded-xl hover:bg-surface-container text-on-surface-variant hover:text-white transition-all font-headline uppercase tracking-tight font-bold" onclick="closeMobileMenu()">
-            <span class="material-symbols-outlined text-sm">smart_toy</span> AI Chat
-        </a>
     </nav>
-    <div class="p-6 border-t border-white/10">
-        <a href="./login.html" class="block w-full bg-primary-fixed text-on-primary-fixed py-3 rounded-xl font-bold uppercase tracking-widest text-center hover:scale-105 transition-transform font-headline">Log In</a>
-    </div>
-</div>
+    <!-- Main Content Shell -->
+    <main class="flex h-screen pt-[72px]">
+        <!-- Left Sidebar: Search & Discovery -->
+        <aside class="w-full md:w-[420px] lg:w-[480px] bg-surface flex flex-col z-40 relative">
+            <!-- Filters Header -->
+            <div class="p-6 space-y-6">
+                <div class="space-y-1">
+                    <h1 class="text-4xl font-headline font-black tracking-tighter uppercase leading-none">Find Your
+                        <span class="text-primary">Zone</span>
+                    </h1>
+                    <p class="text-on-surface-variant text-sm font-medium">Explore premium hubs near you</p>
+                </div>
+                <div class="relative group">
+                    <span
+                        class="material-symbols-outlined absolute left-4 top-1/2 -translate-y-1/2 text-on-surface-variant group-focus-within:text-primary transition-colors">search</span>
+                    <input
+                        class="w-full bg-surface-container-highest border-none rounded-xl py-4 pl-12 pr-4 text-sm focus:ring-1 focus:ring-primary placeholder:text-on-surface-variant/50 transition-all"
+                        placeholder="Search by area or facility..." type="text" />
+                </div>
+                <!-- Horizontal Filter Scroll -->
+                <button onclick="filterCategory('all')"
+                    class="px-4 py-2 bg-primary text-black rounded-full text-xs font-bold">All</button>
 
-<!-- NAV -->
-<nav class="fixed top-0 w-full z-50 bg-black/70 backdrop-blur-xl border-b border-white/5">
-    <div class="flex justify-between items-center px-4 sm:px-8 py-4 max-w-[1920px] mx-auto">
-        <a href="./index.html" class="text-xl sm:text-2xl font-black italic text-[#cafd00] tracking-tighter font-headline select-none">TRENING AURA</a>
-        <div class="hidden lg:flex gap-6 xl:gap-8 items-center">
-            <a class="nav-link-animated font-headline tracking-tight font-bold uppercase text-[#adaaaa] hover:text-white transition-colors text-sm" href="./index.html">Home</a>
-            <a class="nav-link-animated font-headline tracking-tight font-bold uppercase text-[#cafd00] text-sm border-b-2 border-[#cafd00] pb-0.5" href="./gym.html">Gyms</a>
-            <a class="nav-link-animated font-headline tracking-tight font-bold uppercase text-[#adaaaa] hover:text-white transition-colors text-sm" href="./shop.html">Protein Shop</a>
-            <a class="nav-link-animated font-headline tracking-tight font-bold uppercase text-[#adaaaa] hover:text-white transition-colors text-sm" href="./treker.html">Tracker</a>
-            <a class="nav-link-animated font-headline tracking-tight font-bold uppercase text-[#adaaaa] hover:text-white transition-colors text-sm" href="./rewerds.html">Rewards</a>
-            <a class="nav-link-animated font-headline tracking-tight font-bold uppercase text-[#adaaaa] hover:text-white transition-colors text-sm" href="./chat.html">AI Chat</a>
-        </div>
-        <div class="flex items-center gap-2 sm:gap-4">
-            <div class="hidden sm:flex bg-surface-bright/40 backdrop-blur-md px-3 py-1.5 rounded-full gap-3 text-xs font-bold items-center border border-white/5">
-                <span class="text-[#adaaaa] hover:text-white cursor-pointer transition-colors">RU</span>
-                <span class="text-[#adaaaa] hover:text-white cursor-pointer transition-colors">UZ</span>
-                <span class="relative text-[#cafd00] cursor-pointer">EN<span class="absolute -bottom-1 left-1/2 -translate-x-1/2 w-1 h-1 bg-[#cafd00] rounded-full block"></span></span>
+                <button onclick="filterCategory('Crossfit')"
+                    class="px-4 py-2 bg-surface-container-high rounded-full text-xs font-bold">Crossfit</button>
+
+                <button onclick="filterCategory('Sauna')"
+                    class="px-4 py-2 bg-surface-container-high rounded-full text-xs font-bold">Sauna</button>
+
+                <button onclick="filterCategory('Powerlifting')"
+                    class="px-4 py-2 bg-surface-container-high rounded-full text-xs font-bold">Powerlifting</button>
+
+                <button onclick="filterCategory('Cardio')"
+                    class="px-4 py-2 bg-surface-container-high rounded-full text-xs font-bold">Cardio</button>
             </div>
-            <a href="./login.html"><button class="hidden sm:block bg-[#cafd00] text-[#3a4a00] px-4 sm:px-6 py-2 rounded-xl font-bold uppercase tracking-wider text-sm hover:scale-105 transition-transform">Log In</button></a>
-            <button onclick="openMobileMenu()" class="lg:hidden w-10 h-10 rounded-xl bg-surface-container flex items-center justify-center hover:bg-surface-container-high transition-colors">
-                <span class="material-symbols-outlined">menu</span>
-            </button>
-        </div>
-    </div>
-</nav>
-
-<!-- HERO BAND -->
-<header class="relative pt-28 pb-12 px-5 sm:px-12 bg-surface-container-lowest border-b border-white/5 overflow-hidden">
-    <div class="absolute inset-0 pointer-events-none">
-        <div class="absolute top-0 left-0 w-96 h-96 bg-primary/5 blur-[120px] rounded-full -ml-32 -mt-32"></div>
-        <div class="absolute bottom-0 right-0 w-64 h-64 bg-secondary/5 blur-[80px] rounded-full -mr-16 -mb-16"></div>
-    </div>
-    <div class="relative max-w-6xl mx-auto">
-        <span class="text-xs uppercase tracking-[0.3em] text-primary/80 font-bold mb-3 block">Tashkent's Top Facilities</span>
-        <div class="flex flex-col sm:flex-row sm:items-end gap-4 sm:gap-8 mb-8">
-            <h1 class="font-headline text-5xl sm:text-7xl font-bold uppercase tracking-tighter leading-none">
-                Find Your <span class="text-primary" style="text-shadow:0 0 40px rgba(202,253,0,0.35)">Zone</span>
-            </h1>
-            <!-- Float badge -->
-            <div class="float-badge hidden sm:flex items-center gap-2 bg-surface-container-high border border-white/10 rounded-2xl px-4 py-3 self-start sm:self-end mb-1">
-                <span class="w-2 h-2 rounded-full bg-primary animate-pulse"></span>
-                <span class="text-xs font-bold text-on-surface-variant">24 facilities <span class="text-primary">near you</span></span>
+            <!-- Scrollable Results List -->
+            <div id="gymList" class="flex-1 overflow-y-auto px-6 pb-20 space-y-4">
+                <!-- Result Card 1 (Gym) -->
+                <div
+                    class="group bg-surface-container-low rounded-xl overflow-hidden hover:bg-surface-container-highest transition-all duration-300 cursor-pointer">
+                    <div class="relative h-32 overflow-hidden">
+                        <img class="w-full h-full object-cover grayscale-[0.5] group-hover:grayscale-0 group-hover:scale-110 transition-all duration-500"
+                            data-alt="High-end urban gym interior with neon lighting and modern weightlifting equipment in dark moody tones"
+                            src="https://lh3.googleusercontent.com/aida-public/AB6AXuA6gDvPxnmcJ1ZGjBI49gZvE4jI_gXhpbDMBNp366BePlA0_maniRvTy4fELly-fE8cfc0G0IUgajl7cIp847xx1RSiD1VLj3KBkWJ3PCQQd3B7DFwK3E6vzNiM1QSYB5WGR8ublID_It6ZuEIpclahSeYDTsYqTF5Ubyd32Pvxij3x6WobmU8j0LhU7RnJbaIlKYJ2oqqC2cVevxbGF4W7Tfj_sm5t1xYsHl8bcdwa681BSAPMJR26c95TekWL85qN3fwTUz7sES0o" />
+                        <div
+                            class="absolute top-3 right-3 bg-primary text-on-primary-fixed px-2 py-1 rounded-md text-[10px] font-black uppercase tracking-widest">
+                            Premium</div>
+                    </div>
+                    <div class="p-5">
+                        <div class="flex justify-between items-start mb-2">
+                            <h3 class="font-headline font-bold text-xl uppercase tracking-tight">ONYX Performance</h3>
+                            <div class="flex items-center gap-1 text-primary">
+                                <span class="material-symbols-outlined text-sm"
+                                    style="font-variation-settings: 'FILL' 1;">star</span>
+                                <span class="text-xs font-bold">4.9</span>
+                            </div>
+                        </div>
+                        <div class="flex gap-4 text-on-surface-variant text-xs mb-4">
+                            <span class="flex items-center gap-1"><span
+                                    class="material-symbols-outlined text-sm">location_on</span> 0.8 km</span>
+                            <span class="flex items-center gap-1"><span
+                                    class="material-symbols-outlined text-sm">schedule</span> Open 24/7</span>
+                        </div>
+                        <div class="flex flex-wrap gap-2">
+                            <span
+                                class="px-2 py-1 bg-surface-container rounded-md text-[10px] font-bold uppercase text-on-surface-variant">Powerlifting</span>
+                            <span
+                                class="px-2 py-1 bg-surface-container rounded-md text-[10px] font-bold uppercase text-on-surface-variant">Sauna</span>
+                            <span
+                                class="px-2 py-1 bg-surface-container rounded-md text-[10px] font-bold uppercase text-on-surface-variant">Crossfit</span>
+                        </div>
+                    </div>
+                </div>
+                <!-- Result Card 2 (Shop) -->
+                <div
+                    class="group bg-surface-container-low rounded-xl overflow-hidden hover:bg-surface-container-highest transition-all duration-300 cursor-pointer">
+                    <div class="relative h-32 overflow-hidden">
+                        <img class="w-full h-full object-cover grayscale-[0.5] group-hover:grayscale-0 group-hover:scale-110 transition-all duration-500"
+                            data-alt="Modern minimal protein shop shelf with sleek black supplement containers and bright neon green accent lighting"
+                            src="https://lh3.googleusercontent.com/aida-public/AB6AXuAR47PxEjeN_rbIeJQ_238W10yRt5sdgj2LtUBtoEuPmjW-y2W4miPI_qlN8AHO5v57WRCvcm4pbOEes37h3nNEFubSmWBCHcyZyFq9Z5Npo5u9loFMEWJK8ss53W_jss0RcszLvWMIO2uMYoJg-L5Os-Hl0UEfczJeqjtwEHAwLCFI6lKP5EdEilp91zaD6hRlhS8u6A3FMvNR9Apax_sQojjPSveLqiFgkn-_WaEO7d8vKIr2Ncg6JNX_GdV5ZvnNHqb-q5rwhYvZ" />
+                    </div>
+                    <div class="p-5">
+                        <div class="flex justify-between items-start mb-2">
+                            <h3 class="font-headline font-bold text-xl uppercase tracking-tight">Fuel Vault Pro</h3>
+                            <div class="flex items-center gap-1 text-secondary">
+                                <span class="material-symbols-outlined text-sm"
+                                    style="font-variation-settings: 'FILL' 1;">star</span>
+                                <span class="text-xs font-bold">4.7</span>
+                            </div>
+                        </div>
+                        <div class="flex gap-4 text-on-surface-variant text-xs mb-4">
+                            <span class="flex items-center gap-1"><span
+                                    class="material-symbols-outlined text-sm">location_on</span> 1.2 km</span>
+                            <span class="flex items-center gap-1"><span
+                                    class="material-symbols-outlined text-sm">schedule</span> Closes 22:00</span>
+                        </div>
+                        <div class="flex flex-wrap gap-2">
+                            <span
+                                class="px-2 py-1 bg-surface-container rounded-md text-[10px] font-bold uppercase text-on-surface-variant">Whey
+                                Isolate</span>
+                            <span
+                                class="px-2 py-1 bg-surface-container rounded-md text-[10px] font-bold uppercase text-on-surface-variant">Smoothie
+                                Bar</span>
+                        </div>
+                    </div>
+                </div>
+                <!-- Result Card 3 (Gym) -->
+                <div
+                    class="group bg-surface-container-low rounded-xl overflow-hidden hover:bg-surface-container-highest transition-all duration-300 cursor-pointer">
+                    <div class="relative h-32 overflow-hidden">
+                        <img class="w-full h-full object-cover grayscale-[0.5] group-hover:grayscale-0 group-hover:scale-110 transition-all duration-500"
+                            data-alt="Industrial style gym with raw concrete walls exposed pipes and high-end cardio machines in low key lighting"
+                            src="https://lh3.googleusercontent.com/aida-public/AB6AXuB-Q24TCpD1nR66YVknnSRhsu8p6qs6gxI_dRAtOmsONECDzeRUGH4nkcTi5WVp-gJY5UmzQVI80wvZFC4-QXgGHw3dCg_by_nxR_m-hconNJDSBLdajwJ2yVfA5KcTC443TC7in8Xwffyj_vF6nN_-vrIkOz8TyYBOwx4pOG4oTooOXUWrCFP1PlNB5xKdshQUp5swtXK8fQO6awcexI26jhonHS7ht9ZPgh_6GddAjNtdnfovsqOhelSX7mS_-f73PwffKxQ488L9" />
+                    </div>
+                    <div class="p-5">
+                        <div class="flex justify-between items-start mb-2">
+                            <h3 class="font-headline font-bold text-xl uppercase tracking-tight">Apex Athletics</h3>
+                            <div class="flex items-center gap-1 text-primary">
+                                <span class="material-symbols-outlined text-sm"
+                                    style="font-variation-settings: 'FILL' 1;">star</span>
+                                <span class="text-xs font-bold">4.8</span>
+                            </div>
+                        </div>
+                        <div class="flex gap-4 text-on-surface-variant text-xs mb-4">
+                            <span class="flex items-center gap-1"><span
+                                    class="material-symbols-outlined text-sm">location_on</span> 2.5 km</span>
+                            <span class="flex items-center gap-1"><span
+                                    class="material-symbols-outlined text-sm">schedule</span> Open 24/7</span>
+                        </div>
+                    </div>
+                </div>
             </div>
-        </div>
-        <!-- Search bar -->
-        <div class="search-wrap bg-surface-container-highest/80 backdrop-blur-xl p-2 rounded-2xl flex items-center shadow-2xl border border-white/5 transition-all max-w-2xl">
-            <span class="material-symbols-outlined ml-3 sm:ml-4 text-on-surface-variant text-lg">search</span>
-            <input id="search-input" class="bg-transparent border-none focus:ring-0 w-full px-3 sm:px-4 text-base text-white placeholder:text-on-surface-variant/50" placeholder="Search by name, area or feature..." type="text" oninput="liveSearch(this.value)"/>
-            <button onclick="handleSearch()" class="shimmer-btn text-on-primary-fixed px-4 sm:px-8 py-2.5 rounded-xl font-black uppercase tracking-widest flex items-center gap-2 text-sm whitespace-nowrap hover:scale-105 transition-transform">
-                Search
-            </button>
-        </div>
-        <!-- Filter chips -->
-        <div class="flex flex-wrap gap-2 mt-5">
-            <button onclick="filterCategory('all')" class="filter-btn active px-4 py-2 rounded-full text-xs font-bold uppercase tracking-wider" data-cat="all">All</button>
-            <button onclick="filterCategory('Crossfit')" class="filter-btn bg-surface-container-high text-on-surface-variant hover:text-white px-4 py-2 rounded-full text-xs font-bold uppercase tracking-wider" data-cat="Crossfit">Crossfit</button>
-            <button onclick="filterCategory('Sauna')" class="filter-btn bg-surface-container-high text-on-surface-variant hover:text-white px-4 py-2 rounded-full text-xs font-bold uppercase tracking-wider" data-cat="Sauna">Sauna</button>
-            <button onclick="filterCategory('Powerlifting')" class="filter-btn bg-surface-container-high text-on-surface-variant hover:text-white px-4 py-2 rounded-full text-xs font-bold uppercase tracking-wider" data-cat="Powerlifting">Powerlifting</button>
-            <button onclick="filterCategory('Cardio')" class="filter-btn bg-surface-container-high text-on-surface-variant hover:text-white px-4 py-2 rounded-full text-xs font-bold uppercase tracking-wider" data-cat="Cardio">Cardio</button>
-            <button onclick="sortGyms('rating')" class="ml-auto bg-surface-container-high text-on-surface-variant hover:text-primary px-4 py-2 rounded-full text-xs font-bold uppercase tracking-wider flex items-center gap-1 transition-colors">
-                <span class="material-symbols-outlined text-sm">sort</span> Top Rated
-            </button>
-            <button onclick="sortGyms('distance')" class="bg-surface-container-high text-on-surface-variant hover:text-secondary px-4 py-2 rounded-full text-xs font-bold uppercase tracking-wider flex items-center gap-1 transition-colors">
-                <span class="material-symbols-outlined text-sm">near_me</span> Nearest
-            </button>
-        </div>
-    </div>
-</header>
-
-<!-- MAIN SPLIT VIEW -->
-<main class="flex h-[calc(100vh-72px)] lg:h-[calc(100vh-72px)] flex-col lg:flex-row" style="margin-top:0;">
-    <!-- LEFT SIDEBAR -->
-    <aside class="w-full lg:w-[460px] bg-surface flex flex-col z-40 relative border-r border-white/5 h-[60vh] lg:h-auto overflow-hidden">
-        <!-- Stats bar -->
-        <div class="grid grid-cols-3 gap-0 border-b border-white/5">
-            <div class="text-center py-3 border-r border-white/5">
-                <p class="font-headline text-xl font-black text-primary" id="gym-count">30</p>
-                <p class="text-[10px] text-on-surface-variant uppercase tracking-wider">Total</p>
+            <!-- Absolute bottom shadow for lists -->
+            <div
+                class="absolute bottom-0 left-0 w-full h-24 bg-gradient-to-t from-background to-transparent pointer-events-none">
             </div>
-            <div class="text-center py-3 border-r border-white/5">
-                <p class="font-headline text-xl font-black text-secondary">24/7</p>
-                <p class="text-[10px] text-on-surface-variant uppercase tracking-wider">Open 24/7</p>
+        </aside>
+        <!-- Right Side: Interactive Map -->
+        <section class="hidden md:block flex-1 bg-surface-container-lowest relative overflow-hidden">
+            <!-- Map Placeholder with custom visual style -->
+            <div class="absolute inset-0 grayscale contrast-[1.2] brightness-[0.4]"
+                data-alt="Dark stylized city map with deep charcoal streets and glowing grid lines in high contrast cinematic style"
+                data-location="Tokyo">
+<div id="map" style="width:100%; height:100%;"></div>
             </div>
-            <div class="text-center py-3">
-                <p class="font-headline text-xl font-black text-error">4.8</p>
-                <p class="text-[10px] text-on-surface-variant uppercase tracking-wider">Avg Rating</p>
-            </div>
-        </div>
-
-        <!-- Gym list -->
-        <div id="gymList" class="flex-1 overflow-y-auto pb-20 space-y-3 p-4">
-            <!-- populated by JS -->
-        </div>
-        <!-- Bottom fade -->
-        <div class="absolute bottom-0 left-0 w-full h-20 bg-gradient-to-t from-surface to-transparent pointer-events-none"></div>
-    </aside>
-
-    <!-- RIGHT MAP -->
-    <section class="flex-1 relative overflow-hidden h-[40vh] lg:h-auto">
-        <div class="absolute inset-0">
-            <div id="map"></div>
-        </div>
-        <!-- Map overlay tint -->
-        <div class="absolute inset-0 pointer-events-none" style="background:radial-gradient(circle at center, transparent 30%, rgba(14,14,14,0.5) 100%)"></div>
-
-        <!-- Map controls -->
-        <div class="absolute top-4 right-4 flex flex-col gap-3 z-[500]">
-            <div class="flex flex-col bg-surface-container-highest/90 backdrop-blur-xl rounded-xl border border-white/10 overflow-hidden">
-                <button onclick="mapZoomIn()" class="p-3 text-white hover:text-primary transition-colors border-b border-white/10 hover:bg-surface-container">
-                    <span class="material-symbols-outlined">add</span>
+            <div class="absolute inset-0 map-gradient-overlay pointer-events-none"></div>
+            <!-- Map Controls Overlay -->
+            <div class="absolute top-8 right-8 flex flex-col gap-4">
+                <div
+                    class="flex flex-col bg-surface-container-highest/80 backdrop-blur-xl rounded-xl p-2 border border-white/5">
+                    <button class="p-3 text-on-surface hover:text-primary transition-colors border-b border-white/5">
+                        <span class="material-symbols-outlined">add</span>
+                    </button>
+                    <button class="p-3 text-on-surface hover:text-primary transition-colors">
+                        <span class="material-symbols-outlined">remove</span>
+                    </button>
+                </div>
+                <button
+                    class="bg-surface-container-highest/80 backdrop-blur-xl rounded-xl p-3 border border-white/5 text-on-surface hover:text-secondary transition-colors">
+                    <span class="material-symbols-outlined">my_location</span>
                 </button>
-                <button onclick="mapZoomOut()" class="p-3 text-white hover:text-primary transition-colors hover:bg-surface-container">
-                    <span class="material-symbols-outlined">remove</span>
+                <button
+                    class="bg-surface-container-highest/80 backdrop-blur-xl rounded-xl p-3 border border-white/5 text-on-surface hover:text-primary transition-colors">
+                    <span class="material-symbols-outlined">layers</span>
                 </button>
             </div>
-            <button onclick="locateMe()" class="bg-surface-container-highest/90 backdrop-blur-xl rounded-xl p-3 border border-white/10 text-white hover:text-secondary transition-colors hover:bg-surface-container">
-                <span class="material-symbols-outlined">my_location</span>
-            </button>
-            <button onclick="openCompare()" class="bg-primary text-on-primary-fixed rounded-xl p-3 hover:scale-110 transition-transform shadow-[0_0_20px_rgba(202,253,0,0.3)]">
-                <span class="material-symbols-outlined">compare</span>
-            </button>
-        </div>
-
-        <!-- Location meta -->
-        <div class="absolute bottom-4 left-4 right-4 sm:right-auto sm:max-w-xs z-[500]">
-            <div class="bg-surface-container-lowest/90 backdrop-blur-xl rounded-2xl p-5 border border-white/10">
-                <div class="flex items-center gap-3 mb-3">
-                    <div class="w-10 h-10 bg-primary/10 rounded-xl flex items-center justify-center flex-shrink-0">
-                        <span class="material-symbols-outlined text-primary text-xl">explore</span>
+            <!-- Custom Neon Pins -->
+            <!-- Pin 1: ONYX -->
+            <div class="absolute top-[40%] left-[30%] -translate-x-1/2 -translate-y-1/2 group">
+                <div class="relative">
+                    <div
+                        class="absolute -inset-4 bg-primary/20 blur-xl rounded-full scale-0 group-hover:scale-100 transition-transform duration-500">
+                    </div>
+                    <!-- Pin Label -->
+                </div>
+            </div>
+            <!-- Location Meta Badge (Bottom Left) -->
+            <div
+                class="absolute bottom-8 left-8 p-6 bg-surface-container-lowest/80 backdrop-blur-xl rounded-2xl border border-white/5 max-w-sm">
+                <div class="flex items-center gap-4 mb-4">
+                    <div class="w-12 h-12 bg-primary-container/20 rounded-xl flex items-center justify-center">
+                        <span class="material-symbols-outlined text-primary">explore</span>
                     </div>
                     <div>
-                        <h4 class="text-sm font-black uppercase tracking-wider leading-none">Tashkent</h4>
-                        <p class="text-on-surface-variant text-xs mt-0.5" id="map-subtitle">Showing all gyms in 10km</p>
+                        <h4 class="text-sm font-black uppercase tracking-widest leading-none">Your Neighborhood</h4>
+                        <p class="text-on-surface-variant text-xs mt-1">Found 24 facilities in 5km radius</p>
                     </div>
                 </div>
-                <div class="h-1 bg-surface-container-high rounded-full overflow-hidden">
-                    <div class="h-full bg-gradient-to-r from-primary to-secondary w-[70%]"></div>
-                </div>
-                <p class="text-[10px] text-on-surface-variant mt-1.5 uppercase tracking-wider">Activity coverage: High</p>
-            </div>
-        </div>
-    </section>
-</main>
-
-<!-- FAB -->
-<button onclick="openCompare()" class="fab-pulse fixed bottom-6 right-6 w-14 sm:w-16 h-14 sm:h-16 bg-primary text-on-primary-fixed rounded-full shadow-[0_0_50px_rgba(202,253,0,0.3)] flex items-center justify-center group z-40 hover:scale-110 transition-transform lg:hidden">
-    <span class="material-symbols-outlined text-2xl font-bold">compare</span>
-    <span class="absolute right-16 bg-surface-container-highest px-3 py-2 rounded-xl text-white text-xs font-bold opacity-0 group-hover:opacity-100 transition-opacity pointer-events-none whitespace-nowrap uppercase tracking-widest">Compare</span>
-</button>
-
-<!-- Mobile bottom nav -->
-<div class="lg:hidden fixed bottom-0 left-0 right-0 z-30 bg-black/90 backdrop-blur-xl border-t border-white/10 flex items-center justify-around px-4 py-3">
-    <a href="./index.html" class="flex flex-col items-center gap-0.5 text-on-surface-variant hover:text-white transition-colors">
-        <span class="material-symbols-outlined text-xl">home</span>
-        <span class="text-[10px] font-bold uppercase tracking-wider">Home</span>
-    </a>
-    <a href="./gym.html" class="flex flex-col items-center gap-0.5 text-primary">
-        <span class="material-symbols-outlined text-xl">fitness_center</span>
-        <span class="text-[10px] font-bold uppercase tracking-wider">Gyms</span>
-    </a>
-    <a href="./treker.html" class="flex flex-col items-center gap-0.5 text-on-surface-variant hover:text-white transition-colors">
-        <span class="material-symbols-outlined text-xl">monitoring</span>
-        <span class="text-[10px] font-bold uppercase tracking-wider">Track</span>
-    </a>
-    <a href="./shop.html" class="flex flex-col items-center gap-0.5 text-on-surface-variant hover:text-white transition-colors">
-        <span class="material-symbols-outlined text-xl">shopping_basket</span>
-        <span class="text-[10px] font-bold uppercase tracking-wider">Shop</span>
-    </a>
-</div>
-
-<script>
-// ===== SCROLL PROGRESS =====
-window.addEventListener('scroll', () => {
-    const el = document.getElementById('scroll-progress');
-    const pct = (window.scrollY / (document.body.scrollHeight - window.innerHeight)) * 100;
-    if (el) el.style.width = pct + '%';
-});
-
-// ===== TOAST =====
-let toastTimer;
-function showToast(msg, icon='check_circle') {
-    const t = document.getElementById('toast');
-    document.getElementById('toast-msg').textContent = msg;
-    document.getElementById('toast-icon').textContent = icon;
-    t.classList.add('show');
-    clearTimeout(toastTimer);
-    toastTimer = setTimeout(() => t.classList.remove('show'), 3000);
-}
-
-// ===== MOBILE MENU =====
-function openMobileMenu() {
-    document.getElementById('mobile-menu').classList.add('open');
-    document.getElementById('menu-overlay').classList.add('open');
-    document.body.style.overflow = 'hidden';
-}
-function closeMobileMenu() {
-    document.getElementById('mobile-menu').classList.remove('open');
-    document.getElementById('menu-overlay').classList.remove('open');
-    document.body.style.overflow = '';
-}
-
-// ===== MODAL =====
-let modalAction = null;
-function openModal(title, subtitle, body, confirmText, onConfirm) {
-    document.getElementById('modal-title').textContent = title;
-    document.getElementById('modal-subtitle').textContent = subtitle;
-    document.getElementById('modal-body').innerHTML = body;
-    document.getElementById('modal-confirm').textContent = confirmText;
-    modalAction = onConfirm;
-    document.getElementById('modal-overlay').classList.add('open');
-    document.body.style.overflow = 'hidden';
-}
-function closeModal() {
-    document.getElementById('modal-overlay').classList.remove('open');
-    document.body.style.overflow = '';
-}
-function confirmModal() {
-    if(modalAction) modalAction();
-    closeModal();
-}
-
-// ===== GYM DATA =====
-const categories = ["Crossfit", "Sauna", "Powerlifting", "Cardio"];
-const gymNames = ["ONYX Performance","Apex Athletics","Power Zone","Iron Beast","Titan Fitness","Urban Muscle","Energy Club","Pulse Lab","Force Arena","Core Factory","Grid Gym","Kinetic Hub","Sigma Fitness","Volt Athletics","Aura Forge","Peak Station","Delta Gym","Omega Lifting","Alpha Training","Zenith Sport","Thunder Gym","Steel Works","Flex Studio","Burn Unit","Motion Club","Raw Strength","Burn Factory","Neon Gym","Edge Athletics","Drive Fitness"];
-const gymAddresses = ["Yunusabad, 47","Chilonzor, 12","Mirzo-Ulugbek, 8","Shaykhantahur, 3","Bektemir, 21","Yakkasaray, 5","Mirabad, 18","Sergeli, 9","Olmazor, 14","Uchtepa, 7","Yashnobod, 33","Almazar, 2","Yunusabad, 88","Chilonzor, 66","Mirzo-Ulugbek, 44","Shaykhantahur, 11","Bektemir, 55","Yakkasaray, 22","Mirabad, 77","Sergeli, 99","Olmazor, 31","Uchtepa, 13","Yashnobod, 4","Almazar, 6","Yunusabad, 16","Chilonzor, 90","Mirzo-Ulugbek, 5","Shaykhantahur, 45","Bektemir, 19","Yakkasaray, 38"];
-const gymCoords = [
-    [41.3111,69.2797],[41.2950,69.2400],[41.3200,69.2000],[41.3050,69.2500],[41.2900,69.2700],
-    [41.3150,69.2300],[41.3000,69.2100],[41.3250,69.2650],[41.2850,69.2550],[41.3100,69.2200],
-    [41.2980,69.2750],[41.3070,69.2350],[41.3180,69.2450],[41.2920,69.2150],[41.3030,69.2800],
-    [41.3220,69.2100],[41.2970,69.2620],[41.3130,69.2480],[41.3060,69.2280],[41.2890,69.2400],
-    [41.3170,69.2550],[41.2940,69.2700],[41.3010,69.2030],[41.3090,69.2900],[41.2860,69.2300],
-    [41.3140,69.2150],[41.3020,69.2680],[41.2910,69.2480],[41.3200,69.2380],[41.3080,69.2720]
-];
-
-let allGyms = gymNames.map((name, i) => ({
-    id: i,
-    name,
-    address: gymAddresses[i],
-    rating: (4 + Math.random()).toFixed(1),
-    distance: (Math.random() * 5 + 0.3).toFixed(1),
-    category: categories[Math.floor(Math.random() * categories.length)],
-    coords: gymCoords[i],
-    open24: Math.random() > 0.4,
-    img: `https://picsum.photos/seed/gym${i}/400/200`
-}));
-
-let filteredGyms = [...allGyms];
-let compareList = [];
-let currentFilter = 'all';
-let currentSort = 'default';
-
-// ===== RENDER GYMS =====
-function renderGyms(data) {
-    const list = document.getElementById('gymList');
-    document.getElementById('gym-count').textContent = data.length;
-    if (!data.length) {
-        list.innerHTML = `<div class="text-center py-16 text-on-surface-variant">
-            <span class="material-symbols-outlined text-4xl mb-3 block">search_off</span>
-            <p class="font-bold">No gyms found</p>
-            <p class="text-xs mt-1">Try a different filter or search term</p>
-        </div>`;
-        return;
-    }
-    list.innerHTML = data.map(gym => `
-        <div class="gym-card group bg-surface-container-low rounded-2xl overflow-hidden hover:bg-surface-container-high transition-all duration-300 cursor-pointer border border-white/5 hover:border-primary/20" onclick="openGymModal(${gym.id})">
-            <div class="relative h-36 overflow-hidden">
-                <img class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700 grayscale-[0.3] group-hover:grayscale-0" src="${gym.img}" alt="${gym.name}"/>
-                <div class="absolute top-3 right-3 bg-black/70 backdrop-blur-md px-2.5 py-1 rounded-lg flex items-center gap-1 text-xs font-bold text-primary">
-                    <span class="material-symbols-outlined text-sm fill-icon">star</span> ${gym.rating}
-                </div>
-                <div class="absolute top-3 left-3 bg-surface-container-high/80 backdrop-blur-md px-2 py-1 rounded-lg text-[10px] font-bold uppercase tracking-wider ${
-                    gym.category === 'Crossfit' ? 'text-primary' :
-                    gym.category === 'Sauna' ? 'text-secondary' :
-                    gym.category === 'Powerlifting' ? 'text-error' : 'text-white'
-                }">${gym.category}</div>
-            </div>
-            <div class="p-4">
-                <div class="flex justify-between items-start mb-1.5">
-                    <h3 class="font-headline font-bold text-base uppercase tracking-tight">${gym.name}</h3>
-                    <span class="text-xs bg-secondary/10 text-secondary px-2 py-0.5 rounded flex-shrink-0 ml-2">${gym.distance} km</span>
-                </div>
-                <p class="text-xs text-on-surface-variant mb-3 flex items-center gap-1">
-                    <span class="material-symbols-outlined text-sm">location_on</span> ${gym.address}
-                    <span class="ml-2 ${gym.open24 ? 'text-primary' : 'text-error'} font-bold">${gym.open24 ? '24/7' : 'Closes 22:00'}</span>
-                </p>
-                <div class="flex gap-2">
-                    <button onclick="event.stopPropagation(); openBookModal(${gym.id})" class="book-btn flex-1 py-2.5 border border-outline-variant rounded-xl text-white font-bold hover:scale-105 transition-all text-xs">Book</button>
-                    <button onclick="event.stopPropagation(); addToCompare(${gym.id})" class="py-2.5 px-3 border border-outline-variant rounded-xl text-on-surface-variant hover:text-secondary hover:border-secondary/40 transition-all text-xs font-bold" title="Compare">
-                        <span class="material-symbols-outlined text-sm">compare</span>
-                    </button>
-                    <button onclick="event.stopPropagation(); flyToGym(${gym.id})" class="py-2.5 px-3 border border-outline-variant rounded-xl text-on-surface-variant hover:text-primary hover:border-primary/40 transition-all text-xs font-bold" title="Show on map">
-                        <span class="material-symbols-outlined text-sm">map</span>
-                    </button>
-                </div>
-            </div>
-        </div>
-    `).join('');
-}
-
-// ===== FILTER =====
-function filterCategory(cat) {
-    currentFilter = cat;
-    document.querySelectorAll('.filter-btn').forEach(b => {
-        b.classList.remove('active','bg-primary-fixed','text-on-primary-fixed');
-        b.classList.add('bg-surface-container-high','text-on-surface-variant');
-    });
-    const active = document.querySelector(`[data-cat="${cat}"]`);
-    if (active) { active.classList.add('active'); active.classList.remove('bg-surface-container-high','text-on-surface-variant'); }
-    applyFilters();
-}
-
-function applyFilters() {
-    let data = currentFilter === 'all' ? [...allGyms] : allGyms.filter(g => g.category === currentFilter);
-    const q = document.getElementById('search-input').value.trim().toLowerCase();
-    if (q) data = data.filter(g => g.name.toLowerCase().includes(q) || g.address.toLowerCase().includes(q) || g.category.toLowerCase().includes(q));
-    if (currentSort === 'rating') data.sort((a,b) => b.rating - a.rating);
-    if (currentSort === 'distance') data.sort((a,b) => a.distance - b.distance);
-    filteredGyms = data;
-    renderGyms(data);
-}
-
-function liveSearch(q) { applyFilters(); }
-function handleSearch() { applyFilters(); showToast(`Showing ${filteredGyms.length} results`, 'search'); }
-
-function sortGyms(type) {
-    currentSort = type;
-    applyFilters();
-    showToast(type === 'rating' ? 'Sorted by rating ⭐' : 'Sorted by distance 📍', 'sort');
-}
-
-// ===== GYM MODAL =====
-function openGymModal(id) {
-    const gym = allGyms.find(g => g.id === id);
-    if (!gym) return;
-    const body = `
-        <div class="space-y-4">
-            <img src="${gym.img}" class="w-full h-40 object-cover rounded-xl"/>
-            <div class="flex gap-2 flex-wrap">
-                <span class="text-xs bg-surface-container px-3 py-1 rounded-full text-on-surface-variant font-bold">⭐ ${gym.rating} Rating</span>
-                <span class="text-xs bg-surface-container px-3 py-1 rounded-full text-secondary font-bold">📍 ${gym.distance} km</span>
-                <span class="text-xs bg-surface-container px-3 py-1 rounded-full text-primary font-bold uppercase">${gym.category}</span>
-                <span class="text-xs bg-surface-container px-3 py-1 rounded-full font-bold ${gym.open24 ? 'text-primary' : 'text-error'}">${gym.open24 ? '⏰ Open 24/7' : '🕙 Closes 22:00'}</span>
-            </div>
-            <p class="text-on-surface-variant text-sm">📍 ${gym.address}</p>
-            <div class="bg-surface-container rounded-xl p-4">
-                <p class="font-bold text-white mb-2 text-sm">📅 Available Times</p>
-                <div class="grid grid-cols-3 gap-2">
-                    ${['07:00','09:00','11:00','14:00','16:00','18:00'].map(t=>`<button onclick="selectTime(this,'${t}')" class="time-btn border border-outline-variant rounded-lg py-1.5 text-on-surface-variant hover:border-primary hover:text-primary transition-colors text-xs font-bold">${t}</button>`).join('')}
-                </div>
-            </div>
-        </div>`;
-    openModal(gym.name, `${gym.category} • ${gym.address}`, body, 'Book Now', () => {
-        const sel = document.querySelector('.time-btn.selected-time');
-        const time = sel ? sel.textContent : 'next slot';
-        showToast(`Booked ${gym.name} at ${time}! 🎉`, 'check_circle');
-    });
-}
-
-function openBookModal(id) {
-    const gym = allGyms.find(g => g.id === id);
-    const body = `
-        <div class="space-y-4">
-            <p class="text-on-surface-variant text-sm">Booking a session at <span class="text-white font-bold">${gym.name}</span>.</p>
-            <div>
-                <label class="text-xs text-on-surface-variant uppercase tracking-wider font-bold block mb-2">Your Name</label>
-                <input type="text" placeholder="John Doe" class="w-full bg-surface-container-high border border-white/10 rounded-xl px-4 py-3 text-white placeholder:text-on-surface-variant/50 focus:outline-none focus:border-primary/40 text-sm"/>
-            </div>
-            <div>
-                <label class="text-xs text-on-surface-variant uppercase tracking-wider font-bold block mb-2">Phone</label>
-                <input type="tel" placeholder="+998 90 000 00 00" class="w-full bg-surface-container-high border border-white/10 rounded-xl px-4 py-3 text-white placeholder:text-on-surface-variant/50 focus:outline-none focus:border-primary/40 text-sm"/>
-            </div>
-            <div>
-                <label class="text-xs text-on-surface-variant uppercase tracking-wider font-bold block mb-2">Date</label>
-                <input type="date" class="w-full bg-surface-container-high border border-white/10 rounded-xl px-4 py-3 text-white focus:outline-none focus:border-primary/40 text-sm"/>
-            </div>
-        </div>`;
-    openModal('Book Session', gym.name, body, 'Confirm Booking', () => showToast(`Session booked at ${gym.name}! We'll call you. 📞`, 'check_circle'));
-}
-
-function selectTime(btn) {
-    document.querySelectorAll('.time-btn').forEach(b => { b.classList.remove('selected-time','border-primary','text-primary','bg-primary/10'); });
-    btn.classList.add('selected-time','border-primary','text-primary','bg-primary/10');
-}
-
-// ===== COMPARE =====
-function addToCompare(id) {
-    const gym = allGyms.find(g => g.id === id);
-    if (compareList.find(g => g.id === id)) { showToast('Already in compare!', 'info'); return; }
-    if (compareList.length >= 3) { showToast('Max 3 gyms to compare', 'warning'); return; }
-    compareList.push(gym);
-    showToast(`${gym.name} added to compare`, 'compare');
-    updateComparePanel();
-}
-
-function openCompare() {
-    document.getElementById('compare-panel').classList.add('open');
-    document.body.style.overflow = 'hidden';
-    updateComparePanel();
-}
-function closeCompare() {
-    document.getElementById('compare-panel').classList.remove('open');
-    document.body.style.overflow = '';
-}
-
-function updateComparePanel() {
-    const body = document.getElementById('compare-body');
-    if (!compareList.length) {
-        body.innerHTML = `<div class="text-center py-16 text-on-surface-variant">
-            <span class="material-symbols-outlined text-4xl mb-3 block">compare</span>
-            <p class="font-bold">No gyms selected</p>
-            <p class="text-xs mt-1">Tap the compare icon on any gym card</p>
-        </div>`;
-        return;
-    }
-    const fields = [['Rating','rating','⭐'],['Distance','distance','📍'],['Category','category','🏋️'],['24/7','open24','⏰']];
-    body.innerHTML = `
-        <div class="space-y-4">
-            ${compareList.map(g => `
-                <div class="gradient-border rounded-2xl p-4">
-                    <div class="flex justify-between items-start mb-3">
-                        <h4 class="font-headline font-bold text-sm uppercase">${g.name}</h4>
-                        <button onclick="removeCompare(${g.id})" class="text-error text-xs hover:underline">Remove</button>
+                <div class="space-y-3">
+                    <div
+                        class="flex justify-between items-center text-[10px] font-bold uppercase tracking-wider text-on-surface-variant">
+                        <span>Daily Activity Hubs</span>
+                        <span class="text-primary">+12%</span>
                     </div>
-                    ${fields.map(([label, key, icon]) => `
-                        <div class="flex justify-between text-xs mb-1.5">
-                            <span class="text-on-surface-variant">${icon} ${label}</span>
-                            <span class="font-bold text-white">${g[key] === true ? 'Yes' : g[key] === false ? 'No' : g[key]}</span>
-                        </div>
-                    `).join('')}
-                    <button onclick="openBookModal(${g.id})" class="mt-3 w-full bg-primary-fixed text-on-primary-fixed py-2 rounded-xl font-bold text-xs hover:scale-105 transition-transform">Book This Gym</button>
+                    <div class="h-1 bg-surface-container-highest rounded-full overflow-hidden">
+                        <div class="w-[70%] h-full bg-gradient-to-r from-primary to-secondary"></div>
+                    </div>
                 </div>
-            `).join('')}
-            ${compareList.length > 1 ? `
-                <div class="bg-surface-container-high rounded-2xl p-4 text-xs text-on-surface-variant">
-                    <p class="font-bold text-white mb-2">🏆 Best Pick</p>
-                    <p>${compareList.sort((a,b) => b.rating - a.rating)[0].name} wins with the highest rating of ${compareList[0].rating}!</p>
+            </div>
+        </section>
+    </main>
+    <!-- Floating Action Button (FAB) - Suppression Logic: Rendered here as it aligns with Search screen primary purpose -->
+    <button
+        class="fixed bottom-8 right-8 md:right-[500px] bg-primary text-on-primary-fixed w-14 h-14 rounded-full shadow-[0_0_40px_rgba(202,253,0,0.3)] flex items-center justify-center hover:scale-110 transition-transform z-50">
+        <span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">add</span>
+    </button>
+    <script>
+        const gymList = document.getElementById("gymList");
+
+        const categories = ["Crossfit", "Sauna", "Powerlifting", "Cardio"];
+
+        // массив для хранения всех залов
+        let allGyms = [];
+
+        // создаём 30 залов
+        for (let i = 1; i <= 30; i++) {
+            const randomCategory = categories[Math.floor(Math.random() * categories.length)];
+
+            const gymData = {
+                name: "Gym " + i,
+                rating: (4 + Math.random()).toFixed(1),
+                distance: (Math.random() * 5).toFixed(1),
+                category: randomCategory,
+                img: `https://picsum.photos/400/200?random=${i}`
+            };
+
+            allGyms.push(gymData);
+        }
+
+        function renderGyms(data) {
+            gymList.innerHTML = "";
+
+            data.forEach(gym => {
+                const el = document.createElement("div");
+
+                el.className = "group bg-surface-container-low rounded-xl overflow-hidden hover:bg-surface-container-highest transition-all duration-300 cursor-pointer";
+
+                el.innerHTML = `
+            <div class="relative h-32 overflow-hidden">
+                <img class="w-full h-full object-cover" src="${gym.img}" />
+            </div>
+            <div class="p-5">
+                <div class="flex justify-between items-start mb-2">
+                    <h3 class="font-headline font-bold text-xl uppercase tracking-tight">
+                        ${gym.name}
+                    </h3>
+                    <div class="text-primary text-xs font-bold">
+                        ${gym.rating}
+                    </div>
                 </div>
-            ` : ''}
-        </div>`;
-}
+                <div class="text-on-surface-variant text-xs mb-2">
+                    ${gym.distance} km • Open 24/7
+                </div>
+                <div class="text-[10px] text-secondary uppercase">
+                    ${gym.category}
+                </div>
+            </div>
+        `;
 
-function removeCompare(id) {
-    compareList = compareList.filter(g => g.id !== id);
-    updateComparePanel();
-}
+                gymList.appendChild(el);
+            });
+        }
 
-// ===== MAP =====
-const map = L.map('map', { zoomControl: false }).setView([41.2995, 69.2401], 12);
-L.tileLayer('https://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}{r}.png', {
-    attribution: '© OpenStreetMap © CARTO'
+        // первый рендер
+        renderGyms(allGyms);
+
+        // фильтр
+        function filterCategory(cat) {
+            if (cat === "all") {
+                renderGyms(allGyms);
+            } else {
+                const filtered = allGyms.filter(g => g.category === cat);
+                renderGyms(filtered);
+            }
+        }
+        // создаём карту (Ташкент)
+const map = L.map('map').setView([41.2995, 69.2401], 12);
+
+// подключаем карту (OpenStreetMap)
+L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+    attribution: '© OpenStreetMap'
 }).addTo(map);
 
-const gymIcon = L.divIcon({
-    className: '',
-    html: `<div style="width:36px;height:36px;background:#cafd00;border-radius:50%;display:flex;align-items:center;justify-content:center;box-shadow:0 0 20px rgba(202,253,0,0.5);font-size:16px;">🏋️</div>`,
-    iconSize: [36, 36],
-    iconAnchor: [18, 36]
+// кастомная иконка (неоновая)
+const gymIcon = L.icon({
+    iconUrl: 'https://assets.turbologo.ru/blog/ru/2020/11/18161626/fitness-2.png',
+    iconSize: [40, 40],
+    iconAnchor: [20, 40]
 });
 
-allGyms.forEach(gym => {
+// массив залов (координаты Ташкента)
+const gyms = [
+    { name: "ONYX Performance", coords: [41.3111, 69.2797] },
+    { name: "Apex Athletics", coords: [41.2950, 69.2400] },
+    { name: "Power Gym", coords: [41.3200, 69.2000] },
+    { name: "Iron Beast Gym", coords: [41.3050, 69.2500] },
+    { name: "Titan Fitness", coords: [41.2900, 69.2700] },
+    { name: "Urban Muscle", coords: [41.3150, 69.2300] },
+    { name: "Energy Club", coords: [41.3000, 69.2100] }
+];
+
+// добавляем маркеры
+gyms.forEach(gym => {
     L.marker(gym.coords, { icon: gymIcon })
         .addTo(map)
         .bindPopup(`
-            <div style="text-align:center;font-family:Space Grotesk,sans-serif;background:#1a1a1a;color:white;padding:4px;border-radius:8px;min-width:140px;">
-                <b style="font-size:13px;">${gym.name}</b>
-                <p style="font-size:11px;color:#adaaaa;margin:4px 0;">⭐ ${gym.rating} • ${gym.distance}km</p>
-                <button onclick="window.openBookModal(${gym.id})" style="background:#cafd00;color:#3a4a00;border:none;padding:5px 14px;border-radius:8px;font-weight:bold;font-size:11px;cursor:pointer;width:100%;margin-top:4px;">Book Session</button>
+            <div style="text-align:center;">
+                <b>${gym.name}</b><br><br>
+                <a href="https://planner5d.com/editor?key=80c2b7891c3d96bb77c08eed3a8883c3&accessToken=eyJwcm9qZWN0SGFzaCI6IjgwYzJiNzg5MWMzZDk2YmI3N2MwOGVlZDNhODg4M2MzIn0%3D.789d9d1be5c7d79fdebf77abc8320bf2"
+                   target="_blank"
+                   style="
+                        display:inline-block;
+                        padding:6px 12px;
+                        background:#cafd00;
+                        color:black;
+                        border-radius:8px;
+                        text-decoration:none;
+                        font-weight:bold;
+                        font-size:12px;
+                   ">
+                   Open Gym
+                </a>
             </div>
-        `, { className: 'dark-popup' });
+        `);
 });
-
-function mapZoomIn() { map.zoomIn(); }
-function mapZoomOut() { map.zoomOut(); }
-function locateMe() {
-    showToast('Getting your location...', 'location_on');
-    if (navigator.geolocation) {
-        navigator.geolocation.getCurrentPosition(pos => {
-            map.setView([pos.coords.latitude, pos.coords.longitude], 14);
-            showToast('Located!', 'my_location');
-        }, () => {
-            map.setView([41.2995, 69.2401], 13);
-            showToast('Using Tashkent center', 'location_city');
-        });
-    }
-}
-
-function flyToGym(id) {
-    const gym = allGyms.find(g => g.id === id);
-    if (!gym) return;
-    map.flyTo(gym.coords, 15, { duration: 1.2 });
-    document.getElementById('map-subtitle').textContent = `Showing: ${gym.name}`;
-    showToast(`Showing ${gym.name} on map`, 'map');
-}
-
-// ===== RIPPLE =====
-document.addEventListener('click', function(e) {
-    const btn = e.target.closest('button, a');
-    if (!btn) return;
-    const ripple = document.createElement('div');
-    ripple.className = 'ripple';
-    const rect = btn.getBoundingClientRect();
-    const size = Math.max(rect.width, rect.height);
-    ripple.style.cssText = `width:${size}px;height:${size}px;left:${e.clientX-rect.left-size/2}px;top:${e.clientY-rect.top-size/2}px`;
-    btn.style.position = 'relative';
-    btn.style.overflow = 'hidden';
-    btn.appendChild(ripple);
-    setTimeout(() => ripple.remove(), 600);
-});
-
-// Leaflet dark popup style
-const style = document.createElement('style');
-style.textContent = `.dark-popup .leaflet-popup-content-wrapper { background:#1a1a1a; border:1px solid rgba(255,255,255,0.1); color:white; border-radius:12px; } .dark-popup .leaflet-popup-tip { background:#1a1a1a; } .leaflet-popup-close-button { color:#adaaaa !important; }`;
-document.head.appendChild(style);
-
-// Init
-renderGyms(allGyms);
-</script>
+    </script>
+    
 </body>
+
 </html>

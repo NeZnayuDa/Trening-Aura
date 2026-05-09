@@ -1,38 +1,25 @@
 <!DOCTYPE html>
-
 <html class="dark" lang="en">
-
 <head>
     <meta charset="utf-8" />
     <meta content="width=device-width, initial-scale=1.0" name="viewport" />
     <title>Protein Shop | TRENING AURA</title>
     <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
-    <link
-        href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700;900&amp;family=Manrope:wght@200;300;400;500;600;700;800&amp;display=swap"
-        rel="stylesheet" />
-    <link
-        href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap"
-        rel="stylesheet" />
-    <link
-        href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap"
-        rel="stylesheet" />
+    <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&family=Manrope:wght@300;400;500;600;700;800&display=swap" rel="stylesheet"/>
+    <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet"/>
     <script id="tailwind-config">
         tailwind.config = {
             darkMode: "class",
             theme: {
                 extend: {
-                    "colors": {
+                    colors: {
                         "outline": "#767575",
                         "on-primary-fixed": "#3a4a00",
                         "surface-container-high": "#20201f",
-                        "tertiary-container": "#ebebeb",
-                        "error-dim": "#d53d18",
-                        "inverse-primary": "#516700",
                         "error": "#ff7351",
                         "background": "#0e0e0e",
                         "on-surface": "#ffffff",
                         "on-secondary": "#004d57",
-                        "on-primary-fixed-variant": "#526900",
                         "outline-variant": "#484847",
                         "surface": "#0e0e0e",
                         "primary": "#f3ffca",
@@ -40,650 +27,860 @@
                         "on-background": "#ffffff",
                         "on-surface-variant": "#adaaaa",
                         "surface-container-low": "#131313",
-                        "on-error": "#450900",
-                        "tertiary-dim": "#ebebeb",
-                        "on-tertiary-fixed-variant": "#6c6d6e",
-                        "on-error-container": "#ffd2c8",
-                        "on-tertiary-container": "#555757",
-                        "on-tertiary": "#5e5f60",
-                        "on-tertiary-fixed": "#4f5051",
-                        "surface-dim": "#0e0e0e",
-                        "primary-dim": "#beee00",
-                        "surface-container-lowest": "#000000",
-                        "inverse-surface": "#fcf9f8",
-                        "tertiary-fixed": "#ffffff",
-                        "secondary-fixed-dim": "#00d7f0",
-                        "inverse-on-surface": "#565555",
                         "surface-container": "#1a1a1a",
                         "primary-container": "#cafd00",
                         "surface-container-highest": "#262626",
-                        "on-secondary-fixed-variant": "#005964",
-                        "on-secondary-container": "#e8fbff",
                         "primary-fixed": "#cafd00",
                         "on-primary": "#516700",
                         "surface-bright": "#2c2c2c",
-                        "error-container": "#b92902",
-                        "tertiary-fixed-dim": "#f0f1f1",
-                        "secondary-dim": "#00d4ec",
-                        "surface-variant": "#262626",
-                        "on-primary-container": "#4a5e00",
-                        "on-secondary-fixed": "#003a42",
+                        "surface-container-lowest": "#000000",
                         "primary-fixed-dim": "#beee00",
-                        "secondary-container": "#006875",
-                        "surface-tint": "#f3ffca",
-                        "secondary-fixed": "#26e6ff",
-                        "tertiary": "#f9f9f9"
                     },
-                    "borderRadius": {
-                        "DEFAULT": "0.25rem",
-                        "lg": "0.5rem",
-                        "xl": "0.75rem",
-                        "full": "9999px"
-                    },
-                    "fontFamily": {
+                    fontFamily: {
                         "headline": ["Space Grotesk"],
                         "body": ["Manrope"],
-                        "label": ["Manrope"]
                     }
                 },
             },
         }
     </script>
     <style>
-        .material-symbols-outlined {
-            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        * { box-sizing: border-box; }
+        .material-symbols-outlined { font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24; }
+        .fill-icon { font-variation-settings: 'FILL' 1, 'wght' 400, 'GRAD' 0, 'opsz' 24; }
+
+        ::-webkit-scrollbar { width: 6px; }
+        ::-webkit-scrollbar-track { background: #000; }
+        ::-webkit-scrollbar-thumb { background: #262626; border-radius: 10px; }
+
+        /* Scroll progress */
+        #scroll-progress { position:fixed; top:0; left:0; height:3px; background:#cafd00; z-index:999; transition:width 0.1s; }
+
+        /* Nav underline */
+        .nav-link-animated { position:relative; }
+        .nav-link-animated::after { content:''; position:absolute; bottom:-4px; left:0; width:0; height:2px; background:#cafd00; transition:width 0.3s; }
+        .nav-link-animated:hover::after { width:100%; }
+
+        /* Toast */
+        #toast { transition:all 0.4s cubic-bezier(0.4,0,0.2,1); transform:translateY(100px); opacity:0; }
+        #toast.show { transform:translateY(0); opacity:1; }
+
+        /* Mobile menu */
+        #mobile-menu { transform:translateX(100%); transition:transform 0.35s cubic-bezier(0.4,0,0.2,1); }
+        #mobile-menu.open { transform:translateX(0); }
+        #menu-overlay { opacity:0; pointer-events:none; transition:opacity 0.35s; }
+        #menu-overlay.open { opacity:1; pointer-events:auto; }
+
+        /* Cart panel */
+        #cart-panel { transform:translateX(100%); transition:transform 0.4s cubic-bezier(0.4,0,0.2,1); }
+        #cart-panel.open { transform:translateX(0); }
+
+        /* Product modal */
+        #modal-overlay { opacity:0; pointer-events:none; transition:opacity 0.3s; }
+        #modal-overlay.open { opacity:1; pointer-events:auto; }
+        #modal-box { transform:scale(0.9) translateY(20px); transition:transform 0.3s cubic-bezier(0.4,0,0.2,1); }
+        #modal-overlay.open #modal-box { transform:scale(1) translateY(0); }
+
+        /* Reveal */
+        .reveal { opacity:0; transform:translateY(30px); transition:opacity 0.7s ease,transform 0.7s ease; }
+        .reveal.visible { opacity:1; transform:translateY(0); }
+
+        /* Shimmer */
+        @keyframes shimmer { 0% { background-position:-200% center; } 100% { background-position:200% center; } }
+        .shimmer-btn {
+            background:linear-gradient(90deg,#cafd00 0%,#f3ffca 40%,#cafd00 60%,#beee00 100%);
+            background-size:200% auto;
+            animation:shimmer 2.5s linear infinite;
         }
 
-        .no-line {
-            border: none !important;
+        /* Ripple */
+        .ripple { position:absolute; border-radius:50%; background:rgba(202,253,0,0.3); transform:scale(0); animation:rippleAnim 0.6s linear; pointer-events:none; }
+        @keyframes rippleAnim { to { transform:scale(4); opacity:0; } }
+
+        /* Product card hover */
+        .product-card { transition:all 0.4s ease; }
+        .product-card:hover { transform:translateY(-4px); box-shadow:0 20px 60px rgba(0,0,0,0.4); }
+        .product-card:hover .add-btn { background:#cafd00; color:#3a4a00; }
+        .product-card:hover img { transform:scale(1.08); filter:grayscale(0); }
+        .product-card img { filter:grayscale(0.2); transition:all 0.5s ease; }
+
+        /* FAB pulse */
+        @keyframes pulse-ring { 0% { box-shadow:0 0 0 0 rgba(202,253,0,0.4); } 70% { box-shadow:0 0 0 15px rgba(202,253,0,0); } 100% { box-shadow:0 0 0 0 rgba(202,253,0,0); } }
+        .fab-pulse { animation:pulse-ring 2s infinite; }
+
+        /* Gradient border */
+        .gradient-border {
+            background:linear-gradient(#1a1a1a,#1a1a1a) padding-box,
+                       linear-gradient(135deg,#cafd00,#00e3fd) border-box;
+            border:1px solid transparent;
         }
 
-        .tonal-transition {
-            transition: background-color 0.3s ease;
-        }
+        /* Filter active */
+        .filter-btn.active { background:#cafd00; color:#3a4a00; }
 
-        .glass-pill {
-            background: rgba(44, 44, 44, 0.4);
-            backdrop-filter: blur(20px);
-            -webkit-backdrop-filter: blur(20px);
-        }
+        /* Ticker tape */
+        @keyframes ticker { from { transform:translateX(0); } to { transform:translateX(-50%); } }
+        .ticker-inner { animation:ticker 18s linear infinite; display:flex; width:max-content; }
+        .ticker-inner:hover { animation-play-state:paused; }
+
+        /* Wishlist heart */
+        .wish-btn.wished { color:#ff7351; }
+        .wish-btn.wished .material-symbols-outlined { font-variation-settings:'FILL' 1,'wght' 400,'GRAD' 0,'opsz' 24; }
+
+        /* Quick view tag */
+        .product-card:hover .quick-view-label { opacity:1; transform:translateY(0); }
+        .quick-view-label { opacity:0; transform:translateY(8px); transition:all 0.3s; }
+
+        /* Sort select */
+        select { appearance:none; background-image:none; }
+
+        /* Checkbox */
+        input[type="checkbox"]:checked + div { background:#cafd00; border-color:#cafd00; }
     </style>
-    <!-- Firebase SDKs -->
-    <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app-compat.js"></script>
-    <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-database-compat.js"></script>
-    <script src="./firebase-config.js"></script>
-    <script src="./auth.js"></script>
-    <script src="./aura-user.js"></script>
 </head>
+<body class="bg-background text-on-surface font-body overflow-x-hidden">
 
-<body class="bg-background text-on-background font-body selection:bg-primary selection:text-on-primary-fixed">
-    <!-- TopNavBar -->
-    <header class="fixed top-0 w-full z-50 bg-surface-container-lowest/60 backdrop-blur-xl dark:bg-black/60">
-        <div class="flex justify-between items-center px-8 py-4 max-w-[1920px] mx-auto">
-            <div class="text-2xl font-black italic text-[#cafd00] tracking-tighter font-headline uppercase">
-                TRENING AURA
-            </div>
-            <nav class="hidden md:flex items-center gap-8">
-                <a class="font-['Space_Grotesk'] tracking-tight font-bold uppercase text-[#adaaaa] hover:text-white transition-colors"
-                    href="./index.html">Home</a>
-                <a class="font-['Space_Grotesk'] tracking-tight font-bold uppercase text-[#adaaaa] hover:text-white transition-colors"
-                    href="./gym.html">Gyms</a>
-                <a class="font-['Space_Grotesk'] tracking-tight font-bold uppercase text-[#cafd00] border-b-2 border-[#cafd00] pb-1"
-                    href="#">Protein Shop</a>
-                <a class="font-['Space_Grotesk'] tracking-tight font-bold uppercase text-[#adaaaa] hover:text-white transition-colors"
-                    href="./treker.html">Tracker</a>
-                <a class="font-['Space_Grotesk'] tracking-tight font-bold uppercase text-[#adaaaa] hover:text-white transition-colors"
-                    href="./rewerds.html">Rewards</a>
-            </nav>
-            <div class="flex items-center gap-6">
-                <div class="hidden lg:flex items-center glass-pill px-4 py-1.5 rounded-full">
-                    <span class="material-symbols-outlined text-on-surface-variant text-sm mr-2">search</span>
-                    <input
-                        class="bg-transparent border-none focus:ring-0 text-sm text-white w-40 placeholder:text-on-surface-variant"
-                        placeholder="Search supplements..." type="text" />
-                </div>
-                <div class="flex items-center gap-4">
-                    <button class="text-[#adaaaa] hover:text-[#cafd00] transition-all">
-                        <span class="material-symbols-outlined">language</span>
-                    </button>
-                    <button
-                        class="bg-primary-container text-on-primary-fixed px-6 py-2 rounded-xl font-headline font-bold uppercase tracking-tight scale-95 hover:scale-100 transition-transform duration-200">
-                        Log In
-                    </button>
-                </div>
-            </div>
+<!-- Scroll progress -->
+<div id="scroll-progress" style="width:0%"></div>
+
+<!-- Toast -->
+<div id="toast" class="fixed bottom-24 right-6 z-[200] bg-surface-container-highest border border-white/10 rounded-2xl px-5 py-4 flex items-center gap-3 shadow-2xl max-w-xs">
+    <span id="toast-icon" class="material-symbols-outlined text-primary text-xl">check_circle</span>
+    <span id="toast-msg" class="text-sm font-bold text-white"></span>
+</div>
+
+<!-- Product Modal -->
+<div id="modal-overlay" class="fixed inset-0 z-[300] bg-black/80 backdrop-blur-sm flex items-center justify-center p-4">
+    <div id="modal-box" class="bg-surface-container-highest rounded-3xl w-full max-w-lg border border-white/10 overflow-hidden">
+        <div class="relative" id="modal-img-wrap" style="height:220px;overflow:hidden;">
+            <img id="modal-img" class="w-full h-full object-cover" src="" alt=""/>
+            <button onclick="closeModal()" class="absolute top-4 right-4 w-9 h-9 bg-black/60 backdrop-blur-md rounded-full flex items-center justify-center text-white hover:bg-black transition-colors">
+                <span class="material-symbols-outlined text-lg">close</span>
+            </button>
+            <div id="modal-badge" class="absolute top-4 left-4"></div>
         </div>
-    </header>
-    <main class="pt-32 pb-20 px-8 max-w-[1920px] mx-auto min-h-screen">
-        <div class="flex flex-col lg:flex-row gap-12">
-            <!-- Sidebar Filters -->
-            <aside class="w-full lg:w-72 flex-shrink-0">
-                <div class="sticky top-32 space-y-10">
-                    <div>
-                        <h3 class="font-headline text-2xl font-bold uppercase tracking-tighter text-white mb-6">Goal
-                        </h3>
-                        <div class="space-y-3">
-                            <label class="flex items-center group cursor-pointer">
-                                <input class="hidden peer" type="checkbox" />
-                                <div
-                                    class="w-5 h-5 border-2 border-outline-variant rounded peer-checked:bg-primary peer-checked:border-primary transition-all mr-3">
-                                </div>
-                                <span class="text-on-surface-variant group-hover:text-white transition-colors">Muscle
-                                    Gain</span>
-                            </label>
-                            <label class="flex items-center group cursor-pointer">
-                                <input class="hidden peer" type="checkbox" />
-                                <div
-                                    class="w-5 h-5 border-2 border-outline-variant rounded peer-checked:bg-primary peer-checked:border-primary transition-all mr-3">
-                                </div>
-                                <span class="text-on-surface-variant group-hover:text-white transition-colors">Weight
-                                    Loss</span>
-                            </label>
-                            <label class="flex items-center group cursor-pointer">
-                                <input class="hidden peer" type="checkbox" />
-                                <div
-                                    class="w-5 h-5 border-2 border-outline-variant rounded peer-checked:bg-primary peer-checked:border-primary transition-all mr-3">
-                                </div>
-                                <span class="text-on-surface-variant group-hover:text-white transition-colors">Energy
-                                    &amp; Focus</span>
-                            </label>
-                        </div>
-                    </div>
-                    <button class="category-btn" data-filter="all">All Products</button>
-                    <button class="category-btn" data-filter="whey">Whey Protein</button>
-                    <button class="category-btn" data-filter="vitamins">Vitamins</button>
-                    <button class="category-btn" data-filter="amino">Amino Acids</button>
-                    <button class="category-btn" data-filter="preworkout">Pre-Workout</button>
-                    <div
-                        class="p-6 rounded-xl bg-gradient-to-br from-primary/10 to-transparent border border-primary/5">
-                        <span class="material-symbols-outlined text-primary mb-4" data-weight="fill">verified</span>
-                        <h4 class="text-white font-bold mb-2">Aura Certified</h4>
-                        <p class="text-xs text-on-surface-variant leading-relaxed">All supplements are lab-tested and
-                            certified for purity and potency. Fuel your body with the best.</p>
-                    </div>
-                </div>
-            </aside>
-            <!-- Product Grid Section -->
-            <section class="flex-grow">
-                <div class="flex justify-between items-end mb-12">
-                    <div>
-                        <p class="text-secondary font-headline font-bold uppercase tracking-widest text-xs mb-2">Premium
-                            Supplements</p>
-                        <h1 class="text-5xl md:text-7xl font-headline font-black uppercase tracking-tighter text-white">
-                            The Fuel <span class="text-primary italic">Station</span></h1>
-                    </div>
-                    <div class="hidden md:block text-right">
-                        <p class="text-on-surface-variant text-sm font-medium">Showing 24 Results</p>
-                    </div>
-                </div>
-                <!-- Grid -->
-                <div class="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-3 gap-8">
-                    <!-- Product Card 1 -->
-                    <div
-                        class="group relative bg-surface-container-low rounded-xl overflow-hidden hover:bg-surface-container transition-all duration-300"
-                        data-category="whey">
-                        <div class="aspect-[4/5] relative overflow-hidden bg-surface-container-high">
-                            <img class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700 opacity-90 group-hover:opacity-100"
-                                data-alt="black aesthetic supplement container of whey protein isolated on dark textured background with dramatic spotlight"
-                                src="https://lh3.googleusercontent.com/aida-public/AB6AXuBitwiDAh6DNLymrovNbg8LHQXHUxA7-UPc1gsOw5fcNSu2vl5tYokzjLX9SWsZD6ZPURP32FGdRX1InWKS-RMZMVFNzm83uZWKYRsqkd1nZcbJfw-VgCRyPgypgR9dn5B_w3Coo0EFdal8E5Flai4Uc9jcgu5lMz7eJjFDwz7F0HnN37sVF4hbS87zsxIvOeODPXPw_Lis7TO8ymzadpEqiiHKmmXP9n12i9cF_sD2vjFUiXRZUr70qsuCjuRL9HpLHN1Y-GyEycS0" />
-                            <div
-                                class="absolute top-4 left-4 bg-primary text-on-primary-fixed px-3 py-1 rounded-full text-[10px] font-black uppercase tracking-tighter">
-                                Bestseller</div>
-                        </div>
-                        <div class="p-8">
-                            <div class="flex justify-between items-start mb-4">
-                                <h3 class="text-xl font-headline font-bold text-white uppercase tracking-tight">AURA
-                                    WHEY ISOLATE</h3>
-                                <span class="text-secondary font-bold text-lg">$64.00</span>
-                            </div>
-                            <p class="text-on-surface-variant text-sm mb-8 leading-relaxed">Ultra-pure protein for lean
-                                muscle recovery. 25g protein per serving.</p>
-                            <button
-                                class="w-full bg-surface-container-highest group-hover:bg-primary text-white group-hover:text-on-primary-fixed py-4 rounded-xl font-headline font-bold uppercase tracking-tight transition-all duration-300 flex items-center justify-center gap-2">
-                                <span class="material-symbols-outlined text-lg">shopping_bag</span>
-                                Add to cart
-                            </button>
-                        </div>
-                    </div>
-                    <!-- Product Card 2 -->
-                    <div
-                        class="group relative bg-surface-container-low rounded-xl overflow-hidden hover:bg-surface-container transition-all duration-300"
-                        data-category="casein">
-                        <div class="aspect-[4/5] relative overflow-hidden bg-surface-container-high">
-                            <img class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700 opacity-90 group-hover:opacity-100"
-                                data-alt="minimalist white supplement jar with neon blue accents for pre-workout powder on dark reflective surface"
-                                src="https://lh3.googleusercontent.com/aida-public/AB6AXuAyCkBnApaeEof7mJd9ESscUW_GNi7SiVaunmCFOxAAYoL6385hjZWnPARtjiYiPBAYcMXgInueahMDJfbH8G4Ia-CKYrqkInAwzHl1pYep1-5CzVRS2vcn25QDku0bqXLhh7fgCA5LXfCrc4iLMDKCuHXDYhOxPsJx2ZkYc8qPSle_hD2tYYM_i5bpX6Z5RoL9i7sUF8XvI92hyLjYwmzsJyXZNuxoo6UDudZwo1HC8wCvCZgG4UfbdSJLvDPodGfF0yY-Hk_g08Xc" />
-                        </div>
-                        <div class="p-8">
-                            <div class="flex justify-between items-start mb-4">
-                                <h3 class="text-xl font-headline font-bold text-white uppercase tracking-tight">KINETIC
-                                    PRE-V2</h3>
-                                <span class="text-secondary font-bold text-lg">$49.00</span>
-                            </div>
-                            <p class="text-on-surface-variant text-sm mb-8 leading-relaxed">High-stimulant energy and
-                                focus complex for peak performance.</p>
-                            <button
-                                class="w-full bg-surface-container-highest group-hover:bg-primary text-white group-hover:text-on-primary-fixed py-4 rounded-xl font-headline font-bold uppercase tracking-tight transition-all duration-300 flex items-center justify-center gap-2">
-                                <span class="material-symbols-outlined text-lg">shopping_bag</span>
-                                Add to cart
-                            </button>
-                        </div>
-                    </div>
-                    <!-- Product Card 3 -->
-                    <div
-                        class="group relative bg-surface-container-low rounded-xl overflow-hidden hover:bg-surface-container transition-all duration-300"
-                        data-category="casein">
-                        <div class="aspect-[4/5] relative overflow-hidden bg-surface-container-high">
-                            <img class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700 opacity-90 group-hover:opacity-100"
-                                data-alt="close-up of glass vitamins bottle with amber tint and high-end minimalist label in dark studio lighting"
-                                src="https://lh3.googleusercontent.com/aida-public/AB6AXuB2-ik5S1q4Lb_x1d15OyXI0HZYP_vxaaDJsKNlPf90iJB9T4yCPA4O3VW3XHhnhr1VlDdkj2GrdAMCEEV8DOQF__ndViq8tvNNzmScbS_VxzYvpQU5oTq3QGhQr3rN4mVH656sVMIzqzle-BmoF4FUjO_vqsKJdcg7bHzNLRsH8CypBVtX9UwCGth1Lh6heBqRazoSkbNkH8qWi8Dvd_8OnqqfadGSaCm7E4kYz0feJuJMmRWLm1SenvwhI2efzelMmKNpTr22TkOG" />
-                            <div
-                                class="absolute top-4 left-4 bg-secondary text-on-secondary px-3 py-1 rounded-full text-[10px] font-black uppercase tracking-tighter">
-                                New Arrival</div>
-                        </div>
-                        <div class="p-8">
-                            <div class="flex justify-between items-start mb-4">
-                                <h3 class="text-xl font-headline font-bold text-white uppercase tracking-tight">VITA-MAX
-                                    365</h3>
-                                <span class="text-secondary font-bold text-lg">$32.00</span>
-                            </div>
-                            <p class="text-on-surface-variant text-sm mb-8 leading-relaxed">Complete multivitamin
-                                spectrum optimized for active lifestyles.</p>
-                            <button
-                                class="w-full bg-surface-container-highest group-hover:bg-primary text-white group-hover:text-on-primary-fixed py-4 rounded-xl font-headline font-bold uppercase tracking-tight transition-all duration-300 flex items-center justify-center gap-2">
-                                <span class="material-symbols-outlined text-lg">shopping_bag</span>
-                                Add to cart
-                            </button>
-                        </div>
-                    </div>
-                    <!-- Product Card 4 -->
-                    <div
-                        class="group relative bg-surface-container-low rounded-xl overflow-hidden hover:bg-surface-container transition-all duration-300"
-                        data-category="whey">
-                        <div class="aspect-[4/5] relative overflow-hidden bg-surface-container-high">
-                            <img class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700 opacity-90 group-hover:opacity-100"
-                                data-alt="athletic supplements containers in a row on dark concrete background with teal and lime green ambient glow"
-                                src="https://lh3.googleusercontent.com/aida-public/AB6AXuBOxNqCW6mSGn52Osd8lsudFWmPaTGKVFo__6Aa0jzUNm759S1JjBa5JOL5Hn9M2oGifZEiZio1cE_w8NNCJGnlFHWHEETD3A95XW6GW_efTURZZMQPRWXMUsNc_6xiheQdJvUAOEweMCNxN7yGbtZxXot-AfpwE3dAGiSNRpBkdkvgcb__IgqfoF8JFPtwKPlsC-UeQbSMxPuiCyxt3TDVnbetjI87ONemDb3aB4ICAG92w3LTExlyS-wSAwaSFSXczwkvm1l4_uax" />
-                        </div>
-                        <div class="p-8">
-                            <div class="flex justify-between items-start mb-4">
-                                <h3 class="text-xl font-headline font-bold text-white uppercase tracking-tight">AMINO
-                                    RECOVER</h3>
-                                <span class="text-secondary font-bold text-lg">$38.00</span>
-                            </div>
-                            <p class="text-on-surface-variant text-sm mb-8 leading-relaxed">BCAA 2:1:1 ratio for
-                                endurance and intra-workout hydration.</p>
-                            <button
-                                class="w-full bg-surface-container-highest group-hover:bg-primary text-white group-hover:text-on-primary-fixed py-4 rounded-xl font-headline font-bold uppercase tracking-tight transition-all duration-300 flex items-center justify-center gap-2">
-                                <span class="material-symbols-outlined text-lg">shopping_bag</span>
-                                Add to cart
-                            </button>
-                        </div>
-                    </div>
-                    <!-- Product Card 5 -->
-                    <div class="group relative bg-surface-container-low rounded-xl overflow-hidden hover:bg-surface-container transition-all duration-300"
-     data-category="whey">
-                        data-category="casein">
-                        <div class="aspect-[4/5] relative overflow-hidden bg-surface-container-high">
-                            <img class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700 opacity-90 group-hover:opacity-100"
-                                data-alt="luxury sports supplement tub with matte black finish and neon yellow branding text in dark moody environment"
-                                src="https://lh3.googleusercontent.com/aida-public/AB6AXuC539yy_euPkRKmrZH275knVzkgKsC0MpBT8JgpTHw-ayPudzSvyQFZV-USl8au7OthOWaYzFhTceu41LWxyZqRJPmnNHlEiKHVzFMQQtekxa0xtKOyikUjEHQn7-QJY6ZN217dJvYXipQ-wDZsvBznJQUZ7IlhO38Fobu0aekirzLlmDgNaEgH-OXzDRULhSdTpv_SVHQrM4VvjNm9qf_ETs5OOygf5b0MfxLON9M58U2DNvc0Yt-gllxnUbacPCGnsUdvtUBzlwW3" />
-                        </div>
-                        <div class="p-8">
-                            <div class="flex justify-between items-start mb-4">
-                                <h3 class="text-xl font-headline font-bold text-white uppercase tracking-tight">CASEIN
-                                    SLEEP</h3>
-                                <span class="text-secondary font-bold text-lg">$58.00</span>
-                            </div>
-                            <p class="text-on-surface-variant text-sm mb-8 leading-relaxed">Slow-release protein for
-                                overnight muscle repair and deep recovery.</p>
-                            <button
-                                class="w-full bg-surface-container-highest group-hover:bg-primary text-white group-hover:text-on-primary-fixed py-4 rounded-xl font-headline font-bold uppercase tracking-tight transition-all duration-300 flex items-center justify-center gap-2">
-                                <span class="material-symbols-outlined text-lg">shopping_bag</span>
-                                Add to cart
-                            </button>
-                        </div>
-                    </div>
-                    <!-- Product Card 6 -->
-                   <div class="group relative bg-surface-container-low rounded-xl overflow-hidden hover:bg-surface-container transition-all duration-300"
-     data-category="whey">
-                        <div class="aspect-[4/5] relative overflow-hidden bg-surface-container-high">
-                            <img class="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700 opacity-90 group-hover:opacity-100"
-                                data-alt="clean top view of athletic health supplements capsules and powder in organized aesthetic layout on dark surface"
-                                src="https://lh3.googleusercontent.com/aida-public/AB6AXuBZrrIT-_F2zmFEMlfJTb5r5YPIX0hq9kqB_HOGGZ-4ZH9_y0Gf7xj515CoDnQIST_W21nzc_Ab5tpzo_t6vMakPKxOejynt-yE7FHhExdDc1yZHEsZcvfFSeECinNsQ6zfclKp8gzG73wk15DGKuxRVu_gJLPy2xoGiZCdQDT4o6Xtvpgis46SwivTxr5x4GrKiGhGGwq4u9m1W38N3tm7i-KoOgoXjDiTP05lsUGfP9tcZ9cRQAF5M_fV5tggoV4GsTXsINy96OB3" />
-                        </div>
-                        <div class="p-8">
-                            <div class="flex justify-between items-start mb-4">
-                                <h3 class="text-xl font-headline font-bold text-white uppercase tracking-tight">PURE
-                                    CREATINE</h3>
-                                <span class="text-secondary font-bold text-lg">$28.00</span>
-                            </div>
-                            <p class="text-on-surface-variant text-sm mb-8 leading-relaxed">Micro-filtered creatine
-                                monohydrate for strength and explosive power.</p>
-                            <button
-                                class="w-full bg-surface-container-highest group-hover:bg-primary text-white group-hover:text-on-primary-fixed py-4 rounded-xl font-headline font-bold uppercase tracking-tight transition-all duration-300 flex items-center justify-center gap-2">
-                                <span class="material-symbols-outlined text-lg">shopping_bag</span>
-                                Add to cart
-                            </button>
-                        </div>
-                    </div>
-                </div>
-            </section>
+        <div class="p-6" id="modal-body"></div>
+    </div>
+</div>
+
+<!-- Cart Side Panel -->
+<div id="cart-panel" class="fixed right-0 top-0 h-full w-full max-w-sm bg-surface-container-lowest border-l border-white/10 z-[250] flex flex-col shadow-2xl">
+    <div class="flex items-center justify-between p-6 border-b border-white/10">
+        <div class="flex items-center gap-3">
+            <h3 class="font-headline text-xl font-bold">Your Cart</h3>
+            <span id="cart-panel-count" class="bg-primary text-on-primary-fixed text-xs font-black px-2.5 py-1 rounded-full">0</span>
         </div>
-    </main>
-    <!-- Footer -->
-    <footer class="w-full border-t border-white/5 bg-surface-container-lowest dark:bg-black">
-        <div class="grid grid-cols-1 md:grid-cols-3 gap-12 px-12 py-16 w-full max-w-[1920px] mx-auto">
-            <div class="space-y-6">
-                <div class="text-lg font-bold text-white uppercase tracking-tighter font-headline">TRENING AURA</div>
-                <p class="text-[#adaaaa] font-['Manrope'] text-sm tracking-wide max-w-xs leading-relaxed">
-                    Engineering human potential through science-backed nutrition and relentless kinetic energy. Join the
-                    pulse.
-                </p>
-                <div class="flex gap-4">
-                    <a class="text-[#adaaaa] hover:text-[#00e3fd] transition-colors" href="#"><span
-                            class="material-symbols-outlined">public</span></a>
-                    <a class="text-[#adaaaa] hover:text-[#00e3fd] transition-colors" href="#"><span
-                            class="material-symbols-outlined">smart_display</span></a>
-                    <a class="text-[#adaaaa] hover:text-[#00e3fd] transition-colors" href="#"><span
-                            class="material-symbols-outlined">rss_feed</span></a>
-                </div>
-            </div>
-            <div class="grid grid-cols-2 gap-8">
-                <div class="space-y-4">
-                    <h5 class="text-white font-bold text-sm uppercase">Shop</h5>
-                    <ul class="space-y-2">
-                        <li><a class="text-[#adaaaa] font-['Manrope'] text-sm hover:text-[#00e3fd] transition-colors"
-                                href="#">Protein</a></li>
-                        <li><a class="text-[#adaaaa] font-['Manrope'] text-sm hover:text-[#00e3fd] transition-colors"
-                                href="#">Pre-Workout</a></li>
-                        <li><a class="text-[#adaaaa] font-['Manrope'] text-sm hover:text-[#00e3fd] transition-colors"
-                                href="#">Merch</a></li>
-                    </ul>
-                </div>
-                <div class="space-y-4">
-                    <h5 class="text-white font-bold text-sm uppercase">Support</h5>
-                    <ul class="space-y-2">
-                        <li><a class="text-[#adaaaa] font-['Manrope'] text-sm hover:text-[#00e3fd] transition-colors"
-                                href="#">Contact</a></li>
-                        <li><a class="text-[#adaaaa] font-['Manrope'] text-sm hover:text-[#00e3fd] transition-colors"
-                                href="#">Shipping</a></li>
-                        <li><a class="text-[#adaaaa] font-['Manrope'] text-sm hover:text-[#00e3fd] transition-colors"
-                                href="#">Returns</a></li>
-                    </ul>
-                </div>
-            </div>
-            <div class="space-y-6">
-                <h5 class="text-white font-bold text-sm uppercase">Newsletter</h5>
-                <p class="text-[#adaaaa] text-xs font-['Manrope']">Get exclusive early access to drops and training
-                    guides.</p>
-                <div class="flex border-b border-white/10 pb-2">
-                    <input
-                        class="bg-transparent border-none focus:ring-0 text-sm text-white w-full placeholder:text-outline"
-                        placeholder="Your email" type="email" />
-                    <button class="text-[#cafd00] hover:translate-x-1 transition-transform">
-                        <span class="material-symbols-outlined">arrow_forward</span>
-                    </button>
-                </div>
-                <div class="text-[#adaaaa] font-['Manrope'] text-xs tracking-wide mt-auto">
-                    © 2024 TRENING AURA. KINETIC ENERGY RESERVED.
-                </div>
-            </div>
-        </div>
-    </footer>
-    <!-- FAB for Cart -->
-    <div class="fixed bottom-8 right-8 z-40 group">
-        <button id="cart-fab"
-            class="w-16 h-16 bg-primary text-on-primary-fixed rounded-full flex items-center justify-center shadow-[0_0_40px_rgba(202,253,0,0.15)] hover:scale-110 transition-all duration-300">
-            <span class="material-symbols-outlined text-2xl" data-weight="fill">shopping_cart</span>
-            <div id="cart-count"
-                class="absolute -top-1 -right-1 w-6 h-6 bg-secondary text-on-secondary rounded-full flex items-center justify-center text-[10px] font-black border-2 border-background">
-                0</div>
+        <button onclick="closeCartPanel()" class="w-10 h-10 rounded-full bg-surface-container flex items-center justify-center hover:bg-surface-container-high transition-colors">
+            <span class="material-symbols-outlined">close</span>
         </button>
     </div>
-    <!-- Cart Modal -->
-    <div id="cart-modal"
-        class="fixed inset-0 bg-black/50 backdrop-blur-sm z-50 hidden flex items-center justify-center">
-        <div class="bg-surface-container p-8 rounded-xl max-w-md w-full mx-4 max-h-[80vh] overflow-y-auto">
-            <div class="flex justify-between items-center mb-6">
-                <h2 class="text-2xl font-headline font-bold text-white uppercase tracking-tight">Your Cart</h2>
-                <button id="close-cart" class="text-on-surface-variant hover:text-white">
-                    <span class="material-symbols-outlined">close</span>
-                </button>
+    <div id="cart-panel-items" class="flex-1 overflow-y-auto p-6 space-y-4"></div>
+    <div class="p-6 border-t border-white/10 space-y-4">
+        <div class="flex justify-between items-center">
+            <span class="text-on-surface-variant font-bold">Total</span>
+            <span id="cart-panel-total" class="text-2xl font-headline font-black text-primary">$0.00</span>
+        </div>
+        <div class="flex gap-3">
+            <button onclick="clearCart()" class="flex-1 border border-error/40 text-error py-3 rounded-xl font-bold text-sm hover:bg-error/10 transition-colors">Clear</button>
+            <button onclick="checkout()" class="flex-1 shimmer-btn text-on-primary-fixed py-3 rounded-xl font-bold text-sm hover:scale-105 transition-transform">Checkout →</button>
+        </div>
+    </div>
+</div>
+
+<!-- Mobile overlay -->
+<div id="menu-overlay" class="fixed inset-0 bg-black/70 backdrop-blur-sm z-[90]" onclick="closeMobileMenu()"></div>
+
+<!-- Mobile drawer -->
+<div id="mobile-menu" class="fixed top-0 right-0 h-full w-72 bg-surface-container-lowest z-[100] flex flex-col border-l border-white/10 shadow-2xl">
+    <div class="flex items-center justify-between p-6 border-b border-white/10">
+        <span class="font-headline text-xl font-black italic text-primary">TRENING AURA</span>
+        <button onclick="closeMobileMenu()" class="w-10 h-10 rounded-full bg-surface-container flex items-center justify-center">
+            <span class="material-symbols-outlined">close</span>
+        </button>
+    </div>
+    <nav class="flex-1 overflow-y-auto p-6 space-y-2">
+        <a href="./index.html" class="flex items-center gap-3 px-4 py-3 rounded-xl hover:bg-surface-container text-on-surface-variant hover:text-white transition-all font-headline uppercase tracking-tight font-bold" onclick="closeMobileMenu()">
+            <span class="material-symbols-outlined text-sm">home</span> Home
+        </a>
+        <a href="./gym.html" class="flex items-center gap-3 px-4 py-3 rounded-xl hover:bg-surface-container text-on-surface-variant hover:text-white transition-all font-headline uppercase tracking-tight font-bold" onclick="closeMobileMenu()">
+            <span class="material-symbols-outlined text-sm">fitness_center</span> Gyms
+        </a>
+        <a href="./shop.html" class="flex items-center gap-3 px-4 py-3 rounded-xl bg-surface-container text-primary font-bold font-headline uppercase tracking-tight">
+            <span class="material-symbols-outlined text-sm">shopping_basket</span> Protein Shop
+        </a>
+        <a href="./treker.html" class="flex items-center gap-3 px-4 py-3 rounded-xl hover:bg-surface-container text-on-surface-variant hover:text-white transition-all font-headline uppercase tracking-tight font-bold" onclick="closeMobileMenu()">
+            <span class="material-symbols-outlined text-sm">monitoring</span> Tracker
+        </a>
+        <a href="./rewerds.html" class="flex items-center gap-3 px-4 py-3 rounded-xl hover:bg-surface-container text-on-surface-variant hover:text-white transition-all font-headline uppercase tracking-tight font-bold" onclick="closeMobileMenu()">
+            <span class="material-symbols-outlined text-sm">emoji_events</span> Rewards
+        </a>
+        <a href="./chat.html" class="flex items-center gap-3 px-4 py-3 rounded-xl hover:bg-surface-container text-on-surface-variant hover:text-white transition-all font-headline uppercase tracking-tight font-bold" onclick="closeMobileMenu()">
+            <span class="material-symbols-outlined text-sm">smart_toy</span> AI Chat
+        </a>
+    </nav>
+    <div class="p-6 border-t border-white/10">
+        <a href="./login.html" class="block w-full bg-primary-fixed text-on-primary-fixed py-3 rounded-xl font-bold uppercase tracking-widest text-center hover:scale-105 transition-transform font-headline">Log In</a>
+    </div>
+</div>
+
+<!-- NAV -->
+<nav class="fixed top-0 w-full z-50 bg-black/70 backdrop-blur-xl border-b border-white/5">
+    <div class="flex justify-between items-center px-4 sm:px-8 py-4 max-w-[1920px] mx-auto">
+        <a href="./index.html" class="text-xl sm:text-2xl font-black italic text-[#cafd00] tracking-tighter font-headline select-none">TRENING AURA</a>
+        <div class="hidden lg:flex gap-6 xl:gap-8 items-center">
+            <a class="nav-link-animated font-headline tracking-tight font-bold uppercase text-[#adaaaa] hover:text-white transition-colors text-sm" href="./index.html">Home</a>
+            <a class="nav-link-animated font-headline tracking-tight font-bold uppercase text-[#adaaaa] hover:text-white transition-colors text-sm" href="./gym.html">Gyms</a>
+            <a class="nav-link-animated font-headline tracking-tight font-bold uppercase text-[#cafd00] text-sm border-b-2 border-[#cafd00] pb-0.5" href="./shop.html">Protein Shop</a>
+            <a class="nav-link-animated font-headline tracking-tight font-bold uppercase text-[#adaaaa] hover:text-white transition-colors text-sm" href="./treker.html">Tracker</a>
+            <a class="nav-link-animated font-headline tracking-tight font-bold uppercase text-[#adaaaa] hover:text-white transition-colors text-sm" href="./rewerds.html">Rewards</a>
+            <a class="nav-link-animated font-headline tracking-tight font-bold uppercase text-[#adaaaa] hover:text-white transition-colors text-sm" href="./chat.html">AI Chat</a>
+        </div>
+        <div class="flex items-center gap-2 sm:gap-4">
+            <!-- Search -->
+            <div class="hidden md:flex items-center bg-surface-bright/40 backdrop-blur-md px-3 py-2 rounded-full gap-2 border border-white/5">
+                <span class="material-symbols-outlined text-on-surface-variant text-lg">search</span>
+                <input id="nav-search" class="bg-transparent border-none focus:ring-0 text-sm text-white w-36 placeholder:text-on-surface-variant/50" placeholder="Search..." type="text" oninput="filterProducts()" />
             </div>
-            <div id="cart-items" class="space-y-4 mb-6">
-                <!-- Items will be populated here -->
+            <div class="hidden sm:flex bg-surface-bright/40 backdrop-blur-md px-3 py-1.5 rounded-full gap-3 text-xs font-bold items-center border border-white/5">
+                <span class="text-[#adaaaa] hover:text-white cursor-pointer transition-colors">RU</span>
+                <span class="text-[#adaaaa] hover:text-white cursor-pointer transition-colors">UZ</span>
+                <span class="relative text-[#cafd00] cursor-pointer">EN<span class="absolute -bottom-1 left-1/2 -translate-x-1/2 w-1 h-1 bg-[#cafd00] rounded-full block"></span></span>
             </div>
-            <div class="border-t border-white/10 pt-4">
-                <div class="flex justify-between items-center mb-4">
-                    <span class="text-white font-bold">Total:</span>
-                    <span id="cart-total" class="text-secondary font-bold text-xl">$0.00</span>
-                </div>
-                <div class="flex gap-4">
-                    <button id="clear-cart"
-                        class="flex-1 bg-error text-on-error py-3 rounded-xl font-headline font-bold uppercase tracking-tight hover:bg-error/80 transition-colors">
-                        Clear Cart
-                    </button>
-                    <button id="checkout-btn"
-                        class="flex-1 bg-primary text-on-primary-fixed py-3 rounded-xl font-headline font-bold uppercase tracking-tight hover:bg-primary/80 transition-colors">
-                        Checkout
-                    </button>
-                </div>
+            <button onclick="openCartPanel()" class="relative hidden sm:flex items-center gap-2 bg-surface-bright/40 backdrop-blur-md px-4 py-2 rounded-full border border-white/5 hover:border-primary/30 transition-colors">
+                <span class="material-symbols-outlined text-on-surface-variant text-lg">shopping_cart</span>
+                <span id="nav-cart-count" class="absolute -top-1.5 -right-1.5 w-5 h-5 bg-primary text-on-primary-fixed text-[10px] font-black rounded-full flex items-center justify-center hidden">0</span>
+            </button>
+            <a href="./login.html"><button class="hidden sm:block bg-[#cafd00] text-[#3a4a00] px-4 sm:px-6 py-2 rounded-xl font-bold uppercase tracking-wider text-sm hover:scale-105 transition-transform">Log In</button></a>
+            <button onclick="openMobileMenu()" class="lg:hidden w-10 h-10 rounded-xl bg-surface-container flex items-center justify-center hover:bg-surface-container-high transition-colors">
+                <span class="material-symbols-outlined">menu</span>
+            </button>
+        </div>
+    </div>
+</nav>
+
+<!-- PROMO TICKER -->
+<div class="fixed top-[72px] w-full z-40 bg-primary-fixed border-b border-primary-fixed overflow-hidden" style="height:36px;">
+    <div class="ticker-inner h-full items-center flex">
+        ${Array(8).fill(['🔥 FLASH SALE — 30% OFF WHEY THIS WEEK','⚡ FREE SHIPPING OVER $50','💊 NEW: OMEGA-3 STACK IN STOCK','🏆 AURA CERTIFIED QUALITY','🎁 BUY 2 GET 1 FREE ON AMINOS']).flat().map(t => `<span class="text-on-primary-fixed font-bold text-xs uppercase tracking-widest whitespace-nowrap px-10">${t}</span>`).join('')}
+    </div>
+</div>
+
+<!-- HERO -->
+<header class="relative pt-40 pb-14 px-5 sm:px-12 overflow-hidden">
+    <div class="absolute inset-0 pointer-events-none">
+        <div class="absolute top-0 right-0 w-[600px] h-[600px] bg-primary/3 blur-[160px] rounded-full -mr-64 -mt-32"></div>
+        <div class="absolute bottom-0 left-0 w-64 h-64 bg-secondary/5 blur-[80px] rounded-full"></div>
+    </div>
+    <div class="relative max-w-7xl mx-auto">
+        <span class="text-xs uppercase tracking-[0.3em] text-secondary/80 font-bold mb-3 block">Premium Supplements</span>
+        <h1 class="font-headline text-5xl sm:text-7xl md:text-8xl font-black uppercase tracking-tighter leading-[0.9] mb-6">
+            The Fuel <span class="text-primary" style="text-shadow:0 0 40px rgba(202,253,0,0.35)">Station</span>
+        </h1>
+        <p class="text-on-surface-variant text-lg max-w-xl mb-8">Science-backed supplements, lab-tested for purity. Every rep, every rep, every scoop — Aura certified.</p>
+        <!-- Stats row -->
+        <div class="flex flex-wrap gap-6">
+            <div class="flex items-center gap-2">
+                <span class="material-symbols-outlined text-primary">verified</span>
+                <span class="text-sm font-bold text-on-surface-variant">Lab Certified</span>
+            </div>
+            <div class="flex items-center gap-2">
+                <span class="material-symbols-outlined text-secondary">local_shipping</span>
+                <span class="text-sm font-bold text-on-surface-variant">Free Shipping $50+</span>
+            </div>
+            <div class="flex items-center gap-2">
+                <span class="material-symbols-outlined text-error">favorite</span>
+                <span class="text-sm font-bold text-on-surface-variant">12,500+ Happy Athletes</span>
             </div>
         </div>
     </div>
-    <script>
-        // =======================
-        // 🌍 LANGUAGE SYSTEM
-        // =======================
-        const translations = {
-            en: {
-                title: "Transform Your Body With Trening Aura",
-                search: "Find gyms near you",
-            },
-            ru: {
-                title: "Трансформируй своё тело с Trening Aura",
-                search: "Найди спортзал рядом",
-            },
-            uz: {
-                title: "Trening Aura bilan tanangizni o'zgartiring",
-                search: "Yaqin sport zalni toping",
-            }
-        };
+</header>
 
-        const langButtons = document.querySelectorAll("[class*='cursor-pointer']");
-        const title = document.querySelector("h1");
-        const searchInput = document.querySelector("input");
+<!-- MAIN CONTENT -->
+<main class="px-5 sm:px-12 pb-32 max-w-[1920px] mx-auto">
+    <div class="flex flex-col lg:flex-row gap-10">
 
-        langButtons.forEach(btn => {
-            btn.addEventListener("click", () => {
-                const lang = btn.innerText.toLowerCase();
-                if (translations[lang]) {
-                    title.innerHTML = translations[lang].title;
-                    searchInput.placeholder = translations[lang].search;
-                }
-            });
-        });
-
-        // =======================
-        // 🔍 SEARCH FUNCTION
-        // =======================
-        const searchBtn = document.querySelector("button");
-        searchBtn.addEventListener("click", () => {
-            const value = searchInput.value;
-            if (!value) {
-                alert("Введите что искать!");
-                return;
-            }
-            alert("Поиск: " + value);
-        });
-
-        // =======================
-        // 🏋️ QUICK BUTTONS
-        // =======================
-        document.querySelectorAll("button").forEach(btn => {
-            if (btn.innerText.includes("Gyms")) {
-                btn.onclick = () => alert("Переход к залам 💪");
-            }
-            if (btn.innerText.includes("Protein")) {
-                btn.onclick = () => alert("Магазин протеина 🥤");
-            }
-            if (btn.innerText.includes("Calories")) {
-                btn.onclick = () => alert("Трекер калорий 📊");
-            }
-        });
-
-        // =======================
-        // 🌙 DARK / LIGHT MODE
-        // =======================
-        const toggleBtn = document.querySelector("[data-icon='language']");
-        if (toggleBtn) {
-            toggleBtn.addEventListener("click", () => {
-                document.documentElement.classList.toggle("dark");
-            });
-        }
-
-        // =======================
-        // 📅 BOOK SESSION
-        // =======================
-        document.querySelectorAll("button").forEach(btn => {
-            if (btn.innerText.includes("Book")) {
-                btn.addEventListener("click", () => {
-                    alert("Сессия забронирована ✅");
-                });
-            }
-        });
-
-        // =======================
-        // 🛒 Cart (Add to cart increments qty)
-        // =======================
-        let cart = JSON.parse(localStorage.getItem('cart') || '{}');
-
-        function updateCartCount() {
-            const countEl = document.getElementById('cart-count');
-            const total = Object.values(cart).reduce((s, it) => s + (it.qty || 0), 0);
-            if (countEl) countEl.textContent = total;
-        }
-
-        function updateCartModal() {
-            const cartItemsEl = document.getElementById('cart-items');
-            const cartTotalEl = document.getElementById('cart-total');
-            let totalPrice = 0;
-            let html = '';
-            for (const [title, item] of Object.entries(cart)) {
-                const itemTotal = item.price * item.qty;
-                totalPrice += itemTotal;
-                html += `
-            <div class="flex justify-between items-center">
+        <!-- SIDEBAR -->
+        <aside class="w-full lg:w-72 flex-shrink-0">
+            <div class="sticky top-28 space-y-8">
+                <!-- Category filters -->
                 <div>
-                    <h4 class="text-white font-bold">${title}</h4>
-                    <p class="text-on-surface-variant text-sm">Qty: ${item.qty} x $${item.price.toFixed(2)}</p>
+                    <h3 class="font-headline text-sm font-bold uppercase tracking-widest text-on-surface-variant mb-4">Category</h3>
+                    <div class="space-y-2">
+                        <button onclick="setFilter('all')" class="filter-btn active w-full text-left px-4 py-2.5 rounded-xl text-sm font-bold uppercase tracking-wider" data-cat="all">All Products</button>
+                        <button onclick="setFilter('whey')" class="filter-btn w-full text-left px-4 py-2.5 rounded-xl bg-surface-container-high text-on-surface-variant hover:text-white text-sm font-bold uppercase tracking-wider transition-colors" data-cat="whey">Whey Protein</button>
+                        <button onclick="setFilter('preworkout')" class="filter-btn w-full text-left px-4 py-2.5 rounded-xl bg-surface-container-high text-on-surface-variant hover:text-white text-sm font-bold uppercase tracking-wider transition-colors" data-cat="preworkout">Pre-Workout</button>
+                        <button onclick="setFilter('vitamins')" class="filter-btn w-full text-left px-4 py-2.5 rounded-xl bg-surface-container-high text-on-surface-variant hover:text-white text-sm font-bold uppercase tracking-wider transition-colors" data-cat="vitamins">Vitamins</button>
+                        <button onclick="setFilter('amino')" class="filter-btn w-full text-left px-4 py-2.5 rounded-xl bg-surface-container-high text-on-surface-variant hover:text-white text-sm font-bold uppercase tracking-wider transition-colors" data-cat="amino">Amino Acids</button>
+                        <button onclick="setFilter('creatine')" class="filter-btn w-full text-left px-4 py-2.5 rounded-xl bg-surface-container-high text-on-surface-variant hover:text-white text-sm font-bold uppercase tracking-wider transition-colors" data-cat="creatine">Creatine</button>
+                        <button onclick="setFilter('casein')" class="filter-btn w-full text-left px-4 py-2.5 rounded-xl bg-surface-container-high text-on-surface-variant hover:text-white text-sm font-bold uppercase tracking-wider transition-colors" data-cat="casein">Casein</button>
+                    </div>
                 </div>
-                <span class="text-secondary font-bold">$${itemTotal.toFixed(2)}</span>
+
+                <!-- Goal filter -->
+                <div>
+                    <h3 class="font-headline text-sm font-bold uppercase tracking-widest text-on-surface-variant mb-4">Goal</h3>
+                    <div class="space-y-3">
+                        <label class="flex items-center group cursor-pointer">
+                            <input type="checkbox" class="hidden peer" onchange="filterProducts()"/>
+                            <div class="w-5 h-5 border-2 border-outline-variant rounded mr-3 peer-checked:bg-primary peer-checked:border-primary transition-all flex items-center justify-center">
+                                <span class="material-symbols-outlined text-on-primary-fixed text-sm hidden peer-checked:block">check</span>
+                            </div>
+                            <span class="text-on-surface-variant group-hover:text-white transition-colors text-sm">Muscle Gain</span>
+                        </label>
+                        <label class="flex items-center group cursor-pointer">
+                            <input type="checkbox" class="hidden peer" onchange="filterProducts()"/>
+                            <div class="w-5 h-5 border-2 border-outline-variant rounded mr-3 peer-checked:bg-primary peer-checked:border-primary transition-all"></div>
+                            <span class="text-on-surface-variant group-hover:text-white transition-colors text-sm">Weight Loss</span>
+                        </label>
+                        <label class="flex items-center group cursor-pointer">
+                            <input type="checkbox" class="hidden peer" onchange="filterProducts()"/>
+                            <div class="w-5 h-5 border-2 border-outline-variant rounded mr-3 peer-checked:bg-primary peer-checked:border-primary transition-all"></div>
+                            <span class="text-on-surface-variant group-hover:text-white transition-colors text-sm">Energy & Focus</span>
+                        </label>
+                    </div>
+                </div>
+
+                <!-- Price range -->
+                <div>
+                    <h3 class="font-headline text-sm font-bold uppercase tracking-widest text-on-surface-variant mb-4">Price Range</h3>
+                    <div class="flex gap-3 items-center">
+                        <input id="price-min" type="number" min="0" max="200" value="0" placeholder="Min" class="w-full bg-surface-container-high border border-white/10 rounded-xl px-3 py-2 text-sm text-white placeholder:text-on-surface-variant/50 focus:outline-none focus:border-primary/40" oninput="filterProducts()"/>
+                        <span class="text-on-surface-variant font-bold">—</span>
+                        <input id="price-max" type="number" min="0" max="200" value="200" placeholder="Max" class="w-full bg-surface-container-high border border-white/10 rounded-xl px-3 py-2 text-sm text-white placeholder:text-on-surface-variant/50 focus:outline-none focus:border-primary/40" oninput="filterProducts()"/>
+                    </div>
+                </div>
+
+                <!-- Sort -->
+                <div>
+                    <h3 class="font-headline text-sm font-bold uppercase tracking-widest text-on-surface-variant mb-4">Sort By</h3>
+                    <div class="relative">
+                        <select id="sort-select" onchange="filterProducts()" class="w-full bg-surface-container-high border border-white/10 rounded-xl px-4 py-3 text-sm text-white focus:outline-none focus:border-primary/40 appearance-none cursor-pointer">
+                            <option value="default">Featured</option>
+                            <option value="price-asc">Price: Low to High</option>
+                            <option value="price-desc">Price: High to Low</option>
+                            <option value="rating">Top Rated</option>
+                            <option value="name">Name A–Z</option>
+                        </select>
+                        <span class="material-symbols-outlined absolute right-3 top-1/2 -translate-y-1/2 text-on-surface-variant pointer-events-none">expand_more</span>
+                    </div>
+                </div>
+
+                <!-- Aura certified badge -->
+                <div class="gradient-border rounded-2xl p-5">
+                    <span class="material-symbols-outlined text-primary text-3xl mb-3 block fill-icon">verified</span>
+                    <h4 class="text-white font-headline font-bold mb-2">Aura Certified</h4>
+                    <p class="text-xs text-on-surface-variant leading-relaxed">Every product is lab-tested for purity, potency, and zero banned substances.</p>
+                </div>
             </div>
-        `;
-            }
-            if (!html) {
-                html = '<p class="text-on-surface-variant">Your cart is empty</p>';
-            }
-            cartItemsEl.innerHTML = html;
-            cartTotalEl.textContent = `$${totalPrice.toFixed(2)}`;
-        }
+        </aside>
 
-        document.querySelectorAll('.group button').forEach(btn => {
-            btn.addEventListener('click', (e) => {
-                e.stopPropagation();
-                const card = btn.closest('.group');
-                if (!card) return;
-                const titleEl = card.querySelector('h3');
-                const priceEl = card.querySelector('.p-8 .flex span');
-                const title = titleEl ? titleEl.innerText.trim() : 'Item';
-                const price = priceEl ? parseFloat(priceEl.innerText.replace('$', '')) || 0 : 0;
-                if (!cart[title]) cart[title] = { price: price, qty: 0 };
-                cart[title].qty += 1;
-                localStorage.setItem('cart', JSON.stringify(cart));
-                updateCartCount();
-            });
-        });
+        <!-- PRODUCT GRID -->
+        <section class="flex-grow">
+            <!-- Toolbar -->
+            <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4 mb-10 reveal">
+                <div>
+                    <span class="text-xs uppercase tracking-[0.3em] text-secondary/80 font-bold mb-1 block">Shop Now</span>
+                    <p class="text-on-surface-variant text-sm">Showing <span id="product-count" class="text-white font-bold">12</span> products</p>
+                </div>
+                <!-- View toggle -->
+                <div class="flex items-center gap-3">
+                    <button onclick="setView('grid')" id="view-grid" class="w-9 h-9 rounded-lg bg-primary text-on-primary-fixed flex items-center justify-center">
+                        <span class="material-symbols-outlined text-lg">grid_view</span>
+                    </button>
+                    <button onclick="setView('list')" id="view-list" class="w-9 h-9 rounded-lg bg-surface-container-high text-on-surface-variant flex items-center justify-center hover:text-white transition-colors">
+                        <span class="material-symbols-outlined text-lg">view_list</span>
+                    </button>
+                </div>
+            </div>
 
-        const cartFab = document.getElementById('cart-fab');
-        const cartModal = document.getElementById('cart-modal');
-        const closeCart = document.getElementById('close-cart');
-        const clearCartBtn = document.getElementById('clear-cart');
+            <!-- Flash deal banner -->
+            <div class="gradient-border rounded-2xl p-5 mb-8 flex items-center gap-4 reveal">
+                <div class="w-12 h-12 bg-error/10 rounded-xl flex items-center justify-center flex-shrink-0">
+                    <span class="material-symbols-outlined text-error text-2xl">local_fire_department</span>
+                </div>
+                <div class="flex-1">
+                    <p class="text-xs uppercase tracking-widest text-error font-bold mb-0.5">Flash Deal Ends In</p>
+                    <p class="font-headline font-black text-white text-lg" id="countdown">02:47:33</p>
+                </div>
+                <span class="text-primary font-headline font-black text-2xl">30% OFF</span>
+                <button onclick="setFilter('whey')" class="bg-primary-fixed text-on-primary-fixed px-4 py-2 rounded-xl font-bold text-sm hover:scale-105 transition-transform flex-shrink-0">Shop Whey</button>
+            </div>
 
-        if (cartFab) {
-            cartFab.addEventListener('click', (e) => {
-                e.stopPropagation();
-                updateCartModal();
-                cartModal.classList.remove('hidden');
-            });
-        }
+            <!-- Grid -->
+            <div id="product-grid" class="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-3 gap-6 sm:gap-8"></div>
 
-        if (closeCart) {
-            closeCart.addEventListener('click', () => {
-                cartModal.classList.add('hidden');
-            });
-        }
+            <!-- Empty state -->
+            <div id="empty-state" class="hidden text-center py-24 text-on-surface-variant">
+                <span class="material-symbols-outlined text-5xl mb-4 block">search_off</span>
+                <p class="font-headline font-bold text-xl mb-2">No products found</p>
+                <p class="text-sm mb-6">Try adjusting your filters or search term</p>
+                <button onclick="resetFilters()" class="bg-primary-fixed text-on-primary-fixed px-6 py-3 rounded-xl font-bold hover:scale-105 transition-transform">Reset Filters</button>
+            </div>
+        </section>
+    </div>
+</main>
 
-        if (clearCartBtn) {
-            clearCartBtn.addEventListener('click', () => {
-                cart = {};
-                localStorage.setItem('cart', JSON.stringify(cart));
-                updateCartCount();
-                updateCartModal();
-            });
-        }
+<!-- FOOTER -->
+<footer class="bg-black border-t border-white/5 mt-16">
+    <div class="grid grid-cols-2 sm:grid-cols-3 gap-8 px-5 sm:px-12 py-10 max-w-[1920px] mx-auto">
+        <div class="col-span-2 sm:col-span-1">
+            <div class="text-xl font-black italic text-[#cafd00] mb-4 font-headline tracking-tighter uppercase">TRENING AURA</div>
+            <p class="text-on-surface-variant text-sm leading-relaxed max-w-xs">Engineering human potential through science-backed nutrition and relentless kinetic energy.</p>
+        </div>
+        <div class="grid grid-cols-2 gap-8 col-span-2">
+            <div>
+                <h5 class="text-white font-bold mb-4 uppercase text-xs tracking-widest">Shop</h5>
+                <ul class="space-y-2 text-sm">
+                    <li><a href="#" onclick="setFilter('whey');return false;" class="text-on-surface-variant hover:text-primary transition-colors">Protein</a></li>
+                    <li><a href="#" onclick="setFilter('preworkout');return false;" class="text-on-surface-variant hover:text-primary transition-colors">Pre-Workout</a></li>
+                    <li><a href="#" onclick="setFilter('vitamins');return false;" class="text-on-surface-variant hover:text-primary transition-colors">Vitamins</a></li>
+                    <li><a href="#" onclick="setFilter('amino');return false;" class="text-on-surface-variant hover:text-primary transition-colors">Amino Acids</a></li>
+                </ul>
+            </div>
+            <div>
+                <h5 class="text-white font-bold mb-4 uppercase text-xs tracking-widest">Support</h5>
+                <ul class="space-y-2 text-sm">
+                    <li><a href="./index.html" class="text-on-surface-variant hover:text-secondary transition-colors">Home</a></li>
+                    <li><a href="./gym.html" class="text-on-surface-variant hover:text-secondary transition-colors">Gyms</a></li>
+                    <li><a href="./chat.html" class="text-on-surface-variant hover:text-secondary transition-colors">AI Chat</a></li>
+                    <li><a href="./login.html" class="text-on-surface-variant hover:text-secondary transition-colors">Log In</a></li>
+                </ul>
+            </div>
+        </div>
+    </div>
+    <div class="border-t border-white/5 px-5 sm:px-12 py-5 flex flex-col sm:flex-row items-center justify-between gap-3">
+        <p class="text-on-surface-variant text-xs tracking-[0.2em] uppercase">© 2026 TRENING AURA. KINETIC ENERGY RESERVED.</p>
+    </div>
+</footer>
 
-        const checkoutBtn = document.getElementById('checkout-btn');
-        if (checkoutBtn) {
-            checkoutBtn.addEventListener('click', () => {
-                // Проверяем, есть ли товары в корзине
-                if (Object.keys(cart).length === 0) {
-                    alert('Ваша корзина пуста!');
-                    return;
-                }
+<!-- FAB Cart -->
+<button onclick="openCartPanel()" class="fab-pulse fixed bottom-6 right-6 w-14 sm:w-16 h-14 sm:h-16 bg-primary text-on-primary-fixed rounded-full shadow-[0_0_50px_rgba(202,253,0,0.3)] flex items-center justify-center group z-40 hover:scale-110 transition-transform">
+    <span class="material-symbols-outlined text-2xl font-bold">shopping_cart</span>
+    <span id="fab-cart-count" class="absolute -top-1 -right-1 w-5 h-5 bg-error text-white text-[10px] font-black rounded-full flex items-center justify-center hidden">0</span>
+    <span class="absolute right-16 sm:right-20 bg-surface-container-highest px-3 py-2 rounded-xl text-white text-xs font-bold opacity-0 group-hover:opacity-100 transition-opacity pointer-events-none whitespace-nowrap uppercase tracking-widest">My Cart</span>
+</button>
 
-                // Сохраняем корзину в localStorage для oplata.html
-                localStorage.setItem('checkoutCart', JSON.stringify(cart));
+<!-- Mobile bottom nav -->
+<div class="lg:hidden fixed bottom-0 left-0 right-0 z-30 bg-black/90 backdrop-blur-xl border-t border-white/10 flex items-center justify-around px-4 py-3">
+    <a href="./index.html" class="flex flex-col items-center gap-0.5 text-on-surface-variant hover:text-white transition-colors">
+        <span class="material-symbols-outlined text-xl">home</span>
+        <span class="text-[10px] font-bold uppercase tracking-wider">Home</span>
+    </a>
+    <a href="./gym.html" class="flex flex-col items-center gap-0.5 text-on-surface-variant hover:text-white transition-colors">
+        <span class="material-symbols-outlined text-xl">fitness_center</span>
+        <span class="text-[10px] font-bold uppercase tracking-wider">Gyms</span>
+    </a>
+    <a href="./treker.html" class="flex flex-col items-center gap-0.5 text-on-surface-variant hover:text-white transition-colors">
+        <span class="material-symbols-outlined text-xl">monitoring</span>
+        <span class="text-[10px] font-bold uppercase tracking-wider">Track</span>
+    </a>
+    <a href="./shop.html" class="flex flex-col items-center gap-0.5 text-primary">
+        <span class="material-symbols-outlined text-xl">shopping_basket</span>
+        <span class="text-[10px] font-bold uppercase tracking-wider">Shop</span>
+    </a>
+    <button onclick="openCartPanel()" class="flex flex-col items-center gap-0.5 text-on-surface-variant hover:text-primary transition-colors relative">
+        <span class="material-symbols-outlined text-xl">shopping_cart</span>
+        <span class="text-[10px] font-bold uppercase tracking-wider">Cart</span>
+        <span id="mob-cart-badge" class="absolute -top-0.5 right-0 w-4 h-4 bg-primary text-on-primary-fixed text-[8px] font-black rounded-full flex items-center justify-center hidden">0</span>
+    </button>
+</div>
 
-                // Перенаправляем на страницу оплаты
-                window.location.href = './oplata.html';
-            });
-        }
-
-        // Close modal when clicking outside
-        cartModal.addEventListener('click', (e) => {
-            if (e.target === cartModal) {
-                cartModal.classList.add('hidden');
-            }
-        });
-
-        updateCartCount();
-const categoryButtons = document.querySelectorAll(".category-btn");
-const products = document.querySelectorAll(".group[data-category]");
-
-categoryButtons.forEach(btn => {
-    btn.addEventListener("click", () => {
-        const filter = btn.dataset.filter;
-
-        products.forEach(card => {
-            const category = card.dataset.category;
-
-            if (filter === "all" || category === filter) {
-                card.style.display = "block";
-            } else {
-                card.style.display = "none";
-            }
-        });
-
-        categoryButtons.forEach(b => {
-            b.classList.remove("text-primary");
-        });
-
-        btn.classList.add("text-primary");
-    });
+<script>
+// ===== SCROLL PROGRESS =====
+window.addEventListener('scroll', () => {
+    const el = document.getElementById('scroll-progress');
+    const pct = (window.scrollY / (document.body.scrollHeight - window.innerHeight)) * 100;
+    if (el) el.style.width = pct + '%';
 });
-    </script>
-</body>
 
+// ===== REVEAL =====
+const revealObserver = new IntersectionObserver((entries) => {
+    entries.forEach(e => { if(e.isIntersecting) e.target.classList.add('visible'); });
+}, { threshold: 0.1 });
+document.querySelectorAll('.reveal').forEach(el => revealObserver.observe(el));
+
+// ===== TOAST =====
+let toastTimer;
+function showToast(msg, icon='check_circle') {
+    const t = document.getElementById('toast');
+    document.getElementById('toast-msg').textContent = msg;
+    document.getElementById('toast-icon').textContent = icon;
+    t.classList.add('show');
+    clearTimeout(toastTimer);
+    toastTimer = setTimeout(() => t.classList.remove('show'), 3000);
+}
+
+// ===== MOBILE MENU =====
+function openMobileMenu() {
+    document.getElementById('mobile-menu').classList.add('open');
+    document.getElementById('menu-overlay').classList.add('open');
+    document.body.style.overflow = 'hidden';
+}
+function closeMobileMenu() {
+    document.getElementById('mobile-menu').classList.remove('open');
+    document.getElementById('menu-overlay').classList.remove('open');
+    document.body.style.overflow = '';
+}
+
+// ===== PRODUCTS DATA =====
+const products = [
+    { id:1, name:'AURA WHEY ISOLATE', price:64, category:'whey', rating:4.9, badge:'Bestseller', badgeColor:'bg-primary text-on-primary-fixed', img:'https://lh3.googleusercontent.com/aida-public/AB6AXuBitwiDAh6DNLymrovNbg8LHQXHUxA7-UPc1gsOw5fcNSu2vl5tYokzjLX9SWsZD6ZPURP32FGdRX1InWKS-RMZMVFNzm83uZWKYRsqkd1nZcbJfw-VgCRyPgypgR9dn5B_w3Coo0EFdal8E5Flai4Uc9jcgu5lMz7eJjFDwz7F0HnN37sVF4hbS87zsxIvOeODPXPw_Lis7TO8ymzadpEqiiHKmmXP9n12i9cF_sD2vjFUiXRZUr70qsuCjuRL9HpLHN1Y-GyEycS0', desc:'Ultra-pure protein for lean muscle recovery. 25g protein per serving.', macros:'25g protein • 120 kcal • 2g fat' },
+    { id:2, name:'KINETIC PRE-V2', price:49, category:'preworkout', rating:4.7, badge:'Top Seller', badgeColor:'bg-error text-white', img:'https://lh3.googleusercontent.com/aida-public/AB6AXuAyCkBnApaeEof7mJd9ESscUW_GNi7SiVaunmCFOxAAYoL6385hjZWnPARtjiYiPBAYcMXgInueahMDJfbH8G4Ia-CKYrqkInAwzHl1pYep1-5CzVRS2vcn25QDku0bqXLhh7fgCA5LXfCrc4iLMDKCuHXDYhOxPsJx2ZkYc8qPSle_hD2tYYM_i5bpX6Z5RoL9i7sUF8XvI92hyLjYwmzsJyXZNuxoo6UDudZwo1HC8wCvCZgG4UfbdSJLvDPodGfF0yY-Hk_g08Xc', desc:'High-stimulant energy and focus complex for peak performance.', macros:'200mg caffeine • 5g citrulline • 0 kcal' },
+    { id:3, name:'VITA-MAX 365', price:32, category:'vitamins', rating:4.8, badge:'New Arrival', badgeColor:'bg-secondary text-on-secondary', img:'https://lh3.googleusercontent.com/aida-public/AB6AXuB2-ik5S1q4Lb_x1d15OyXI0HZYP_vxaaDJsKNlPf90iJB9T4yCPA4O3VW3XHhnhr1VlDdkj2GrdAMCEEV8DOQF__ndViq8tvNNzmScbS_VxzYvpQU5oTq3QGhQr3rN4mVH656sVMIzqzle-BmoF4FUjO_vqsKJdcg7bHzNLRsH8CypBVtX9UwCGth1Lh6heBqRazoSkbNkH8qWi8Dvd_8OnqqfadGSaCm7E4kYz0feJuJMmRWLm1SenvwhI2efzelMmKNpTr22TkOG', desc:'Complete multivitamin spectrum optimized for active lifestyles.', macros:'30 vitamins & minerals • 0 kcal' },
+    { id:4, name:'AMINO RECOVER', price:38, category:'amino', rating:4.6, badge:null, badgeColor:'', img:'https://lh3.googleusercontent.com/aida-public/AB6AXuBOxNqCW6mSGn52Osd8lsudFWmPaTGKVFo__6Aa0jzUNm759S1JjBa5JOL5Hn9M2oGifZEiZio1cE_w8NNCJGnlFHWHEETD3A95XW6GW_efTURZZMQPRWXMUsNc_6xiheQdJvUAOEweMCNxN7yGbtZxXot-AfpwE3dAGiSNRpBkdkvgcb__IgqfoF8JFPtwKPlsC-UeQbSMxPuiCyxt3TDVnbetjI87ONemDb3aB4ICAG92w3LTExlyS-wSAwaSFSXczwkvm1l4_uax', desc:'BCAA 2:1:1 ratio for endurance and intra-workout hydration.', macros:'5g BCAAs per serve • 15 kcal' },
+    { id:5, name:'CASEIN SLEEP', price:58, category:'casein', rating:4.9, badge:'Pro Pick', badgeColor:'bg-surface-container-highest text-primary border border-primary/30', img:'https://lh3.googleusercontent.com/aida-public/AB6AXuC539yy_euPkRKmrZH275knVzkgKsC0MpBT8JgpTHw-ayPudzSvyQFZV-USl8au7OthOWaYzFhTceu41LWxyZqRJPmnNHlEiKHVzFMQQtekxa0xtKOyikUjEHQn7-QJY6ZN217dJvYXipQ-wDZsvBznJQUZ7IlhO38Fobu0aekirzLlmDgNaEgH-OXzDRULhSdTpv_SVHQrM4VvjNm9qf_ETs5OOygf5b0MfxLON9M58U2DNvc0Yt-gllxnUbacPCGnsUdvtUBzlwW3', desc:'Slow-release protein for overnight muscle repair and deep recovery.', macros:'24g protein • 130 kcal • slow-digest' },
+    { id:6, name:'PURE CREATINE', price:28, category:'creatine', rating:4.8, badge:null, badgeColor:'', img:'https://lh3.googleusercontent.com/aida-public/AB6AXuBZrrIT-_F2zmFEMlfJTb5r5YPIX0hq9kqB_HOGGZ-4ZH9_y0Gf7xj515CoDnQIST_W21nzc_Ab5tpzo_t6vMakPKxOejynt-yE7FHhExdDc1yZHEsZcvfFSeECinNsQ6zfclKp8gzG73wk15DGKuxRVu_gJLPy2xoGiZCdQDT4o6Xtvpgis46SwivTxr5x4GrKiGhGGwq4u9m1W38N3tm7i-KoOgoXjDiTP05lsUGfP9tcZ9cRQAF5M_fV5tggoV4GsTXsINy96OB3', desc:'Micro-filtered creatine monohydrate for strength and explosive power.', macros:'5g creatine per serving • 0 kcal' },
+    { id:7, name:'PLANT PROTEIN', price:54, category:'whey', rating:4.5, badge:'Vegan', badgeColor:'bg-secondary/20 text-secondary border border-secondary/30', img:'https://picsum.photos/seed/plant/400/500', desc:'100% plant-based protein blend from pea, hemp & rice. Dairy-free.', macros:'22g protein • 110 kcal • plant-based' },
+    { id:8, name:'OMEGA-3 STACK', price:36, category:'vitamins', rating:4.7, badge:'New', badgeColor:'bg-secondary text-on-secondary', img:'https://picsum.photos/seed/omega/400/500', desc:'Ultra-pure fish oil with EPA & DHA for joint health and recovery.', macros:'1000mg EPA/DHA • anti-inflammatory' },
+    { id:9, name:'MASS GAINER XL', price:72, category:'whey', rating:4.4, badge:'Bulk Deal', badgeColor:'bg-error/20 text-error border border-error/30', img:'https://picsum.photos/seed/mass/400/500', desc:'High-calorie mass gainer with 50g protein and complex carbs.', macros:'50g protein • 1250 kcal • bulking' },
+    { id:10, name:'L-GLUTAMINE', price:26, category:'amino', rating:4.6, badge:null, badgeColor:'', img:'https://picsum.photos/seed/gluta/400/500', desc:'Pure L-Glutamine powder for gut health and post-workout recovery.', macros:'5g glutamine per serve • 0 kcal' },
+    { id:11, name:'ELECTROLYTE TABS', price:18, category:'vitamins', rating:4.8, badge:'Hydration', badgeColor:'bg-primary/10 text-primary border border-primary/30', img:'https://picsum.photos/seed/electro/400/500', desc:'Effervescent electrolyte tablets for hydration and endurance.', macros:'Na, K, Mg, Ca • 5 kcal per tab' },
+    { id:12, name:'POWER PRE-WORKOUT', price:55, category:'preworkout', rating:4.5, badge:null, badgeColor:'', img:'https://picsum.photos/seed/power/400/500', desc:'Maximum strength pre-workout with beta-alanine and creatine blend.', macros:'300mg caffeine • beta-alanine • creatine' },
+];
+
+// ===== CART =====
+let cart = JSON.parse(localStorage.getItem('auraShopCart') || '{}');
+let wishlist = new Set(JSON.parse(localStorage.getItem('auraWishlist') || '[]'));
+let currentFilter = 'all';
+let currentView = 'grid';
+
+function saveCart() { localStorage.setItem('auraShopCart', JSON.stringify(cart)); }
+function saveWishlist() { localStorage.setItem('auraWishlist', JSON.stringify([...wishlist])); }
+
+function getTotalCount() { return Object.values(cart).reduce((s, i) => s + i.qty, 0); }
+function getTotalPrice() { return Object.values(cart).reduce((s, i) => s + i.price * i.qty, 0); }
+
+function updateCartBadges() {
+    const count = getTotalCount();
+    const countStr = count.toString();
+    ['nav-cart-count','fab-cart-count','mob-cart-badge','cart-panel-count'].forEach(id => {
+        const el = document.getElementById(id);
+        if (!el) return;
+        el.textContent = countStr;
+        if (count > 0) { el.classList.remove('hidden'); el.classList.add('flex'); }
+        else { el.classList.add('hidden'); el.classList.remove('flex'); }
+    });
+}
+
+function addToCart(id) {
+    const product = products.find(p => p.id === id);
+    if (!product) return;
+    if (!cart[id]) cart[id] = { name: product.name, price: product.price, qty: 0 };
+    cart[id].qty++;
+    saveCart();
+    updateCartBadges();
+    showToast(`${product.name} added to cart! 🛒`, 'shopping_cart');
+}
+
+function removeFromCart(id) {
+    delete cart[id];
+    saveCart();
+    updateCartBadges();
+    updateCartPanel();
+}
+
+function changeQty(id, delta) {
+    if (!cart[id]) return;
+    cart[id].qty += delta;
+    if (cart[id].qty <= 0) { delete cart[id]; }
+    saveCart();
+    updateCartBadges();
+    updateCartPanel();
+}
+
+function clearCart() {
+    cart = {};
+    saveCart();
+    updateCartBadges();
+    updateCartPanel();
+    showToast('Cart cleared', 'delete');
+}
+
+function checkout() {
+    if (!getTotalCount()) { showToast('Your cart is empty!', 'warning'); return; }
+    localStorage.setItem('checkoutCart', JSON.stringify(cart));
+    window.location.href = './oplata.html';
+}
+
+function openCartPanel() {
+    document.getElementById('cart-panel').classList.add('open');
+    document.body.style.overflow = 'hidden';
+    updateCartPanel();
+}
+function closeCartPanel() {
+    document.getElementById('cart-panel').classList.remove('open');
+    document.body.style.overflow = '';
+}
+
+function updateCartPanel() {
+    const itemsEl = document.getElementById('cart-panel-items');
+    const totalEl = document.getElementById('cart-panel-total');
+    document.getElementById('cart-panel-count').textContent = getTotalCount();
+    totalEl.textContent = `$${getTotalPrice().toFixed(2)}`;
+    if (!Object.keys(cart).length) {
+        itemsEl.innerHTML = `<div class="text-center py-16 text-on-surface-variant">
+            <span class="material-symbols-outlined text-4xl mb-3 block">shopping_cart</span>
+            <p class="font-bold">Your cart is empty</p>
+            <p class="text-xs mt-1">Add some products to get started</p>
+        </div>`;
+        return;
+    }
+    itemsEl.innerHTML = Object.entries(cart).map(([id, item]) => `
+        <div class="flex items-center gap-4 bg-surface-container rounded-2xl p-4 border border-white/5">
+            <div class="w-12 h-12 bg-surface-container-high rounded-xl flex-shrink-0 overflow-hidden">
+                <img src="${products.find(p=>p.id==id)?.img || ''}" class="w-full h-full object-cover" alt="${item.name}"/>
+            </div>
+            <div class="flex-1 min-w-0">
+                <p class="font-headline font-bold text-xs uppercase truncate">${item.name}</p>
+                <p class="text-primary font-bold text-sm">$${item.price.toFixed(2)}</p>
+            </div>
+            <div class="flex items-center gap-2 flex-shrink-0">
+                <button onclick="changeQty(${id},-1)" class="w-7 h-7 rounded-full bg-surface-container-high flex items-center justify-center hover:bg-surface-container-highest text-white font-bold transition-colors">−</button>
+                <span class="font-bold text-sm w-5 text-center">${item.qty}</span>
+                <button onclick="changeQty(${id},1)" class="w-7 h-7 rounded-full bg-surface-container-high flex items-center justify-center hover:bg-surface-container-highest text-white font-bold transition-colors">+</button>
+                <button onclick="removeFromCart(${id})" class="w-7 h-7 rounded-full bg-error/10 flex items-center justify-center hover:bg-error/20 text-error transition-colors ml-1">
+                    <span class="material-symbols-outlined text-sm">close</span>
+                </button>
+            </div>
+        </div>
+    `).join('');
+}
+
+// ===== WISHLIST =====
+function toggleWishlist(id) {
+    if (wishlist.has(id)) {
+        wishlist.delete(id);
+        showToast('Removed from wishlist', 'heart_broken');
+    } else {
+        wishlist.add(id);
+        showToast('Added to wishlist ❤️', 'favorite');
+    }
+    saveWishlist();
+    renderProducts(getFilteredProducts());
+}
+
+// ===== PRODUCT MODAL =====
+function openProductModal(id) {
+    const p = products.find(x => x.id === id);
+    if (!p) return;
+    document.getElementById('modal-img').src = p.img;
+    document.getElementById('modal-img').alt = p.name;
+    document.getElementById('modal-badge').innerHTML = p.badge ? `<span class="px-3 py-1 rounded-full text-[10px] font-black uppercase tracking-wider ${p.badgeColor}">${p.badge}</span>` : '';
+    document.getElementById('modal-body').innerHTML = `
+        <div class="space-y-5">
+            <div class="flex justify-between items-start">
+                <h3 class="font-headline font-black text-2xl uppercase tracking-tight">${p.name}</h3>
+                <span class="text-2xl font-headline font-black text-primary">$${p.price.toFixed(2)}</span>
+            </div>
+            <div class="flex items-center gap-2">
+                ${Array(5).fill(0).map((_,i) => `<span class="material-symbols-outlined text-sm ${i < Math.floor(p.rating) ? 'text-primary fill-icon' : 'text-on-surface-variant'}">star</span>`).join('')}
+                <span class="text-xs text-on-surface-variant font-bold ml-1">${p.rating} / 5.0</span>
+            </div>
+            <p class="text-on-surface-variant text-sm leading-relaxed">${p.desc}</p>
+            <div class="bg-surface-container rounded-xl px-4 py-3 text-xs text-on-surface-variant font-bold uppercase tracking-wider">
+                📊 ${p.macros}
+            </div>
+            <div class="flex gap-3">
+                <button onclick="addToCart(${p.id}); closeModal();" class="flex-1 bg-primary-fixed text-on-primary-fixed py-3.5 rounded-xl font-bold hover:scale-105 transition-transform flex items-center justify-center gap-2">
+                    <span class="material-symbols-outlined text-lg">shopping_cart</span> Add to Cart
+                </button>
+                <button onclick="toggleWishlist(${p.id})" class="w-12 h-12 rounded-xl border border-outline-variant flex items-center justify-center hover:border-error/40 hover:text-error transition-colors ${wishlist.has(p.id) ? 'text-error' : 'text-on-surface-variant'}">
+                    <span class="material-symbols-outlined ${wishlist.has(p.id) ? 'fill-icon' : ''}">favorite</span>
+                </button>
+            </div>
+        </div>`;
+    document.getElementById('modal-overlay').classList.add('open');
+    document.body.style.overflow = 'hidden';
+}
+function closeModal() {
+    document.getElementById('modal-overlay').classList.remove('open');
+    document.body.style.overflow = '';
+}
+
+// ===== FILTERS =====
+function setFilter(cat) {
+    currentFilter = cat;
+    document.querySelectorAll('.filter-btn').forEach(b => {
+        b.classList.remove('active');
+        b.classList.add('bg-surface-container-high','text-on-surface-variant');
+    });
+    const active = document.querySelector(`[data-cat="${cat}"]`);
+    if (active) { active.classList.add('active'); active.classList.remove('bg-surface-container-high','text-on-surface-variant'); }
+    renderProducts(getFilteredProducts());
+}
+
+function getFilteredProducts() {
+    let data = currentFilter === 'all' ? [...products] : products.filter(p => p.category === currentFilter);
+    const q = (document.getElementById('nav-search')?.value || '').toLowerCase();
+    if (q) data = data.filter(p => p.name.toLowerCase().includes(q) || p.desc.toLowerCase().includes(q));
+    const minPrice = parseFloat(document.getElementById('price-min')?.value) || 0;
+    const maxPrice = parseFloat(document.getElementById('price-max')?.value) || 9999;
+    data = data.filter(p => p.price >= minPrice && p.price <= maxPrice);
+    const sort = document.getElementById('sort-select')?.value;
+    if (sort === 'price-asc') data.sort((a,b) => a.price - b.price);
+    if (sort === 'price-desc') data.sort((a,b) => b.price - a.price);
+    if (sort === 'rating') data.sort((a,b) => b.rating - a.rating);
+    if (sort === 'name') data.sort((a,b) => a.name.localeCompare(b.name));
+    return data;
+}
+
+function filterProducts() { renderProducts(getFilteredProducts()); }
+function resetFilters() {
+    currentFilter = 'all';
+    document.getElementById('price-min').value = 0;
+    document.getElementById('price-max').value = 200;
+    document.getElementById('sort-select').value = 'default';
+    document.querySelectorAll('.filter-btn').forEach(b => {
+        b.classList.remove('active');
+        b.classList.add('bg-surface-container-high','text-on-surface-variant');
+    });
+    document.querySelector('[data-cat="all"]')?.classList.add('active');
+    renderProducts(products);
+}
+
+function setView(type) {
+    currentView = type;
+    document.getElementById('view-grid').className = `w-9 h-9 rounded-lg flex items-center justify-center ${type === 'grid' ? 'bg-primary text-on-primary-fixed' : 'bg-surface-container-high text-on-surface-variant'}`;
+    document.getElementById('view-list').className = `w-9 h-9 rounded-lg flex items-center justify-center ${type === 'list' ? 'bg-primary text-on-primary-fixed' : 'bg-surface-container-high text-on-surface-variant'}`;
+    renderProducts(getFilteredProducts());
+}
+
+// ===== RENDER PRODUCTS =====
+function renderProducts(data) {
+    const grid = document.getElementById('product-grid');
+    const empty = document.getElementById('empty-state');
+    document.getElementById('product-count').textContent = data.length;
+    if (!data.length) {
+        grid.classList.add('hidden');
+        empty.classList.remove('hidden');
+        return;
+    }
+    grid.classList.remove('hidden');
+    empty.classList.add('hidden');
+    const isWished = id => wishlist.has(id);
+    if (currentView === 'list') {
+        grid.className = 'flex flex-col gap-4';
+        grid.innerHTML = data.map(p => `
+            <div class="product-card bg-surface-container-low rounded-2xl overflow-hidden border border-white/5 hover:border-primary/20 flex gap-0 cursor-pointer" onclick="openProductModal(${p.id})">
+                <div class="relative w-36 h-36 flex-shrink-0 overflow-hidden">
+                    <img class="w-full h-full object-cover" src="${p.img}" alt="${p.name}"/>
+                    ${p.badge ? `<div class="absolute top-2 left-2 px-2 py-0.5 rounded-full text-[9px] font-black uppercase ${p.badgeColor}">${p.badge}</div>` : ''}
+                </div>
+                <div class="flex-1 p-5 flex flex-col sm:flex-row sm:items-center gap-4">
+                    <div class="flex-1">
+                        <p class="text-xs text-on-surface-variant uppercase tracking-wider mb-1">${p.category}</p>
+                        <h3 class="font-headline font-bold text-lg uppercase tracking-tight mb-1">${p.name}</h3>
+                        <p class="text-on-surface-variant text-xs leading-relaxed hidden sm:block">${p.desc}</p>
+                        <div class="flex items-center gap-1 mt-2">
+                            <span class="material-symbols-outlined text-sm text-primary fill-icon">star</span>
+                            <span class="text-xs font-bold">${p.rating}</span>
+                        </div>
+                    </div>
+                    <div class="flex sm:flex-col items-center sm:items-end gap-3 flex-shrink-0">
+                        <span class="text-xl font-headline font-black text-primary">$${p.price.toFixed(2)}</span>
+                        <div class="flex gap-2">
+                            <button onclick="event.stopPropagation(); addToCart(${p.id})" class="add-btn bg-surface-container-highest hover:bg-primary hover:text-on-primary-fixed text-white px-4 py-2 rounded-xl font-bold text-xs transition-all flex items-center gap-1">
+                                <span class="material-symbols-outlined text-sm">shopping_cart</span> Add
+                            </button>
+                            <button onclick="event.stopPropagation(); toggleWishlist(${p.id})" class="wish-btn ${isWished(p.id) ? 'wished text-error' : 'text-on-surface-variant'} w-9 h-9 rounded-xl border border-outline-variant flex items-center justify-center hover:border-error/40 transition-colors">
+                                <span class="material-symbols-outlined text-sm ${isWished(p.id) ? 'fill-icon' : ''}">favorite</span>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        `).join('');
+    } else {
+        grid.className = 'grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-3 gap-6 sm:gap-8';
+        grid.innerHTML = data.map(p => `
+            <div class="product-card group relative bg-surface-container-low rounded-2xl overflow-hidden border border-white/5 hover:border-primary/20 cursor-pointer" onclick="openProductModal(${p.id})">
+                <div class="aspect-[4/5] relative overflow-hidden bg-surface-container-high">
+                    <img class="w-full h-full object-cover" src="${p.img}" alt="${p.name}"/>
+                    ${p.badge ? `<div class="absolute top-4 left-4 px-3 py-1 rounded-full text-[10px] font-black uppercase tracking-wider ${p.badgeColor}">${p.badge}</div>` : ''}
+                    <button onclick="event.stopPropagation(); toggleWishlist(${p.id})" class="wish-btn ${isWished(p.id) ? 'wished text-error' : 'text-white'} absolute top-4 right-4 w-9 h-9 bg-black/60 backdrop-blur-md rounded-full flex items-center justify-center hover:scale-110 transition-all">
+                        <span class="material-symbols-outlined text-sm ${isWished(p.id) ? 'fill-icon' : ''}">favorite</span>
+                    </button>
+                    <!-- Quick view -->
+                    <div class="quick-view-label absolute bottom-4 left-1/2 -translate-x-1/2 bg-black/70 backdrop-blur-md text-white text-xs font-bold px-4 py-2 rounded-full whitespace-nowrap">
+                        Quick View
+                    </div>
+                </div>
+                <div class="p-6">
+                    <div class="flex justify-between items-start mb-3">
+                        <div>
+                            <p class="text-xs text-on-surface-variant uppercase tracking-wider mb-1">${p.category}</p>
+                            <h3 class="font-headline font-bold text-lg uppercase tracking-tight">${p.name}</h3>
+                        </div>
+                        <span class="text-xl font-headline font-black text-primary flex-shrink-0 ml-2">$${p.price.toFixed(2)}</span>
+                    </div>
+                    <div class="flex items-center gap-1 mb-3">
+                        ${Array(5).fill(0).map((_,i) => `<span class="material-symbols-outlined text-xs ${i < Math.floor(p.rating) ? 'text-primary fill-icon' : 'text-outline-variant'}">star</span>`).join('')}
+                        <span class="text-xs text-on-surface-variant ml-1">${p.rating}</span>
+                    </div>
+                    <p class="text-on-surface-variant text-xs mb-5 leading-relaxed line-clamp-2">${p.desc}</p>
+                    <button onclick="event.stopPropagation(); addToCart(${p.id})" class="add-btn w-full bg-surface-container-highest text-white py-3.5 rounded-xl font-bold uppercase tracking-tight transition-all flex items-center justify-center gap-2 text-sm hover:scale-105">
+                        <span class="material-symbols-outlined text-lg">shopping_cart</span> Add to Cart
+                    </button>
+                </div>
+            </div>
+        `).join('');
+    }
+}
+
+// ===== RIPPLE =====
+document.addEventListener('click', function(e) {
+    const btn = e.target.closest('button, a');
+    if (!btn) return;
+    const ripple = document.createElement('div');
+    ripple.className = 'ripple';
+    const rect = btn.getBoundingClientRect();
+    const size = Math.max(rect.width, rect.height);
+    ripple.style.cssText = `width:${size}px;height:${size}px;left:${e.clientX-rect.left-size/2}px;top:${e.clientY-rect.top-size/2}px`;
+    btn.style.position = 'relative';
+    btn.style.overflow = 'hidden';
+    btn.appendChild(ripple);
+    setTimeout(() => ripple.remove(), 600);
+});
+
+// ===== COUNTDOWN =====
+function updateCountdown() {
+    const stored = localStorage.getItem('auraFlashEnd');
+    let end;
+    if (stored) {
+        end = new Date(parseInt(stored));
+    } else {
+        end = new Date(Date.now() + 3 * 60 * 60 * 1000);
+        localStorage.setItem('auraFlashEnd', end.getTime());
+    }
+    const now = new Date();
+    const diff = Math.max(0, end - now);
+    const h = Math.floor(diff / 3600000).toString().padStart(2,'0');
+    const m = Math.floor((diff % 3600000) / 60000).toString().padStart(2,'0');
+    const s = Math.floor((diff % 60000) / 1000).toString().padStart(2,'0');
+    const el = document.getElementById('countdown');
+    if (el) el.textContent = `${h}:${m}:${s}`;
+}
+setInterval(updateCountdown, 1000);
+updateCountdown();
+
+// ===== TICKER HTML fix =====
+document.querySelector('.ticker-inner').innerHTML = [
+    '🔥 FLASH SALE — 30% OFF WHEY THIS WEEK',
+    '⚡ FREE SHIPPING OVER $50',
+    '💊 NEW: OMEGA-3 STACK IN STOCK',
+    '🏆 AURA CERTIFIED QUALITY',
+    '🎁 BUY 2 GET 1 FREE ON AMINOS'
+].concat([
+    '🔥 FLASH SALE — 30% OFF WHEY THIS WEEK',
+    '⚡ FREE SHIPPING OVER $50',
+    '💊 NEW: OMEGA-3 STACK IN STOCK',
+    '🏆 AURA CERTIFIED QUALITY',
+    '🎁 BUY 2 GET 1 FREE ON AMINOS'
+]).map(t => `<span class="text-on-primary-fixed font-bold text-xs uppercase tracking-widest whitespace-nowrap px-10">${t}</span>`).join('');
+
+// ===== INIT =====
+renderProducts(products);
+updateCartBadges();
+</script>
+</body>
 </html>
