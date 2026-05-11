@@ -259,8 +259,10 @@
                     <div class="border-l-2 border-[#444933] pl-3 py-1">Сброс лидерборда через 2ч</div>
                 </div>
             </div>
-            <!-- Avatar -->
+            <!-- Avatar (shown when logged in) -->
             <div class="w-9 h-9 rounded-full border-2 border-[#abd600] flex items-center justify-center bg-[#1a1a1a] font-headline font-black text-[#abd600] text-sm cursor-pointer hover:shadow-[0_0_15px_rgba(171,214,0,0.4)] transition-all" id="nav-avatar" data-nav-avatar>AU</div>
+            <!-- Login Button (shown when NOT logged in) -->
+            <a href="./login.html" style="display:none;" class="px-4 py-2 bg-[#c3f400] text-[#161e00] rounded-lg font-headline font-bold text-sm uppercase tracking-wider hover:scale-105 transition-transform" id="nav-login-btn">Login</a>
         </div>
     </div>
 </header>
@@ -1134,13 +1136,24 @@ document.addEventListener('click', e => {
 // ═══════════════════════════════════════════════════════════
 function injectUserInfo() {
     const user = AuraUser.get();
-    if (!user) return;
+    const navAvatar = document.getElementById('nav-avatar');
+    const loginBtn = document.getElementById('nav-login-btn');
+    
+    if (!user) {
+        // Пользователь НЕ авторизован - показываем login кнопку
+        if (navAvatar) navAvatar.style.display = 'none';
+        if (loginBtn) loginBtn.style.display = 'block';
+        return;
+    }
 
+    // Пользователь авторизован - показываем его информацию
+    if (navAvatar) navAvatar.style.display = 'block';
+    if (loginBtn) loginBtn.style.display = 'none';
+    
     const name = user.name || user.displayName || 'OPERATOR';
     const initials = AuraUser.getInitials(name);
 
     // Update navbar avatar
-    const navAvatar = document.getElementById('nav-avatar');
     if (navAvatar) navAvatar.textContent = initials;
 
     // Update profile avatar and name

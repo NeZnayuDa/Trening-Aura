@@ -1328,8 +1328,9 @@ function initAuthNav() {
         if (user) {
             if (loginBtn)  loginBtn.classList.add('hidden');
             if (profileBtn){ profileBtn.classList.remove('hidden'); profileBtn.classList.add('flex'); }
-            if (nameEl)    nameEl.textContent = user.name.split(' ')[0];
-            if (initialsEl) initialsEl.textContent = user.name.charAt(0).toUpperCase();
+            const displayName = user.name || user.displayName || 'OPERATOR';
+            if (nameEl)    nameEl.textContent = displayName.split(' ')[0];
+            if (initialsEl) initialsEl.textContent = displayName.charAt(0).toUpperCase();
             // Friend request badge
             AuraAuth.getFriendRequests().then(reqs => {
                 if (badge && reqs.length > 0) {
