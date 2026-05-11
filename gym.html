@@ -14,12 +14,8 @@
     <link
         href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap"
         rel="stylesheet" />
-    <link
-        href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap"
-        rel="stylesheet" />
     <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
     <script id="tailwind-config">
-        
         tailwind.config = {
             darkMode: "class",
             theme: {
@@ -150,7 +146,6 @@
             </div>
         </div>
         <div class="flex items-center gap-6">
-            <!-- Language Switcher Pill -->
             <div
                 class="flex bg-surface-bright/40 backdrop-blur-md px-4 py-2 rounded-full items-center gap-4 text-xs font-bold border border-white/5">
                 <span class="text-[#cafd00] relative">EN<span
@@ -188,20 +183,18 @@
                         placeholder="Search by area or facility..." type="text" />
                 </div>
                 <!-- Horizontal Filter Scroll -->
-                <button onclick="filterCategory('all')"
-                    class="px-4 py-2 bg-primary text-black rounded-full text-xs font-bold">All</button>
-
-                <button onclick="filterCategory('Crossfit')"
-                    class="px-4 py-2 bg-surface-container-high rounded-full text-xs font-bold">Crossfit</button>
-
-                <button onclick="filterCategory('Sauna')"
-                    class="px-4 py-2 bg-surface-container-high rounded-full text-xs font-bold">Sauna</button>
-
-                <button onclick="filterCategory('Powerlifting')"
-                    class="px-4 py-2 bg-surface-container-high rounded-full text-xs font-bold">Powerlifting</button>
-
-                <button onclick="filterCategory('Cardio')"
-                    class="px-4 py-2 bg-surface-container-high rounded-full text-xs font-bold">Cardio</button>
+                <div class="flex flex-wrap gap-2">
+                    <button onclick="filterCategory('all')"
+                        class="px-4 py-2 bg-primary text-black rounded-full text-xs font-bold">All</button>
+                    <button onclick="filterCategory('Crossfit')"
+                        class="px-4 py-2 bg-surface-container-high rounded-full text-xs font-bold">Crossfit</button>
+                    <button onclick="filterCategory('Sauna')"
+                        class="px-4 py-2 bg-surface-container-high rounded-full text-xs font-bold">Sauna</button>
+                    <button onclick="filterCategory('Powerlifting')"
+                        class="px-4 py-2 bg-surface-container-high rounded-full text-xs font-bold">Powerlifting</button>
+                    <button onclick="filterCategory('Cardio')"
+                        class="px-4 py-2 bg-surface-container-high rounded-full text-xs font-bold">Cardio</button>
+                </div>
             </div>
             <!-- Scrollable Results List -->
             <div id="gymList" class="flex-1 overflow-y-auto px-6 pb-20 space-y-4">
@@ -210,8 +203,7 @@
                     class="group bg-surface-container-low rounded-xl overflow-hidden hover:bg-surface-container-highest transition-all duration-300 cursor-pointer">
                     <div class="relative h-32 overflow-hidden">
                         <img class="w-full h-full object-cover grayscale-[0.5] group-hover:grayscale-0 group-hover:scale-110 transition-all duration-500"
-                            data-alt="High-end urban gym interior with neon lighting and modern weightlifting equipment in dark moody tones"
-                            src="https://lh3.googleusercontent.com/aida-public/AB6AXuA6gDvPxnmcJ1ZGjBI49gZvE4jI_gXhpbDMBNp366BePlA0_maniRvTy4fELly-fE8cfc0G0IUgajl7cIp847xx1RSiD1VLj3KBkWJ3PCQQd3B7DFwK3E6vzNiM1QSYB5WGR8ublID_It6ZuEIpclahSeYDTsYqTF5Ubyd32Pvxij3x6WobmU8j0LhU7RnJbaIlKYJ2oqqC2cVevxbGF4W7Tfj_sm5t1xYsHl8bcdwa681BSAPMJR26c95TekWL85qN3fwTUz7sES0o" />
+                            src="https://images.unsplash.com/photo-1534438327276-14e5300c3a48?w=600&q=80" />
                         <div
                             class="absolute top-3 right-3 bg-primary text-on-primary-fixed px-2 py-1 rounded-md text-[10px] font-black uppercase tracking-widest">
                             Premium</div>
@@ -246,8 +238,7 @@
                     class="group bg-surface-container-low rounded-xl overflow-hidden hover:bg-surface-container-highest transition-all duration-300 cursor-pointer">
                     <div class="relative h-32 overflow-hidden">
                         <img class="w-full h-full object-cover grayscale-[0.5] group-hover:grayscale-0 group-hover:scale-110 transition-all duration-500"
-                            data-alt="Modern minimal protein shop shelf with sleek black supplement containers and bright neon green accent lighting"
-                            src="https://lh3.googleusercontent.com/aida-public/AB6AXuAR47PxEjeN_rbIeJQ_238W10yRt5sdgj2LtUBtoEuPmjW-y2W4miPI_qlN8AHO5v57WRCvcm4pbOEes37h3nNEFubSmWBCHcyZyFq9Z5Npo5u9loFMEWJK8ss53W_jss0RcszLvWMIO2uMYoJg-L5Os-Hl0UEfczJeqjtwEHAwLCFI6lKP5EdEilp91zaD6hRlhS8u6A3FMvNR9Apax_sQojjPSveLqiFgkn-_WaEO7d8vKIr2Ncg6JNX_GdV5ZvnNHqb-q5rwhYvZ" />
+                            src="https://images.unsplash.com/photo-1517836357463-d25dfeac3438?w=600&q=80" />
                     </div>
                     <div class="p-5">
                         <div class="flex justify-between items-start mb-2">
@@ -279,8 +270,7 @@
                     class="group bg-surface-container-low rounded-xl overflow-hidden hover:bg-surface-container-highest transition-all duration-300 cursor-pointer">
                     <div class="relative h-32 overflow-hidden">
                         <img class="w-full h-full object-cover grayscale-[0.5] group-hover:grayscale-0 group-hover:scale-110 transition-all duration-500"
-                            data-alt="Industrial style gym with raw concrete walls exposed pipes and high-end cardio machines in low key lighting"
-                            src="https://lh3.googleusercontent.com/aida-public/AB6AXuB-Q24TCpD1nR66YVknnSRhsu8p6qs6gxI_dRAtOmsONECDzeRUGH4nkcTi5WVp-gJY5UmzQVI80wvZFC4-QXgGHw3dCg_by_nxR_m-hconNJDSBLdajwJ2yVfA5KcTC443TC7in8Xwffyj_vF6nN_-vrIkOz8TyYBOwx4pOG4oTooOXUWrCFP1PlNB5xKdshQUp5swtXK8fQO6awcexI26jhonHS7ht9ZPgh_6GddAjNtdnfovsqOhelSX7mS_-f73PwffKxQ488L9" />
+                            src="https://images.unsplash.com/photo-1540497077202-7c8a3999166f?w=600&q=80" />
                     </div>
                     <div class="p-5">
                         <div class="flex justify-between items-start mb-2">
@@ -307,11 +297,8 @@
         </aside>
         <!-- Right Side: Interactive Map -->
         <section class="hidden md:block flex-1 bg-surface-container-lowest relative overflow-hidden">
-            <!-- Map Placeholder with custom visual style -->
-            <div class="absolute inset-0 grayscale contrast-[1.2] brightness-[0.4]"
-                data-alt="Dark stylized city map with deep charcoal streets and glowing grid lines in high contrast cinematic style"
-                data-location="Tokyo">
-<div id="map" style="width:100%; height:100%;"></div>
+            <div class="absolute inset-0 grayscale contrast-[1.2] brightness-[0.4]">
+                <div id="map" style="width:100%; height:100%;"></div>
             </div>
             <div class="absolute inset-0 map-gradient-overlay pointer-events-none"></div>
             <!-- Map Controls Overlay -->
@@ -333,16 +320,6 @@
                     class="bg-surface-container-highest/80 backdrop-blur-xl rounded-xl p-3 border border-white/5 text-on-surface hover:text-primary transition-colors">
                     <span class="material-symbols-outlined">layers</span>
                 </button>
-            </div>
-            <!-- Custom Neon Pins -->
-            <!-- Pin 1: ONYX -->
-            <div class="absolute top-[40%] left-[30%] -translate-x-1/2 -translate-y-1/2 group">
-                <div class="relative">
-                    <div
-                        class="absolute -inset-4 bg-primary/20 blur-xl rounded-full scale-0 group-hover:scale-100 transition-transform duration-500">
-                    </div>
-                    <!-- Pin Label -->
-                </div>
             </div>
             <!-- Location Meta Badge (Bottom Left) -->
             <div
@@ -369,7 +346,7 @@
             </div>
         </section>
     </main>
-    <!-- Floating Action Button (FAB) - Suppression Logic: Rendered here as it aligns with Search screen primary purpose -->
+    <!-- FAB -->
     <button
         class="fixed bottom-8 right-8 md:right-[500px] bg-primary text-on-primary-fixed w-14 h-14 rounded-full shadow-[0_0_40px_rgba(202,253,0,0.3)] flex items-center justify-center hover:scale-110 transition-transform z-50">
         <span class="material-symbols-outlined" style="font-variation-settings: 'FILL' 1;">add</span>
@@ -379,53 +356,86 @@
 
         const categories = ["Crossfit", "Sauna", "Powerlifting", "Cardio"];
 
-        // массив для хранения всех залов
-        let allGyms = [];
+        // Реальные фото спортзалов (Unsplash — gym/fitness темы)
+        const gymPhotos = [
+            "https://images.unsplash.com/photo-1534438327276-14e5300c3a48?w=600&q=80",  // dark gym weights
+            "https://images.unsplash.com/photo-1517836357463-d25dfeac3438?w=600&q=80",  // gym floor
+            "https://images.unsplash.com/photo-1540497077202-7c8a3999166f?w=600&q=80",  // gym interior
+            "https://images.unsplash.com/photo-1571902943202-507ec2618e8f?w=600&q=80",  // weights rack
+            "https://images.unsplash.com/photo-1576678927484-cc907957088c?w=600&q=80",  // gym equipment
+            "https://images.unsplash.com/photo-1593079831268-3381b0db4a77?w=600&q=80",  // barbell
+            "https://images.unsplash.com/photo-1546483875-ad9014c88eba?w=600&q=80",     // crossfit box
+            "https://images.unsplash.com/photo-1623874514711-0f321325f318?w=600&q=80",  // treadmills
+            "https://images.unsplash.com/photo-1558611848-73f7eb4001a1?w=600&q=80",     // dumbbells
+            "https://images.unsplash.com/photo-1605296867304-46d5465a13f1?w=600&q=80",  // gym modern
+        ];
 
-        // создаём 30 залов
-        for (let i = 1; i <= 30; i++) {
-            const randomCategory = categories[Math.floor(Math.random() * categories.length)];
+        // Реальные залы Ташкента
+        const tashkentGyms = [
+            { name: "Ozone Fitness Centre",  address: "Nukus St, 83A",         category: "Cardio",        rating: "4.9", distance: "0.8" },
+            { name: "Gladiator Gym",         address: "Toshkent",               category: "Powerlifting",  rating: "4.8", distance: "1.1" },
+            { name: "UFC Gym Uzbekistan",    address: "Yunusobod",              category: "Crossfit",      rating: "4.7", distance: "1.4" },
+            { name: "XFIT White House",      address: "Sh. Rustaveli 71",       category: "Cardio",        rating: "4.8", distance: "1.7" },
+            { name: "Buka Gym",             address: "Chilanzar",              category: "Crossfit",      rating: "4.6", distance: "2.0" },
+            { name: "Tower Gym",            address: "Toshkent",               category: "Powerlifting",  rating: "4.7", distance: "2.3" },
+            { name: "Land Fitness",         address: "Chilanzar",              category: "Cardio",        rating: "4.5", distance: "2.5" },
+            { name: "Gold's Gym UZ",        address: "Toshkent",               category: "Powerlifting",  rating: "4.6", distance: "2.8" },
+            { name: "Generation Iron Gym",  address: "Parkentskaya 51",        category: "Powerlifting",  rating: "4.5", distance: "3.0" },
+            { name: "Profitness Gym & Spa", address: "Tashkent City Gardens",  category: "Sauna",         rating: "4.9", distance: "3.2" },
+            { name: "Iron Beast Gym",       address: "Mirzo Ulugbek",          category: "Powerlifting",  rating: "4.4", distance: "3.5" },
+            { name: "Energy Fitness Club",  address: "Yunusobod",              category: "Cardio",        rating: "4.6", distance: "3.7" },
+            { name: "Titan Crossfit",       address: "Sergeli",                category: "Crossfit",      rating: "4.5", distance: "4.0" },
+            { name: "Sauna & Spa Deluxe",   address: "Shaykhantahur",          category: "Sauna",         rating: "4.7", distance: "4.2" },
+            { name: "Hammer Gym",           address: "Bektemir",               category: "Powerlifting",  rating: "4.3", distance: "4.5" },
+            { name: "FitZone Tashkent",     address: "Uchtepa",                category: "Crossfit",      rating: "4.4", distance: "4.8" },
+            { name: "Alpha Athletics",      address: "Olmazor",                category: "Cardio",        rating: "4.5", distance: "5.0" },
+            { name: "SteamHouse Spa",       address: "Shaykhantahur",          category: "Sauna",         rating: "4.8", distance: "5.1" },
+            { name: "Power Zone UZ",        address: "Chilanzar",              category: "Powerlifting",  rating: "4.6", distance: "5.3" },
+            { name: "Crossfit Zetta",       address: "Mirabad",                category: "Crossfit",      rating: "4.7", distance: "5.5" },
+        ];
 
-            const gymData = {
-                name: "Gym " + i,
-                rating: (4 + Math.random()).toFixed(1),
-                distance: (Math.random() * 5).toFixed(1),
-                category: randomCategory,
-                img: `https://picsum.photos/400/200?random=${i}`
-            };
-
-            allGyms.push(gymData);
-        }
+        let allGyms = tashkentGyms.map((gym, i) => ({
+            ...gym,
+            img: gymPhotos[i % gymPhotos.length]
+        }));
 
         function renderGyms(data) {
             gymList.innerHTML = "";
 
             data.forEach(gym => {
                 const el = document.createElement("div");
-
                 el.className = "group bg-surface-container-low rounded-xl overflow-hidden hover:bg-surface-container-highest transition-all duration-300 cursor-pointer";
 
                 el.innerHTML = `
-            <div class="relative h-32 overflow-hidden">
-                <img class="w-full h-full object-cover" src="${gym.img}" />
-            </div>
-            <div class="p-5">
-                <div class="flex justify-between items-start mb-2">
-                    <h3 class="font-headline font-bold text-xl uppercase tracking-tight">
-                        ${gym.name}
-                    </h3>
-                    <div class="text-primary text-xs font-bold">
-                        ${gym.rating}
+                    <div class="relative h-32 overflow-hidden">
+                        <img
+                            class="w-full h-full object-cover grayscale-[0.4] group-hover:grayscale-0 group-hover:scale-110 transition-all duration-500"
+                            src="${gym.img}"
+                            alt="${gym.name}"
+                            loading="lazy"
+                        />
+                        <div class="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent"></div>
+                        <div class="absolute bottom-2 left-3 text-[10px] font-bold text-white/70 uppercase tracking-widest">${gym.address}</div>
                     </div>
-                </div>
-                <div class="text-on-surface-variant text-xs mb-2">
-                    ${gym.distance} km • Open 24/7
-                </div>
-                <div class="text-[10px] text-secondary uppercase">
-                    ${gym.category}
-                </div>
-            </div>
-        `;
+                    <div class="p-4">
+                        <div class="flex justify-between items-start mb-1">
+                            <h3 class="font-headline font-bold text-base uppercase tracking-tight leading-tight">${gym.name}</h3>
+                            <div class="flex items-center gap-1 text-primary shrink-0 ml-2">
+                                <span class="material-symbols-outlined text-sm" style="font-variation-settings: 'FILL' 1;">star</span>
+                                <span class="text-xs font-bold">${gym.rating}</span>
+                            </div>
+                        </div>
+                        <div class="flex gap-4 text-on-surface-variant text-xs mb-3">
+                            <span class="flex items-center gap-1">
+                                <span class="material-symbols-outlined text-sm">location_on</span> ${gym.distance} km
+                            </span>
+                            <span class="flex items-center gap-1">
+                                <span class="material-symbols-outlined text-sm">schedule</span> Open 24/7
+                            </span>
+                        </div>
+                        <span class="px-2 py-1 bg-surface-container rounded-md text-[10px] font-bold uppercase text-secondary">${gym.category}</span>
+                    </div>
+                `;
 
                 gymList.appendChild(el);
             });
@@ -443,58 +453,54 @@
                 renderGyms(filtered);
             }
         }
+
         // создаём карту (Ташкент)
-const map = L.map('map').setView([41.2995, 69.2401], 12);
+        const map = L.map('map').setView([41.2995, 69.2401], 12);
 
-// подключаем карту (OpenStreetMap)
-L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
-    attribution: '© OpenStreetMap'
-}).addTo(map);
+        L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+            attribution: '© OpenStreetMap'
+        }).addTo(map);
 
-// кастомная иконка (неоновая)
-const gymIcon = L.icon({
-    iconUrl: 'https://assets.turbologo.ru/blog/ru/2020/11/18161626/fitness-2.png',
-    iconSize: [40, 40],
-    iconAnchor: [20, 40]
-});
+        const gymIcon = L.icon({
+            iconUrl: 'https://assets.turbologo.ru/blog/ru/2020/11/18161626/fitness-2.png',
+            iconSize: [40, 40],
+            iconAnchor: [20, 40]
+        });
 
-// массив залов (координаты Ташкента)
-const gyms = [
-    { name: "ONYX Performance", coords: [41.3111, 69.2797] },
-    { name: "Apex Athletics", coords: [41.2950, 69.2400] },
-    { name: "Power Gym", coords: [41.3200, 69.2000] },
-    { name: "Iron Beast Gym", coords: [41.3050, 69.2500] },
-    { name: "Titan Fitness", coords: [41.2900, 69.2700] },
-    { name: "Urban Muscle", coords: [41.3150, 69.2300] },
-    { name: "Energy Club", coords: [41.3000, 69.2100] }
-];
+        const gyms = [
+            { name: "Ozone Fitness Centre",  coords: [41.3111, 69.2797] },
+            { name: "Gladiator Gym",         coords: [41.2950, 69.2400] },
+            { name: "UFC Gym Uzbekistan",    coords: [41.3200, 69.2000] },
+            { name: "XFIT White House",      coords: [41.3050, 69.2500] },
+            { name: "Buka Gym",             coords: [41.2900, 69.2700] },
+            { name: "Tower Gym",            coords: [41.3150, 69.2300] },
+            { name: "Land Fitness",         coords: [41.3000, 69.2100] }
+        ];
 
-// добавляем маркеры
-gyms.forEach(gym => {
-    L.marker(gym.coords, { icon: gymIcon })
-        .addTo(map)
-        .bindPopup(`
-            <div style="text-align:center;">
-                <b>${gym.name}</b><br><br>
-                <a href="https://planner5d.com/editor?key=80c2b7891c3d96bb77c08eed3a8883c3&accessToken=eyJwcm9qZWN0SGFzaCI6IjgwYzJiNzg5MWMzZDk2YmI3N2MwOGVlZDNhODg4M2MzIn0%3D.789d9d1be5c7d79fdebf77abc8320bf2"
-                   target="_blank"
-                   style="
-                        display:inline-block;
-                        padding:6px 12px;
-                        background:#cafd00;
-                        color:black;
-                        border-radius:8px;
-                        text-decoration:none;
-                        font-weight:bold;
-                        font-size:12px;
-                   ">
-                   Open Gym
-                </a>
-            </div>
-        `);
-});
+        gyms.forEach(gym => {
+            L.marker(gym.coords, { icon: gymIcon })
+                .addTo(map)
+                .bindPopup(`
+                    <div style="text-align:center;">
+                        <b>${gym.name}</b><br><br>
+                        <a href="https://planner5d.com/editor?key=80c2b7891c3d96bb77c08eed3a8883c3&accessToken=eyJwcm9qZWN0SGFzaCI6IjgwYzJiNzg5MWMzZDk2YmI3N2MwOGVlZDNhODg4M2MzIn0%3D.789d9d1be5c7d79fdebf77abc8320bf2"
+                           target="_blank"
+                           style="
+                                display:inline-block;
+                                padding:6px 12px;
+                                background:#cafd00;
+                                color:black;
+                                border-radius:8px;
+                                text-decoration:none;
+                                font-weight:bold;
+                                font-size:12px;
+                           ">
+                           Open Gym
+                        </a>
+                    </div>
+                `);
+        });
     </script>
-    
 </body>
 
 </html>
