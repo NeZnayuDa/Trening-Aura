@@ -10,6 +10,7 @@
     <!-- Leaflet CSS -->
     <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
     <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+    <script src="aura-user.js"></script>
     <style>
         :root {
             --lime: #c3f400;
@@ -259,7 +260,7 @@
                 </div>
             </div>
             <!-- Avatar -->
-            <div class="w-9 h-9 rounded-full border-2 border-[#abd600] flex items-center justify-center bg-[#1a1a1a] font-headline font-black text-[#abd600] text-sm cursor-pointer hover:shadow-[0_0_15px_rgba(171,214,0,0.4)] transition-all" id="nav-avatar">AU</div>
+            <div class="w-9 h-9 rounded-full border-2 border-[#abd600] flex items-center justify-center bg-[#1a1a1a] font-headline font-black text-[#abd600] text-sm cursor-pointer hover:shadow-[0_0_15px_rgba(171,214,0,0.4)] transition-all" id="nav-avatar" data-nav-avatar>AU</div>
         </div>
     </div>
 </header>
@@ -277,9 +278,9 @@
                 <span class="text-[10px] font-bold px-2 py-0.5 bg-[#c3f400] text-[#161e00] rounded uppercase font-headline">ACTIVE</span>
             </div>
             <div class="flex items-center gap-3 mb-5">
-                <div class="w-11 h-11 rounded-full border-2 border-[#abd600] flex items-center justify-center bg-[#2a2a2a] font-headline font-black text-[#abd600]" id="profile-avatar">AU</div>
+                <div class="w-11 h-11 rounded-full border-2 border-[#abd600] flex items-center justify-center bg-[#2a2a2a] font-headline font-black text-[#abd600]" id="profile-avatar" data-profile-avatar>AU</div>
                 <div>
-                    <p class="font-headline font-bold text-white text-sm" id="profile-name">AURA_USER</p>
+                    <p class="font-headline font-bold text-white text-sm" id="profile-name" data-profile-name>AURA_USER</p>
                     <p class="text-[11px] text-[#c4c9ac]" id="profile-goal">Макс. производительность</p>
                 </div>
             </div>
@@ -1129,9 +1130,32 @@ document.addEventListener('click', e => {
 });
 
 // ═══════════════════════════════════════════════════════════
+// USER INJECTION
+// ═══════════════════════════════════════════════════════════
+function injectUserInfo() {
+    const user = AuraUser.get();
+    if (!user) return;
+
+    const name = user.name || user.displayName || 'OPERATOR';
+    const initials = AuraUser.getInitials(name);
+
+    // Update navbar avatar
+    const navAvatar = document.getElementById('nav-avatar');
+    if (navAvatar) navAvatar.textContent = initials;
+
+    // Update profile avatar and name
+    const profileAvatar = document.getElementById('profile-avatar');
+    if (profileAvatar) profileAvatar.textContent = initials;
+    
+    const profileName = document.getElementById('profile-name');
+    if (profileName) profileName.textContent = name;
+}
+
+// ═══════════════════════════════════════════════════════════
 // BOOT
 // ═══════════════════════════════════════════════════════════
 document.addEventListener('DOMContentLoaded', () => {
+    injectUserInfo();
     initMap();
     loadLeaderboard();
     startSignalFeed();
