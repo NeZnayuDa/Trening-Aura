@@ -20,13 +20,26 @@
         .nav-avatar { width:40px;height:40px;border-radius:9999px;border:2px solid #abd600;background:#1a1a1a;display:flex;align-items:center;justify-content:center;font-family:'Space Grotesk',sans-serif;font-weight:900;color:#abd600;font-size:14px;cursor:pointer; }
         #toast { position:fixed;bottom:24px;left:50%;transform:translateX(-50%);background:#1a1a1a;border:1px solid #abd600;color:#e2e2e2;padding:12px 24px;border-radius:8px;font-family:'Space Grotesk',sans-serif;font-size:13px;z-index:9999;opacity:0;transition:opacity .3s;pointer-events:none; }
         #toast.show { opacity:1; }
-        /* Matchmaking spinner */
         @keyframes radarSpin { from{transform:rotate(0deg)} to{transform:rotate(360deg)} }
         .radar-spin { animation:radarSpin 3s linear infinite; }
         .radar-spin-rev { animation:radarSpin 6s linear infinite reverse; }
-        /* Battle bar pulse */
         .pulse-bar { animation:barPulse 2s ease-in-out infinite; }
         @keyframes barPulse { 0%,100%{opacity:1} 50%{opacity:.6} }
+
+        /* Opponent Modal */
+        #opponent-modal { display:none;position:fixed;inset:0;z-index:9990;background:rgba(0,0,0,0.85);backdrop-filter:blur(8px);align-items:center;justify-content:center; }
+        #opponent-modal.open { display:flex; }
+        .opponent-card { transition:all .2s; }
+        .opponent-card:hover { transform:translateY(-2px); }
+        .opponent-card.selected { border-color:#c3f400!important;box-shadow:0 0 20px rgba(195,244,0,0.3); }
+
+        /* Search input glow */
+        .search-glow:focus { outline:none;border-color:#c3f400;box-shadow:0 0 0 2px rgba(195,244,0,0.15); }
+
+        /* Battle tab animation */
+        .tab-active { border-bottom:2px solid #c3f400;color:#c3f400; }
+        .live-dot { width:8px;height:8px;border-radius:50%;background:#ff4444;display:inline-block;animation:livePulse 1s ease-in-out infinite; }
+        @keyframes livePulse { 0%,100%{opacity:1;transform:scale(1)} 50%{opacity:.5;transform:scale(0.8)} }
     </style>
     <script id="tailwind-config">
         tailwind.config = {
@@ -41,14 +54,72 @@
     <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-database-compat.js"></script>
     <script>
         const firebaseConfig = { apiKey:"AIzaSyB_TO3XD2Uj_p62UroAvA57igN-XD4wVrU",authDomain:"trening-aura.firebaseapp.com",databaseURL:"https://trening-aura-default-rtdb.firebaseio.com",projectId:"trening-aura",storageBucket:"trening-aura.appspot.com",messagingSenderId:"237244099863",appId:"1:237244099863:web:3ffbcd47132da71b469b52" };
-        if (!firebase.apps.length) firebase.initializeApp(firebaseConfig);
+        if (!firebase.apps || firebase.apps.length === 0) firebase.initializeApp(firebaseConfig);
+        const db = firebase.database();
     </script>
     <script src="./auth.js"></script>
 </head>
 <body class="text-on-surface font-body">
 
 <div id="toast"></div>
-function showToast(msg) { const t=document.getElementById('toast');t.textContent=msg;t.classList.add('show');setTimeout(()=>t.classList.remove('show'),3000); }
+
+<!-- ══════════════════════════════════════════
+     OPPONENT SELECT MODAL
+═══════════════════════════════════════════ -->
+<div id="opponent-modal">
+    <div class="glass-panel rounded-2xl w-full max-w-2xl mx-4 overflow-hidden" style="border:1px solid rgba(195,244,0,0.3);max-height:90vh;display:flex;flex-direction:column;">
+        <!-- Modal Header -->
+        <div class="p-6 border-b border-white/10 flex justify-between items-center flex-shrink-0">
+            <div>
+                <h2 class="font-headline text-xl text-primary-fixed uppercase tracking-wide">Choose Opponent</h2>
+                <p class="text-xs text-on-surface-variant mt-1">Select a registered warrior to challenge</p>
+            </div>
+            <button onclick="closeOpponentModal()" class="p-2 hover:bg-white/5 rounded-lg transition-colors">
+                <span class="material-symbols-outlined text-on-surface-variant">close</span>
+            </button>
+        </div>
+
+        <!-- Tabs -->
+        <div class="flex border-b border-white/10 flex-shrink-0">
+            <button onclick="switchTab('all')" id="tab-all" class="tab-active flex-1 py-3 text-xs font-bold uppercase tracking-widest transition-colors">All Warriors</button>
+            <button onclick="switchTab('live')" id="tab-live" class="flex-1 py-3 text-xs font-bold uppercase tracking-widest text-on-surface-variant transition-colors">
+                <span class="live-dot mr-2"></span>Live Battles
+            </button>
+            <button onclick="switchTab('history')" id="tab-history" class="flex-1 py-3 text-xs font-bold uppercase tracking-widest text-on-surface-variant transition-colors">Past Rivals</button>
+        </div>
+
+        <!-- Search -->
+        <div class="p-4 flex-shrink-0">
+            <input id="user-search" oninput="filterUsers()" type="text" placeholder="Search by name..."
+                class="search-glow w-full bg-surface-container-high border border-white/10 rounded-lg px-4 py-3 text-sm text-on-surface placeholder-on-surface-variant transition-all"
+                style="font-family:'Space Grotesk',sans-serif;" />
+        </div>
+
+        <!-- User List -->
+        <div id="modal-user-list" class="overflow-y-auto flex-1 px-4 pb-4 space-y-2" style="max-height:400px;">
+            <div class="text-center py-8 text-on-surface-variant text-sm">
+                <span class="material-symbols-outlined text-4xl block mb-2 animate-pulse">radar</span>
+                Scanning warriors...
+            </div>
+        </div>
+
+        <!-- Selected user + Challenge -->
+        <div id="modal-footer" class="p-4 border-t border-white/10 flex-shrink-0 hidden">
+            <div class="flex items-center justify-between">
+                <div class="flex items-center gap-3">
+                    <div id="selected-avatar" class="w-10 h-10 rounded-full border-2 border-primary-fixed bg-surface-container-high flex items-center justify-center font-headline font-black text-primary-fixed text-sm"></div>
+                    <div>
+                        <div id="selected-name" class="font-headline font-bold text-on-surface text-sm"></div>
+                        <div class="text-xs text-on-surface-variant">Ready to battle</div>
+                    </div>
+                </div>
+                <button onclick="startBattleWith()" class="px-6 py-2 bg-primary-fixed text-black font-headline font-bold text-sm uppercase rounded-lg hover:bg-primary-fixed-dim transition-all active:scale-95">
+                    ⚔️ Declare War
+                </button>
+            </div>
+        </div>
+    </div>
+</div>
 
 <!-- TopNavBar -->
 <nav class="fixed top-0 w-full z-50 bg-surface-dim/80 backdrop-blur-xl shadow-[0_10px_40px_-15px_rgba(190,238,0,0.2)]">
@@ -64,7 +135,7 @@ function showToast(msg) { const t=document.getElementById('toast');t.textContent
             <button onclick="showToast('🔔 No new notifications')" class="p-2 rounded hover:bg-white/5 transition-colors">
                 <span class="material-symbols-outlined text-primary-fixed-dim">notifications_active</span>
             </button>
-            <button onclick="showToast('⚔️ Looking for challengers...')" class="p-2 rounded hover:bg-white/5 transition-colors">
+            <button onclick="openOpponentModal()" class="p-2 rounded hover:bg-white/5 transition-colors">
                 <span class="material-symbols-outlined text-primary-fixed-dim">sports_kabaddi</span>
             </button>
             <a href="./profil.html">
@@ -83,9 +154,9 @@ function showToast(msg) { const t=document.getElementById('toast');t.textContent
                 <div class="flex justify-between items-center mb-10">
                     <div>
                         <span class="text-secondary-fixed-dim text-xs uppercase tracking-widest font-bold mb-2 block">Active Engagement</span>
-                        <h2 class="font-headline text-2xl uppercase italic text-primary-fixed">Tier-1 Battle: District 09</h2>
+                        <h2 class="font-headline text-2xl uppercase italic text-primary-fixed" id="battle-title">Tier-1 Battle: District 09</h2>
                     </div>
-                    <div class="px-4 py-1 bg-error-container text-error font-bold text-[10px] rounded animate-pulse">LIVE FEED</div>
+                    <div class="px-4 py-1 bg-error-container text-error font-bold text-[10px] rounded animate-pulse" id="battle-status-badge">LIVE FEED</div>
                 </div>
                 <div class="flex flex-col md:flex-row justify-between items-center gap-8 relative">
                     <!-- YOUR TEAM -->
@@ -121,15 +192,18 @@ function showToast(msg) { const t=document.getElementById('toast');t.textContent
                         </div>
                     </div>
                     <!-- ENEMY -->
-                    <div class="text-center group">
+                    <div class="text-center group cursor-pointer" onclick="openOpponentModal()" title="Change opponent">
                         <div class="relative mb-4">
                             <div class="absolute -inset-2 bg-secondary-fixed-dim/20 blur-xl rounded-full opacity-0 group-hover:opacity-100 transition-opacity"></div>
-                            <div class="w-24 h-24 rounded-full border-2 border-secondary-fixed-dim flex items-center justify-center bg-surface-container-high relative z-10">
-                                <span class="font-headline font-black text-secondary-fixed-dim text-3xl">KT</span>
+                            <div class="w-24 h-24 rounded-full border-2 border-secondary-fixed-dim flex items-center justify-center bg-surface-container-high relative z-10 group-hover:border-primary-fixed transition-colors">
+                                <span id="battle-enemy-initials" class="font-headline font-black text-secondary-fixed-dim text-3xl">?</span>
+                            </div>
+                            <div class="absolute -bottom-1 -right-1 w-6 h-6 bg-surface-container rounded-full border border-primary-fixed/50 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity z-20">
+                                <span class="material-symbols-outlined text-primary-fixed" style="font-size:14px;">edit</span>
                             </div>
                         </div>
-                        <h3 class="font-headline text-lg text-secondary-fixed-dim uppercase tracking-tighter mb-1">Kinetic Titans</h3>
-                        <p class="text-xs text-on-surface-variant">Rank #02</p>
+                        <h3 class="font-headline text-lg text-secondary-fixed-dim uppercase tracking-tighter mb-1" id="battle-enemy-name">TAP TO CHOOSE</h3>
+                        <p class="text-xs text-on-surface-variant" id="battle-enemy-sub">Click avatar to select</p>
                     </div>
                 </div>
             </div>
@@ -138,10 +212,10 @@ function showToast(msg) { const t=document.getElementById('toast');t.textContent
         <div class="lg:col-span-4 h-full">
             <div class="glass-panel h-full p-8 flex flex-col justify-center items-center text-center relative border-secondary-fixed-dim/20 rounded-xl">
                 <div class="scanline"></div>
-                <div class="mb-8 relative">
-                    <div id="mm-outer" class="w-32 h-32 rounded-full border-2 border-secondary-fixed-dim border-dashed radar-spin absolute -inset-2"></div>
-                    <div id="mm-inner" class="w-28 h-28 rounded-full border-2 border-primary-fixed border-dashed radar-spin-rev absolute -inset-0"></div>
-                    <div class="w-24 h-24 rounded-full bg-surface-container-high flex items-center justify-center relative">
+                <div class="mb-8 relative w-32 h-32 flex items-center justify-center">
+                    <div id="mm-outer" class="w-32 h-32 rounded-full border-2 border-secondary-fixed-dim border-dashed radar-spin absolute inset-0"></div>
+                    <div id="mm-inner" class="w-24 h-24 rounded-full border-2 border-primary-fixed border-dashed radar-spin-rev absolute" style="top:16px;left:16px;"></div>
+                    <div class="w-20 h-20 rounded-full bg-surface-container-high flex items-center justify-center relative z-10">
                         <span class="material-symbols-outlined text-4xl text-primary-fixed animate-pulse" id="mm-icon">radar</span>
                     </div>
                 </div>
@@ -225,6 +299,7 @@ function showToast(msg) { const t=document.getElementById('toast');t.textContent
 </nav>
 
 <script>
+// ─── Toast ────────────────────────────────────────────────────
 function showToast(msg) {
     const t = document.getElementById('toast');
     t.textContent = msg;
@@ -232,32 +307,73 @@ function showToast(msg) {
     setTimeout(() => t.classList.remove('show'), 3000);
 }
 
-// ─── User Init ────────────────────────────────────────────────
+// ─── Helpers ──────────────────────────────────────────────────
 function getInitials(name) {
     if (!name) return '?';
     const p = name.trim().split(' ');
     return p.length >= 2 ? (p[0][0]+p[1][0]).toUpperCase() : p[0].slice(0,2).toUpperCase();
 }
 
-function initUser() {
-    let user = null;
-    if (typeof AuraAuth !== 'undefined') {
-        try { AuraAuth.init(); user = AuraAuth.getCurrentUser(); } catch(e) {}
-    }
-    if (!user) {
-        try { const r = localStorage.getItem('aura_user'); if (r) user = JSON.parse(r); } catch(e) {}
-    }
+// ─── Current User ─────────────────────────────────────────────
+let currentUser = null;
 
-    const name = user ? (user.name || user.displayName || 'OPERATOR') : 'GUEST';
+function applyUserToUI(user) {
+    if (!user) return;
+    currentUser = user;
+    const name = user.name || user.displayName || '';
+    if (!name) return;
     const initials = getInitials(name);
-    const xp = user?.xp || 0;
-    const level = user?.level || 1;
+    const xp = user.xp || 0;
+    const level = user.level || 1;
     const xpNeeded = level * 1000;
 
     document.querySelectorAll('[data-profile-initials]').forEach(el => el.textContent = initials);
+    document.getElementById('nav-avatar-circle').textContent = initials;
     document.getElementById('battle-my-initials').textContent = initials;
     document.getElementById('battle-my-name').textContent = name.split(' ')[0].toUpperCase();
     document.getElementById('xp-display').textContent = xp.toLocaleString() + ' / ' + xpNeeded.toLocaleString();
+}
+
+async function initUser() {
+    // 1. Try AuraAuth (reads aura_current_uid → aura_user_{uid} from localStorage)
+    if (typeof AuraAuth !== 'undefined') {
+        try {
+            AuraAuth.init();
+            const u = AuraAuth.getCurrentUser();
+            if (u && u.name) { applyUserToUI(u); return; }
+        } catch(e) {}
+    }
+
+    // 2. Manual localStorage read — same keys AuraAuth uses
+    try {
+        const uid = localStorage.getItem('aura_current_uid');
+        if (uid) {
+            const raw = localStorage.getItem('aura_user_' + uid);
+            if (raw) {
+                const u = JSON.parse(raw);
+                if (u && u.name) { applyUserToUI(u); return; }
+            }
+        }
+    } catch(e) {}
+
+    // 3. If still nothing — try fetching from Firebase directly using stored uid
+    try {
+        const uid = localStorage.getItem('aura_current_uid');
+        if (uid) {
+            const snap = await db.ref('users/' + uid).once('value');
+            if (snap.exists()) {
+                const u = snap.val();
+                // Cache it locally for next time
+                localStorage.setItem('aura_user_' + uid, JSON.stringify(u));
+                if (u && u.name) { applyUserToUI(u); return; }
+            }
+        }
+    } catch(e) {}
+
+    // 4. Not logged in — show nothing (no GUEST label)
+    document.getElementById('battle-my-name').textContent = '—';
+    document.getElementById('nav-avatar-circle').textContent = '?';
+    document.getElementById('battle-my-initials').textContent = '?';
 }
 
 // ─── Matchmaking ──────────────────────────────────────────────
@@ -274,19 +390,19 @@ function toggleMatchmaking() {
     const inner = document.getElementById('mm-inner');
 
     if (mmActive) {
-        // Cancel
         mmActive = false;
         clearInterval(mmInterval);
         btn.textContent = 'Find New Match';
         status.textContent = 'Search Cancelled';
         icon.textContent = 'cancel';
-        desc.textContent = 'Matchmaking paused. Tap to restart search.';
+        desc.textContent = 'Matchmaking paused. Tap to see available warriors.';
         outer.style.animationPlayState = 'paused';
         inner.style.animationPlayState = 'paused';
         document.getElementById('mm-progress').style.width = '0%';
         showToast('❌ Matchmaking cancelled');
+        // Open opponent selection after short delay
+        setTimeout(() => openOpponentModal(), 600);
     } else {
-        // Restart
         mmActive = true;
         mmProgress = 0;
         btn.textContent = 'Cancel Link';
@@ -327,6 +443,8 @@ function matchFound() {
         document.getElementById('mm-status').textContent = 'Battle Complete';
         document.getElementById('mm-icon').textContent = 'emoji_events';
         mmActive = false;
+        // Open modal to pick next opponent
+        openOpponentModal();
     }, 3000);
 }
 
@@ -370,11 +488,12 @@ function claimReward(el, name) {
     showToast(`🏆 ${name} claimed! Check your inventory.`);
 }
 
-// ─── Leaderboard ─────────────────────────────────────────────
+// ─── Leaderboard ──────────────────────────────────────────────
 function renderLeaderboard(players) {
     const container = document.getElementById('leaderboard-container');
     container.innerHTML = players.map((p, i) => `
-        <div class="flex items-center gap-4 p-4 ${i===0?'bg-primary-fixed/5 border border-primary-fixed/40':'bg-surface-container-low border border-white/5'} rounded-lg">
+        <div class="flex items-center gap-4 p-4 ${i===0?'bg-primary-fixed/5 border border-primary-fixed/40':'bg-surface-container-low border border-white/5'} rounded-lg cursor-pointer hover:border-primary-fixed/30 transition-all"
+             onclick="selectOpponentFromLeaderboard('${p.uid||''}','${p.name}','${p.initials}')">
             <span class="font-headline text-2xl font-bold ${i===0?'text-primary-fixed':'text-on-surface-variant'}">0${i+1}</span>
             <div class="w-10 h-10 rounded-full border ${i===0?'border-primary-fixed':'border-secondary-fixed-dim'} flex items-center justify-center bg-surface-container-high font-headline font-black ${i===0?'text-primary-fixed':'text-secondary-fixed-dim'} text-sm">
                 ${p.initials}
@@ -383,15 +502,20 @@ function renderLeaderboard(players) {
                 <div class="font-body font-bold uppercase text-on-surface text-sm">${p.name}</div>
                 <div class="text-[10px] font-bold ${i===0?'text-primary-fixed':'text-on-surface-variant'}">${p.score}</div>
             </div>
-            ${i===0?'<span class="material-symbols-outlined text-primary-fixed" style="font-variation-settings:\'FILL\' 1;">military_tech</span>':''}
+            ${i===0?'<span class="material-symbols-outlined text-primary-fixed" style="font-variation-settings:\'FILL\' 1;">military_tech</span>':'<span class="material-symbols-outlined text-on-surface-variant text-sm">swords</span>'}
         </div>`).join('');
+}
+
+function selectOpponentFromLeaderboard(uid, name, initials) {
+    setEnemy({ uid, name, initials: initials || getInitials(name) });
+    showToast(`⚔️ Challenge sent to ${name.split(' ')[0]}!`);
 }
 
 async function loadLeaderboard() {
     const staticPlayers = [
-        { name:'Neon Specter', initials:'NS', score:'98.4 Aura Rating' },
-        { name:'Zero G Bolt', initials:'ZB', score:'94.1 Aura Rating' },
-        { name:'Static Runner', initials:'SR', score:'91.8 Aura Rating' },
+        { name:'Neon Specter', initials:'NS', score:'98.4 Aura Rating', uid:'' },
+        { name:'Zero G Bolt', initials:'ZB', score:'94.1 Aura Rating', uid:'' },
+        { name:'Static Runner', initials:'SR', score:'91.8 Aura Rating', uid:'' },
     ];
     try {
         let secondaryApp;
@@ -404,6 +528,7 @@ async function loadLeaderboard() {
             if (!users[p.authorId]) {
                 const parts = (p.authorName||'?').trim().split(' ');
                 users[p.authorId] = {
+                    uid: p.authorId,
                     name: p.authorName || 'Unknown',
                     initials: parts.length>=2?(parts[0][0]+parts[1][0]).toUpperCase():parts[0].slice(0,2).toUpperCase(),
                     score: 0
@@ -419,6 +544,213 @@ async function loadLeaderboard() {
     }
 }
 
+// ─── OPPONENT MODAL ───────────────────────────────────────────
+let allUsers = [];
+let filteredUsers = [];
+let selectedOpponent = null;
+let currentTab = 'all';
+let battleHistory = []; // users fought before
+
+function openOpponentModal() {
+    document.getElementById('opponent-modal').classList.add('open');
+    selectedOpponent = null;
+    document.getElementById('modal-footer').classList.add('hidden');
+    loadAllUsers();
+}
+
+function closeOpponentModal() {
+    document.getElementById('opponent-modal').classList.remove('open');
+}
+
+// Close modal on backdrop click
+document.getElementById('opponent-modal').addEventListener('click', function(e) {
+    if (e.target === this) closeOpponentModal();
+});
+
+function switchTab(tab) {
+    currentTab = tab;
+    ['all','live','history'].forEach(t => {
+        const el = document.getElementById('tab-' + t);
+        el.classList.toggle('tab-active', t === tab);
+        el.classList.toggle('text-on-surface-variant', t !== tab);
+    });
+    renderUserList();
+}
+
+async function loadAllUsers() {
+    const list = document.getElementById('modal-user-list');
+    list.innerHTML = `<div class="text-center py-8 text-on-surface-variant text-sm">
+        <span class="material-symbols-outlined text-4xl block mb-2 animate-pulse">radar</span>
+        Scanning warriors...</div>`;
+
+    try {
+        const snap = await db.ref('users').once('value');
+        allUsers = [];
+        if (snap.exists()) {
+            const myUid = currentUser?.uid || currentUser?.id || '';
+            snap.forEach(child => {
+                const u = child.val();
+                if (u.uid !== myUid) allUsers.push(u);
+            });
+        }
+
+        // Load battle history from Firebase
+        const myUid = currentUser?.uid || currentUser?.id;
+        if (myUid) {
+            try {
+                const hSnap = await db.ref('battles').orderByChild('timestamp').limitToLast(50).once('value');
+                const rivalUids = new Set();
+                if (hSnap.exists()) {
+                    hSnap.forEach(b => {
+                        const bv = b.val();
+                        if (bv.player1 === myUid) rivalUids.add(bv.player2);
+                        if (bv.player2 === myUid) rivalUids.add(bv.player1);
+                    });
+                }
+                battleHistory = allUsers.filter(u => rivalUids.has(u.uid));
+            } catch(e) { battleHistory = []; }
+        }
+
+        renderUserList();
+    } catch(e) {
+        // Fallback: show static demo users
+        allUsers = [
+            { uid:'demo1', name:'Neon Specter', email:'neon@aura.gg' },
+            { uid:'demo2', name:'Zero G Bolt', email:'zero@aura.gg' },
+            { uid:'demo3', name:'Static Runner', email:'static@aura.gg' },
+            { uid:'demo4', name:'Kinetic Titan', email:'kt@aura.gg' },
+            { uid:'demo5', name:'Void Walker', email:'void@aura.gg' },
+        ];
+        battleHistory = allUsers.slice(0, 2);
+        renderUserList();
+    }
+}
+
+function filterUsers() {
+    renderUserList();
+}
+
+function renderUserList() {
+    const query = document.getElementById('user-search').value.toLowerCase().trim();
+    const list = document.getElementById('modal-user-list');
+
+    let source = allUsers;
+    if (currentTab === 'history') source = battleHistory;
+    if (currentTab === 'live') {
+        // Show all users as "in battle" with live indicator (simulated)
+        source = allUsers.slice(0, Math.min(allUsers.length, 6));
+    }
+
+    filteredUsers = query
+        ? source.filter(u => (u.name||'').toLowerCase().includes(query) || (u.email||'').toLowerCase().includes(query))
+        : source;
+
+    if (filteredUsers.length === 0) {
+        list.innerHTML = `<div class="text-center py-8 text-on-surface-variant text-sm">
+            <span class="material-symbols-outlined text-4xl block mb-3 opacity-40">person_off</span>
+            ${currentTab === 'history' ? 'No past rivals yet. Start battling!' : 'No warriors found.'}
+        </div>`;
+        return;
+    }
+
+    list.innerHTML = filteredUsers.map((u, i) => {
+        const initials = getInitials(u.name);
+        const isSelected = selectedOpponent?.uid === u.uid;
+        const isLive = currentTab === 'live';
+        return `
+        <div class="opponent-card flex items-center gap-4 p-4 bg-surface-container-low border border-white/5 rounded-xl cursor-pointer hover:border-primary-fixed/40 transition-all ${isSelected ? 'selected' : ''}"
+             onclick="selectOpponent('${u.uid}', ${i})" data-uid="${u.uid}">
+            <div class="w-12 h-12 rounded-full border-2 ${isSelected ? 'border-primary-fixed' : 'border-white/10'} bg-surface-container-high flex items-center justify-center font-headline font-black text-sm ${isSelected ? 'text-primary-fixed' : 'text-on-surface-variant'} flex-shrink-0 transition-colors">
+                ${initials}
+            </div>
+            <div class="flex-1 min-w-0">
+                <div class="font-headline font-bold text-on-surface text-sm truncate">${u.name || 'Unknown'}</div>
+                <div class="text-[10px] text-on-surface-variant truncate">${u.email || ''}</div>
+            </div>
+            <div class="flex items-center gap-2 flex-shrink-0">
+                ${isLive ? '<span class="live-dot"></span><span class="text-[10px] font-bold text-error">LIVE</span>' : ''}
+                ${currentTab === 'history' ? '<span class="text-[10px] font-bold text-on-surface-variant uppercase">Rematch</span>' : ''}
+                <span class="material-symbols-outlined text-xs ${isSelected ? 'text-primary-fixed' : 'text-on-surface-variant'}">chevron_right</span>
+            </div>
+        </div>`;
+    }).join('');
+}
+
+function selectOpponent(uid, idx) {
+    const u = filteredUsers[idx] || filteredUsers.find(u => u.uid === uid);
+    if (!u) return;
+    selectedOpponent = u;
+
+    // Update visual selection
+    document.querySelectorAll('.opponent-card').forEach(el => {
+        el.classList.toggle('selected', el.dataset.uid === uid);
+        const avatar = el.querySelector('.w-12');
+        const arrow = el.querySelector('.material-symbols-outlined');
+        if (el.dataset.uid === uid) {
+            avatar.classList.add('border-primary-fixed','text-primary-fixed');
+            avatar.classList.remove('border-white\/10','text-on-surface-variant');
+        } else {
+            avatar.classList.remove('border-primary-fixed','text-primary-fixed');
+            avatar.classList.add('border-white\/10','text-on-surface-variant');
+        }
+    });
+
+    // Show footer
+    const footer = document.getElementById('modal-footer');
+    footer.classList.remove('hidden');
+    document.getElementById('selected-avatar').textContent = getInitials(u.name);
+    document.getElementById('selected-name').textContent = u.name || 'Unknown';
+}
+
+function setEnemy(u) {
+    const initials = u.initials || getInitials(u.name);
+    document.getElementById('battle-enemy-initials').textContent = initials;
+    document.getElementById('battle-enemy-name').textContent = (u.name || 'Unknown').split(' ')[0].toUpperCase();
+    document.getElementById('battle-enemy-sub').textContent = 'Rank #' + (Math.floor(Math.random()*50)+1);
+
+    // Reset bars
+    document.getElementById('my-bar').style.width = '50%';
+    document.getElementById('enemy-bar').style.width = '50%';
+    document.getElementById('my-km').textContent = '12.0K km';
+    document.getElementById('enemy-km').textContent = '12.0K km';
+    document.getElementById('battle-title').textContent = 'Tier-1 Battle vs ' + (u.name || 'Unknown').split(' ')[0];
+}
+
+async function startBattleWith() {
+    if (!selectedOpponent) return;
+    const u = selectedOpponent;
+
+    setEnemy(u);
+
+    // Save battle to Firebase
+    const myUid = currentUser?.uid || currentUser?.id;
+    if (myUid && u.uid && !u.uid.startsWith('demo')) {
+        try {
+            await db.ref('battles').push({
+                player1: myUid,
+                player1Name: currentUser?.name || 'Unknown',
+                player2: u.uid,
+                player2Name: u.name || 'Unknown',
+                timestamp: Date.now(),
+                status: 'live'
+            });
+        } catch(e) { /* silent fail */ }
+    }
+
+    closeOpponentModal();
+    showToast(`⚔️ War declared on ${(u.name||'Unknown').split(' ')[0]}! Battle begins!`);
+
+    // Restart matchmaking animation in battle mode
+    mmActive = false;
+    mmProgress = 0;
+    document.getElementById('mm-btn').textContent = 'Find New Match';
+    document.getElementById('mm-status').textContent = 'Battle Active';
+    document.getElementById('mm-icon').textContent = 'swords';
+    document.getElementById('mm-desc').textContent = `Engaged with ${(u.name||'Unknown').split(' ')[0]}. Fight for dominance!`;
+    document.getElementById('mm-progress').style.width = '100%';
+}
+
+// ─── Init ─────────────────────────────────────────────────────
 document.addEventListener('DOMContentLoaded', () => {
     initUser();
     loadLeaderboard();
