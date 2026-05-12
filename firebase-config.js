@@ -1,6 +1,6 @@
 // Firebase Configuration for TRENING AURA
 // Using Firebase v9 compat mode (CDN)
-цц
+
 const firebaseConfig = {
     apiKey: "AIzaSyB_TO3XD2Uj_p62UroAvA57igN-XD4wVrU",
     authDomain: "trening-aura.firebaseapp.com",
