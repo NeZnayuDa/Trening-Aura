@@ -772,6 +772,11 @@ async function declineRequest(uid) {
 
 // ───────────────── CHAT ─────────────────
 function openChat(uid, name, email) {
+    // uid должен быть строкой
+    if (typeof uid !== 'string') {
+        console.error('openChat: uid is not a string', uid);
+        return;
+    }
 
     if (chatRef) chatRef.off();
 
@@ -782,24 +787,25 @@ function openChat(uid, name, email) {
     document.getElementById('chatStatus').textContent = email;
     document.getElementById('chatAvatar').textContent = name.charAt(0).toUpperCase();
 
-    // Show chat panel on mobile
-    document.getElementById('chatPanel').classList.remove('hidden');
-    document.getElementById('noChatSelected').classList.add('hidden');
+    // Показать чат панель
+    const chatPanel = document.getElementById('chatPanel');
+    const noChatSelected = document.getElementById('noChatSelected');
+    chatPanel.classList.remove('hidden');
+    chatPanel.classList.add('flex');
+    if (noChatSelected) noChatSelected.classList.add('hidden');
 
     const container = document.getElementById('chatMessages');
-    container.innerHTML = `<div class="flex items-center justify-center py-8 text-on-surface-variant gap-2"><span class="material-symbols-outlined text-lg animate-spin">refresh</span> Loading...</div>`;
+    if (!container) {
+        console.error('chatMessages element not found');
+        return;
+    }
+    container.innerHTML = `<div class="flex items-center justify-center py-8 text-on-surface-variant gap-2" id="loadingMsg"><span class="material-symbols-outlined text-lg animate-spin">refresh</span> Loading...</div>`;
 
     chatRef = AuraAuth.db.ref(`chats/${activeChatId}/messages`);
-
     chatRef.off();
 
     chatRef.on('child_added', snap => {
         addMessageToUI(snap.val());
-    });
-
-    // Update active friend in sidebar
-    document.querySelectorAll('.friend-item').forEach(el => {
-        el.classList.remove('active', 'bg-surface-container-low', 'border-l-primary-fixed');
     });
 
     renderFriends();
@@ -807,13 +813,13 @@ function openChat(uid, name, email) {
 
 function addMessageToUI(m) {
     const box = document.getElementById('chatMessages');
-    
-    // Clear loading message if exists
-    const loading = box.querySelector('.animate-spin');
-    if (loading) loading.parentElement.parentElement.remove();
+    if (!box) return; // защита от null
+
+    // Убрать сообщение "Loading..."
+    const loadingMsg = document.getElementById('loadingMsg');
+    if (loadingMsg) loadingMsg.remove();
 
     const isMe = m.senderId === currentUser.uid;
-
     const div = document.createElement('div');
     div.className = `flex ${isMe ? 'justify-end' : 'justify-start'} animate-message`;
 
@@ -821,28 +827,17 @@ function addMessageToUI(m) {
 
     div.innerHTML = `
         <div class="max-w-xs lg:max-w-md">
-            <div class="px-5 py-3 rounded-2xl ${isMe ? 'bg-gradient-to-br from-primary-fixed to-primary-dim text-on-primary-fixed rounded-br-none shadow-lg shadow-primary-fixed/20' : 'bg-surface-container text-on-surface rounded-bl-none border border-white/10 shadow-md'}">
+            <div class="px-5 py-3 rounded-2xl ${isMe
+                ? 'bg-gradient-to-br from-primary-fixed to-primary-dim text-on-primary-fixed rounded-br-none shadow-lg shadow-primary-fixed/20'
+                : 'bg-surface-container text-on-surface rounded-bl-none border border-white/10 shadow-md'}">
                 <p class="text-sm font-medium break-words leading-relaxed">${escapeHtml(m.text)}</p>
             </div>
-            <p class="text-xs text-on-surface-variant mt-2 ${isMe ? 'text-right' : 'text-left'}">
-                ${time}
-            </p>
+            <p class="text-xs text-on-surface-variant mt-2 ${isMe ? 'text-right' : 'text-left'}">${time}</p>
         </div>
     `;
 
     box.appendChild(div);
     box.scrollTop = box.scrollHeight;
-}
-
-function closeChatPanel() {
-    if (chatRef) chatRef.off();
-
-    activeFriendId = null;
-    activeChatId = null;
-
-    document.getElementById('chatPanel').classList.add('hidden');
-    document.getElementById('noChatSelected').classList.remove('hidden');
-    document.getElementById('msgInput').value = '';
 }
 
 async function sendMessage() {
