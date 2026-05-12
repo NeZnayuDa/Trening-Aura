@@ -77,9 +77,14 @@
         }
         .fill-icon { font-variation-settings: 'FILL' 1, 'wght' 400, 'GRAD' 0, 'opsz' 24; }
 
-        ::-webkit-scrollbar { width: 6px; }
-        ::-webkit-scrollbar-track { background: #000; }
-        ::-webkit-scrollbar-thumb { background: #262626; border-radius: 10px; }
+        ::-webkit-scrollbar { width: 8px; }
+        ::-webkit-scrollbar-track { background: transparent; }
+        ::-webkit-scrollbar-thumb { 
+            background: linear-gradient(to bottom, #cafd00, #516700);
+            border-radius: 10px;
+            opacity: 0.5;
+        }
+        ::-webkit-scrollbar-thumb:hover { opacity: 0.8; }
 
         /* Animations */
         @keyframes fadeUp {
@@ -121,14 +126,208 @@
         .animate-message { animation: messageSlide 0.3s ease; }
 
         /* Navigation */
-        nav { animation: slideInLeft 0.6s ease; }
+        nav { 
+            animation: slideInLeft 0.6s ease;
+            box-shadow: 0 4px 30px rgba(0, 0, 0, 0.3);
+        }
 
-        /* Chat item hover glow */
-        .friend-item:hover { box-shadow: 0 0 20px rgba(202, 253, 0, 0.08); }
-        
-        /* Button glow on hover */
-        .btn-add:hover { box-shadow: 0 0 15px rgba(202, 253, 0, 0.3); }
-        .send-btn:hover { box-shadow: 0 0 15px rgba(202, 253, 0, 0.3); }
+        /* Sidebar improvements */
+        #sidebar {
+            background: linear-gradient(to bottom, #0e0e0e, #131313);
+            box-shadow: inset -1px 0 0 rgba(255, 255, 255, 0.05);
+        }
+
+        /* Tabs styling */
+        .flex.border-b.border-white\/5 button {
+            position: relative;
+            overflow: hidden;
+        }
+
+        .flex.border-b.border-white\/5 button::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            height: 2px;
+            background: linear-gradient(90deg, #cafd00, #516700);
+            transform: scaleX(0);
+            transform-origin: center;
+            transition: transform 0.3s ease;
+        }
+
+        .flex.border-b.border-white\/5 button.text-primary-fixed::after {
+            transform: scaleX(1);
+        }
+
+        /* Friend item improvements */
+        .friend-item {
+            margin: 4px 8px;
+            padding: 12px 16px;
+            border-radius: 12px;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .friend-item::before {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background: linear-gradient(135deg, rgba(202, 253, 0, 0.1), transparent);
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+
+        .friend-item:hover::before {
+            opacity: 1;
+        }
+
+        .friend-item:hover {
+            background: linear-gradient(135deg, rgba(202, 253, 0, 0.08), rgba(202, 253, 0, 0.02));
+            box-shadow: 0 4px 20px rgba(202, 253, 0, 0.1), inset 0 1px 0 rgba(255, 255, 255, 0.05);
+        }
+
+        .friend-item.active {
+            background: linear-gradient(135deg, rgba(202, 253, 0, 0.15), rgba(202, 253, 0, 0.05));
+            box-shadow: 0 0 25px rgba(202, 253, 0, 0.2), inset 0 1px 0 rgba(255, 255, 255, 0.1);
+        }
+
+        .friend-item:active {
+            transform: scale(0.98);
+        }
+
+        /* Search input improvements */
+        #searchInput {
+            transition: all 0.3s ease;
+            background: linear-gradient(135deg, #1a1a1a, #131313);
+        }
+
+        #searchInput:focus {
+            background: linear-gradient(135deg, #262626, #1a1a1a);
+            border-color: #cafd00;
+            box-shadow: 0 0 20px rgba(202, 253, 0, 0.2);
+        }
+
+        /* Search result item improvements */
+        .flex.items-center.gap-3.p-3.bg-surface-container {
+            border-radius: 14px;
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .flex.items-center.gap-3.p-3.bg-surface-container::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 1px;
+            background: linear-gradient(90deg, transparent, rgba(202, 253, 0, 0.3), transparent);
+        }
+
+        .flex.items-center.gap-3.p-3.bg-surface-container:hover {
+            background: linear-gradient(135deg, #262626, #1a1a1a);
+            box-shadow: 0 8px 24px rgba(202, 253, 0, 0.12);
+            transform: translateY(-2px);
+        }
+
+        /* Request item improvements */
+        .flex.items-center.gap-3.px-4.py-3.border-b {
+            transition: all 0.3s ease;
+            padding: 16px;
+            border: none;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+            margin: 4px 0;
+        }
+
+        .flex.items-center.gap-3.px-4.py-3.border-b:hover {
+            background: linear-gradient(135deg, rgba(202, 253, 0, 0.08), rgba(202, 253, 0, 0.02));
+            padding-left: 20px;
+        }
+
+        /* Avatar styling */
+        .w-10.h-10.rounded-full.bg-surface-container,
+        .w-11.h-11.rounded-full.bg-surface-container {
+            background: linear-gradient(135deg, #cafd00, #beee00);
+            box-shadow: 0 4px 15px rgba(202, 253, 0, 0.2);
+            font-weight: 700;
+            letter-spacing: 0.5px;
+        }
+
+        /* Chat panel improvements */
+        #chatPanel {
+            background: linear-gradient(to right, #0e0e0e, #131313);
+        }
+
+        .flex.items-center.gap-4.px-6.py-3\.5.border-b {
+            background: linear-gradient(135deg, rgba(202, 253, 0, 0.05), transparent);
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
+        }
+
+        /* Message input improvements */
+        #msgInput {
+            background: linear-gradient(135deg, #1a1a1a, #131313);
+            border: 1px solid rgba(202, 253, 0, 0.1);
+            transition: all 0.3s ease;
+        }
+
+        #msgInput:focus {
+            background: linear-gradient(135deg, #262626, #1a1a1a);
+            border-color: #cafd00;
+            box-shadow: 0 0 20px rgba(202, 253, 0, 0.15);
+        }
+
+        /* Send button improvements */
+        .bg-primary-fixed.hover\:bg-primary {
+            background: linear-gradient(135deg, #cafd00, #beee00);
+            box-shadow: 0 4px 15px rgba(202, 253, 0, 0.2);
+            transition: all 0.3s ease;
+        }
+
+        .bg-primary-fixed.hover\:bg-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px rgba(202, 253, 0, 0.3);
+        }
+
+        .bg-primary-fixed.hover\:bg-primary:active {
+            transform: translateY(0);
+        }
+
+        /* Message styling */
+        .px-4.py-2.rounded-2xl {
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
+            word-wrap: break-word;
+        }
+
+        .px-4.py-2.rounded-2xl.bg-primary-fixed {
+            background: linear-gradient(135deg, #cafd00, #beee00);
+            box-shadow: 0 4px 15px rgba(202, 253, 0, 0.25);
+        }
+
+        .px-4.py-2.rounded-2xl.bg-surface-container {
+            background: linear-gradient(135deg, #262626, #1a1a1a);
+            border: 1px solid rgba(202, 253, 0, 0.1);
+        }
+
+        /* Button styling improvements */
+        button {
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        button:hover:not(:disabled) {
+            transform: translateY(-1px);
+        }
+
+        button:active:not(:disabled) {
+            transform: translateY(0);
+        }
+
+        /* Loading spinner improvements */
+        .animate-spin {
+            animation: spin 0.8s linear infinite;
+            color: #cafd00;
+        }
 
         /* Smooth transitions */
         .transition-smooth { transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1); }
@@ -136,16 +335,43 @@
         /* Toast notification */
         .toast {
             animation: slideUp 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.4);
+            backdrop-filter: blur(20px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
         }
+
         @keyframes slideUp {
             from { opacity: 0; transform: translateY(20px); }
             to { opacity: 1; transform: translateY(0); }
+        }
+
+        /* Empty state improvements */
+        .flex.flex-col.items-center.justify-center.py-16,
+        .flex.flex-col.items-center.justify-center.py-12 {
+            padding: 40px 20px;
+        }
+
+        .flex.flex-col.items-center.justify-center.py-16 .material-symbols-outlined,
+        .flex.flex-col.items-center.justify-center.py-12 .material-symbols-outlined {
+            color: #cafd00;
+            opacity: 0.15;
+            margin-bottom: 16px;
         }
 
         /* Mobile responsive */
         @media (max-width: 768px) {
             .sidebar { z-index: 40; }
             .chat-panel { z-index: 50; }
+            
+            .friend-item {
+                margin: 6px 4px;
+                padding: 14px 12px;
+            }
+
+            #msgInput,
+            #searchInput {
+                font-size: 16px;
+            }
         }
     </style>
 </head>
@@ -158,15 +384,18 @@
 <script src="./auth.js"></script>
 
 <!-- NAVIGATION -->
-<nav class="fixed top-0 w-full z-40 bg-black/80 backdrop-blur-xl border-b border-white/5">
+<nav class="fixed top-0 w-full z-40 bg-gradient-to-r from-black via-black/95 to-black/90 backdrop-blur-xl border-b border-white/5">
     <div class="flex justify-between items-center px-6 py-3.5 max-w-7xl mx-auto w-full">
-        <a href="./index.html" class="font-headline text-lg font-black text-primary-fixed italic tracking-tight">TRENING AURA</a>
+        <a href="./index.html" class="font-headline text-xl font-black text-primary-fixed italic tracking-tight hover:text-primary transition-smooth flex items-center gap-2">
+            <span class="material-symbols-outlined text-2xl">fitness_center</span>
+            TRENING AURA
+        </a>
         <div class="flex items-center gap-4">
-            <a href="./profil.html" class="flex items-center gap-2 text-on-surface-variant hover:text-on-surface transition-smooth text-sm font-bold">
+            <a href="./profil.html" class="flex items-center gap-2 text-on-surface-variant hover:text-primary-fixed transition-smooth text-sm font-bold px-3 py-2 rounded-lg hover:bg-surface-container">
                 <span class="material-symbols-outlined text-lg">person</span>
                 <span id="navUserName" class="hidden sm:inline"></span>
             </a>
-            <button onclick="doLogout()" class="flex items-center gap-2 text-on-surface-variant hover:text-on-surface transition-smooth" title="Logout">
+            <button onclick="doLogout()" class="flex items-center gap-2 text-on-surface-variant hover:text-error transition-smooth px-3 py-2 rounded-lg hover:bg-surface-container" title="Logout">
                 <span class="material-symbols-outlined text-lg">logout</span>
             </button>
         </div>
@@ -180,45 +409,58 @@
     <div class="w-80 flex-shrink-0 border-r border-white/5 flex flex-col bg-surface-container-lowest transition-smooth md:relative md:z-40 absolute inset-0 pt-16 md:pt-0" id="sidebar">
         
         <!-- TABS -->
-        <div class="flex border-b border-white/5">
-            <button class="flex-1 py-3.5 px-2 text-xs font-black uppercase tracking-widest text-on-surface-variant hover:text-primary-fixed border-b-2 border-transparent active:border-primary-fixed transition-all" onclick="switchTab('friends')" id="tab-friends">Friends</button>
-            <button class="flex-1 py-3.5 px-2 text-xs font-black uppercase tracking-widest text-on-surface-variant hover:text-primary-fixed border-b-2 border-transparent active:border-primary-fixed transition-all" onclick="switchTab('search')" id="tab-search">Find</button>
-            <button class="flex-1 py-3.5 px-2 text-xs font-black uppercase tracking-widest text-on-surface-variant hover:text-primary-fixed border-b-2 border-transparent active:border-primary-fixed transition-all relative" onclick="switchTab('requests')" id="tab-requests">
-                Requests
+        <div class="flex border-b border-white/5 bg-surface-container-low">
+            <button class="flex-1 py-4 px-2 text-xs font-black uppercase tracking-widest text-on-surface-variant hover:text-primary-fixed border-b-2 border-transparent active:border-primary-fixed transition-all relative" onclick="switchTab('friends')" id="tab-friends">
+                <span class="material-symbols-outlined text-sm mb-1">group</span>
+                <div>Friends</div>
+            </button>
+            <button class="flex-1 py-4 px-2 text-xs font-black uppercase tracking-widest text-on-surface-variant hover:text-primary-fixed border-b-2 border-transparent active:border-primary-fixed transition-all relative" onclick="switchTab('search')" id="tab-search">
+                <span class="material-symbols-outlined text-sm mb-1">person_add</span>
+                <div>Find</div>
+            </button>
+            <button class="flex-1 py-4 px-2 text-xs font-black uppercase tracking-widest text-on-surface-variant hover:text-primary-fixed border-b-2 border-transparent active:border-primary-fixed transition-all relative" onclick="switchTab('requests')" id="tab-requests">
+                <span class="material-symbols-outlined text-sm mb-1">mail</span>
+                <div>Requests</div>
                 <span class="absolute top-1 right-1 bg-primary-fixed text-on-primary-fixed text-xs font-black rounded-full h-5 w-5 flex items-center justify-center hidden" id="reqBadge">0</span>
             </button>
         </div>
 
         <!-- FRIENDS PANEL -->
-        <div class="flex-1 overflow-y-auto hidden" id="panel-friends">
-            <div class="px-4 py-3 text-xs font-black uppercase tracking-widest text-on-surface-variant">Your Friends</div>
-            <div id="friendsList">
-                <div class="flex items-center justify-center py-8 text-on-surface-variant gap-2">
-                    <span class="material-symbols-outlined text-lg animate-spin">refresh</span> Loading...
+        <div class="flex-1 overflow-y-auto hidden flex flex-col" id="panel-friends">
+            <div class="px-6 py-4 text-xs font-black uppercase tracking-widest text-on-surface-variant border-b border-white/5">
+                <span class="flex items-center gap-2"><span class="material-symbols-outlined text-base">group</span>Your Friends</span>
+            </div>
+            <div id="friendsList" class="flex-1">
+                <div class="flex flex-col items-center justify-center py-12 text-on-surface-variant gap-2">
+                    <span class="material-symbols-outlined text-4xl opacity-20">group</span>
+                    <p class="text-sm">No friends yet</p>
                 </div>
             </div>
         </div>
 
         <!-- SEARCH PANEL -->
-        <div class="flex-1 overflow-y-auto hidden p-4" id="panel-search">
+        <div class="flex-1 overflow-y-auto hidden p-4 flex flex-col" id="panel-search">
             <div class="relative mb-4">
-                <span class="material-symbols-outlined absolute left-3 top-3 text-on-surface-variant">search</span>
-                <input class="w-full bg-surface-container border border-white/8 text-white px-3 py-2.5 pl-10 rounded-xl text-sm outline-none focus:border-primary-fixed/40 focus:ring-2 focus:ring-primary-fixed/10 transition-smooth" id="searchInput" type="text" placeholder="Search by name..." oninput="onSearchInput(this.value)" />
+                <span class="material-symbols-outlined absolute left-4 top-3.5 text-on-surface-variant text-lg">search</span>
+                <input class="w-full bg-surface-container border border-white/8 text-white px-4 py-3 pl-12 rounded-xl text-sm outline-none focus:border-primary-fixed/40 focus:ring-2 focus:ring-primary-fixed/10 transition-smooth placeholder-on-surface-variant/50" id="searchInput" type="text" placeholder="Search by name or email..." oninput="onSearchInput(this.value)" />
             </div>
-            <div id="searchResults">
+            <div id="searchResults" class="flex-1">
                 <div class="text-center py-12 text-on-surface-variant">
-                    <span class="material-symbols-outlined text-4xl block mb-2 opacity-20">person_search</span>
-                    <p class="text-sm">Type to search for users</p>
+                    <span class="material-symbols-outlined text-5xl block mb-3 opacity-15">person_search</span>
+                    <p class="text-sm font-medium">Type to search for users</p>
                 </div>
             </div>
         </div>
 
         <!-- REQUESTS PANEL -->
-        <div class="flex-1 overflow-y-auto hidden" id="panel-requests">
-            <div class="px-4 py-3 text-xs font-black uppercase tracking-widest text-on-surface-variant">Incoming Requests</div>
-            <div id="requestsList">
-                <div class="flex items-center justify-center py-8 text-on-surface-variant gap-2">
-                    <span class="material-symbols-outlined text-lg animate-spin">refresh</span> Loading...
+        <div class="flex-1 overflow-y-auto hidden flex flex-col" id="panel-requests">
+            <div class="px-6 py-4 text-xs font-black uppercase tracking-widest text-on-surface-variant border-b border-white/5">
+                <span class="flex items-center gap-2"><span class="material-symbols-outlined text-base">mail</span>Incoming Requests</span>
+            </div>
+            <div id="requestsList" class="flex-1">
+                <div class="flex flex-col items-center justify-center py-12 text-on-surface-variant gap-2">
+                    <span class="material-symbols-outlined text-4xl opacity-20">mail</span>
+                    <p class="text-sm">No requests</p>
                 </div>
             </div>
         </div>
@@ -227,39 +469,39 @@
     <!-- CHAT PANEL -->
     <div class="flex-1 flex flex-col bg-surface hidden md:flex transition-smooth" id="chatPanel">
         <!-- Header -->
-        <div class="flex items-center gap-4 px-6 py-3.5 border-b border-white/5 bg-surface-container-lowest flex-shrink-0">
+        <div class="flex items-center gap-4 px-6 py-4 border-b border-white/5 bg-surface-container-lowest flex-shrink-0">
             <button class="md:hidden p-2 hover:bg-surface-container rounded-lg transition-smooth" onclick="closeChatPanel()">
                 <span class="material-symbols-outlined">arrow_back</span>
             </button>
-            <div class="w-11 h-11 rounded-full bg-surface-container flex items-center justify-center font-headline font-black text-primary-fixed flex-shrink-0" id="chatAvatar">?</div>
-            <div class="flex-1">
+            <div class="w-12 h-12 rounded-full bg-gradient-to-br from-primary-fixed to-primary-dim flex items-center justify-center font-headline font-black text-on-primary-fixed flex-shrink-0 shadow-lg" id="chatAvatar">?</div>
+            <div class="flex-1 min-w-0">
                 <div class="font-bold text-base" id="chatName">—</div>
                 <div class="text-xs text-on-surface-variant" id="chatStatus">—</div>
             </div>
-            <button onclick="removeFriendConfirm()" class="p-2 hover:bg-surface-container rounded-lg transition-smooth" title="Remove friend">
-                <span class="material-symbols-outlined text-lg">person_remove</span>
+            <button onclick="removeFriendConfirm()" class="p-2.5 hover:bg-error-container/20 rounded-lg transition-smooth" title="Remove friend">
+                <span class="material-symbols-outlined text-lg text-error">person_remove</span>
             </button>
         </div>
 
         <!-- Messages -->
-        <div class="flex-1 overflow-y-auto p-6 space-y-3" id="chatMessages">
+        <div class="flex-1 overflow-y-auto p-6 space-y-4" id="chatMessages">
             <div class="flex flex-col items-center justify-center h-full text-center text-on-surface-variant">
-                <span class="material-symbols-outlined text-6xl opacity-10 mb-3">chat_bubble</span>
-                <p class="text-sm">Start a conversation</p>
+                <span class="material-symbols-outlined text-7xl opacity-10 mb-4">chat_bubble</span>
+                <p class="text-sm font-medium">Start a conversation</p>
             </div>
         </div>
 
         <!-- Input -->
-        <div class="flex gap-3 px-6 py-3.5 border-t border-white/5 bg-surface-container-lowest flex-shrink-0">
-            <input class="flex-1 bg-surface-container border border-white/8 text-white px-4 py-3 rounded-xl text-sm outline-none focus:border-primary-fixed/40 focus:ring-2 focus:ring-primary-fixed/10 transition-smooth" id="msgInput" type="text" placeholder="Type a message..." onkeydown="if(event.key==='Enter') sendMessage()" />
-            <button class="bg-primary-fixed hover:bg-primary text-on-primary-fixed rounded-xl p-3 flex items-center justify-center flex-shrink-0 transition-smooth hover:shadow-lg hover:shadow-primary-fixed/30" onclick="sendMessage()">
+        <div class="flex gap-3 px-6 py-4 border-t border-white/5 bg-surface-container-lowest flex-shrink-0">
+            <input class="flex-1 bg-surface-container border border-white/8 text-white px-4 py-3 rounded-xl text-sm outline-none focus:border-primary-fixed/40 focus:ring-2 focus:ring-primary-fixed/10 transition-smooth placeholder-on-surface-variant/50" id="msgInput" type="text" placeholder="Type a message..." onkeydown="if(event.key==='Enter') sendMessage()" />
+            <button class="bg-gradient-to-br from-primary-fixed to-primary-dim hover:shadow-lg text-on-primary-fixed rounded-xl p-3 flex items-center justify-center flex-shrink-0 transition-smooth" onclick="sendMessage()" title="Send message">
                 <span class="material-symbols-outlined fill-icon text-lg">send</span>
             </button>
         </div>
     </div>
 
     <!-- NO CHAT SELECTED (desktop) -->
-    <div class="hidden md:flex flex-1 flex-col items-center justify-center text-center" id="noChatSelected">
+    <div class="hidden md:flex flex-1 flex-col items-center justify-center text-center bg-gradient-to-br from-surface to-surface-container" id="noChatSelected">
         <span class="material-symbols-outlined text-8xl opacity-5 mb-4">forum</span>
         <h2 class="font-headline text-2xl font-black text-white/15 uppercase tracking-tight">Select a conversation</h2>
         <p class="text-on-surface-variant text-sm mt-2">Choose a friend from the left to start chatting</p>
@@ -269,6 +511,34 @@
 <style>
 @keyframes spin { from { transform: rotate(0deg); } to { transform: rotate(360deg); } }
 .animate-spin { animation: spin 0.8s linear infinite; }
+
+/* Additional polish */
+*::-webkit-scrollbar-track {
+    background: transparent;
+}
+
+/* Input placeholder styling */
+input::placeholder {
+    color: rgba(173, 170, 170, 0.5);
+}
+
+/* Better text selection */
+::selection {
+    background: #cafd00;
+    color: #3a4a00;
+}
+
+/* Subtle transitions for all interactive elements */
+a, button {
+    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* Improved focus states for keyboard navigation */
+button:focus-visible,
+input:focus-visible {
+    outline: 2px solid #cafd00;
+    outline-offset: 2px;
+}
 </style>
 
 <!-- ================= TRENING AURA CHAT SYSTEM ================= -->
@@ -333,8 +603,9 @@ async function renderFriends() {
     if (!friends.length) {
         list.innerHTML = `
         <div class="flex flex-col items-center justify-center py-16 text-center text-on-surface-variant">
-            <span class="material-symbols-outlined text-5xl opacity-20 mb-3">group</span>
-            <p class="text-sm">No friends yet</p>
+            <span class="material-symbols-outlined text-6xl opacity-15 mb-3">group</span>
+            <p class="text-sm font-medium">No friends yet</p>
+            <p class="text-xs opacity-70 mt-1">Find people to chat with!</p>
         </div>`;
         return;
     }
@@ -344,11 +615,12 @@ async function renderFriends() {
              style="animation: fadeUp 0.4s ease both; animation-delay: ${i * 30}ms;"
              onclick="openChat('${f.uid}', '${escapeHtml(f.name)}', '${escapeHtml(f.email)}')">
             <div class="flex items-center gap-3">
-                <div class="w-10 h-10 rounded-full bg-surface-container flex items-center justify-center font-headline font-black text-primary-fixed flex-shrink-0">${f.name.charAt(0).toUpperCase()}</div>
+                <div class="w-11 h-11 rounded-full bg-gradient-to-br from-primary-fixed to-primary-dim flex items-center justify-center font-headline font-black text-on-primary-fixed flex-shrink-0 shadow-md">${f.name.charAt(0).toUpperCase()}</div>
                 <div class="flex-1 min-w-0">
-                    <div class="font-bold text-sm">${escapeHtml(f.name)}</div>
-                    <div class="text-xs text-on-surface-variant truncate" id="last-${f.uid}">...</div>
+                    <div class="font-bold text-sm truncate">${escapeHtml(f.name)}</div>
+                    <div class="text-xs text-on-surface-variant truncate" id="last-${f.uid}">No messages</div>
                 </div>
+                <span class="material-symbols-outlined text-lg text-primary-fixed opacity-0 group-hover:opacity-100 transition-opacity">arrow_forward</span>
             </div>
         </div>
     `).join('');
@@ -406,7 +678,7 @@ async function doSearch(query) {
     const friendIds = friends.map(f => f.uid);
 
     if (!users.length) {
-        results.innerHTML = `<div class="text-center py-12 text-on-surface-variant"><p class="text-sm">No users found</p></div>`;
+        results.innerHTML = `<div class="text-center py-12 text-on-surface-variant"><span class="material-symbols-outlined text-5xl opacity-15 block mb-2">person_search</span><p class="text-sm font-medium">No users found</p></div>`;
         return;
     }
 
@@ -418,16 +690,16 @@ async function doSearch(query) {
         let btn = '';
 
         if (isFriend) {
-            btn = `<span class="px-3 py-1.5 bg-primary-fixed/15 text-primary-fixed text-xs font-black rounded-full whitespace-nowrap">Friends</span>`;
+            btn = `<span class="px-3 py-1.5 bg-primary-fixed/15 text-primary-fixed text-xs font-black rounded-full whitespace-nowrap flex items-center gap-1"><span class="material-symbols-outlined text-sm">check</span>Friends</span>`;
         } else if (isSent) {
-            btn = `<span class="px-3 py-1.5 bg-surface-container text-on-surface-variant text-xs font-black rounded-full whitespace-nowrap">Sent</span>`;
+            btn = `<span class="px-3 py-1.5 bg-surface-container text-on-surface-variant text-xs font-black rounded-full whitespace-nowrap flex items-center gap-1"><span class="material-symbols-outlined text-sm">schedule</span>Sent</span>`;
         } else {
-            btn = `<button class="px-3 py-1.5 bg-primary-fixed text-on-primary-fixed text-xs font-black rounded-full whitespace-nowrap hover:shadow-lg hover:shadow-primary-fixed/30 transition-smooth" onclick="sendFriendRequest('${u.uid}')">Add</button>`;
+            btn = `<button class="px-4 py-2 bg-primary-fixed text-on-primary-fixed text-xs font-black rounded-full whitespace-nowrap hover:shadow-lg hover:shadow-primary-fixed/30 transition-smooth flex items-center gap-1" onclick="sendFriendRequest('${u.uid}')"><span class="material-symbols-outlined text-sm">person_add</span>Add</button>`;
         }
 
         return `
-        <div class="flex items-center gap-3 p-3 bg-surface-container rounded-xl mb-2 hover:bg-surface-container-high transition-smooth" style="animation: fadeUp 0.4s ease both; animation-delay: ${i * 30}ms;">
-            <div class="w-10 h-10 rounded-full bg-surface-container-high flex items-center justify-center font-headline font-black text-primary-fixed flex-shrink-0">${u.name.charAt(0).toUpperCase()}</div>
+        <div class="flex items-center gap-3 p-4 bg-surface-container rounded-xl mb-2 hover:bg-surface-container-high transition-smooth" style="animation: fadeUp 0.4s ease both; animation-delay: ${i * 30}ms;">
+            <div class="w-11 h-11 rounded-full bg-gradient-to-br from-primary-fixed to-primary-dim flex items-center justify-center font-headline font-black text-on-primary-fixed flex-shrink-0 shadow-md">${u.name.charAt(0).toUpperCase()}</div>
             <div style="flex:1; min-width: 0;">
                 <div class="font-bold text-sm">${escapeHtml(u.name)}</div>
                 <div class="text-xs text-on-surface-variant truncate">${escapeHtml(u.email)}</div>
@@ -463,20 +735,24 @@ async function renderRequests() {
     }
 
     if (!reqs.length) {
-        list.innerHTML = `<div class="flex flex-col items-center justify-center py-16 text-center text-on-surface-variant"><span class="material-symbols-outlined text-5xl opacity-20 mb-3">mail</span><p class="text-sm">No requests</p></div>`;
+        list.innerHTML = `<div class="flex flex-col items-center justify-center py-16 text-center text-on-surface-variant"><span class="material-symbols-outlined text-6xl opacity-15 mb-3">mail</span><p class="text-sm font-medium">No requests</p><p class="text-xs opacity-70 mt-1">People will send you requests here</p></div>`;
         return;
     }
 
     list.innerHTML = reqs.map((r, i) => `
-        <div class="flex items-center gap-3 px-4 py-3 border-b border-white/5 hover:bg-surface-container-low transition-smooth" style="animation: fadeUp 0.4s ease both; animation-delay: ${i * 30}ms;">
-            <div class="w-10 h-10 rounded-full bg-surface-container flex items-center justify-center font-headline font-black text-primary-fixed flex-shrink-0">${r.name.charAt(0).toUpperCase()}</div>
+        <div class="flex items-center gap-3 px-4 py-4 border-b border-white/5 hover:bg-surface-container-low transition-smooth" style="animation: fadeUp 0.4s ease both; animation-delay: ${i * 30}ms;">
+            <div class="w-11 h-11 rounded-full bg-gradient-to-br from-primary-fixed to-primary-dim flex items-center justify-center font-headline font-black text-on-primary-fixed flex-shrink-0 shadow-md">${r.name.charAt(0).toUpperCase()}</div>
             <div style="flex:1; min-width: 0;">
                 <div class="font-bold text-sm">${escapeHtml(r.name)}</div>
                 <div class="text-xs text-on-surface-variant truncate">${escapeHtml(r.email)}</div>
             </div>
             <div class="flex gap-2 ml-auto">
-                <button onclick="acceptRequest('${r.uid}')" class="w-8 h-8 rounded-lg bg-primary-fixed text-on-primary-fixed flex items-center justify-center hover:shadow-lg hover:shadow-primary-fixed/30 transition-smooth font-bold">✔</button>
-                <button onclick="declineRequest('${r.uid}')" class="w-8 h-8 rounded-lg bg-error-container text-error flex items-center justify-center hover:shadow-lg transition-smooth font-bold">✖</button>
+                <button onclick="acceptRequest('${r.uid}')" class="w-9 h-9 rounded-lg bg-primary-fixed text-on-primary-fixed flex items-center justify-center hover:shadow-lg hover:shadow-primary-fixed/30 transition-smooth font-bold text-lg" title="Accept">
+                    <span class="material-symbols-outlined text-lg">check</span>
+                </button>
+                <button onclick="declineRequest('${r.uid}')" class="w-9 h-9 rounded-lg bg-error-container text-error flex items-center justify-center hover:shadow-lg transition-smooth font-bold text-lg" title="Decline">
+                    <span class="material-symbols-outlined text-lg">close</span>
+                </button>
             </div>
         </div>
     `).join('');
@@ -534,20 +810,22 @@ function addMessageToUI(m) {
     
     // Clear loading message if exists
     const loading = box.querySelector('.animate-spin');
-    if (loading) loading.parentElement.remove();
+    if (loading) loading.parentElement.parentElement.remove();
 
     const isMe = m.senderId === currentUser.uid;
 
     const div = document.createElement('div');
     div.className = `flex ${isMe ? 'justify-end' : 'justify-start'} animate-message`;
 
+    const time = new Date(m.time).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
+
     div.innerHTML = `
         <div class="max-w-xs lg:max-w-md">
-            <div class="px-4 py-2 rounded-2xl ${isMe ? 'bg-primary-fixed text-on-primary-fixed rounded-br-none' : 'bg-surface-container text-on-surface rounded-bl-none'}">
-                <p class="text-sm font-medium break-words">${escapeHtml(m.text)}</p>
+            <div class="px-5 py-3 rounded-2xl ${isMe ? 'bg-gradient-to-br from-primary-fixed to-primary-dim text-on-primary-fixed rounded-br-none shadow-lg shadow-primary-fixed/20' : 'bg-surface-container text-on-surface rounded-bl-none border border-white/10 shadow-md'}">
+                <p class="text-sm font-medium break-words leading-relaxed">${escapeHtml(m.text)}</p>
             </div>
-            <p class="text-xs text-on-surface-variant mt-1 ${isMe ? 'text-right' : 'text-left'}">
-                ${new Date(m.time).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}
+            <p class="text-xs text-on-surface-variant mt-2 ${isMe ? 'text-right' : 'text-left'}">
+                ${time}
             </p>
         </div>
     `;
@@ -600,10 +878,18 @@ function escapeHtml(t) {
 
 function showToast(msg, err = false) {
     const t = document.createElement('div');
-    t.className = 'fixed bottom-8 left-1/2 -translate-x-1/2 z-[9999] px-6 py-3 rounded-xl font-bold text-sm shadow-2xl toast';
-    t.style.background = err ? '#b92902' : '#cafd00';
-    t.style.color = err ? '#fff' : '#3a4a00';
-    t.textContent = msg;
+    t.className = 'fixed bottom-8 left-1/2 -translate-x-1/2 z-[9999] px-6 py-4 rounded-xl font-bold text-sm shadow-2xl toast flex items-center gap-3';
+    
+    if (err) {
+        t.style.background = 'linear-gradient(135deg, #b92902, #8a1f01)';
+        t.style.color = '#fff';
+        t.innerHTML = `<span class="material-symbols-outlined text-lg">error</span>${msg}`;
+    } else {
+        t.style.background = 'linear-gradient(135deg, #cafd00, #beee00)';
+        t.style.color = '#3a4a00';
+        t.innerHTML = `<span class="material-symbols-outlined text-lg fill-icon">check_circle</span>${msg}`;
+    }
+    
     document.body.appendChild(t);
     
     setTimeout(() => {

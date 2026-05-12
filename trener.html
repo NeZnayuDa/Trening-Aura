@@ -1,0 +1,1051 @@
+<!DOCTYPE html>
+<html class="dark" lang="ru">
+<head>
+    <meta charset="utf-8" />
+    <meta content="width=device-width, initial-scale=1.0" name="viewport" />
+    <link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:ital,wght@0,400;0,600;0,700;0,800;0,900;1,700;1,900&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet" />
+    <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet" />
+    <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+    <script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    colors: {
+                        "bg": "#0b0b0b",
+                        "surface": "#111111",
+                        "surface-hi": "#1a1a1a",
+                        "surface-highest": "#222222",
+                        "border": "#2a2a2a",
+                        "accent": "#ff4d00",
+                        "accent2": "#ffaa00",
+                        "text": "#f0ede8",
+                        "muted": "#6b6560",
+                    },
+                    fontFamily: { display: ["Barlow Condensed"], body: ["DM Sans"] }
+                }
+            }
+        }
+    </script>
+    <style>
+        * { box-sizing: border-box; }
+        html, body { height: 100%; overflow: hidden; background: #0b0b0b; }
+        .material-symbols-outlined { font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24; font-size: inherit; }
+
+        /* ── Sidebar nav ── */
+        .nav-item {
+            display: flex; align-items: center; padding: 10px 20px;
+            color: #6b6560; font-family: 'Barlow Condensed', sans-serif;
+            text-transform: uppercase; font-size: 14px; letter-spacing: 0.12em;
+            font-weight: 700; cursor: pointer; transition: all .2s;
+            border-left: 3px solid transparent; text-decoration: none;
+            gap: 12px;
+        }
+        .nav-item:hover { color: #f0ede8; background: rgba(255,255,255,0.03); }
+        .nav-item.active { color: #ff4d00; border-left-color: #ff4d00; background: rgba(255,77,0,0.07); }
+        .nav-item .material-symbols-outlined { font-size: 18px; }
+
+        /* ── Panels ── */
+        .panel { display: none; }
+        .panel.active { display: flex; flex-direction: column; height: 100%; }
+
+        /* ── Scrollbar ── */
+        ::-webkit-scrollbar { width: 3px; }
+        ::-webkit-scrollbar-track { background: transparent; }
+        ::-webkit-scrollbar-thumb { background: #2a2a2a; border-radius: 4px; }
+
+        /* ── Toast ── */
+        #toast {
+            position: fixed; bottom: 28px; left: 50%; transform: translateX(-50%);
+            background: #1a1a1a; border: 1px solid #ff4d00; color: #f0ede8;
+            padding: 10px 22px; border-radius: 8px; font-family: 'Barlow Condensed', sans-serif;
+            font-size: 14px; letter-spacing: 0.05em; z-index: 9999;
+            opacity: 0; transition: opacity .3s; pointer-events: none;
+        }
+        #toast.show { opacity: 1; }
+
+        /* ── History panel ── */
+        #history-overlay { display:none; position:fixed; inset:0; background:rgba(0,0,0,0.6); z-index:45; }
+        #history-overlay.show { display:block; }
+        #history-panel {
+            position: fixed; top:0; right:-380px; height:100%; width:340px;
+            background: #0e0e0e; border-left: 1px solid #1f1f1f;
+            z-index: 46; padding-top: 64px; transition: right .3s ease; overflow-y: auto;
+        }
+        #history-panel.open { right: 0; }
+
+        /* ── Exercise card ── */
+        .exercise-card { border: 1px solid #1f1f1f; border-radius: 12px; padding: 16px; background: #111; transition: all .2s; cursor: pointer; }
+        .exercise-card:hover { border-color: #ff4d00; background: #141414; }
+        .exercise-card.active { border-color: #ff4d00; background: rgba(255,77,0,0.06); }
+
+        /* ── Timer ring ── */
+        .timer-ring { position: relative; width: 80px; height: 80px; flex-shrink: 0; }
+        .timer-ring svg { transform: rotate(-90deg); }
+        .timer-ring-circle { stroke-dasharray: 226; stroke-dashoffset: 0; transition: stroke-dashoffset .5s linear; }
+        .timer-text { position: absolute; inset: 0; display: flex; align-items: center; justify-content: center; font-family: 'Barlow Condensed'; font-weight: 800; font-size: 18px; color: #ff4d00; }
+
+        /* ── Pulse dot ── */
+        .pulse { animation: pulse-anim 2s infinite; }
+        @keyframes pulse-anim { 0%,100%{opacity:1;transform:scale(1)} 50%{opacity:.5;transform:scale(0.8)} }
+
+        /* ── Settings modal ── */
+        #settingsModal { display:none; position:fixed; inset:0; z-index:50; align-items:center; justify-content:center; background:rgba(0,0,0,0.7); backdrop-filter:blur(6px); }
+        #settingsModal.show { display:flex; }
+
+        /* ── Upgrade modal ── */
+        #upgrade-modal { display:none; position:fixed; inset:0; z-index:50; align-items:center; justify-content:center; background:rgba(0,0,0,0.7); backdrop-filter:blur(6px); }
+        #upgrade-modal.show { display:flex; }
+
+        /* ── Workout progress bar ── */
+        .set-dot { width: 10px; height: 10px; border-radius: 50%; border: 1.5px solid #ff4d00; cursor: pointer; transition: all .2s; }
+        .set-dot.done { background: #ff4d00; }
+
+        /* ── Intensity bar ── */
+        .intensity-bar { height: 4px; background: #1f1f1f; border-radius: 99px; overflow: hidden; margin-top: 6px; }
+        .intensity-fill { height: 100%; border-radius: 99px; background: #ff4d00; transition: width 1s ease; }
+
+        /* ── Chat message animations ── */
+        .msg-enter { animation: msgIn .25s ease forwards; }
+        @keyframes msgIn { from{opacity:0;transform:translateY(8px)} to{opacity:1;transform:translateY(0)} }
+
+        /* ── Stats grid ── */
+        .stat-card { background: #111; border: 1px solid #1f1f1f; border-radius: 12px; padding: 16px; }
+
+        /* ── Program card ── */
+        .program-card { background: #111; border: 1px solid #1f1f1f; border-radius: 14px; overflow: hidden; cursor: pointer; transition: all .25s; }
+        .program-card:hover { border-color: #ff4d00; transform: translateY(-2px); }
+
+        /* ── Mobile bottom nav ── */
+        .mob-nav-btn { display: flex; flex-direction: column; align-items: center; gap: 2px; padding: 6px 12px; color: #6b6560; font-family: 'Barlow Condensed'; font-size: 10px; letter-spacing: 0.1em; text-transform: uppercase; cursor: pointer; transition: color .2s; }
+        .mob-nav-btn.active { color: #ff4d00; }
+        .mob-nav-btn .material-symbols-outlined { font-size: 22px; }
+    </style>
+</head>
+
+<body class="text-[#f0ede8] font-body selection:bg-[#ff4d00] selection:text-white">
+
+<!-- Toast -->
+<div id="toast"></div>
+
+<!-- ══════════════════════════════════════════
+     TOP BAR
+══════════════════════════════════════════ -->
+<header class="fixed top-0 w-full z-50 bg-[#0b0b0b]/90 backdrop-blur-xl flex justify-between items-center px-5 h-14 border-b border-[#1f1f1f]">
+    <div class="flex items-center gap-3">
+        <button id="mobile-menu-btn" class="lg:hidden text-[#ff4d00]">
+            <span class="material-symbols-outlined" style="font-size:22px">menu</span>
+        </button>
+        <span class="font-display font-black text-xl tracking-widest text-[#ff4d00] italic">IRON<span class="text-[#f0ede8]">MIND</span></span>
+    </div>
+    <div class="flex items-center gap-4">
+        <div class="hidden md:flex items-center gap-6 font-display text-[#6b6560] text-xs tracking-widest uppercase">
+            <button onclick="switchPanel('coach')" class="hover:text-[#ff4d00] transition-colors" id="topnav-coach">AI Coach</button>
+            <button onclick="switchPanel('programs')" class="hover:text-[#ff4d00] transition-colors" id="topnav-programs">Programs</button>
+            <a class="hover:text-[#ff4d00] transition-colors" href="https://t.me/+Shhn1BGA34RiMzMy" target="_blank">Telegram</a>
+        </div>
+        <div class="flex items-center gap-2">
+            <button onclick="toggleHistory()" class="relative p-2 rounded-lg hover:bg-white/5 transition-colors">
+                <span class="material-symbols-outlined text-[#ff4d00]" style="font-size:20px">history</span>
+                <span id="history-badge" class="hidden absolute -top-1 -right-1 w-4 h-4 bg-[#ff4d00] text-white text-[9px] font-black rounded-full flex items-center justify-center">0</span>
+            </button>
+            <button onclick="openSettings()" class="p-2 rounded-lg hover:bg-white/5 transition-colors">
+                <span class="material-symbols-outlined text-[#ff4d00]" style="font-size:20px">settings</span>
+            </button>
+            <div id="user-avatar-nav" class="w-8 h-8 rounded-full border border-[#ff4d00]/40 bg-[#1a1a1a] flex items-center justify-center font-display font-black text-[#ff4d00] text-xs cursor-pointer hover:border-[#ff4d00]">?</div>
+        </div>
+    </div>
+</header>
+
+<!-- ══════════════════════════════════════════
+     HISTORY SLIDE-IN
+══════════════════════════════════════════ -->
+<div id="history-overlay" onclick="toggleHistory()"></div>
+<div id="history-panel">
+    <div class="px-5 py-4 border-b border-[#1f1f1f] flex items-center justify-between">
+        <h2 class="font-display font-bold text-xs uppercase tracking-widest text-[#ff4d00]">История тренировок</h2>
+        <button onclick="toggleHistory()" class="text-[#6b6560] hover:text-white"><span class="material-symbols-outlined" style="font-size:18px">close</span></button>
+    </div>
+    <div id="history-panel-list" class="p-4 space-y-3">
+        <p class="text-[#6b6560] text-xs font-body text-center py-8">Нет истории.<br>Начните тренировку!</p>
+    </div>
+</div>
+
+<!-- ══════════════════════════════════════════
+     LEFT SIDEBAR
+══════════════════════════════════════════ -->
+<aside class="hidden lg:flex flex-col h-screen fixed left-0 top-0 w-56 border-r border-[#1f1f1f] bg-[#0e0e0e] z-40 pt-16 pb-8">
+    <div class="px-5 py-5 border-b border-[#1f1f1f]">
+        <p class="font-display font-black text-[10px] tracking-[0.25em] uppercase text-[#ff4d00]">IRONMIND</p>
+        <p class="text-[#6b6560] text-[9px] tracking-[0.2em] uppercase mt-0.5">AI Personal Trainer</p>
+    </div>
+    <nav class="flex-1 py-3 space-y-0.5" id="sidebar-nav">
+        <a class="nav-item active" data-panel="coach" onclick="switchPanel('coach')">
+            <span class="material-symbols-outlined">psychology</span>AI Coach
+        </a>
+        <a class="nav-item" data-panel="workout" onclick="switchPanel('workout')">
+            <span class="material-symbols-outlined">fitness_center</span>Тренировка
+        </a>
+        <a class="nav-item" data-panel="programs" onclick="switchPanel('programs')">
+            <span class="material-symbols-outlined">grid_view</span>Программы
+        </a>
+        <a class="nav-item" data-panel="stats" onclick="switchPanel('stats')">
+            <span class="material-symbols-outlined">bar_chart</span>Статистика
+        </a>
+    </nav>
+    <div class="px-4 mt-auto">
+        <div class="p-4 rounded-xl bg-[#111] border border-[#1f1f1f] mb-3">
+            <p class="font-display text-[10px] text-[#6b6560] uppercase tracking-widest mb-2">Недельная цель</p>
+            <div class="flex justify-between items-center mb-1.5">
+                <span class="font-display font-black text-sm text-[#ff4d00]" id="weekly-done">3</span>
+                <span class="text-[10px] text-[#6b6560]">/ 5 тренировок</span>
+            </div>
+            <div class="h-1.5 bg-[#1f1f1f] rounded-full overflow-hidden">
+                <div id="weekly-bar" class="h-full bg-[#ff4d00] rounded-full transition-all duration-700" style="width:60%"></div>
+            </div>
+        </div>
+        <button onclick="openUpgrade()" class="w-full py-2.5 bg-[#ff4d00] text-white font-display font-black text-xs tracking-widest uppercase rounded-lg hover:bg-[#ff6a2e] active:scale-95 transition-all">
+            Upgrade Pro
+        </button>
+    </div>
+</aside>
+
+<!-- ══════════════════════════════════════════
+     MAIN
+══════════════════════════════════════════ -->
+<main class="lg:ml-56 flex flex-col md:flex-row" style="height:100vh;padding-top:3.5rem;">
+
+    <!-- Recent Workouts sidebar -->
+    <aside class="hidden xl:flex flex-col w-72 p-4 border-r border-[#1f1f1f] space-y-4 overflow-y-auto bg-[#0e0e0e]">
+        <div class="flex items-center justify-between pt-1">
+            <h3 class="font-display text-xs font-bold tracking-widest uppercase text-[#6b6560]">Последние сессии</h3>
+            <button onclick="clearHistory()" class="text-[10px] text-[#6b6560] hover:text-red-400 transition-colors font-display uppercase tracking-widest">Clear</button>
+        </div>
+        <div id="recent-workouts-list" class="space-y-2 flex-1">
+            <div class="text-center py-10 text-[#6b6560]">
+                <span class="material-symbols-outlined text-3xl mb-2 block" style="font-size:32px">fitness_center</span>
+                <p class="text-xs font-body">Начните тренировку —<br>история появится здесь</p>
+            </div>
+        </div>
+
+        <!-- Today's plan mini -->
+        <div class="rounded-xl bg-[#111] border border-[#1f1f1f] p-4 flex-shrink-0">
+            <p class="font-display text-[10px] uppercase tracking-widest text-[#ff4d00] mb-3">Сегодня</p>
+            <div class="space-y-2">
+                <div class="flex justify-between text-xs font-body"><span class="text-[#f0ede8]">Жим лёжа</span><span class="text-[#6b6560]">4×8</span></div>
+                <div class="flex justify-between text-xs font-body"><span class="text-[#f0ede8]">Приседания</span><span class="text-[#6b6560]">4×10</span></div>
+                <div class="flex justify-between text-xs font-body"><span class="text-[#f0ede8]">Тяга блока</span><span class="text-[#6b6560]">3×12</span></div>
+            </div>
+            <button onclick="switchPanel('workout'); showToast('💪 Тренировка начата!')" class="mt-3 w-full py-2 bg-[#ff4d00]/15 border border-[#ff4d00]/30 text-[#ff4d00] font-display font-bold text-xs tracking-widest uppercase rounded-lg hover:bg-[#ff4d00]/25 transition-all">
+                Начать →
+            </button>
+        </div>
+    </aside>
+
+    <!-- ══ PANELS ══ -->
+    <section class="flex-1 flex flex-col overflow-hidden">
+
+        <!-- ── PANEL: AI Coach (chat) ── -->
+        <div id="panel-coach" class="panel active">
+            <div id="chat-messages" class="flex-1 p-6 md:p-8 space-y-6 overflow-y-auto max-w-3xl mx-auto w-full">
+                <!-- Greeting -->
+                <div class="flex flex-col items-center justify-center py-12 select-none">
+                    <div class="w-16 h-16 rounded-2xl bg-[#ff4d00] flex items-center justify-center mb-4 shadow-[0_0_40px_rgba(255,77,0,0.3)]">
+                        <span class="material-symbols-outlined text-white" style="font-size:32px;font-variation-settings:'FILL' 1;">psychology</span>
+                    </div>
+                    <p class="font-display font-black text-2xl tracking-widest text-[#ff4d00] italic uppercase">IRONMIND AI</p>
+                    <p class="text-[#6b6560] text-xs mt-2 font-body tracking-wide">Ваш персональный AI-тренер</p>
+                    <div class="flex gap-3 mt-6 flex-wrap justify-center">
+                        <button onclick="quickAsk('Составь программу тренировок на 3 дня в неделю')" class="px-4 py-2 bg-[#111] border border-[#2a2a2a] rounded-lg text-xs font-body text-[#f0ede8] hover:border-[#ff4d00] hover:text-[#ff4d00] transition-all">💪 Программа</button>
+                        <button onclick="quickAsk('Как правильно делать становую тягу?')" class="px-4 py-2 bg-[#111] border border-[#2a2a2a] rounded-lg text-xs font-body text-[#f0ede8] hover:border-[#ff4d00] hover:text-[#ff4d00] transition-all">🏋️ Техника</button>
+                        <button onclick="quickAsk('Как восстановиться после тяжёлой тренировки?')" class="px-4 py-2 bg-[#111] border border-[#2a2a2a] rounded-lg text-xs font-body text-[#f0ede8] hover:border-[#ff4d00] hover:text-[#ff4d00] transition-all">😴 Восстановление</button>
+                        <button onclick="quickAsk('Как увеличить силу в жиме лёжа?')" class="px-4 py-2 bg-[#111] border border-[#2a2a2a] rounded-lg text-xs font-body text-[#f0ede8] hover:border-[#ff4d00] hover:text-[#ff4d00] transition-all">📈 Прогресс</button>
+                    </div>
+                </div>
+            </div>
+            <!-- Input bar -->
+            <div class="w-full p-4 bg-[#0b0b0b] border-t border-[#1f1f1f] flex-shrink-0">
+                <div class="max-w-3xl mx-auto flex items-center gap-2 p-2 bg-[#111] border border-[#2a2a2a] rounded-xl">
+                    <input id="messageInput" class="flex-1 bg-transparent border-none focus:ring-0 text-sm placeholder:text-[#6b6560] px-3 font-body text-[#f0ede8]" placeholder="Спросите тренера... (техника, программа, восстановление)" type="text" />
+                    <button id="sendBtn" onclick="handleSend()" class="px-5 py-2.5 rounded-lg bg-[#ff4d00] text-white font-display font-bold text-xs tracking-widest uppercase hover:bg-[#ff6a2e] active:scale-95 transition-all">
+                        Отправить
+                    </button>
+                </div>
+                <p class="text-center text-[10px] text-[#6b6560] mt-2 uppercase tracking-widest font-display">IRONMIND AI · Персональный тренер</p>
+            </div>
+        </div>
+
+        <!-- ── PANEL: Active Workout ── -->
+        <div id="panel-workout" class="panel overflow-y-auto">
+            <div class="max-w-2xl mx-auto p-6 space-y-5 pb-24">
+                <div class="flex items-center justify-between">
+                    <div>
+                        <h2 class="font-display font-black text-3xl uppercase italic text-[#ff4d00]">Силовая А</h2>
+                        <p class="text-[#6b6560] text-xs font-body mt-0.5">Грудь · Трицепс · Плечи — ~60 мин</p>
+                    </div>
+                    <!-- Rest timer -->
+                    <div class="timer-ring" id="rest-timer" style="opacity:0;transition:opacity .3s">
+                        <svg width="80" height="80">
+                            <circle cx="40" cy="40" r="36" fill="none" stroke="#1f1f1f" stroke-width="4"/>
+                            <circle id="timer-circle" cx="40" cy="40" r="36" fill="none" stroke="#ff4d00" stroke-width="4" class="timer-ring-circle"/>
+                        </svg>
+                        <div class="timer-text" id="timer-text">0</div>
+                    </div>
+                </div>
+
+                <!-- Progress bar -->
+                <div class="flex items-center gap-3">
+                    <div class="flex-1 h-1.5 bg-[#1f1f1f] rounded-full overflow-hidden">
+                        <div id="workout-progress" class="h-full bg-[#ff4d00] rounded-full transition-all duration-500" style="width:0%"></div>
+                    </div>
+                    <span class="font-display text-xs text-[#6b6560]" id="workout-pct">0%</span>
+                </div>
+
+                <!-- Exercises -->
+                <div class="space-y-3" id="exercise-list">
+                    <!-- Injected by JS -->
+                </div>
+
+                <button onclick="finishWorkout()" class="w-full py-3.5 bg-[#ff4d00] text-white font-display font-black text-sm tracking-widest uppercase rounded-xl hover:bg-[#ff6a2e] active:scale-95 transition-all">
+                    Завершить тренировку ✓
+                </button>
+            </div>
+        </div>
+
+        <!-- ── PANEL: Programs ── -->
+        <div id="panel-programs" class="panel overflow-y-auto">
+            <div class="max-w-2xl mx-auto p-6 space-y-5 pb-24">
+                <div class="mb-2">
+                    <h2 class="font-display font-black text-3xl uppercase italic text-[#f0ede8]">Программы</h2>
+                    <p class="text-[#6b6560] text-xs font-body mt-1">Выберите тренировочный план</p>
+                </div>
+
+                <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                    <div class="program-card" onclick="selectProgram('PPL — Push Pull Legs')">
+                        <div class="h-28 bg-gradient-to-br from-[#ff4d00]/20 to-[#111] flex items-end p-4">
+                            <span class="font-display font-black text-3xl italic text-[#ff4d00] leading-none">PPL</span>
+                        </div>
+                        <div class="p-4">
+                            <p class="font-display font-bold text-sm uppercase tracking-wide">Push Pull Legs</p>
+                            <p class="text-[#6b6560] text-xs font-body mt-1">6 дней / набор массы</p>
+                            <div class="flex gap-2 mt-3">
+                                <span class="text-[10px] bg-[#ff4d00]/10 text-[#ff4d00] px-2 py-0.5 rounded font-display font-bold uppercase">Средний</span>
+                                <span class="text-[10px] bg-[#1f1f1f] text-[#6b6560] px-2 py-0.5 rounded font-display font-bold uppercase">6 дней</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="program-card" onclick="selectProgram('StrongLifts 5×5')">
+                        <div class="h-28 bg-gradient-to-br from-[#ffaa00]/20 to-[#111] flex items-end p-4">
+                            <span class="font-display font-black text-3xl italic text-[#ffaa00] leading-none">5×5</span>
+                        </div>
+                        <div class="p-4">
+                            <p class="font-display font-bold text-sm uppercase tracking-wide">StrongLifts 5×5</p>
+                            <p class="text-[#6b6560] text-xs font-body mt-1">3 дня / сила</p>
+                            <div class="flex gap-2 mt-3">
+                                <span class="text-[10px] bg-[#ffaa00]/10 text-[#ffaa00] px-2 py-0.5 rounded font-display font-bold uppercase">Новичок</span>
+                                <span class="text-[10px] bg-[#1f1f1f] text-[#6b6560] px-2 py-0.5 rounded font-display font-bold uppercase">3 дня</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="program-card" onclick="selectProgram('HIIT Кардио программа')">
+                        <div class="h-28 bg-gradient-to-br from-[#00cffd]/20 to-[#111] flex items-end p-4">
+                            <span class="font-display font-black text-3xl italic text-[#00cffd] leading-none">HIIT</span>
+                        </div>
+                        <div class="p-4">
+                            <p class="font-display font-bold text-sm uppercase tracking-wide">HIIT Кардио</p>
+                            <p class="text-[#6b6560] text-xs font-body mt-1">4 дня / жиросжигание</p>
+                            <div class="flex gap-2 mt-3">
+                                <span class="text-[10px] bg-[#00cffd]/10 text-[#00cffd] px-2 py-0.5 rounded font-display font-bold uppercase">Любой</span>
+                                <span class="text-[10px] bg-[#1f1f1f] text-[#6b6560] px-2 py-0.5 rounded font-display font-bold uppercase">4 дня</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="program-card" onclick="selectProgram('Calisthenics с нуля')">
+                        <div class="h-28 bg-gradient-to-br from-[#b0ff4d]/20 to-[#111] flex items-end p-4">
+                            <span class="font-display font-black text-3xl italic text-[#b0ff4d] leading-none">BODY</span>
+                        </div>
+                        <div class="p-4">
+                            <p class="font-display font-bold text-sm uppercase tracking-wide">Calisthenics</p>
+                            <p class="text-[#6b6560] text-xs font-body mt-1">5 дней / тело без железа</p>
+                            <div class="flex gap-2 mt-3">
+                                <span class="text-[10px] bg-[#b0ff4d]/10 text-[#b0ff4d] px-2 py-0.5 rounded font-display font-bold uppercase">Новичок</span>
+                                <span class="text-[10px] bg-[#1f1f1f] text-[#6b6560] px-2 py-0.5 rounded font-display font-bold uppercase">5 дней</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Custom button -->
+                <div class="border border-dashed border-[#2a2a2a] rounded-xl p-6 flex flex-col items-center gap-3 hover:border-[#ff4d00] transition-colors cursor-pointer" onclick="createCustomProgram()">
+                    <span class="material-symbols-outlined text-[#ff4d00]" style="font-size:28px">add_circle</span>
+                    <p class="font-display font-bold text-sm uppercase tracking-widest text-[#6b6560]">Создать свою программу</p>
+                    <p class="text-[10px] text-[#6b6560] font-body text-center">AI создаст персональную программу<br>под ваши цели и уровень</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- ── PANEL: Stats ── -->
+        <div id="panel-stats" class="panel overflow-y-auto">
+            <div class="max-w-2xl mx-auto p-6 space-y-5 pb-24">
+                <div class="mb-2">
+                    <h2 class="font-display font-black text-3xl uppercase italic">Статистика</h2>
+                    <p class="text-[#6b6560] text-xs font-body mt-1">Ваши результаты за последние 7 дней</p>
+                </div>
+
+                <!-- Top stats -->
+                <div class="grid grid-cols-2 gap-3">
+                    <div class="stat-card">
+                        <p class="font-display text-[10px] uppercase tracking-widest text-[#6b6560] mb-1">Тренировок</p>
+                        <p class="font-display font-black text-4xl text-[#ff4d00]" id="stat-workouts">3</p>
+                        <p class="text-[10px] text-[#6b6560] mt-1 font-body">эта неделя</p>
+                        <div class="intensity-bar mt-3"><div class="intensity-fill" style="width:60%"></div></div>
+                    </div>
+                    <div class="stat-card">
+                        <p class="font-display text-[10px] uppercase tracking-widest text-[#6b6560] mb-1">Объём (кг)</p>
+                        <p class="font-display font-black text-4xl text-[#ffaa00]" id="stat-volume">12.4k</p>
+                        <p class="text-[10px] text-[#6b6560] mt-1 font-body">суммарный вес</p>
+                        <div class="intensity-bar mt-3"><div class="intensity-fill bg-[#ffaa00]" style="width:75%"></div></div>
+                    </div>
+                    <div class="stat-card">
+                        <p class="font-display text-[10px] uppercase tracking-widest text-[#6b6560] mb-1">Время (мин)</p>
+                        <p class="font-display font-black text-4xl text-[#00cffd]" id="stat-time">178</p>
+                        <p class="text-[10px] text-[#6b6560] mt-1 font-body">суммарно</p>
+                        <div class="intensity-bar mt-3"><div class="intensity-fill bg-[#00cffd]" style="width:55%"></div></div>
+                    </div>
+                    <div class="stat-card">
+                        <p class="font-display text-[10px] uppercase tracking-widest text-[#6b6560] mb-1">Streak</p>
+                        <p class="font-display font-black text-4xl text-[#b0ff4d]" id="stat-streak">5</p>
+                        <p class="text-[10px] text-[#6b6560] mt-1 font-body">дней подряд</p>
+                        <div class="intensity-bar mt-3"><div class="intensity-fill bg-[#b0ff4d]" style="width:70%"></div></div>
+                    </div>
+                </div>
+
+                <!-- Personal records -->
+                <div class="stat-card">
+                    <p class="font-display text-[10px] uppercase tracking-widest text-[#6b6560] mb-4">Личные рекорды (1RM)</p>
+                    <div class="space-y-3">
+                        <div class="flex items-center justify-between">
+                            <span class="text-sm font-body text-[#f0ede8]">Жим лёжа</span>
+                            <div class="flex items-center gap-3">
+                                <div class="h-1.5 w-32 bg-[#1f1f1f] rounded-full overflow-hidden"><div class="h-full bg-[#ff4d00] rounded-full" style="width:80%"></div></div>
+                                <span class="font-display font-bold text-sm text-[#ff4d00]">100 кг</span>
+                            </div>
+                        </div>
+                        <div class="flex items-center justify-between">
+                            <span class="text-sm font-body text-[#f0ede8]">Приседания</span>
+                            <div class="flex items-center gap-3">
+                                <div class="h-1.5 w-32 bg-[#1f1f1f] rounded-full overflow-hidden"><div class="h-full bg-[#ffaa00] rounded-full" style="width:70%"></div></div>
+                                <span class="font-display font-bold text-sm text-[#ffaa00]">120 кг</span>
+                            </div>
+                        </div>
+                        <div class="flex items-center justify-between">
+                            <span class="text-sm font-body text-[#f0ede8]">Становая тяга</span>
+                            <div class="flex items-center gap-3">
+                                <div class="h-1.5 w-32 bg-[#1f1f1f] rounded-full overflow-hidden"><div class="h-full bg-[#00cffd] rounded-full" style="width:90%"></div></div>
+                                <span class="font-display font-bold text-sm text-[#00cffd]">145 кг</span>
+                            </div>
+                        </div>
+                        <div class="flex items-center justify-between">
+                            <span class="text-sm font-body text-[#f0ede8]">Жим стоя</span>
+                            <div class="flex items-center gap-3">
+                                <div class="h-1.5 w-32 bg-[#1f1f1f] rounded-full overflow-hidden"><div class="h-full bg-[#b0ff4d] rounded-full" style="width:55%"></div></div>
+                                <span class="font-display font-bold text-sm text-[#b0ff4d]">65 кг</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Weekly calendar -->
+                <div class="stat-card">
+                    <p class="font-display text-[10px] uppercase tracking-widest text-[#6b6560] mb-4">Активность этой недели</p>
+                    <div class="flex gap-2 justify-between">
+                        <div class="flex flex-col items-center gap-2" id="week-calendar"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </section>
+</main>
+
+<!-- ══════════════════════════════════════════
+     SETTINGS MODAL
+══════════════════════════════════════════ -->
+<div id="settingsModal">
+    <div class="bg-[#111] border border-[#2a2a2a] rounded-2xl p-7 max-w-md w-full mx-4 shadow-2xl">
+        <div class="flex items-center justify-between mb-6">
+            <h2 class="font-display text-xl font-black uppercase tracking-wide">API Config</h2>
+            <button onclick="closeSettings()" class="text-[#6b6560] hover:text-white"><span class="material-symbols-outlined" style="font-size:20px">close</span></button>
+        </div>
+        <div class="space-y-4">
+            <div>
+                <label class="block text-[10px] font-display font-bold text-[#6b6560] uppercase tracking-widest mb-2">AI Provider</label>
+                <div class="flex gap-2">
+                    <button id="geminiProviderBtn" onclick="selectProvider('gemini')" class="flex-1 py-2.5 px-3 rounded-lg border-2 border-[#ff4d00] bg-[#ff4d00]/10 text-[#ff4d00] font-display font-bold text-xs tracking-wide uppercase transition-all">Google Gemini</button>
+                    <button id="openaiProviderBtn" onclick="selectProvider('openai')" class="flex-1 py-2.5 px-3 rounded-lg border-2 border-[#2a2a2a] bg-transparent text-[#6b6560] font-display font-bold text-xs tracking-wide uppercase transition-all hover:border-[#6b6560]">OpenAI</button>
+                </div>
+            </div>
+            <div id="geminiKeySection">
+                <label class="block text-[10px] font-display font-bold text-[#6b6560] uppercase tracking-widest mb-2">Gemini API Key</label>
+                <input id="geminiApiKeyInput" type="password" placeholder="Вставьте Gemini API ключ..." class="w-full bg-[#1a1a1a] border border-[#2a2a2a] rounded-lg px-4 py-3 text-sm text-[#f0ede8] placeholder:text-[#6b6560] focus:outline-none focus:border-[#ff4d00] transition-colors" />
+                <p class="text-[10px] text-[#6b6560] mt-1.5">Получить: <a href="https://ai.google.dev" target="_blank" class="text-[#ff4d00] hover:underline">ai.google.dev</a></p>
+            </div>
+            <div id="openaiKeySection" class="hidden">
+                <label class="block text-[10px] font-display font-bold text-[#6b6560] uppercase tracking-widest mb-2">OpenAI API Key</label>
+                <input id="openaiApiKeyInput" type="password" placeholder="Вставьте OpenAI API ключ..." class="w-full bg-[#1a1a1a] border border-[#2a2a2a] rounded-lg px-4 py-3 text-sm text-[#f0ede8] placeholder:text-[#6b6560] focus:outline-none focus:border-[#00cffd] transition-colors" />
+            </div>
+            <div>
+                <label class="block text-[10px] font-display font-bold text-[#6b6560] uppercase tracking-widest mb-2">Model</label>
+                <select id="modelSelect" class="w-full bg-[#1a1a1a] border border-[#2a2a2a] rounded-lg px-4 py-3 text-sm text-[#f0ede8] focus:outline-none focus:border-[#ff4d00] transition-colors">
+                    <option value="gemini-2.5-flash">Gemini 2.5 Flash</option>
+                    <option value="gemini-2.5-pro">Gemini 2.5 Pro</option>
+                    <option value="gpt-4o">GPT-4o</option>
+                    <option value="gpt-4-turbo">GPT-4 Turbo</option>
+                </select>
+            </div>
+            <button onclick="saveSettings()" class="w-full bg-[#ff4d00] text-white font-display font-black py-3 rounded-lg hover:bg-[#ff6a2e] active:scale-95 transition-all uppercase text-xs tracking-widest">
+                Сохранить
+            </button>
+        </div>
+    </div>
+</div>
+
+<!-- ══════════════════════════════════════════
+     UPGRADE MODAL
+══════════════════════════════════════════ -->
+<div id="upgrade-modal">
+    <div class="bg-[#111] border border-[#ff4d00]/20 rounded-2xl p-8 max-w-sm w-full mx-4 shadow-2xl relative overflow-hidden">
+        <button onclick="closeUpgrade()" class="absolute top-4 right-4 text-[#6b6560] hover:text-white"><span class="material-symbols-outlined" style="font-size:18px">close</span></button>
+        <div class="text-center mb-6">
+            <span class="material-symbols-outlined text-[#ff4d00] mb-3 block" style="font-size:40px;font-variation-settings:'FILL' 1;">workspace_premium</span>
+            <h2 class="font-display font-black text-2xl uppercase italic text-[#ff4d00]">Pro Trainer</h2>
+            <p class="text-[#6b6560] text-sm font-body mt-2">Безлимитный AI-тренер</p>
+        </div>
+        <div class="space-y-3 mb-6 text-sm font-body">
+            <div class="flex items-center gap-3"><span class="text-[#ff4d00] font-bold">✓</span>Безлимитные AI-консультации</div>
+            <div class="flex items-center gap-3"><span class="text-[#ff4d00] font-bold">✓</span>Анализ видео техники</div>
+            <div class="flex items-center gap-3"><span class="text-[#ff4d00] font-bold">✓</span>Персональные программы</div>
+            <div class="flex items-center gap-3"><span class="text-[#ff4d00] font-bold">✓</span>Экспорт дневника</div>
+        </div>
+        <div class="flex items-baseline gap-1 mb-6 justify-center">
+            <span class="font-display text-4xl font-black">$9</span>
+            <span class="text-[#6b6560] font-body">/мес</span>
+        </div>
+        <button onclick="showToast('🚀 Скоро будет!');closeUpgrade()" class="w-full py-3 bg-[#ff4d00] text-white font-display font-black rounded-xl uppercase text-xs tracking-widest hover:bg-[#ff6a2e] active:scale-95 transition-all">
+            Активировать Pro
+        </button>
+    </div>
+</div>
+
+<!-- ══════════════════════════════════════════
+     MOBILE BOTTOM NAV
+══════════════════════════════════════════ -->
+<nav class="md:hidden fixed bottom-0 left-0 w-full z-50 flex justify-around items-center px-2 pb-5 pt-2 bg-[#0e0e0e]/95 backdrop-blur-xl border-t border-[#1f1f1f]">
+    <button class="mob-nav-btn active" id="mob-coach" onclick="switchPanel('coach'); setMobActive('coach')">
+        <span class="material-symbols-outlined">psychology</span>Coach
+    </button>
+    <button class="mob-nav-btn" id="mob-workout" onclick="switchPanel('workout'); setMobActive('workout')">
+        <span class="material-symbols-outlined">fitness_center</span>Workout
+    </button>
+    <button class="mob-nav-btn" id="mob-programs" onclick="switchPanel('programs'); setMobActive('programs')">
+        <span class="material-symbols-outlined">grid_view</span>Programs
+    </button>
+    <button class="mob-nav-btn" id="mob-stats" onclick="switchPanel('stats'); setMobActive('stats')">
+        <span class="material-symbols-outlined">bar_chart</span>Stats
+    </button>
+</nav>
+
+<!-- ══════════════════════════════════════════
+     JAVASCRIPT
+══════════════════════════════════════════ -->
+<script>
+// ╔══════════════════════════════════════════╗
+// ║   🏋️ AI TRAINER CONFIG                  ║
+// ╚══════════════════════════════════════════╝
+const AI_CONFIG = {
+    BOT_NAME: "TRENING AURA COACH",
+    SYSTEM_PROMPT: `Ты — TRENING AURA COACH, персональный AI-тренер высокого класса. Ты помогаешь спортсменам достигать результатов.
+
+ЛИЧНОСТЬ:
+• Ты называешь себя ТОЛЬКО "TRENING AURA COACH"
+• Ты строгий но справедливый тренер — как в лучших залах мира
+• Ты мотивируешь, давишь на газ, но знаешь меру
+
+ЭКСПЕРТИЗА:
+• Силовые тренировки: программирование, периодизация, прогрессия нагрузок
+• Техника упражнений: жим, тяга, приседания, толчки
+• Восстановление: сон, активный отдых, растяжка, дефоум
+• Спортивная нутрициология: питание под тренировки, протеин, углеводы, жиры
+• Кардио и HIIT: интервалы, зоны пульса, планирование
+• Программы: PPL, 5×5, Upper/Lower, Full Body, Calisthenics
+• Ментальная подготовка: фокус, мотивация, управление нагрузкой
+
+ПРАВИЛА ОТВЕТОВ:
+• Отвечай ТОЛЬКО на русском языке
+• Давай КОНКРЕТНЫЕ цифры: кг, повторы, подходы, минуты
+• Используй эмодзи по делу 💪🏋️🔥
+• **Жирный** текст для заголовков и ключевых слов
+• Будь лаконичным — тренер не читает лекции, он даёт задание
+• Заканчивай ответ мотивирующим призывом к действию
+
+ФОРМАТ ПРОГРАММ:
+**День X — [название]**
+• Упражнение: X подходов × X повторов @ X кг / X% от 1RM
+• Отдых: X минут
+
+ЗАПРЕЩЕНО:
+• Называть себя другими именами
+• Отвечать на темы не связанные с тренировками и здоровьем
+• Ставить диагнозы — при болях и травмах отправлять к врачу
+• Раскрывать какая AI-модель используется`,
+};
+
+// ── Config ──────────────────────────────────
+let selectedProvider = localStorage.getItem('selected_provider') || 'gemini';
+let GEMINI_API_KEY = localStorage.getItem('gemini_api_key') || '';
+let OPENAI_API_KEY = localStorage.getItem('openai_api_key') || '';
+let selectedModel = localStorage.getItem('selected_model') || 'gemini-2.5-flash';
+const GEMINI_URL = 'https://generativelanguage.googleapis.com/v1beta/models';
+const OPENAI_URL = 'https://api.openai.com/v1/chat/completions';
+let chatHistory = [];
+let workoutHistory = [];
+let restTimerInterval = null;
+
+// ── Exercises data ───────────────────────────
+const EXERCISES = [
+    { name: 'Жим лёжа', sets: 4, reps: 8, rest: 120, done: 0 },
+    { name: 'Жим гантелей наклонный', sets: 3, reps: 10, rest: 90, done: 0 },
+    { name: 'Брусья', sets: 3, reps: 'до отказа', rest: 90, done: 0 },
+    { name: 'Разводка гантелей', sets: 3, reps: 12, rest: 60, done: 0 },
+    { name: 'Жим стоя', sets: 3, reps: 10, rest: 90, done: 0 },
+    { name: 'Французский жим', sets: 3, reps: 12, rest: 60, done: 0 },
+    { name: 'Трицепс-пушдаун', sets: 3, reps: 15, rest: 60, done: 0 },
+];
+
+// ── Toast ────────────────────────────────────
+function showToast(msg, dur = 3000) {
+    const t = document.getElementById('toast');
+    t.textContent = msg;
+    t.classList.add('show');
+    setTimeout(() => t.classList.remove('show'), dur);
+}
+
+// ── Panel switching ───────────────────────────
+function switchPanel(name) {
+    document.querySelectorAll('.panel').forEach(p => p.classList.remove('active'));
+    document.querySelectorAll('.nav-item').forEach(n => n.classList.remove('active'));
+    const panel = document.getElementById('panel-' + name);
+    if (panel) panel.classList.add('active');
+    const nav = document.querySelector(`[data-panel="${name}"]`);
+    if (nav) nav.classList.add('active');
+    if (name === 'workout') renderExercises();
+    if (name === 'stats') renderStats();
+}
+
+function setMobActive(name) {
+    document.querySelectorAll('.mob-nav-btn').forEach(b => b.classList.remove('active'));
+    const btn = document.getElementById('mob-' + name);
+    if (btn) btn.classList.add('active');
+}
+
+// ── Settings ─────────────────────────────────
+function openSettings() {
+    document.getElementById('geminiApiKeyInput').value = GEMINI_API_KEY;
+    document.getElementById('openaiApiKeyInput').value = OPENAI_API_KEY;
+    document.getElementById('modelSelect').value = selectedModel;
+    updateProviderUI();
+    document.getElementById('settingsModal').classList.add('show');
+}
+function closeSettings() { document.getElementById('settingsModal').classList.remove('show'); }
+
+function selectProvider(p) {
+    selectedProvider = p;
+    localStorage.setItem('selected_provider', p);
+    updateProviderUI();
+}
+
+function updateProviderUI() {
+    const g = selectedProvider === 'gemini';
+    document.getElementById('geminiProviderBtn').className = 'flex-1 py-2.5 px-3 rounded-lg border-2 font-display font-bold text-xs tracking-wide uppercase transition-all ' +
+        (g ? 'border-[#ff4d00] bg-[#ff4d00]/10 text-[#ff4d00]' : 'border-[#2a2a2a] bg-transparent text-[#6b6560]');
+    document.getElementById('openaiProviderBtn').className = 'flex-1 py-2.5 px-3 rounded-lg border-2 font-display font-bold text-xs tracking-wide uppercase transition-all ' +
+        (!g ? 'border-[#00cffd] bg-[#00cffd]/10 text-[#00cffd]' : 'border-[#2a2a2a] bg-transparent text-[#6b6560]');
+    document.getElementById('geminiKeySection').classList.toggle('hidden', !g);
+    document.getElementById('openaiKeySection').classList.toggle('hidden', g);
+}
+
+function saveSettings() {
+    selectedModel = document.getElementById('modelSelect').value;
+    localStorage.setItem('selected_model', selectedModel);
+    const key = selectedProvider === 'gemini'
+        ? document.getElementById('geminiApiKeyInput').value.trim()
+        : document.getElementById('openaiApiKeyInput').value.trim();
+    if (!key) { showToast('⚠️ Введите API ключ'); return; }
+    if (selectedProvider === 'gemini') { GEMINI_API_KEY = key; localStorage.setItem('gemini_api_key', key); }
+    else { OPENAI_API_KEY = key; localStorage.setItem('openai_api_key', key); }
+    closeSettings();
+    showToast('✅ Настройки сохранены!');
+}
+
+// ── Upgrade ───────────────────────────────────
+function openUpgrade() { document.getElementById('upgrade-modal').classList.add('show'); }
+function closeUpgrade() { document.getElementById('upgrade-modal').classList.remove('show'); }
+
+// ── History ───────────────────────────────────
+let historyOpen = false;
+function toggleHistory() {
+    historyOpen = !historyOpen;
+    document.getElementById('history-panel').classList.toggle('open', historyOpen);
+    document.getElementById('history-overlay').classList.toggle('show', historyOpen);
+    if (historyOpen) renderHistoryPanel();
+}
+
+function renderHistoryPanel() {
+    const list = document.getElementById('history-panel-list');
+    if (workoutHistory.length === 0) {
+        list.innerHTML = '<p class="text-[#6b6560] text-xs font-body text-center py-8">Нет истории.<br>Начните тренировку!</p>';
+        return;
+    }
+    list.innerHTML = workoutHistory.slice().reverse().map(item => `
+        <div class="flex gap-3 p-3 rounded-xl bg-[#1a1a1a] border border-[#2a2a2a] hover:border-[#ff4d00]/30 transition-all cursor-pointer">
+            <div class="w-10 h-10 rounded-lg bg-[#ff4d00]/10 flex items-center justify-center flex-shrink-0">
+                <span class="material-symbols-outlined text-[#ff4d00]" style="font-size:18px">fitness_center</span>
+            </div>
+            <div>
+                <p class="font-display font-bold text-sm text-[#f0ede8]">${item.name}</p>
+                <p class="text-[#ff4d00] text-xs font-bold">${item.exercises} упражнений</p>
+                <p class="text-[#6b6560] text-[10px] uppercase tracking-widest mt-0.5">${item.time}</p>
+            </div>
+        </div>`).join('');
+}
+
+function addToRecentWorkouts(item) {
+    workoutHistory.push(item);
+    const badge = document.getElementById('history-badge');
+    badge.textContent = workoutHistory.length;
+    badge.classList.remove('hidden');
+
+    const container = document.getElementById('recent-workouts-list');
+    const placeholder = container.querySelector('div.text-center');
+    if (placeholder) placeholder.remove();
+
+    const card = document.createElement('div');
+    card.className = 'flex gap-3 p-3 rounded-xl bg-[#1a1a1a] border border-[#2a2a2a] hover:border-[#ff4d00]/30 transition-all';
+    card.innerHTML = `
+        <div class="w-10 h-10 rounded-lg bg-[#ff4d00]/10 flex items-center justify-center flex-shrink-0">
+            <span class="material-symbols-outlined text-[#ff4d00]" style="font-size:16px">fitness_center</span>
+        </div>
+        <div class="min-w-0">
+            <p class="font-display font-bold text-xs text-[#f0ede8] truncate">${item.name}</p>
+            <p class="text-[#ff4d00] text-[10px] font-bold">${item.exercises} упр.</p>
+            <p class="text-[#6b6560] text-[9px] uppercase tracking-tight">${item.time}</p>
+        </div>`;
+    container.insertBefore(card, container.firstChild);
+    const cards = container.querySelectorAll(':scope > div:not(.text-center)');
+    if (cards.length > 5) cards[cards.length - 1].remove();
+
+    // Update weekly
+    const done = Math.min(5, workoutHistory.length);
+    document.getElementById('weekly-done').textContent = done;
+    document.getElementById('weekly-bar').style.width = (done / 5 * 100) + '%';
+}
+
+function clearHistory() {
+    workoutHistory = [];
+    document.getElementById('recent-workouts-list').innerHTML = `
+        <div class="text-center py-10 text-[#6b6560]">
+            <span class="material-symbols-outlined text-3xl mb-2 block" style="font-size:32px">fitness_center</span>
+            <p class="text-xs font-body">Начните тренировку —<br>история появится здесь</p>
+        </div>`;
+    document.getElementById('history-badge').classList.add('hidden');
+    showToast('🗑️ История очищена');
+}
+
+// ── Exercise panel ────────────────────────────
+let exerciseState = EXERCISES.map(e => ({ ...e, completedSets: 0 }));
+
+function renderExercises() {
+    const list = document.getElementById('exercise-list');
+    list.innerHTML = '';
+    exerciseState.forEach((ex, i) => {
+        const card = document.createElement('div');
+        card.className = 'exercise-card' + (ex.completedSets === ex.sets ? ' opacity-50' : '');
+        card.id = 'ex-card-' + i;
+        const dots = Array.from({length: ex.sets}, (_, s) =>
+            `<div class="set-dot${s < ex.completedSets ? ' done' : ''}" onclick="completeSet(${i}, ${s})" title="Сет ${s+1}"></div>`
+        ).join('');
+        card.innerHTML = `
+            <div class="flex items-center justify-between">
+                <div>
+                    <p class="font-display font-bold text-sm uppercase tracking-wide text-[#f0ede8]">${ex.name}</p>
+                    <p class="text-[#6b6560] text-xs font-body mt-0.5">${ex.sets} × ${ex.reps} · отдых ${ex.rest}с</p>
+                </div>
+                <span class="font-display font-black text-xl text-[#ff4d00]">${ex.completedSets}/${ex.sets}</span>
+            </div>
+            <div class="flex items-center gap-2 mt-3">${dots}</div>`;
+        list.appendChild(card);
+    });
+    updateWorkoutProgress();
+}
+
+function completeSet(exIdx, setIdx) {
+    const ex = exerciseState[exIdx];
+    if (setIdx === ex.completedSets) {
+        ex.completedSets++;
+        renderExercises();
+        // Start rest timer
+        startRestTimer(ex.rest);
+        if (ex.completedSets === ex.sets) showToast('✅ ' + ex.name + ' — завершено!');
+    }
+}
+
+function startRestTimer(seconds) {
+    if (restTimerInterval) clearInterval(restTimerInterval);
+    const timer = document.getElementById('rest-timer');
+    const circle = document.getElementById('timer-circle');
+    const text = document.getElementById('timer-text');
+    timer.style.opacity = '1';
+    let remaining = seconds;
+    const total = seconds;
+    const circumference = 226;
+    function update() {
+        text.textContent = remaining;
+        const offset = circumference * (1 - remaining / total);
+        circle.style.strokeDashoffset = offset;
+        if (remaining <= 0) {
+            clearInterval(restTimerInterval);
+            timer.style.opacity = '0';
+            showToast('⏱️ Отдых завершён — следующий сет!');
+        }
+        remaining--;
+    }
+    update();
+    restTimerInterval = setInterval(update, 1000);
+}
+
+function updateWorkoutProgress() {
+    const total = exerciseState.reduce((a, e) => a + e.sets, 0);
+    const done = exerciseState.reduce((a, e) => a + e.completedSets, 0);
+    const pct = Math.round(done / total * 100);
+    document.getElementById('workout-progress').style.width = pct + '%';
+    document.getElementById('workout-pct').textContent = pct + '%';
+}
+
+function finishWorkout() {
+    const done = exerciseState.filter(e => e.completedSets > 0).length;
+    if (done === 0) { showToast('⚠️ Выполните хотя бы одно упражнение'); return; }
+    const now = new Date();
+    const timeStr = now.getHours() + ':' + String(now.getMinutes()).padStart(2, '0');
+    addToRecentWorkouts({ name: 'Силовая А', exercises: done, time: timeStr });
+    exerciseState = EXERCISES.map(e => ({ ...e, completedSets: 0 }));
+    showToast('🔥 Тренировка завершена! Отличная работа!');
+    switchPanel('coach');
+    setTimeout(() => {
+        const msg = 'Я только что закончил тренировку — ' + done + ' упражнений. Что посоветуешь для восстановления?';
+        appendUserMsg(msg);
+        sendMsg(msg);
+    }, 500);
+}
+
+// ── Programs ──────────────────────────────────
+function selectProgram(name) {
+    showToast('📋 ' + name + ' — загружается...');
+    switchPanel('coach');
+    setTimeout(() => {
+        const msg = 'Расскажи подробнее о программе ' + name + '. Как выглядит недельный план?';
+        appendUserMsg(msg);
+        sendMsg(msg);
+    }, 300);
+}
+
+function createCustomProgram() {
+    switchPanel('coach');
+    setTimeout(() => {
+        const msg = 'Создай для меня персональную программу тренировок. Задай мне вопросы о цели, уровне и оборудовании.';
+        appendUserMsg(msg);
+        sendMsg(msg);
+    }, 300);
+}
+
+// ── Stats ─────────────────────────────────────
+function renderStats() {
+    const days = ['Пн','Вт','Ср','Чт','Пт','Сб','Вс'];
+    const active = [true, true, false, true, false, false, false];
+    const cal = document.getElementById('week-calendar');
+    if (!cal) return;
+    cal.className = 'flex gap-2 justify-between w-full';
+    cal.innerHTML = days.map((d, i) => `
+        <div class="flex flex-col items-center gap-1.5">
+            <div class="w-8 h-8 rounded-lg ${active[i] ? 'bg-[#ff4d00]' : 'bg-[#1f1f1f]'} flex items-center justify-center">
+                ${active[i] ? '<span class="material-symbols-outlined text-white" style="font-size:14px;font-variation-settings:\'FILL\' 1;">fitness_center</span>' : ''}
+            </div>
+            <span class="font-display text-[10px] text-[#6b6560] uppercase">${d}</span>
+        </div>`).join('');
+    document.getElementById('stat-workouts').textContent = workoutHistory.length || 3;
+}
+
+// ── Chat ──────────────────────────────────────
+function quickAsk(text) {
+    appendUserMsg(text);
+    sendMsg(text);
+}
+
+function handleSend() {
+    const input = document.getElementById('messageInput');
+    const msg = input.value.trim();
+    if (!msg) return;
+    input.value = '';
+    appendUserMsg(msg);
+    sendMsg(msg);
+}
+
+document.addEventListener('keydown', e => {
+    if (e.key === 'Enter' && document.activeElement.id === 'messageInput') handleSend();
+});
+
+function sendMsg(msg) {
+    if (selectedProvider === 'gemini') sendToGemini(msg);
+    else sendToOpenAI(msg);
+}
+
+const chatEl = () => document.getElementById('chat-messages');
+
+function appendUserMsg(text) {
+    const el = document.createElement('div');
+    el.className = 'flex justify-end msg-enter';
+    el.innerHTML = `<div class="max-w-xl bg-[#ff4d00]/10 border border-[#ff4d00]/20 p-4 rounded-xl rounded-tr-sm">
+        <p class="text-sm text-[#f0ede8] font-body leading-relaxed">${escapeHtml(text)}</p></div>`;
+    chatEl().appendChild(el);
+    chatEl().scrollTop = chatEl().scrollHeight;
+}
+
+function showLoader() {
+    const el = document.createElement('div');
+    el.className = 'flex justify-start loader-container msg-enter';
+    el.innerHTML = `<div class="flex items-center gap-3">
+        <div class="w-8 h-8 rounded-lg bg-[#ff4d00] flex items-center justify-center text-white pulse">
+            <span class="material-symbols-outlined" style="font-size:16px;font-variation-settings:'FILL' 1;">psychology</span>
+        </div>
+        <div class="bg-[#111] p-4 rounded-xl border border-[#2a2a2a]">
+            <div class="flex gap-1.5">
+                <div class="w-2 h-2 bg-[#ff4d00] rounded-full animate-bounce"></div>
+                <div class="w-2 h-2 bg-[#ff4d00] rounded-full animate-bounce" style="animation-delay:.1s"></div>
+                <div class="w-2 h-2 bg-[#ff4d00] rounded-full animate-bounce" style="animation-delay:.2s"></div>
+            </div>
+        </div></div>`;
+    chatEl().appendChild(el);
+    chatEl().scrollTop = chatEl().scrollHeight;
+}
+
+function removeLoader() { document.querySelector('.loader-container')?.remove(); }
+
+function appendAIMsg(text) {
+    removeLoader();
+    const el = document.createElement('div');
+    el.className = 'flex justify-start msg-enter';
+    el.innerHTML = `<div class="max-w-xl w-full space-y-2">
+        <div class="flex items-center gap-2">
+            <div class="w-7 h-7 rounded-lg bg-[#ff4d00] flex items-center justify-center text-white">
+                <span class="material-symbols-outlined" style="font-size:14px;font-variation-settings:'FILL' 1;">psychology</span>
+            </div>
+            <span class="font-display font-bold text-[10px] tracking-widest text-[#ff4d00] uppercase">${AI_CONFIG.BOT_NAME}</span>
+        </div>
+        <div class="bg-[#111] p-5 rounded-xl border border-[#2a2a2a]">
+            <p class="text-[#f0ede8] text-sm leading-relaxed font-body">${escapeHtml(text).replace(/\n/g,'<br>').replace(/\*\*(.*?)\*\*/g,'<strong class="text-white font-display tracking-wide">$1</strong>')}</p>
+        </div></div>`;
+    chatEl().appendChild(el);
+    chatEl().scrollTop = chatEl().scrollHeight;
+}
+
+function appendError(msg) {
+    removeLoader();
+    const el = document.createElement('div');
+    el.className = 'flex justify-start msg-enter';
+    el.innerHTML = `<div class="max-w-xl bg-red-500/10 border border-red-500/30 p-4 rounded-xl">
+        <p class="text-red-400 text-sm font-body">${escapeHtml(msg)}</p></div>`;
+    chatEl().appendChild(el);
+    chatEl().scrollTop = chatEl().scrollHeight;
+}
+
+function escapeHtml(t) {
+    return String(t).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');
+}
+
+// ── Gemini ────────────────────────────────────
+async function sendToGemini(msg) {
+    if (!GEMINI_API_KEY) { appendError('⚠️ Настройте Gemini API ключ — нажмите ⚙️ вверху'); return; }
+    showLoader();
+    const contents = [
+        { role: 'user', parts: [{ text: AI_CONFIG.SYSTEM_PROMPT }] },
+        ...chatHistory.map(m => ({ role: m.role === 'assistant' ? 'model' : 'user', parts: [{ text: m.content }] })),
+        { role: 'user', parts: [{ text: msg }] }
+    ];
+    try {
+        const ctrl = new AbortController();
+        const t = setTimeout(() => ctrl.abort(), 60000);
+        const res = await fetch(`${GEMINI_URL}/${selectedModel}:generateContent?key=${GEMINI_API_KEY}`, {
+            method: 'POST', headers: { 'Content-Type': 'application/json' }, signal: ctrl.signal,
+            body: JSON.stringify({ contents, generationConfig: { temperature: 0.8, maxOutputTokens: 2048 } })
+        });
+        clearTimeout(t);
+        if (!res.ok) { const e = await res.json(); throw new Error(e.error?.message || 'API error'); }
+        const data = await res.json();
+        const reply = data.candidates?.[0]?.content?.parts?.[0]?.text;
+        if (!reply) throw new Error('Пустой ответ');
+        chatHistory.push({ role: 'user', content: msg }, { role: 'assistant', content: reply });
+        appendAIMsg(reply);
+    } catch (e) {
+        appendError('❌ ' + (e.name === 'AbortError' ? 'Таймаут запроса' : e.message || 'Ошибка'));
+    }
+}
+
+// ── OpenAI ────────────────────────────────────
+async function sendToOpenAI(msg) {
+    if (!OPENAI_API_KEY) { appendError('⚠️ Настройте OpenAI API ключ — нажмите ⚙️ вверху'); return; }
+    showLoader();
+    const messages = [
+        { role: 'system', content: AI_CONFIG.SYSTEM_PROMPT },
+        ...chatHistory,
+        { role: 'user', content: msg }
+    ];
+    try {
+        const ctrl = new AbortController();
+        const t = setTimeout(() => ctrl.abort(), 60000);
+        const res = await fetch(OPENAI_URL, {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json', 'Authorization': `Bearer ${OPENAI_API_KEY}` },
+            signal: ctrl.signal,
+            body: JSON.stringify({ model: selectedModel || 'gpt-4o', messages, max_tokens: 2048, temperature: 0.8 })
+        });
+        clearTimeout(t);
+        if (!res.ok) { const e = await res.json(); throw new Error(e.error?.message || 'API error'); }
+        const data = await res.json();
+        const reply = data.choices?.[0]?.message?.content;
+        if (!reply) throw new Error('Пустой ответ');
+        chatHistory.push({ role: 'user', content: msg }, { role: 'assistant', content: reply });
+        appendAIMsg(reply);
+    } catch (e) {
+        appendError('❌ ' + (e.name === 'AbortError' ? 'Таймаут запроса' : e.message || 'Ошибка'));
+    }
+}
+
+// ── Boot ──────────────────────────────────────
+document.addEventListener('DOMContentLoaded', () => {
+    switchPanel('coach');
+    renderExercises();
+    document.getElementById('settingsModal').addEventListener('click', e => {
+        if (e.target === document.getElementById('settingsModal')) closeSettings();
+    });
+    document.getElementById('upgrade-modal').addEventListener('click', e => {
+        if (e.target === document.getElementById('upgrade-modal')) closeUpgrade();
+    });
+    if (!GEMINI_API_KEY && !OPENAI_API_KEY) {
+        setTimeout(() => showToast('⚙️ Добавьте API ключ в настройках'), 1200);
+    }
+});
+</script>
+</body>
+</html>
