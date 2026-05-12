@@ -1,381 +1,132 @@
 <!DOCTYPE html>
-<html class="dark" lang="en">
+<html lang="en">
 <head>
     <meta charset="utf-8" />
     <meta content="width=device-width, initial-scale=1.0" name="viewport" />
     <title>TRENING AURA | Chat & Friends</title>
-    <script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
-    <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700&family=Manrope:wght@300;400;500;600;700;800&display=swap" rel="stylesheet"/>
-    <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet"/>
-    <script id="tailwind-config">
-        tailwind.config = {
-            darkMode: "class",
-            theme: {
-                extend: {
-                    colors: {
-                        "outline": "#767575",
-                        "on-primary-fixed": "#3a4a00",
-                        "surface-container-high": "#20201f",
-                        "tertiary-container": "#ebebeb",
-                        "error-dim": "#d53d18",
-                        "inverse-primary": "#516700",
-                        "error": "#ff7351",
-                        "background": "#0e0e0e",
-                        "on-surface": "#ffffff",
-                        "on-secondary": "#004d57",
-                        "outline-variant": "#484847",
-                        "surface": "#0e0e0e",
-                        "primary": "#f3ffca",
-                        "secondary": "#00e3fd",
-                        "on-background": "#ffffff",
-                        "on-surface-variant": "#adaaaa",
-                        "surface-container-low": "#131313",
-                        "on-error": "#450900",
-                        "on-error-container": "#ffd2c8",
-                        "surface-dim": "#0e0e0e",
-                        "primary-dim": "#beee00",
-                        "surface-container-lowest": "#000000",
-                        "inverse-surface": "#fcf9f8",
-                        "inverse-on-surface": "#565555",
-                        "surface-container": "#1a1a1a",
-                        "primary-container": "#cafd00",
-                        "surface-container-highest": "#262626",
-                        "on-secondary-container": "#e8fbff",
-                        "primary-fixed": "#cafd00",
-                        "on-primary": "#516700",
-                        "surface-bright": "#2c2c2c",
-                        "error-container": "#b92902",
-                        "secondary-dim": "#00d4ec",
-                        "surface-variant": "#262626",
-                        "on-primary-container": "#4a5e00",
-                        "primary-fixed-dim": "#beee00",
-                        "secondary-container": "#006875",
-                        "surface-tint": "#f3ffca",
-                        "secondary-fixed": "#26e6ff",
-                        "tertiary": "#f9f9f9"
-                    },
-                    borderRadius: {
-                        "DEFAULT": "0.25rem",
-                        "lg": "0.5rem",
-                        "xl": "0.75rem",
-                        "full": "9999px"
-                    },
-                    fontFamily: {
-                        "headline": ["Space Grotesk"],
-                        "body": ["Manrope"],
-                        "label": ["Manrope"]
-                    }
-                },
-            },
-        }
-    </script>
+    <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@300;400;500;600;700;900&family=Manrope:wght@200;300;400;500;600;700;800&display=swap" rel="stylesheet" />
+    <link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet" />
     <style>
-        * { box-sizing: border-box; }
-        
-        .material-symbols-outlined {
-            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
-        }
-        .fill-icon { font-variation-settings: 'FILL' 1, 'wght' 400, 'GRAD' 0, 'opsz' 24; }
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+        body { font-family: 'Manrope', sans-serif; background: #0e0e0e; color: #fff; height: 100vh; overflow: hidden; }
+        .material-symbols-outlined { font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24; font-family: 'Material Symbols Outlined'; font-size: 24px; line-height: 1; display: inline-block; }
 
-        ::-webkit-scrollbar { width: 8px; }
-        ::-webkit-scrollbar-track { background: transparent; }
-        ::-webkit-scrollbar-thumb { 
-            background: linear-gradient(to bottom, #cafd00, #516700);
-            border-radius: 10px;
-            opacity: 0.5;
-        }
-        ::-webkit-scrollbar-thumb:hover { opacity: 0.8; }
+        /* NAV */
+        nav { position: fixed; top: 0; width: 100%; z-index: 50; background: rgba(0,0,0,0.85); backdrop-filter: blur(20px); border-bottom: 1px solid rgba(255,255,255,0.05); }
+        .nav-inner { display: flex; justify-content: space-between; align-items: center; padding: 12px 24px; max-width: 1400px; margin: 0 auto; }
+        .nav-logo { font-size: 20px; font-weight: 900; font-style: italic; color: #cafd00; text-decoration: none; letter-spacing: -0.05em; font-family: 'Space Grotesk', sans-serif; }
+        .nav-actions { display: flex; align-items: center; gap: 16px; }
+        .nav-btn { background: none; border: none; cursor: pointer; color: #adaaaa; display: flex; align-items: center; gap: 8px; font-size: 14px; font-weight: 700; text-decoration: none; transition: color 0.15s; }
+        .nav-btn:hover { color: #fff; }
 
-        /* Animations */
-        @keyframes fadeUp {
-            from { opacity: 0; transform: translateY(20px); }
-            to { opacity: 1; transform: translateY(0); }
-        }
-        @keyframes slideInLeft {
-            from { opacity: 0; transform: translateX(-20px); }
-            to { opacity: 1; transform: translateX(0); }
-        }
-        @keyframes slideInRight {
-            from { opacity: 0; transform: translateX(20px); }
-            to { opacity: 1; transform: translateX(0); }
-        }
-        @keyframes pulse-ring {
-            0% { box-shadow: 0 0 0 0 rgba(202,253,0,0.4); }
-            70% { box-shadow: 0 0 0 15px rgba(202,253,0,0); }
-            100% { box-shadow: 0 0 0 0 rgba(202,253,0,0); }
-        }
-        @keyframes float {
-            0%, 100% { transform: translateY(0); }
-            50% { transform: translateY(-4px); }
-        }
-        @keyframes messageSlide {
-            from { opacity: 0; transform: translateY(10px); }
-            to { opacity: 1; transform: translateY(0); }
-        }
-        @keyframes shimmer {
-            0% { background-position: -200% center; }
-            100% { background-position: 200% center; }
-        }
+        /* LAYOUT */
+        .layout { display: flex; height: 100vh; padding-top: 57px; }
 
-        /* Utility classes */
-        .animate-fadeUp { animation: fadeUp 0.6s ease forwards; }
-        .animate-slideInLeft { animation: slideInLeft 0.5s ease forwards; }
-        .animate-slideInRight { animation: slideInRight 0.5s ease forwards; }
-        .animate-pulse-ring { animation: pulse-ring 2s infinite; }
-        .animate-float { animation: float 3s ease-in-out infinite; }
-        .animate-message { animation: messageSlide 0.3s ease; }
+        /* SIDEBAR */
+        .sidebar { width: 340px; flex-shrink: 0; border-right: 1px solid rgba(255,255,255,0.05); display: flex; flex-direction: column; background: #0a0a0a; }
+        .tabs { display: flex; border-bottom: 1px solid rgba(255,255,255,0.05); padding: 0 16px; }
+        .tab-btn { flex: 1; padding: 14px 0; font-size: 10px; font-weight: 900; text-transform: uppercase; letter-spacing: 0.15em; color: #adaaaa; background: none; border: none; border-bottom: 2px solid transparent; cursor: pointer; transition: all 0.15s; position: relative; }
+        .tab-btn.active { color: #cafd00; border-bottom-color: #cafd00; }
+        .tab-panel { display: none; flex: 1; overflow-y: auto; }
+        .tab-panel.active { display: block; }
+        .tab-panel::-webkit-scrollbar { width: 3px; }
+        .tab-panel::-webkit-scrollbar-thumb { background: #262626; border-radius: 3px; }
 
-        /* Navigation */
-        nav { 
-            animation: slideInLeft 0.6s ease;
-            box-shadow: 0 4px 30px rgba(0, 0, 0, 0.3);
-        }
+        /* FRIEND ITEMS */
+        .friend-item { display: flex; align-items: center; gap: 12px; padding: 12px 16px; cursor: pointer; transition: background 0.15s; border-left: 3px solid transparent; }
+        .friend-item:hover { background: #131313; }
+        .friend-item.active { background: #131313; border-left-color: #cafd00; }
+        .avatar { width: 40px; height: 40px; border-radius: 50%; background: #262626; display: flex; align-items: center; justify-content: center; font-weight: 900; color: #cafd00; font-size: 16px; flex-shrink: 0; font-family: 'Space Grotesk', sans-serif; }
+        .avatar.lg { width: 44px; height: 44px; font-size: 18px; }
+        .badge { background: #cafd00; color: #3a4a00; font-size: 9px; font-weight: 900; min-width: 16px; height: 16px; border-radius: 8px; display: flex; align-items: center; justify-content: center; padding: 0 3px; }
+        .req-badge { position: absolute; top: 6px; right: 6px; }
 
-        /* Sidebar improvements */
-        #sidebar {
-            background: linear-gradient(to bottom, #0e0e0e, #131313);
-            box-shadow: inset -1px 0 0 rgba(255, 255, 255, 0.05);
-        }
+        /* SEARCH */
+        .search-wrap { padding: 16px; }
+        .search-box { position: relative; }
+        .search-box .material-symbols-outlined { position: absolute; left: 12px; top: 50%; transform: translateY(-50%); color: #adaaaa; font-size: 20px; }
+        .search-input { width: 100%; background: #1a1a1a; border: 1px solid rgba(255,255,255,0.08); color: #fff; padding: 11px 12px 11px 40px; border-radius: 12px; font-size: 14px; outline: none; font-family: 'Manrope', sans-serif; transition: border-color 0.15s; }
+        .search-input:focus { border-color: rgba(202,253,0,0.4); }
+        .search-input::placeholder { color: rgba(173,170,170,0.4); }
+        #searchResults { margin-top: 12px; }
 
-        /* Tabs styling */
-        .flex.border-b.border-white\/5 button {
-            position: relative;
-            overflow: hidden;
-        }
+        /* USER CARD */
+        .user-card { display: flex; align-items: center; gap: 12px; padding: 12px; background: #1a1a1a; border-radius: 12px; margin-bottom: 8px; }
+        .user-info { flex: 1; min-width: 0; }
+        .user-name { font-weight: 700; font-size: 14px; }
+        .user-email { font-size: 12px; color: #adaaaa; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+        .btn-add { background: #cafd00; color: #3a4a00; font-size: 10px; font-weight: 900; text-transform: uppercase; letter-spacing: 0.1em; padding: 7px 14px; border-radius: 20px; border: none; cursor: pointer; white-space: nowrap; transition: transform 0.1s; }
+        .btn-add:hover { transform: scale(1.05); }
+        .btn-friends { background: rgba(202,253,0,0.1); color: #cafd00; font-size: 10px; font-weight: 900; text-transform: uppercase; letter-spacing: 0.1em; padding: 7px 14px; border-radius: 20px; border: none; white-space: nowrap; }
+        .btn-pending { background: rgba(255,255,255,0.05); color: #adaaaa; font-size: 10px; font-weight: 900; text-transform: uppercase; letter-spacing: 0.1em; padding: 7px 14px; border-radius: 20px; border: none; white-space: nowrap; }
 
-        .flex.border-b.border-white\/5 button::after {
-            content: '';
-            position: absolute;
-            bottom: 0;
-            left: 0;
-            right: 0;
-            height: 2px;
-            background: linear-gradient(90deg, #cafd00, #516700);
-            transform: scaleX(0);
-            transform-origin: center;
-            transition: transform 0.3s ease;
-        }
+        /* CHAT PANEL */
+        .chat-panel { flex: 1; display: flex; flex-direction: column; background: #0e0e0e; }
+        .chat-header { display: flex; align-items: center; gap: 16px; padding: 14px 24px; border-bottom: 1px solid rgba(255,255,255,0.05); background: #0a0a0a; flex-shrink: 0; }
+        .chat-messages { flex: 1; overflow-y: auto; padding: 20px 24px; display: flex; flex-direction: column; gap: 12px; }
+        .chat-messages::-webkit-scrollbar { width: 3px; }
+        .chat-messages::-webkit-scrollbar-thumb { background: #262626; border-radius: 3px; }
+        .chat-input-area { padding: 14px 24px; border-top: 1px solid rgba(255,255,255,0.05); background: #0a0a0a; flex-shrink: 0; display: flex; gap: 12px; align-items: center; }
+        .msg-input { flex: 1; background: #1a1a1a; border: 1px solid rgba(255,255,255,0.08); border-radius: 12px; padding: 12px 16px; font-size: 14px; color: #fff; outline: none; font-family: 'Manrope', sans-serif; transition: border-color 0.15s; }
+        .msg-input:focus { border-color: rgba(202,253,0,0.4); }
+        .msg-input::placeholder { color: rgba(173,170,170,0.4); }
+        .send-btn { width: 46px; height: 46px; background: #cafd00; color: #3a4a00; border-radius: 12px; border: none; cursor: pointer; display: flex; align-items: center; justify-content: center; flex-shrink: 0; transition: transform 0.1s; }
+        .send-btn:hover { transform: scale(1.05); }
+        .send-btn:active { transform: scale(0.95); }
 
-        .flex.border-b.border-white\/5 button.text-primary-fixed::after {
-            transform: scaleX(1);
-        }
+        /* MESSAGES */
+        .msg-row { display: flex; align-items: flex-end; gap: 8px; }
+        .msg-row.me { justify-content: flex-end; }
+        .msg-row.them { justify-content: flex-start; }
+        .msg-bubble { padding: 10px 14px; font-size: 14px; line-height: 1.5; word-break: break-word; max-width: 70%; border-radius: 18px; }
+        .msg-bubble.me { background: #cafd00; color: #3a4a00; border-radius: 18px 18px 4px 18px; font-weight: 600; }
+        .msg-bubble.them { background: #1a1a1a; color: #fff; border-radius: 18px 18px 18px 4px; }
+        .msg-time { font-size: 10px; color: rgba(173,170,170,0.4); margin-top: 3px; text-align: right; }
+        .msg-time.them { text-align: left; }
 
-        /* Friend item improvements */
-        .friend-item {
-            margin: 4px 8px;
-            padding: 12px 16px;
-            border-radius: 12px;
-            position: relative;
-            overflow: hidden;
-        }
+        /* EMPTY STATE */
+        .empty-state { display: flex; flex-direction: column; align-items: center; justify-content: center; padding: 40px 32px; text-align: center; gap: 8px; }
+        .empty-state .material-symbols-outlined { font-size: 48px; color: rgba(173,170,170,0.15); }
+        .empty-state p { color: #adaaaa; font-size: 14px; line-height: 1.6; }
 
-        .friend-item::before {
-            content: '';
-            position: absolute;
-            inset: 0;
-            background: linear-gradient(135deg, rgba(202, 253, 0, 0.1), transparent);
-            opacity: 0;
-            transition: opacity 0.3s ease;
-        }
+        /* REQUEST ITEMS */
+        .req-item { display: flex; align-items: center; gap: 12px; padding: 12px 16px; border-bottom: 1px solid rgba(255,255,255,0.04); }
+        .req-actions { display: flex; gap: 8px; margin-left: auto; }
+        .req-btn { width: 32px; height: 32px; border-radius: 8px; border: none; cursor: pointer; display: flex; align-items: center; justify-content: center; }
+        .req-btn.accept { background: #cafd00; color: #3a4a00; }
+        .req-btn.decline { background: rgba(185,41,2,0.2); color: #ff7351; }
 
-        .friend-item:hover::before {
-            opacity: 1;
-        }
+        /* SECTION LABEL */
+        .section-label { font-size: 10px; font-weight: 900; text-transform: uppercase; letter-spacing: 0.2em; color: #adaaaa; padding: 14px 16px 8px; }
 
-        .friend-item:hover {
-            background: linear-gradient(135deg, rgba(202, 253, 0, 0.08), rgba(202, 253, 0, 0.02));
-            box-shadow: 0 4px 20px rgba(202, 253, 0, 0.1), inset 0 1px 0 rgba(255, 255, 255, 0.05);
-        }
+        /* LOADING */
+        .loading { display: flex; align-items: center; justify-content: center; padding: 24px; color: #adaaaa; font-size: 13px; gap: 8px; }
 
-        .friend-item.active {
-            background: linear-gradient(135deg, rgba(202, 253, 0, 0.15), rgba(202, 253, 0, 0.05));
-            box-shadow: 0 0 25px rgba(202, 253, 0, 0.2), inset 0 1px 0 rgba(255, 255, 255, 0.1);
-        }
+        /* NO CHAT SELECTED */
+        .no-chat { flex: 1; display: flex; flex-direction: column; align-items: center; justify-content: center; text-align: center; }
+        .no-chat .material-symbols-outlined { font-size: 80px; color: rgba(173,170,170,0.08); margin-bottom: 16px; }
+        .no-chat h2 { font-size: 20px; font-weight: 900; color: rgba(255,255,255,0.15); text-transform: uppercase; letter-spacing: -0.02em; font-family: 'Space Grotesk', sans-serif; }
+        .no-chat p { color: rgba(173,170,170,0.3); font-size: 13px; margin-top: 8px; }
 
-        .friend-item:active {
-            transform: scale(0.98);
-        }
-
-        /* Search input improvements */
-        #searchInput {
-            transition: all 0.3s ease;
-            background: linear-gradient(135deg, #1a1a1a, #131313);
-        }
-
-        #searchInput:focus {
-            background: linear-gradient(135deg, #262626, #1a1a1a);
-            border-color: #cafd00;
-            box-shadow: 0 0 20px rgba(202, 253, 0, 0.2);
-        }
-
-        /* Search result item improvements */
-        .flex.items-center.gap-3.p-3.bg-surface-container {
-            border-radius: 14px;
-            transition: all 0.3s ease;
-            position: relative;
-            overflow: hidden;
-        }
-
-        .flex.items-center.gap-3.p-3.bg-surface-container::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: 0;
-            right: 0;
-            height: 1px;
-            background: linear-gradient(90deg, transparent, rgba(202, 253, 0, 0.3), transparent);
-        }
-
-        .flex.items-center.gap-3.p-3.bg-surface-container:hover {
-            background: linear-gradient(135deg, #262626, #1a1a1a);
-            box-shadow: 0 8px 24px rgba(202, 253, 0, 0.12);
-            transform: translateY(-2px);
-        }
-
-        /* Request item improvements */
-        .flex.items-center.gap-3.px-4.py-3.border-b {
-            transition: all 0.3s ease;
-            padding: 16px;
-            border: none;
-            border-bottom: 1px solid rgba(255, 255, 255, 0.05);
-            margin: 4px 0;
-        }
-
-        .flex.items-center.gap-3.px-4.py-3.border-b:hover {
-            background: linear-gradient(135deg, rgba(202, 253, 0, 0.08), rgba(202, 253, 0, 0.02));
-            padding-left: 20px;
-        }
-
-        /* Avatar styling */
-        .w-10.h-10.rounded-full.bg-surface-container,
-        .w-11.h-11.rounded-full.bg-surface-container {
-            background: linear-gradient(135deg, #cafd00, #beee00);
-            box-shadow: 0 4px 15px rgba(202, 253, 0, 0.2);
-            font-weight: 700;
-            letter-spacing: 0.5px;
-        }
-
-        /* Chat panel improvements */
-        #chatPanel {
-            background: linear-gradient(to right, #0e0e0e, #131313);
-        }
-
-        .flex.items-center.gap-4.px-6.py-3\.5.border-b {
-            background: linear-gradient(135deg, rgba(202, 253, 0, 0.05), transparent);
-            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.3);
-        }
-
-        /* Message input improvements */
-        #msgInput {
-            background: linear-gradient(135deg, #1a1a1a, #131313);
-            border: 1px solid rgba(202, 253, 0, 0.1);
-            transition: all 0.3s ease;
-        }
-
-        #msgInput:focus {
-            background: linear-gradient(135deg, #262626, #1a1a1a);
-            border-color: #cafd00;
-            box-shadow: 0 0 20px rgba(202, 253, 0, 0.15);
-        }
-
-        /* Send button improvements */
-        .bg-primary-fixed.hover\:bg-primary {
-            background: linear-gradient(135deg, #cafd00, #beee00);
-            box-shadow: 0 4px 15px rgba(202, 253, 0, 0.2);
-            transition: all 0.3s ease;
-        }
-
-        .bg-primary-fixed.hover\:bg-primary:hover {
-            transform: translateY(-2px);
-            box-shadow: 0 8px 25px rgba(202, 253, 0, 0.3);
-        }
-
-        .bg-primary-fixed.hover\:bg-primary:active {
-            transform: translateY(0);
-        }
-
-        /* Message styling */
-        .px-4.py-2.rounded-2xl {
-            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
-            word-wrap: break-word;
-        }
-
-        .px-4.py-2.rounded-2xl.bg-primary-fixed {
-            background: linear-gradient(135deg, #cafd00, #beee00);
-            box-shadow: 0 4px 15px rgba(202, 253, 0, 0.25);
-        }
-
-        .px-4.py-2.rounded-2xl.bg-surface-container {
-            background: linear-gradient(135deg, #262626, #1a1a1a);
-            border: 1px solid rgba(202, 253, 0, 0.1);
-        }
-
-        /* Button styling improvements */
-        button {
-            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-        }
-
-        button:hover:not(:disabled) {
-            transform: translateY(-1px);
-        }
-
-        button:active:not(:disabled) {
-            transform: translateY(0);
-        }
-
-        /* Loading spinner improvements */
-        .animate-spin {
-            animation: spin 0.8s linear infinite;
-            color: #cafd00;
-        }
-
-        /* Smooth transitions */
-        .transition-smooth { transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1); }
-
-        /* Toast notification */
-        .toast {
-            animation: slideUp 0.4s cubic-bezier(0.4, 0, 0.2, 1);
-            box-shadow: 0 10px 40px rgba(0, 0, 0, 0.4);
-            backdrop-filter: blur(20px);
-            border: 1px solid rgba(255, 255, 255, 0.1);
-        }
-
-        @keyframes slideUp {
-            from { opacity: 0; transform: translateY(20px); }
-            to { opacity: 1; transform: translateY(0); }
-        }
-
-        /* Empty state improvements */
-        .flex.flex-col.items-center.justify-center.py-16,
-        .flex.flex-col.items-center.justify-center.py-12 {
-            padding: 40px 20px;
-        }
-
-        .flex.flex-col.items-center.justify-center.py-16 .material-symbols-outlined,
-        .flex.flex-col.items-center.justify-center.py-12 .material-symbols-outlined {
-            color: #cafd00;
-            opacity: 0.15;
-            margin-bottom: 16px;
-        }
-
-        /* Mobile responsive */
+        /* MOBILE */
         @media (max-width: 768px) {
-            .sidebar { z-index: 40; }
-            .chat-panel { z-index: 50; }
-            
-            .friend-item {
-                margin: 6px 4px;
-                padding: 14px 12px;
-            }
-
-            #msgInput,
-            #searchInput {
-                font-size: 16px;
-            }
+            .sidebar { width: 100%; position: absolute; top: 57px; left: 0; right: 0; bottom: 0; z-index: 10; }
+            .sidebar.hidden { display: none; }
+            .chat-panel { position: absolute; top: 57px; left: 0; right: 0; bottom: 0; z-index: 10; display: none; }
+            .chat-panel.open { display: flex; }
+            .no-chat { display: none; }
+            .back-btn { display: flex !important; }
         }
+        .back-btn { display: none; }
+
+        /* TOAST */
+        .toast { position: fixed; bottom: 32px; left: 50%; transform: translateX(-50%); z-index: 9999; padding: 12px 24px; border-radius: 12px; font-weight: 700; font-size: 14px; box-shadow: 0 8px 32px rgba(0,0,0,0.5); white-space: nowrap; animation: toastIn 0.3s ease; }
+        @keyframes toastIn { from { opacity: 0; transform: translateX(-50%) translateY(10px); } to { opacity: 1; transform: translateX(-50%) translateY(0); } }
+        @keyframes spin { from { transform: rotate(0deg); } to { transform: rotate(360deg); } }
+        .spin { animation: spin 1s linear infinite; }
     </style>
 </head>
-<body class="bg-background text-on-surface font-body overflow-x-hidden">
+<body>
 
 <!-- Firebase SDKs (compat mode) -->
 <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app-compat.js"></script>
@@ -383,165 +134,112 @@
 <script src="./firebase-config.js"></script>
 <script src="./auth.js"></script>
 
-<!-- NAVIGATION -->
-<nav class="fixed top-0 w-full z-40 bg-gradient-to-r from-black via-black/95 to-black/90 backdrop-blur-xl border-b border-white/5">
-    <div class="flex justify-between items-center px-6 py-3.5 max-w-7xl mx-auto w-full">
-        <a href="./index.html" class="font-headline text-xl font-black text-primary-fixed italic tracking-tight hover:text-primary transition-smooth flex items-center gap-2">
-            <span class="material-symbols-outlined text-2xl">fitness_center</span>
-            TRENING AURA
-        </a>
-        <div class="flex items-center gap-4">
-            <a href="./profil.html" class="flex items-center gap-2 text-on-surface-variant hover:text-primary-fixed transition-smooth text-sm font-bold px-3 py-2 rounded-lg hover:bg-surface-container">
-                <span class="material-symbols-outlined text-lg">person</span>
-                <span id="navUserName" class="hidden sm:inline"></span>
+<!-- NAV -->
+<nav>
+    <div class="nav-inner">
+        <a href="./index.html" class="nav-logo">TRENING AURA</a>
+        <div class="nav-actions">
+            <a href="./profil.html" class="nav-btn">
+                <span class="material-symbols-outlined" style="font-size:20px;">person</span>
+                <span id="navUserName"></span>
             </a>
-            <button onclick="doLogout()" class="flex items-center gap-2 text-on-surface-variant hover:text-error transition-smooth px-3 py-2 rounded-lg hover:bg-surface-container" title="Logout">
-                <span class="material-symbols-outlined text-lg">logout</span>
+            <button onclick="doLogout()" class="nav-btn" title="Logout">
+                <span class="material-symbols-outlined" style="font-size:20px;">logout</span>
             </button>
         </div>
     </div>
 </nav>
 
-<!-- MAIN LAYOUT -->
-<div class="flex h-screen pt-16 bg-surface">
+<!-- LAYOUT -->
+<div class="layout">
 
     <!-- SIDEBAR -->
-    <div class="w-80 flex-shrink-0 border-r border-white/5 flex flex-col bg-surface-container-lowest transition-smooth md:relative md:z-40 absolute inset-0 pt-16 md:pt-0" id="sidebar">
-        
-        <!-- TABS -->
-        <div class="flex border-b border-white/5 bg-surface-container-low">
-            <button class="flex-1 py-4 px-2 text-xs font-black uppercase tracking-widest text-on-surface-variant hover:text-primary-fixed border-b-2 border-transparent active:border-primary-fixed transition-all relative" onclick="switchTab('friends')" id="tab-friends">
-                <span class="material-symbols-outlined text-sm mb-1">group</span>
-                <div>Friends</div>
-            </button>
-            <button class="flex-1 py-4 px-2 text-xs font-black uppercase tracking-widest text-on-surface-variant hover:text-primary-fixed border-b-2 border-transparent active:border-primary-fixed transition-all relative" onclick="switchTab('search')" id="tab-search">
-                <span class="material-symbols-outlined text-sm mb-1">person_add</span>
-                <div>Find</div>
-            </button>
-            <button class="flex-1 py-4 px-2 text-xs font-black uppercase tracking-widest text-on-surface-variant hover:text-primary-fixed border-b-2 border-transparent active:border-primary-fixed transition-all relative" onclick="switchTab('requests')" id="tab-requests">
-                <span class="material-symbols-outlined text-sm mb-1">mail</span>
-                <div>Requests</div>
-                <span class="absolute top-1 right-1 bg-primary-fixed text-on-primary-fixed text-xs font-black rounded-full h-5 w-5 flex items-center justify-center hidden" id="reqBadge">0</span>
+    <div class="sidebar" id="sidebar">
+        <div class="tabs">
+            <button class="tab-btn active" onclick="switchTab('friends')" id="tab-friends">Friends</button>
+            <button class="tab-btn" onclick="switchTab('search')" id="tab-search">Find People</button>
+            <button class="tab-btn" onclick="switchTab('requests')" id="tab-requests" style="position:relative;">
+                Requests
+                <span class="badge req-badge" id="reqBadge" style="display:none;">0</span>
             </button>
         </div>
 
         <!-- FRIENDS PANEL -->
-        <div class="flex-1 overflow-y-auto hidden flex flex-col" id="panel-friends">
-            <div class="px-6 py-4 text-xs font-black uppercase tracking-widest text-on-surface-variant border-b border-white/5">
-                <span class="flex items-center gap-2"><span class="material-symbols-outlined text-base">group</span>Your Friends</span>
-            </div>
-            <div id="friendsList" class="flex-1">
-                <div class="flex flex-col items-center justify-center py-12 text-on-surface-variant gap-2">
-                    <span class="material-symbols-outlined text-4xl opacity-20">group</span>
-                    <p class="text-sm">No friends yet</p>
+        <div class="tab-panel active" id="panel-friends">
+            <div class="section-label">Your Friends</div>
+            <div id="friendsList">
+                <div class="loading">
+                    <span class="material-symbols-outlined spin" style="font-size:18px;">refresh</span> Loading...
                 </div>
             </div>
         </div>
 
         <!-- SEARCH PANEL -->
-        <div class="flex-1 overflow-y-auto hidden p-4 flex flex-col" id="panel-search">
-            <div class="relative mb-4">
-                <span class="material-symbols-outlined absolute left-4 top-3.5 text-on-surface-variant text-lg">search</span>
-                <input class="w-full bg-surface-container border border-white/8 text-white px-4 py-3 pl-12 rounded-xl text-sm outline-none focus:border-primary-fixed/40 focus:ring-2 focus:ring-primary-fixed/10 transition-smooth placeholder-on-surface-variant/50" id="searchInput" type="text" placeholder="Search by name or email..." oninput="onSearchInput(this.value)" />
-            </div>
-            <div id="searchResults" class="flex-1">
-                <div class="text-center py-12 text-on-surface-variant">
-                    <span class="material-symbols-outlined text-5xl block mb-3 opacity-15">person_search</span>
-                    <p class="text-sm font-medium">Type to search for users</p>
+        <div class="tab-panel" id="panel-search">
+            <div class="search-wrap">
+                <div class="search-box">
+                    <span class="material-symbols-outlined">search</span>
+                    <input class="search-input" id="searchInput" type="text" placeholder="Search by name or email..." oninput="onSearchInput(this.value)" />
+                </div>
+                <div id="searchResults">
+                    <div class="empty-state">
+                        <span class="material-symbols-outlined">person_search</span>
+                        <p>Type to search for users</p>
+                    </div>
                 </div>
             </div>
         </div>
 
         <!-- REQUESTS PANEL -->
-        <div class="flex-1 overflow-y-auto hidden flex flex-col" id="panel-requests">
-            <div class="px-6 py-4 text-xs font-black uppercase tracking-widest text-on-surface-variant border-b border-white/5">
-                <span class="flex items-center gap-2"><span class="material-symbols-outlined text-base">mail</span>Incoming Requests</span>
-            </div>
-            <div id="requestsList" class="flex-1">
-                <div class="flex flex-col items-center justify-center py-12 text-on-surface-variant gap-2">
-                    <span class="material-symbols-outlined text-4xl opacity-20">mail</span>
-                    <p class="text-sm">No requests</p>
+        <div class="tab-panel" id="panel-requests">
+            <div class="section-label">Incoming Requests</div>
+            <div id="requestsList">
+                <div class="loading">
+                    <span class="material-symbols-outlined spin" style="font-size:18px;">refresh</span> Loading...
                 </div>
             </div>
         </div>
     </div>
 
     <!-- CHAT PANEL -->
-    <div class="flex-1 flex flex-col bg-surface hidden md:flex transition-smooth" id="chatPanel">
-        <!-- Header -->
-        <div class="flex items-center gap-4 px-6 py-4 border-b border-white/5 bg-surface-container-lowest flex-shrink-0">
-            <button class="md:hidden p-2 hover:bg-surface-container rounded-lg transition-smooth" onclick="closeChatPanel()">
+    <div class="chat-panel" id="chatPanel">
+        <div class="chat-header">
+            <button class="back-btn nav-btn" onclick="closeChatPanel()">
                 <span class="material-symbols-outlined">arrow_back</span>
             </button>
-            <div class="w-12 h-12 rounded-full bg-gradient-to-br from-primary-fixed to-primary-dim flex items-center justify-center font-headline font-black text-on-primary-fixed flex-shrink-0 shadow-lg" id="chatAvatar">?</div>
-            <div class="flex-1 min-w-0">
-                <div class="font-bold text-base" id="chatName">—</div>
-                <div class="text-xs text-on-surface-variant" id="chatStatus">—</div>
+            <div class="avatar lg" id="chatAvatar">?</div>
+            <div style="flex:1;">
+                <div style="font-weight:700; font-size:15px;" id="chatName">—</div>
+                <div style="font-size:12px; color:#adaaaa;" id="chatStatus">—</div>
             </div>
-            <button onclick="removeFriendConfirm()" class="p-2.5 hover:bg-error-container/20 rounded-lg transition-smooth" title="Remove friend">
-                <span class="material-symbols-outlined text-lg text-error">person_remove</span>
+            <button onclick="removeFriendConfirm()" class="nav-btn" title="Remove friend">
+                <span class="material-symbols-outlined" style="font-size:20px; color:#ff7351;">person_remove</span>
             </button>
         </div>
 
-        <!-- Messages -->
-        <div class="flex-1 overflow-y-auto p-6 space-y-4" id="chatMessages">
-            <div class="flex flex-col items-center justify-center h-full text-center text-on-surface-variant">
-                <span class="material-symbols-outlined text-7xl opacity-10 mb-4">chat_bubble</span>
-                <p class="text-sm font-medium">Start a conversation</p>
+        <div class="chat-messages" id="chatMessages">
+            <div class="empty-state">
+                <span class="material-symbols-outlined">chat_bubble</span>
+                <p>Select a friend to start chatting</p>
             </div>
         </div>
 
-        <!-- Input -->
-        <div class="flex gap-3 px-6 py-4 border-t border-white/5 bg-surface-container-lowest flex-shrink-0">
-            <input class="flex-1 bg-surface-container border border-white/8 text-white px-4 py-3 rounded-xl text-sm outline-none focus:border-primary-fixed/40 focus:ring-2 focus:ring-primary-fixed/10 transition-smooth placeholder-on-surface-variant/50" id="msgInput" type="text" placeholder="Type a message..." onkeydown="if(event.key==='Enter') sendMessage()" />
-            <button class="bg-gradient-to-br from-primary-fixed to-primary-dim hover:shadow-lg text-on-primary-fixed rounded-xl p-3 flex items-center justify-center flex-shrink-0 transition-smooth" onclick="sendMessage()" title="Send message">
-                <span class="material-symbols-outlined fill-icon text-lg">send</span>
+        <div class="chat-input-area">
+            <input class="msg-input" id="msgInput" type="text" placeholder="Type a message..." onkeydown="if(event.key==='Enter') sendMessage()" />
+            <button class="send-btn" onclick="sendMessage()">
+                <span class="material-symbols-outlined" style="font-variation-settings:'FILL' 1;">send</span>
             </button>
         </div>
     </div>
 
     <!-- NO CHAT SELECTED (desktop) -->
-    <div class="hidden md:flex flex-1 flex-col items-center justify-center text-center bg-gradient-to-br from-surface to-surface-container" id="noChatSelected">
-        <span class="material-symbols-outlined text-8xl opacity-5 mb-4">forum</span>
-        <h2 class="font-headline text-2xl font-black text-white/15 uppercase tracking-tight">Select a conversation</h2>
-        <p class="text-on-surface-variant text-sm mt-2">Choose a friend from the left to start chatting</p>
+    <div class="no-chat" id="noChatSelected">
+        <span class="material-symbols-outlined">forum</span>
+        <h2>Select a conversation</h2>
+        <p>Choose a friend from the left to start chatting</p>
     </div>
 </div>
 
-<style>
-@keyframes spin { from { transform: rotate(0deg); } to { transform: rotate(360deg); } }
-.animate-spin { animation: spin 0.8s linear infinite; }
-
-/* Additional polish */
-*::-webkit-scrollbar-track {
-    background: transparent;
-}
-
-/* Input placeholder styling */
-input::placeholder {
-    color: rgba(173, 170, 170, 0.5);
-}
-
-/* Better text selection */
-::selection {
-    background: #cafd00;
-    color: #3a4a00;
-}
-
-/* Subtle transitions for all interactive elements */
-a, button {
-    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-}
-
-/* Improved focus states for keyboard navigation */
-button:focus-visible,
-input:focus-visible {
-    outline: 2px solid #cafd00;
-    outline-offset: 2px;
-}
-</style>
-
-<!-- ================= TRENING AURA CHAT SYSTEM ================= -->
 <script>
 let currentUser = null;
 let activeFriendId = null;
@@ -560,12 +258,6 @@ document.addEventListener('DOMContentLoaded', async function () {
 
     document.getElementById('navUserName').textContent = currentUser.name;
 
-    // Initialize first panel
-    document.getElementById('panel-friends').classList.remove('hidden');
-    document.getElementById('tab-friends').classList.add('border-b-2');
-    document.getElementById('tab-friends').classList.add('border-primary-fixed');
-    document.getElementById('tab-friends').classList.add('text-primary-fixed');
-
     await renderFriends();
     await renderRequests();
 });
@@ -578,17 +270,11 @@ function doLogout() {
 // ───────────────── TABS ─────────────────
 function switchTab(tab) {
     ['friends', 'search', 'requests'].forEach(t => {
-        const panel = document.getElementById('panel-' + t);
-        const tabBtn = document.getElementById('tab-' + t);
-        
-        if (t === tab) {
-            panel.classList.remove('hidden');
-            tabBtn.classList.add('border-b-2', 'border-primary-fixed', 'text-primary-fixed');
-        } else {
-            panel.classList.add('hidden');
-            tabBtn.classList.remove('border-b-2', 'border-primary-fixed', 'text-primary-fixed');
-        }
+        document.getElementById('panel-' + t).classList.remove('active');
+        document.getElementById('tab-' + t).classList.remove('active');
     });
+    document.getElementById('panel-' + tab).classList.add('active');
+    document.getElementById('tab-' + tab).classList.add('active');
 
     if (tab === 'search') {
         setTimeout(() => document.getElementById('searchInput').focus(), 50);
@@ -602,107 +288,91 @@ async function renderFriends() {
 
     if (!friends.length) {
         list.innerHTML = `
-        <div class="flex flex-col items-center justify-center py-16 text-center text-on-surface-variant">
-            <span class="material-symbols-outlined text-6xl opacity-15 mb-3">group</span>
-            <p class="text-sm font-medium">No friends yet</p>
-            <p class="text-xs opacity-70 mt-1">Find people to chat with!</p>
-        </div>`;
+            <div class="empty-state">
+                <span class="material-symbols-outlined">group</span>
+                <p>No friends yet</p>
+            </div>`;
         return;
     }
 
-    list.innerHTML = friends.map((f, i) => `
-        <div class="friend-item px-4 py-3 cursor-pointer border-l-3 border-transparent hover:bg-surface-container-low transition-smooth ${activeFriendId === f.uid ? 'active bg-surface-container-low border-l-primary-fixed' : ''}"
-             style="animation: fadeUp 0.4s ease both; animation-delay: ${i * 30}ms;"
-             onclick="openChat('${f.uid}', '${escapeHtml(f.name)}', '${escapeHtml(f.email)}')">
-            <div class="flex items-center gap-3">
-                <div class="w-11 h-11 rounded-full bg-gradient-to-br from-primary-fixed to-primary-dim flex items-center justify-center font-headline font-black text-on-primary-fixed flex-shrink-0 shadow-md">${f.name.charAt(0).toUpperCase()}</div>
-                <div class="flex-1 min-w-0">
-                    <div class="font-bold text-sm truncate">${escapeHtml(f.name)}</div>
-                    <div class="text-xs text-on-surface-variant truncate" id="last-${f.uid}">No messages</div>
-                </div>
-                <span class="material-symbols-outlined text-lg text-primary-fixed opacity-0 group-hover:opacity-100 transition-opacity">arrow_forward</span>
+    list.innerHTML = friends.map(f => `
+        <div class="friend-item ${activeFriendId === f.uid ? 'active' : ''}"
+             onclick="openChat(this.dataset.uid, this.dataset.name, this.dataset.email)"
+             data-uid="${f.uid}"
+             data-name="${escapeAttr(f.name)}"
+             data-email="${escapeAttr(f.email)}">
+            <div class="avatar">${f.name.charAt(0).toUpperCase()}</div>
+            <div style="flex:1; min-width:0;">
+                <div style="font-weight:700;">${escapeHtml(f.name)}</div>
+                <div style="font-size:12px; color:#aaa; overflow:hidden; text-overflow:ellipsis; white-space:nowrap;" id="last-${f.uid}">...</div>
             </div>
         </div>
     `).join('');
 
-    friends.forEach(loadLastMessage);
+    friends.forEach(f => loadLastMessage(f.uid));
 }
 
 function loadLastMessage(friendUid) {
     const chatId = AuraChat.getChatId(currentUser.uid, friendUid);
-
-    AuraAuth.db.ref(`chats/${chatId}/messages`)
+    AuraAuth.db.ref('chats/' + chatId + '/messages')
         .orderByChild('time')
         .limitToLast(1)
         .once('value', snap => {
-
             const el = document.getElementById('last-' + friendUid);
             if (!el) return;
-
-            if (!snap.exists()) {
-                el.textContent = 'No messages';
-                return;
-            }
-
+            if (!snap.exists()) { el.textContent = 'No messages'; return; }
             let last = null;
-            snap.forEach(m => last = m.val());
-
+            snap.forEach(m => { last = m.val(); });
             if (!last) return;
-
-            el.textContent =
-                (last.senderId === currentUser.uid ? 'You: ' : '') +
-                last.text;
+            el.textContent = (last.senderId === currentUser.uid ? 'You: ' : '') + last.text;
         });
 }
 
 // ───────────────── SEARCH ─────────────────
 function onSearchInput(val) {
     clearTimeout(searchTimeout);
-
     if (!val.trim()) {
-        document.getElementById('searchResults').innerHTML =
-            `<div class="text-center py-12 text-on-surface-variant"><span class="material-symbols-outlined text-4xl block mb-2 opacity-20">person_search</span><p class="text-sm">Type to search for users</p></div>`;
+        document.getElementById('searchResults').innerHTML = `
+            <div class="empty-state">
+                <span class="material-symbols-outlined">person_search</span>
+                <p>Type to search</p>
+            </div>`;
         return;
     }
-
     searchTimeout = setTimeout(() => doSearch(val), 300);
 }
 
 async function doSearch(query) {
     const results = document.getElementById('searchResults');
+    results.innerHTML = `<div class="loading"><span class="material-symbols-outlined spin" style="font-size:18px;">refresh</span> Searching...</div>`;
 
     const users = await AuraAuth.searchUsers(query);
     const friends = await AuraAuth.getFriends();
     const sent = await AuraAuth.getSentRequests();
-
     const friendIds = friends.map(f => f.uid);
 
     if (!users.length) {
-        results.innerHTML = `<div class="text-center py-12 text-on-surface-variant"><span class="material-symbols-outlined text-5xl opacity-15 block mb-2">person_search</span><p class="text-sm font-medium">No users found</p></div>`;
+        results.innerHTML = `<div class="empty-state"><span class="material-symbols-outlined">person_search</span><p>No users found</p></div>`;
         return;
     }
 
-    results.innerHTML = users.map((u, i) => {
-
+    results.innerHTML = users.map(u => {
         const isFriend = friendIds.includes(u.uid);
         const isSent = sent.includes(u.uid);
-
         let btn = '';
-
         if (isFriend) {
-            btn = `<span class="px-3 py-1.5 bg-primary-fixed/15 text-primary-fixed text-xs font-black rounded-full whitespace-nowrap flex items-center gap-1"><span class="material-symbols-outlined text-sm">check</span>Friends</span>`;
+            btn = `<span class="btn-friends">Friends</span>`;
         } else if (isSent) {
-            btn = `<span class="px-3 py-1.5 bg-surface-container text-on-surface-variant text-xs font-black rounded-full whitespace-nowrap flex items-center gap-1"><span class="material-symbols-outlined text-sm">schedule</span>Sent</span>`;
+            btn = `<span class="btn-pending">Sent</span>`;
         } else {
-            btn = `<button class="px-4 py-2 bg-primary-fixed text-on-primary-fixed text-xs font-black rounded-full whitespace-nowrap hover:shadow-lg hover:shadow-primary-fixed/30 transition-smooth flex items-center gap-1" onclick="sendFriendRequest('${u.uid}')"><span class="material-symbols-outlined text-sm">person_add</span>Add</button>`;
+            btn = `<button class="btn-add" onclick="sendFriendRequest('${u.uid}')">Add</button>`;
         }
-
         return `
-        <div class="flex items-center gap-3 p-4 bg-surface-container rounded-xl mb-2 hover:bg-surface-container-high transition-smooth" style="animation: fadeUp 0.4s ease both; animation-delay: ${i * 30}ms;">
-            <div class="w-11 h-11 rounded-full bg-gradient-to-br from-primary-fixed to-primary-dim flex items-center justify-center font-headline font-black text-on-primary-fixed flex-shrink-0 shadow-md">${u.name.charAt(0).toUpperCase()}</div>
-            <div style="flex:1; min-width: 0;">
-                <div class="font-bold text-sm">${escapeHtml(u.name)}</div>
-                <div class="text-xs text-on-surface-variant truncate">${escapeHtml(u.email)}</div>
+        <div class="user-card">
+            <div class="avatar">${u.name.charAt(0).toUpperCase()}</div>
+            <div style="flex:1; min-width:0;">
+                <div style="font-weight:700; font-size:14px;">${escapeHtml(u.name)}</div>
+                <div style="font-size:12px; color:#aaa; overflow:hidden; text-overflow:ellipsis; white-space:nowrap;">${escapeHtml(u.email)}</div>
             </div>
             ${btn}
         </div>`;
@@ -711,9 +381,8 @@ async function doSearch(query) {
 
 async function sendFriendRequest(uid) {
     const r = await AuraAuth.sendFriendRequest(uid);
-
     if (r.success) {
-        showToast('Request sent!', false);
+        showToast('Request sent!');
         doSearch(document.getElementById('searchInput').value);
     } else {
         showToast(r.error, true);
@@ -724,34 +393,37 @@ async function sendFriendRequest(uid) {
 async function renderRequests() {
     const list = document.getElementById('requestsList');
     const reqs = await AuraAuth.getFriendRequests();
-
     const badge = document.getElementById('reqBadge');
 
     if (reqs.length) {
-        badge.classList.remove('hidden');
+        badge.style.display = 'flex';
         badge.textContent = reqs.length;
     } else {
-        badge.classList.add('hidden');
+        badge.style.display = 'none';
     }
 
     if (!reqs.length) {
-        list.innerHTML = `<div class="flex flex-col items-center justify-center py-16 text-center text-on-surface-variant"><span class="material-symbols-outlined text-6xl opacity-15 mb-3">mail</span><p class="text-sm font-medium">No requests</p><p class="text-xs opacity-70 mt-1">People will send you requests here</p></div>`;
+        list.innerHTML = `
+            <div class="empty-state">
+                <span class="material-symbols-outlined">mail</span>
+                <p>No requests</p>
+            </div>`;
         return;
     }
 
-    list.innerHTML = reqs.map((r, i) => `
-        <div class="flex items-center gap-3 px-4 py-4 border-b border-white/5 hover:bg-surface-container-low transition-smooth" style="animation: fadeUp 0.4s ease both; animation-delay: ${i * 30}ms;">
-            <div class="w-11 h-11 rounded-full bg-gradient-to-br from-primary-fixed to-primary-dim flex items-center justify-center font-headline font-black text-on-primary-fixed flex-shrink-0 shadow-md">${r.name.charAt(0).toUpperCase()}</div>
-            <div style="flex:1; min-width: 0;">
-                <div class="font-bold text-sm">${escapeHtml(r.name)}</div>
-                <div class="text-xs text-on-surface-variant truncate">${escapeHtml(r.email)}</div>
+    list.innerHTML = reqs.map(r => `
+        <div class="req-item">
+            <div class="avatar">${r.name.charAt(0).toUpperCase()}</div>
+            <div style="flex:1; min-width:0;">
+                <div style="font-weight:700; font-size:14px;">${escapeHtml(r.name)}</div>
+                <div style="font-size:12px; color:#aaa;">${escapeHtml(r.email)}</div>
             </div>
-            <div class="flex gap-2 ml-auto">
-                <button onclick="acceptRequest('${r.uid}')" class="w-9 h-9 rounded-lg bg-primary-fixed text-on-primary-fixed flex items-center justify-center hover:shadow-lg hover:shadow-primary-fixed/30 transition-smooth font-bold text-lg" title="Accept">
-                    <span class="material-symbols-outlined text-lg">check</span>
+            <div class="req-actions">
+                <button class="req-btn accept" onclick="acceptRequest('${r.uid}')" title="Accept">
+                    <span class="material-symbols-outlined" style="font-size:18px;">check</span>
                 </button>
-                <button onclick="declineRequest('${r.uid}')" class="w-9 h-9 rounded-lg bg-error-container text-error flex items-center justify-center hover:shadow-lg transition-smooth font-bold text-lg" title="Decline">
-                    <span class="material-symbols-outlined text-lg">close</span>
+                <button class="req-btn decline" onclick="declineRequest('${r.uid}')" title="Decline">
+                    <span class="material-symbols-outlined" style="font-size:18px;">close</span>
                 </button>
             </div>
         </div>
@@ -762,7 +434,7 @@ async function acceptRequest(uid) {
     await AuraAuth.acceptFriendRequest(uid);
     await renderRequests();
     await renderFriends();
-    showToast('Friend added!', false);
+    showToast('Friend added!');
 }
 
 async function declineRequest(uid) {
@@ -772,13 +444,17 @@ async function declineRequest(uid) {
 
 // ───────────────── CHAT ─────────────────
 function openChat(uid, name, email) {
-    // uid должен быть строкой
-    if (typeof uid !== 'string') {
-        console.error('openChat: uid is not a string', uid);
+    // Защита: uid должен быть строкой
+    if (!uid || typeof uid !== 'string') {
+        console.error('openChat: invalid uid', uid);
         return;
     }
 
-    if (chatRef) chatRef.off();
+    // Отписываемся от предыдущего чата
+    if (chatRef) {
+        chatRef.off();
+        chatRef = null;
+    }
 
     activeFriendId = uid;
     activeChatId = AuraChat.getChatId(currentUser.uid, uid);
@@ -787,57 +463,84 @@ function openChat(uid, name, email) {
     document.getElementById('chatStatus').textContent = email;
     document.getElementById('chatAvatar').textContent = name.charAt(0).toUpperCase();
 
-    // Показать чат панель
-    const chatPanel = document.getElementById('chatPanel');
-    const noChatSelected = document.getElementById('noChatSelected');
-    chatPanel.classList.remove('hidden');
-    chatPanel.classList.add('flex');
-    if (noChatSelected) noChatSelected.classList.add('hidden');
+    // Мобильный режим: показываем чат, скрываем сайдбар
+    document.getElementById('sidebar').classList.add('hidden');
+    document.getElementById('chatPanel').classList.add('open');
+    document.getElementById('noChatSelected').style.display = 'none';
 
+    // Очищаем сообщения
     const container = document.getElementById('chatMessages');
-    if (!container) {
-        console.error('chatMessages element not found');
-        return;
-    }
-    container.innerHTML = `<div class="flex items-center justify-center py-8 text-on-surface-variant gap-2" id="loadingMsg"><span class="material-symbols-outlined text-lg animate-spin">refresh</span> Loading...</div>`;
+    container.innerHTML = `<div class="loading"><span class="material-symbols-outlined spin" style="font-size:18px;">refresh</span> Loading...</div>`;
 
-    chatRef = AuraAuth.db.ref(`chats/${activeChatId}/messages`);
-    chatRef.off();
+    // Слушаем новые сообщения в реальном времени
+    chatRef = AuraAuth.db.ref('chats/' + activeChatId + '/messages');
 
     chatRef.on('child_added', snap => {
+        // Убираем loading при первом сообщении
+        const loading = container.querySelector('.loading');
+        if (loading) loading.remove();
+
         addMessageToUI(snap.val());
     });
 
-    renderFriends();
+    // Если сообщений нет — убрать loading через паузу
+    setTimeout(() => {
+        const loading = container.querySelector('.loading');
+        if (loading) {
+            loading.remove();
+            container.innerHTML = `
+                <div class="empty-state">
+                    <span class="material-symbols-outlined">chat_bubble</span>
+                    <p>Say hi 👋</p>
+                </div>`;
+        }
+    }, 3000);
+
+    // Обновляем активный элемент в списке
+    document.querySelectorAll('.friend-item').forEach(el => {
+        el.classList.toggle('active', el.dataset.uid === uid);
+    });
 }
 
 function addMessageToUI(m) {
     const box = document.getElementById('chatMessages');
-    if (!box) return; // защита от null
+    if (!box) return;
 
-    // Убрать сообщение "Loading..."
-    const loadingMsg = document.getElementById('loadingMsg');
-    if (loadingMsg) loadingMsg.remove();
+    // Убрать empty-state если есть
+    const empty = box.querySelector('.empty-state');
+    if (empty) empty.remove();
 
     const isMe = m.senderId === currentUser.uid;
-    const div = document.createElement('div');
-    div.className = `flex ${isMe ? 'justify-end' : 'justify-start'} animate-message`;
-
     const time = new Date(m.time).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
 
+    const div = document.createElement('div');
+    div.className = 'msg-row ' + (isMe ? 'me' : 'them');
     div.innerHTML = `
-        <div class="max-w-xs lg:max-w-md">
-            <div class="px-5 py-3 rounded-2xl ${isMe
-                ? 'bg-gradient-to-br from-primary-fixed to-primary-dim text-on-primary-fixed rounded-br-none shadow-lg shadow-primary-fixed/20'
-                : 'bg-surface-container text-on-surface rounded-bl-none border border-white/10 shadow-md'}">
-                <p class="text-sm font-medium break-words leading-relaxed">${escapeHtml(m.text)}</p>
-            </div>
-            <p class="text-xs text-on-surface-variant mt-2 ${isMe ? 'text-right' : 'text-left'}">${time}</p>
+        <div>
+            <div class="msg-bubble ${isMe ? 'me' : 'them'}">${escapeHtml(m.text)}</div>
+            <div class="msg-time ${isMe ? '' : 'them'}">${time}</div>
         </div>
     `;
 
     box.appendChild(div);
     box.scrollTop = box.scrollHeight;
+}
+
+function closeChatPanel() {
+    if (chatRef) {
+        chatRef.off();
+        chatRef = null;
+    }
+
+    activeFriendId = null;
+    activeChatId = null;
+
+    document.getElementById('sidebar').classList.remove('hidden');
+    document.getElementById('chatPanel').classList.remove('open');
+    document.getElementById('noChatSelected').style.display = '';
+
+    // Сбрасываем активный элемент
+    document.querySelectorAll('.friend-item').forEach(el => el.classList.remove('active'));
 }
 
 async function sendMessage() {
@@ -848,49 +551,47 @@ async function sendMessage() {
 
     input.value = '';
 
-    await AuraChat.sendMessage(activeFriendId, text);
+    // AuraChat.sendMessage сам записывает в Firebase
+    const ok = await AuraChat.sendMessage(activeFriendId, text);
+    if (!ok) {
+        showToast('Failed to send message', true);
+    }
 }
 
-function removeFriendConfirm() {
+async function removeFriendConfirm() {
     if (!activeFriendId) return;
-    
     const friendName = document.getElementById('chatName').textContent;
-    
-    if (confirm(`Remove ${friendName} from friends?`)) {
-        // Call remove friend function if available
-        showToast('Friend removed', false);
+    if (confirm('Remove ' + friendName + ' from friends?')) {
+        await AuraAuth.removeFriend(activeFriendId);
+        showToast('Friend removed');
         closeChatPanel();
-        renderFriends();
+        await renderFriends();
     }
 }
 
 // ───────────────── HELPERS ─────────────────
 function escapeHtml(t) {
-    return (t || '').replace(/&/g,'&amp;')
-        .replace(/</g,'&lt;')
-        .replace(/>/g,'&gt;');
+    return (t || '').replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
+}
+
+// Для data-атрибутов — экранируем кавычки
+function escapeAttr(t) {
+    return (t || '').replace(/&/g, '&amp;').replace(/"/g, '&quot;').replace(/'/g, '&#39;');
 }
 
 function showToast(msg, err = false) {
     const t = document.createElement('div');
-    t.className = 'fixed bottom-8 left-1/2 -translate-x-1/2 z-[9999] px-6 py-4 rounded-xl font-bold text-sm shadow-2xl toast flex items-center gap-3';
-    
-    if (err) {
-        t.style.background = 'linear-gradient(135deg, #b92902, #8a1f01)';
-        t.style.color = '#fff';
-        t.innerHTML = `<span class="material-symbols-outlined text-lg">error</span>${msg}`;
-    } else {
-        t.style.background = 'linear-gradient(135deg, #cafd00, #beee00)';
-        t.style.color = '#3a4a00';
-        t.innerHTML = `<span class="material-symbols-outlined text-lg fill-icon">check_circle</span>${msg}`;
-    }
-    
+    t.className = 'toast';
+    t.style.background = err ? '#b92902' : '#cafd00';
+    t.style.color = err ? '#fff' : '#3a4a00';
+    t.textContent = msg;
     document.body.appendChild(t);
-    
     setTimeout(() => {
+        t.style.transition = 'opacity 0.3s';
         t.style.opacity = '0';
-        t.style.transform = 'translateY(20px)';
         setTimeout(() => t.remove(), 300);
     }, 2500);
 }
 </script>
+</body>
+</html>
